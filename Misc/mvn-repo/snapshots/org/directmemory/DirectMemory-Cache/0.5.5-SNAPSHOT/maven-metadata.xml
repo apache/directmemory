@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.directmemory</groupId>
+  <artifactId>DirectMemory-Cache</artifactId>
+  <version>0.5.5-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20110922.062228</timestamp>
+      <buildNumber>4</buildNumber>
+    </snapshot>
+    <lastUpdated>20110922062228</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>0.5.5-20110922.062228-4</value>
+        <updated>20110922062228</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>0.5.5-20110922.062228-4</value>
+        <updated>20110922062228</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>
