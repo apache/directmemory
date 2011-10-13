@@ -32,7 +32,7 @@ under the License.
   <version>0.5.5-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Apache DirectMemory :: Parent</name>
+  <name>Apache DirectMemory</name>
   <description>Apache DirectMemory Cache :: Parent pom</description>
   <url>http://incubator.apache.org/directmemory/</url>
   <inceptionYear>2011</inceptionYear>
