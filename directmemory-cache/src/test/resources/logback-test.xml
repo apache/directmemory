@@ -7,31 +7,26 @@
     </encoder>
   </appender>
   
-  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <file>logs/directmemory.log</file>
-    <encoder>
-      <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %method - %msg%n</Pattern>
-    </encoder>
-  </appender>
+
   
   <logger name="org.directmemory.serialization" level="warn">
     <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
+
   </logger>
 
   <logger name="org.directmemory.measures" level="info">
     <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
+
   </logger>
 
   <logger name="org.directmemory.memory" level="info">
     <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
+
   </logger>
 
   <logger name="org.directmemory.cache" level="info">
     <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
+
   </logger>
 
 </configuration>

@@ -25,20 +25,7 @@
     <url>http://twitter.com/raffaeleguidi</url>
   </organization>
   <build>
-    <sourceDirectory>src/main/java</sourceDirectory>
-    <resources>
-    </resources>
-    <testSourceDirectory>src/test/java</testSourceDirectory>
-    <testResources>
-      <testResource>
-        <targetPath>.</targetPath>
-        <filtering>false</filtering>
-        <directory>config</directory>
-        <includes>
-          <include>*</include>
-        </includes>
-      </testResource>
-    </testResources>
+
     <plugins>
     
     <plugin>
