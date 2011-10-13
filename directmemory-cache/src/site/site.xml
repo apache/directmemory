@@ -22,6 +22,11 @@
     <href>http://incubator.apache.org/</href>
   </bannerRight>
 
+  <bannerLeft>
+    <src>images/Apache-DirectMemory-2.png</src>
+    <href>http://incubator.apache.org/directmeory</href>
+  </bannerLeft>
+
   <publishDate position="right"/>
   <version position="right"/>
 
