@@ -41,7 +41,7 @@ under the License.
     <developer>
       <id>antelder</id>
       <name>Anthony Elder</name>
-      <email> at apache dot org</email>
+      <email>antelder at apache dot org</email>
       <roles>
         <role>Committer</role>
         <role>Mentor</role>
@@ -51,7 +51,7 @@ under the License.
     <developer>
       <id>grobmeier</id>
       <name>Christian Grobmeier</name>
-      <email> at apache dot org</email>
+      <email>grobmeier at apache dot org</email>
       <roles>
         <role>Champion</role>
         <role>Committer</role>
@@ -62,7 +62,7 @@ under the License.
     <developer>
       <id>iocanel</id>
       <name>Ioannis Canellos</name>
-      <email> at apache dot org</email>
+      <email>iocanel at apache dot org</email>
       <roles>
         <role>Committer</role>
         <role>PPMC Member</role>
@@ -71,7 +71,7 @@ under the License.
     <developer>
       <id>mcucchiara</id>
       <name>Maurizio Cucchiara</name>
-      <email> at apache dot org</email>
+      <email>mcucchiara at apache dot org</email>
       <roles>
         <role>Committer</role>
         <role>PPMC Member</role>
@@ -80,7 +80,7 @@ under the License.
     <developer>
       <id>olamy</id>
       <name>Olivier Lamy</name>
-      <email> at apache dot org</email>
+      <email>olamy at apache dot org</email>
       <roles>
         <role>Committer</role>
         <role>Mentor</role>
@@ -90,7 +90,7 @@ under the License.
     <developer>
       <id>raffaeleguidi</id>
       <name>Raffaele P. Guidi</name>
-      <email> at apache dot org</email>
+      <email>raffaeleguidi at apache dot org</email>
       <roles>
         <role>Committer</role>
         <role>PPMC Member</role>
@@ -99,7 +99,7 @@ under the License.
     <developer>
       <id>simoneg</id>
       <name>Simone Gianni</name>
-      <email> at apache dot org</email>
+      <email>simoneg at apache dot org</email>
       <roles>
         <role>Committer</role>
         <role>PPMC Member</role>
@@ -108,7 +108,7 @@ under the License.
     <developer>
       <id>simonetripodi</id>
       <name>Simone Tripodi</name>
-      <email> at apache dot org</email>
+      <email>simonetripodi at apache dot org</email>
       <roles>
         <role>Committer</role>
         <role>PPMC Member</role>
@@ -117,7 +117,7 @@ under the License.
     <developer>
       <id>sylvain</id>
       <name>Sylvain Wallez</name>
-      <email> at apache dot org</email>
+      <email>sylvain at apache dot org</email>
       <roles>
         <role>Committer</role>
         <role>Mentor</role>
@@ -127,7 +127,7 @@ under the License.
     <developer>
       <id>tommaso</id>
       <name>Tommaso Teofili</name>
-      <email> at apache dot org</email>
+      <email>tommaso at apache dot org</email>
       <roles>
         <role>Committer</role>
         <role>PPMC Member</role>
@@ -136,7 +136,7 @@ under the License.
     <developer>
       <id>twilliams</id>
       <name>Tim Williams</name>
-      <email> at apache dot org</email>
+      <email>twilliams at apache dot org</email>
       <roles>
         <role>Committer</role>
         <role>Mentor</role>
