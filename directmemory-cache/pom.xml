@@ -157,9 +157,9 @@ under the License.
       <subscribe>incubator-directmemory-user-subscribe@apache.org</subscribe>
       <unsubscribe>incubator-directmemory-user-unsubscribe@apache.org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-user/</archive>
-      <!-- <otherArchives>
-        <otherArchive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-user/</otherArchive>
-      </otherArchives> -->
+      <otherArchives>
+        <otherArchive>http://incubator-directmemory-user.markmail.org/</otherArchive>
+      </otherArchives>
     </mailingList>
     <mailingList>
       <name>Development</name>
@@ -167,9 +167,9 @@ under the License.
       <subscribe>incubator-directmemory-dev-subscribe@apache.org</subscribe>
       <unsubscribe>incubator-directmemory-dev-unsubscribe@apache.org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-dev/</archive>
-      <!-- <otherArchives>
-        <otherArchive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-dev/</otherArchive>
-      </otherArchives> -->
+      <otherArchives>
+        <otherArchive>http://incubator-directmemory-dev.markmail.org/</otherArchive>
+      </otherArchives>
     </mailingList>
     <mailingList>
       <name>Commits</name>
@@ -177,9 +177,9 @@ under the License.
       <subscribe>incubator-directmemory-commits-subscribe@apache.org</subscribe>
       <unsubscribe>incubator-directmemory-commits-unsubscribe@apache.org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-commits/</archive>
-      <!-- <otherArchives>
-        <otherArchive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-commits/</otherArchive>
-      </otherArchives> -->
+      <otherArchives>
+        <otherArchive>http://incubator-directmemory-commits.markmail.org/</otherArchive>
+      </otherArchives>
     </mailingList>
   </mailingLists>
 
