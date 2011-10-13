@@ -9,8 +9,8 @@
   </properties>
                       
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.directmemory</groupId>
-  <artifactId>DirectMemory-Cache</artifactId>
+  <groupId>org.apache.directmemory</groupId>
+  <artifactId>directmemory-cache</artifactId>
   <packaging>jar</packaging>
   <name>DirectMemory Cache</name>
   <version>0.5.5-SNAPSHOT</version>
