@@ -319,4 +319,11 @@ under the License.
     </plugins>
   </reporting>
 
+  <distributionManagement>
+    <site>
+      <id>apache.website</id>
+      <url>${siteUrlDeployment}</url>
+    </site>
+  </distributionManagement>
+
 </project>
