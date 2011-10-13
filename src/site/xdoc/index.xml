@@ -30,7 +30,7 @@
         performance.</p>
     </section>
 
-    <section name="Disclaimer" class="alert-message block-message warning">
+    <section name="Disclaimer" class="alert-message warning">
       <p>Apache DirectMemory is an effort undergoing <a href="http://incubator.apache.org/">incubation</a> at
       The Apache Software Foundation (ASF), sponsored by the Apache Incubator PMC. Incubation is required of all newly
       accepted projects until a further review indicates that the infrastructure, communications, and decision making
