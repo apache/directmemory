@@ -37,6 +37,14 @@ under the License.
     performance
   </description>
   <url>http://incubator.apache.org/directmemory/</url>
+
+  <scm>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/trunk/directmemory-cache</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/trunk/directmemory-cache
+    </developerConnection>
+    <url>https://svn.apache.org/viewvc/incubator/directmemory/trunk/directmemory-cache/</url>
+  </scm>
+
   <issueManagement>
     <system>jira</system>
     <url>https://issues.apache.org/jira/browse/DIRECTMEMORY</url>
@@ -93,13 +101,13 @@ under the License.
           <dependencies>
             <dependency>
               <groupId>org.apache.maven.wagon</groupId>
-               <artifactId>wagon-ssh-external</artifactId>
-               <version>2.0</version>
+              <artifactId>wagon-ssh-external</artifactId>
+              <version>2.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.maven.wagon</groupId>
-               <artifactId>wagon-ssh</artifactId>
-               <version>2.0</version>
+              <artifactId>wagon-ssh</artifactId>
+              <version>2.0</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -326,12 +334,12 @@ under the License.
           -->
           <bootclasspath>${sun.boot.class.path}</bootclasspath>
           <additionalparam>
-             -quiet
-             -federate JDK http://download.oracle.com/javase/6/docs/api/index.html?
-             -federationxml JDK http://doclava.googlecode.com/svn/static/api/openjdk-6.xml
-             -hdf project.name "${project.name}"
-             -d ${project.build.directory}/site/apidocs
-           </additionalparam>
+            -quiet
+            -federate JDK http://download.oracle.com/javase/6/docs/api/index.html?
+            -federationxml JDK http://doclava.googlecode.com/svn/static/api/openjdk-6.xml
+            -hdf project.name "${project.name}"
+            -d ${project.build.directory}/site/apidocs
+          </additionalparam>
           <useStandardDocletOptions>false</useStandardDocletOptions>
           <!--
             | Apple's JVM sometimes requires more memory
