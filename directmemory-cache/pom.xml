@@ -27,9 +27,6 @@ under the License.
     <version>9</version>
   </parent>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
 
   <groupId>org.apache.directmemory</groupId>
   <artifactId>directmemory-cache</artifactId>
@@ -39,13 +36,41 @@ under the License.
     BigMemory) to enable efficient handling of a large number of java objects without affecting jvm garbage collection
     performance
   </description>
-  <url>http://github.com/raffaeleguidi/DirectMemory</url>
+  <url>http://incubator.apache.org/directmemory/</url>
   <issueManagement>
     <system>jira</system>
     <url>https://issues.apache.org/jira/browse/DIRECTMEMORY</url>
   </issueManagement>
 
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <siteUrlDeployment>scp://people.apache.org/www/incubator.apache.org/directmemory</siteUrlDeployment>
+  </properties>
+
   <build>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.0</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.wagon</groupId>
+               <artifactId>wagon-ssh-external</artifactId>
+               <version>2.0</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.maven.wagon</groupId>
+               <artifactId>wagon-ssh</artifactId>
+               <version>2.0</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+      </plugins>
+    </pluginManagement>
 
     <plugins>
 
@@ -154,6 +179,13 @@ under the License.
   <dependencies>
 
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.6.1</version>
+      <type>jar</type>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.servicemix.bundles</groupId>
       <artifactId>org.apache.servicemix.bundles.josql</artifactId>
       <version>1.5_5</version>
@@ -220,22 +252,24 @@ under the License.
       <artifactId>logback-core</artifactId>
       <version>0.9.26</version>
       <type>jar</type>
-      <optional>false</optional>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>0.9.26</version>
       <type>jar</type>
-      <optional>false</optional>
     </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.6.1</version>
-      <type>jar</type>
-      <optional>false</optional>
-    </dependency>
+
   </dependencies>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.4</version>
+      </plugin>
+    </plugins>
+  </reporting>
 
 </project>
