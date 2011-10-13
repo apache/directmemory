@@ -171,6 +171,18 @@ under the License.
       <url>http://repo.fusesource.com/maven2</url>
       <id>fusesource</id>
     </repository>
+    <repository>
+      <id>sonatype-nexus-public</id>
+      <name>SonaType public snapshots and releases repository</name>
+      <url>https://oss.sonatype.org/content/groups/public</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+
   </repositories>
 
 </project>
