@@ -70,7 +70,7 @@ public class Monitor {
 		return totalTime;
 	}
 	public long average() {
-		return totalTime/hits.get();
+		return hits.get() > 0 ? totalTime/hits.get() : 0;
 	}
 	public String toString() {
 		return Format.it("%1$s hits: %2$d, avg: %3$s ms, tot: %4$s seconds", 
