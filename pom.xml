@@ -288,6 +288,7 @@ under the License.
                 <exclude>.idea/**</exclude>
                 <exclude>*.bat</exclude>
                 <exclude>.repository/**</exclude>
+                <exclude>ajcore**</exclude>
               </excludes>
             </configuration>
           </execution>
