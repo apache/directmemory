@@ -96,16 +96,26 @@ under the License.
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
         <version>0.7</version>
-        <configuration>
-          <excludes>
-            <exclude>.gitignore</exclude>
-            <exclude>DEPENDENCIES</exclude>
-            <exclude>README.txt</exclude>
-            <exclude>*.sh</exclude>
-            <exclude>.git/**</exclude>
-            <exclude>.idea/**</exclude>
-          </excludes>
-        </configuration>
+        <executions>
+          <execution>
+            <id>rat-verify</id>
+            <phase>test</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <excludes>
+                <exclude>.gitignore</exclude>
+                <exclude>DEPENDENCIES</exclude>
+                <exclude>README.txt</exclude>
+                <exclude>*.sh</exclude>
+                <exclude>.git/**</exclude>
+                <exclude>.idea/**</exclude>
+                <exclude>*.bat</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
       <!--
