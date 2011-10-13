@@ -21,198 +21,26 @@ under the License.
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>9</version>
+    <groupId>org.apache.directmemory</groupId>
+    <artifactId>directmemory-parent</artifactId>
+    <version>0.5.5-SNAPSHOT</version>
+    <relativePath>../</relativePath>
   </parent>
 
-
-  <groupId>org.apache.directmemory</groupId>
   <artifactId>directmemory-cache</artifactId>
-  <name>DirectMemory Cache</name>
-  <version>0.5.5-SNAPSHOT</version>
+  <name>Apache DirectMemory :: Cache</name>
   <description>DirectMemory Cache is a multi layered cache implementation featuring off-heap memory management (a-la
     BigMemory) to enable efficient handling of a large number of java objects without affecting jvm garbage collection
     performance
   </description>
-  <url>http://incubator.apache.org/directmemory/</url>
-
-  <scm>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/trunk/directmemory-cache</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/trunk/directmemory-cache
-    </developerConnection>
-    <url>https://svn.apache.org/viewvc/incubator/directmemory/trunk/directmemory-cache/</url>
-  </scm>
-
-  <issueManagement>
-    <system>jira</system>
-    <url>https://issues.apache.org/jira/browse/DIRECTMEMORY</url>
-  </issueManagement>
-
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <siteUrlDeployment>scp://people.apache.org/www/incubator.apache.org/directmemory</siteUrlDeployment>
-    <sonar.host.url>https://analysis.apache.org/</sonar.host.url>
-  </properties>
-
-  <developers>
-    <developer>
-      <name>Anthony Elder</name>
-      <id>antelder</id>
-      <email>antelder at apache dot org</email>
-      <roles>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Christian Grobmeier</name>
-      <id>grobmeier</id>
-      <email>grobmeier at apache dot org</email>
-      <roles>
-        <role>Mentor</role>
-        <role>Committer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Ioannis Canellos</name>
-      <id>iocanel</id>
-      <email>iocanel at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Maurizio Cucchiara</name>
-      <id>mcucchiara</id>
-      <email>mcucchiara at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Olivier Lamy</name>
-      <id>olamy</id>
-      <email>olamy at apache dot org</email>
-      <roles>
-        <role>Mentor</role>
-        <role>Committer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Raffaele P. Guidi</name>
-      <id>raffaeleguidi</id>
-      <email>raffaeleguidi at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Simone Gianni</name>
-      <id>simoneg</id>
-      <email>simoneg at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Simone Tripodi</name>
-      <id>simonetripodi</id>
-      <email>simonetripodi at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Sylvain Wallez</name>
-      <id>sylvain</id>
-      <email>sylvain at apache dot org</email>
-      <roles>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Tim Williams</name>
-      <id>twilliams</id>
-      <email>twilliams at apache dot org</email>
-      <roles>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Tommaso Teofili</name>
-      <id>tommaso</id>
-      <email>tommaso at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-      </roles>
-    </developer>
-  </developers>
-
-  <mailingLists>
-    <mailingList>
-      <name>Users</name>
-      <post>directmemory-user@incubator.apache.org</post>
-      <subscribe>incubator-directmemory-user-subscribe@apache.org</subscribe>
-      <unsubscribe>incubator-directmemory-user-unsubscribe@apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-user/</archive>
-      <otherArchives>
-        <otherArchive>http://incubator-directmemory-user.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-    <mailingList>
-      <name>Development</name>
-      <post>directmemory-dev@incubator.apache.org</post>
-      <subscribe>incubator-directmemory-dev-subscribe@apache.org</subscribe>
-      <unsubscribe>incubator-directmemory-dev-unsubscribe@apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-dev/</archive>
-      <otherArchives>
-        <otherArchive>http://incubator-directmemory-dev.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-    <mailingList>
-      <name>Commits</name>
-      <post>directmemory-commits@incubator.apache.org</post>
-      <subscribe>incubator-directmemory-commits-subscribe@apache.org</subscribe>
-      <unsubscribe>incubator-directmemory-commits-unsubscribe@apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-commits/</archive>
-      <otherArchives>
-        <otherArchive>http://incubator-directmemory-commits.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-  </mailingLists>
 
   <build>
-
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.0</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.wagon</groupId>
-              <artifactId>wagon-ssh-external</artifactId>
-              <version>2.0</version>
-            </dependency>
-            <dependency>
-              <groupId>org.apache.maven.wagon</groupId>
-              <artifactId>wagon-ssh</artifactId>
-              <version>2.0</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>2.4.1</version>
         <configuration>
           <filesets>
             <fileset>
@@ -221,17 +49,6 @@ under the License.
             </fileset>
           </filesets>
         </configuration>
-
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
       </plugin>
 
       <plugin>
@@ -239,8 +56,8 @@ under the License.
         <artifactId>aspectj-maven-plugin</artifactId>
         <version>1.4</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>${maven.compile.source}</source>
+          <target>${maven.compile.target}</target>
         </configuration>
         <executions>
           <execution>
@@ -254,7 +71,6 @@ under the License.
         </executions>
       </plugin>
 
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -263,56 +79,10 @@ under the License.
           <argLine>-Xmx512m -Xms512m -XX:MaxDirectMemorySize=512m</argLine>
         </configuration>
       </plugin>
-
-      <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <version>0.7</version>
-        <executions>
-          <execution>
-            <id>rat-verify</id>
-            <phase>test</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <configuration>
-              <excludes>
-                <exclude>.gitignore</exclude>
-                <exclude>DEPENDENCIES</exclude>
-                <exclude>README.txt</exclude>
-                <exclude>*.sh</exclude>
-                <exclude>.git/**</exclude>
-                <exclude>.idea/**</exclude>
-                <exclude>*.bat</exclude>
-              </excludes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
     </plugins>
   </build>
-  <repositories>
-    <repository>
-      <id>sonatype-nexus-public</id>
-      <name>SonaType public snapshots and releases repository</name>
-      <url>https://oss.sonatype.org/content/groups/public/</url>
-      <releases>
-        <!-- set to true if you wish to fetch releases from this repo too. -->
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <url>http://repo.fusesource.com/maven2</url>
-      <id>fusesource</id>
-    </repository>
-  </repositories>
 
   <dependencies>
-
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -394,70 +164,13 @@ under the License.
       <version>0.9.26</version>
       <type>jar</type>
     </dependency>
-
   </dependencies>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.4</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.8</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>javadoc</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-        <configuration>
-          <docletArtifact>
-            <groupId>com.google.doclava</groupId>
-            <artifactId>doclava</artifactId>
-            <version>1.0.3</version>
-          </docletArtifact>
-          <doclet>com.google.doclava.Doclava</doclet>
-          <!--
-            | bootclasspath required by Sun's JVM
-          -->
-          <bootclasspath>${sun.boot.class.path}</bootclasspath>
-          <additionalparam>
-            -quiet
-            -federate JDK http://download.oracle.com/javase/6/docs/api/index.html?
-            -federationxml JDK http://doclava.googlecode.com/svn/static/api/openjdk-6.xml
-            -hdf project.name "${project.name}"
-            -d ${project.build.directory}/site/apidocs
-          </additionalparam>
-          <useStandardDocletOptions>false</useStandardDocletOptions>
-          <!--
-            | Apple's JVM sometimes requires more memory
-          -->
-          <additionalJOption>-J-Xmx1024m</additionalJOption>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.2</version>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.sonar-plugins</groupId>
-        <artifactId>maven-report</artifactId>
-        <version>0.1</version>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  <distributionManagement>
-    <site>
-      <id>apache.website</id>
-      <url>${siteUrlDeployment}</url>
-    </site>
-  </distributionManagement>
+  <repositories>
+    <repository>
+      <url>http://repo.fusesource.com/maven2</url>
+      <id>fusesource</id>
+    </repository>
+  </repositories>
 
 </project>
