@@ -287,6 +287,7 @@ under the License.
                 <exclude>.git/**</exclude>
                 <exclude>.idea/**</exclude>
                 <exclude>*.bat</exclude>
+                <exclude>.repository/**</exclude>
               </excludes>
             </configuration>
           </execution>
