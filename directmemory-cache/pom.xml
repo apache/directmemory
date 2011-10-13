@@ -46,6 +46,7 @@ under the License.
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <siteUrlDeployment>scp://people.apache.org/www/incubator.apache.org/directmemory</siteUrlDeployment>
+    <sonar.host.url>https://analysis.apache.org/</sonar.host.url>
   </properties>
 
   <build>
@@ -309,6 +310,11 @@ under the License.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
         <version>2.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.sonar-plugins</groupId>
+        <artifactId>maven-report</artifactId>
+        <version>0.1</version>
       </plugin>
     </plugins>
   </reporting>
