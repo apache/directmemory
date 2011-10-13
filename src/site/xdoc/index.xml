@@ -24,8 +24,8 @@
   </properties>
 
   <body>
-    <section name="Welcome to Apache DirectMemory!" class="hero-unit">
-      <p>DirectMemory Cache is a multi layered cache implementation featuring off-heap memory management (a-la BigMemory)
+    <section name="Apache DirectMemory" class="hero-unit">
+      <p>Apache DirectMemory is a multi layered cache implementation featuring off-heap memory management (a-la BigMemory)
         to enable efficient handling of a large number of java objects without affecting jvm garbage collection
         performance.</p>
     </section>
