@@ -3,11 +3,11 @@ package org.apache.directmemory.cache.test;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.directmemory.cache.Cache;
-import org.directmemory.measures.Monitor;
-import org.directmemory.measures.Ram;
-import org.directmemory.memory.MemoryManager;
-import org.directmemory.memory.Pointer;
+import org.apache.directmemory.cache.Cache;
+import org.apache.directmemory.measures.Monitor;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.MemoryManager;
+import org.apache.directmemory.memory.Pointer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;

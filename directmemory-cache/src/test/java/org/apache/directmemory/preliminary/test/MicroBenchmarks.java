@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
-import org.directmemory.measures.Ram;
+import org.apache.directmemory.measures.Ram;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

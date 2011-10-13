@@ -6,10 +6,10 @@ import static org.junit.Assert.assertNotNull;
 import java.util.Map;
 import java.util.Random;
 
-import org.directmemory.measures.Ram;
-import org.directmemory.memory.MemoryManager;
-import org.directmemory.memory.OffHeapMemoryBuffer;
-import org.directmemory.memory.Pointer;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.MemoryManager;
+import org.apache.directmemory.memory.OffHeapMemoryBuffer;
+import org.apache.directmemory.memory.Pointer;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.rules.MethodRule;

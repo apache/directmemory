@@ -1,9 +1,9 @@
-package org.directmemory.monitoring;
+package org.apache.directmemory.monitoring;
 
-import org.directmemory.cache.Cache;
-import org.directmemory.measures.Monitor;
-import org.directmemory.memory.Pointer;
-import org.directmemory.misc.Format;
+import org.apache.directmemory.cache.Cache;
+import org.apache.directmemory.measures.Monitor;
+import org.apache.directmemory.memory.Pointer;
+import org.apache.directmemory.misc.Format;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,37 +26,37 @@ public aspect Performance {
 	private static Logger logger = LoggerFactory.getLogger(Cache.class);
 	
 	pointcut putByteArrayPointcut(String key, byte[] payload) : 
-		execution(Pointer org.directmemory.cache.Cache.putByteArray(String, byte[])) && 
+		execution(Pointer org.apache.directmemory.cache.Cache.putByteArray(String, byte[])) &&
 		args(key, payload);
 	
 	pointcut putObjectPointcut(String key, Object object, int expiresIn) : 
-		execution(Pointer org.directmemory.cache.Cache.put(String, Object, int)) && 
+		execution(Pointer org.apache.directmemory.cache.Cache.put(String, Object, int)) &&
 		args(key, object, expiresIn);
 	
 	pointcut retrieveByteArrayPointcut(String key) : 
-		execution(byte[] org.directmemory.cache.Cache.retrieveByteArray(String)) && 
+		execution(byte[] org.apache.directmemory.cache.Cache.retrieveByteArray(String)) &&
 		args(key);
 	
 	pointcut retrieveObjectPointcut(String key) : 
-		execution(Object org.directmemory.cache.Cache.retrieve(String)) && 
+		execution(Object org.apache.directmemory.cache.Cache.retrieve(String)) &&
 		args(key);
 	
 	pointcut getPointcut(String key) : 
-		execution(Pointer org.directmemory.cache.Cache.getPointer(String)) && 
+		execution(Pointer org.apache.directmemory.cache.Cache.getPointer(String)) &&
 		args(key);
 		
 	pointcut collectLFUPointcut() : 
-		execution(void org.directmemory.cache.Cache.collectLFU()); 
+		execution(void org.apache.directmemory.cache.Cache.collectLFU());
 		
 	pointcut collectExpiredPointcut() : 
-		execution(void org.directmemory.cache.Cache.collectExpired()); 
+		execution(void org.apache.directmemory.cache.Cache.collectExpired());
 		
 	pointcut serializePointcut(Object obj, @SuppressWarnings("rawtypes") Class clazz) : 
-		execution(byte[] org.directmemory.serialization.ProtoStuffSerializerV1.serialize(Object, Class)) && 
+		execution(byte[] org.apache.directmemory.serialization.ProtoStuffSerializerV1.serialize(Object, Class)) &&
 		args(obj, clazz); 
 		
 	pointcut deserializePointcut(byte[] source, @SuppressWarnings("rawtypes") Class clazz) : 
-		execution(Object org.directmemory.serialization.ProtoStuffSerializerV1.deserialize(byte[], Class)) && 
+		execution(Object org.apache.directmemory.serialization.ProtoStuffSerializerV1.deserialize(byte[], Class)) &&
 		args(source, clazz); 
 		
 	Pointer around(String key, byte[] payload): putByteArrayPointcut(key, payload) {

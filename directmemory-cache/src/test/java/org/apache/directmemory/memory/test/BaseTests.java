@@ -9,9 +9,9 @@ import java.util.Random;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
-import org.directmemory.measures.Ram;
-import org.directmemory.memory.OffHeapMemoryBuffer;
-import org.directmemory.memory.Pointer;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.OffHeapMemoryBuffer;
+import org.apache.directmemory.memory.Pointer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

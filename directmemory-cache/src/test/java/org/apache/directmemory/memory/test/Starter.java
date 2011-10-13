@@ -2,9 +2,9 @@ package org.apache.directmemory.memory.test;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.directmemory.measures.Ram;
-import org.directmemory.memory.MemoryManager;
-import org.directmemory.memory.OffHeapMemoryBuffer;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.MemoryManager;
+import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

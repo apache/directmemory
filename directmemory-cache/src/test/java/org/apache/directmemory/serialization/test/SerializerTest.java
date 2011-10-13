@@ -5,13 +5,13 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
-import org.directmemory.measures.Monitor;
-import org.directmemory.measures.Ram;
-import org.directmemory.misc.DummyPojo;
-import org.directmemory.serialization.ProtoStuffSerializerV1;
-import org.directmemory.serialization.ProtoStuffWithLinkedBufferSerializer;
-import org.directmemory.serialization.Serializer;
-import org.directmemory.serialization.StandardSerializer;
+import org.apache.directmemory.measures.Monitor;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.misc.DummyPojo;
+import org.apache.directmemory.serialization.ProtoStuffSerializerV1;
+import org.apache.directmemory.serialization.ProtoStuffWithLinkedBufferSerializer;
+import org.apache.directmemory.serialization.Serializer;
+import org.apache.directmemory.serialization.StandardSerializer;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.MethodRule;

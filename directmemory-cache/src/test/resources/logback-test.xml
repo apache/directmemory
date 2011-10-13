@@ -9,22 +9,22 @@
   
 
   
-  <logger name="org.directmemory.serialization" level="warn">
+  <logger name="org.apache.directmemory.serialization" level="warn">
     <appender-ref ref="STDOUT" />
 
   </logger>
 
-  <logger name="org.directmemory.measures" level="info">
+  <logger name="org.apache.directmemory.measures" level="info">
     <appender-ref ref="STDOUT" />
 
   </logger>
 
-  <logger name="org.directmemory.memory" level="info">
+  <logger name="org.apache.directmemory.memory" level="info">
     <appender-ref ref="STDOUT" />
 
   </logger>
 
-  <logger name="org.directmemory.cache" level="info">
+  <logger name="org.apache.directmemory.cache" level="info">
     <appender-ref ref="STDOUT" />
 
   </logger>

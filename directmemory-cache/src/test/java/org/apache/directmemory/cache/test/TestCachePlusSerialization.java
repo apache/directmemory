@@ -4,10 +4,10 @@ import static org.junit.Assert.*;
 
 import java.util.Random;
 
-import org.directmemory.cache.Cache;
-import org.directmemory.measures.Monitor;
-import org.directmemory.measures.Ram;
-import org.directmemory.misc.DummyPojo;
+import org.apache.directmemory.cache.Cache;
+import org.apache.directmemory.measures.Monitor;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.misc.DummyPojo;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
