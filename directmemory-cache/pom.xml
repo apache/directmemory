@@ -57,6 +57,99 @@ under the License.
     <sonar.host.url>https://analysis.apache.org/</sonar.host.url>
   </properties>
 
+  <developers>
+    <developer>
+      <name>Anthony Elder</name>
+      <id>antelder</id>
+      <email>antelder at apache dot org</email>
+      <roles>
+        <role>Mentor</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Christian Grobmeier</name>
+      <id>grobmeier</id>
+      <email>grobmeier at apache dot org</email>
+      <roles>
+        <role>Mentor</role>
+        <role>Committer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Ioannis Canellos</name>
+      <id>iocanel</id>
+      <email>iocanel at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Maurizio Cucchiara</name>
+      <id>mcucchiara</id>
+      <email>mcucchiara at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Olivier Lamy</name>
+      <id>olamy</id>
+      <email>olamy at apache dot org</email>
+      <roles>
+        <role>Mentor</role>
+        <role>Committer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Raffaele P. Guidi</name>
+      <id>raffaeleguidi</id>
+      <email>raffaeleguidi at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Simone Gianni</name>
+      <id>simoneg</id>
+      <email>simoneg at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Simone Tripodi</name>
+      <id>simonetripodi</id>
+      <email>simonetripodi at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Sylvain Wallez</name>
+      <id>sylvain</id>
+      <email>sylvain at apache dot org</email>
+      <roles>
+        <role>Mentor</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Tim Williams</name>
+      <id>twilliams</id>
+      <email>twilliams at apache dot org</email>
+      <roles>
+        <role>Mentor</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Tommaso Teofili</name>
+      <id>tommaso</id>
+      <email>tommaso at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+  </developers>
+
   <mailingLists>
     <mailingList>
       <name>Users</name>
