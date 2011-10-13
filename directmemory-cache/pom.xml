@@ -49,6 +49,39 @@ under the License.
     <sonar.host.url>https://analysis.apache.org/</sonar.host.url>
   </properties>
 
+  <mailingLists>
+    <mailingList>
+      <name>Users</name>
+      <post>directmemory-user@incubator.apache.org</post>
+      <subscribe>incubator-directmemory-user-subscribe@apache.org</subscribe>
+      <unsubscribe>incubator-directmemory-user-unsubscribe@apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-user/</archive>
+      <!-- <otherArchives>
+        <otherArchive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-user/</otherArchive>
+      </otherArchives> -->
+    </mailingList>
+    <mailingList>
+      <name>Development</name>
+      <post>directmemory-dev@incubator.apache.org</post>
+      <subscribe>incubator-directmemory-dev-subscribe@apache.org</subscribe>
+      <unsubscribe>incubator-directmemory-dev-unsubscribe@apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-dev/</archive>
+      <!-- <otherArchives>
+        <otherArchive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-dev/</otherArchive>
+      </otherArchives> -->
+    </mailingList>
+    <mailingList>
+      <name>Commits</name>
+      <post>directmemory-commits@incubator.apache.org</post>
+      <subscribe>incubator-directmemory-commits-subscribe@apache.org</subscribe>
+      <unsubscribe>incubator-directmemory-commits-unsubscribe@apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-commits/</archive>
+      <!-- <otherArchives>
+        <otherArchive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-commits/</otherArchive>
+      </otherArchives> -->
+    </mailingList>
+  </mailingLists>
+
   <build>
 
     <pluginManagement>
