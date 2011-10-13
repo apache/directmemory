@@ -46,6 +46,7 @@
       <item name="Apache DirectMemory" href="http://incubator.apache.org/directmemory" />
     </breadcrumbs>
 
+    <menu ref="modules"/>
     <menu ref="reports" />
 
     <menu name="ASF">
