@@ -184,9 +184,9 @@ under the License.
     </mailingList>
   </mailingLists>
 
-  <modules>
+  <!-- modules>
     <module>directmemory-cache</module>
-  </modules>
+  </modules -->
 
   <scm>
     <connection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/trunk/</connection>
