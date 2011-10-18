@@ -44,7 +44,8 @@ public class OffHeapMemoryBuffer {
 //	public List<Pointer> pointers = new CopyOnWriteArrayList<Pointer>();
 	AtomicInteger used = new AtomicInteger();
 	public int bufferNumber;
-	
+	public int allocationErrors = 0;
+	public static int maxAllocationErrors = 0;
 	
 	public int used() {
 		return used.get();
@@ -138,6 +139,7 @@ public class OffHeapMemoryBuffer {
 	}
 	
 	public void clear() {
+		allocationErrors = 0;
 		pointers.clear();
 		createAndAddFirstPointer();
 		buffer.clear();
@@ -156,7 +158,8 @@ public class OffHeapMemoryBuffer {
 		Pointer goodOne = firstMatch(payload.length);
 		
 		if (goodOne == null ) {
-			throw new NullPointerException("did not find a suitable buffer");
+			allocationErrors++;
+			throw new NullPointerException("did not find a suitable buffer " + allocationErrors + " times since last cleanup");
 		}
 		
 		Pointer fresh = slice(goodOne, payload.length);
@@ -201,7 +204,15 @@ public class OffHeapMemoryBuffer {
 		return qr;
 	}
 	
+	private boolean inShortage() {
+		// a place holder for a more refined version
+		return allocationErrors > OffHeapMemoryBuffer.maxAllocationErrors;
+	}
+	
 	public long collectLFU(int limit) {
+		if (!inShortage()) {
+			return 0;
+		}
 		if (limit<=0) limit = pointers.size()/10;
 		QueryResults qr;
 		try {
