@@ -219,6 +219,10 @@ public class OffHeapMemoryBuffer {
 			qr = selectOrderBy("free=false", "frequency", "limit 1, " + limit);
 			@SuppressWarnings("unchecked")
 			List<Pointer> result = qr.getResults();
+			if (result.size() > 0) {
+				// reset allocation errors if we made some room
+				allocationErrors = 0;
+			}
 			return free(result);
 		} catch (QueryParseException e) {
 			// TODO Auto-generated catch block
