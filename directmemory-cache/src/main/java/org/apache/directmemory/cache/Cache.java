@@ -104,7 +104,7 @@ public class Cache {
 	public static Pointer put(String key, Object object, int expiresIn) {
 		try {
 			byte[] payload = serializer.serialize(object, object.getClass());
-			Pointer ptr = putByteArray(key, payload);
+			Pointer ptr = putByteArray(key, payload, expiresIn);
 			ptr.clazz = object.getClass();
 			return ptr; 
 		} catch (IOException e) {
