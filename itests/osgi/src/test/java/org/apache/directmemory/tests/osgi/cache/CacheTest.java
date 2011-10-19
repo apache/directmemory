@@ -106,8 +106,6 @@ public class CacheTest {
             mavenBundle().groupId("org.ops4j.pax.logging").artifactId("pax-logging-service").version("1.6.2"),
             mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.guava").version("09_1"),
             mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.ant").version("1.7.0_5"),
-            mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.ant").version("1.7.0_5"),
-            mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.ant").version("1.7.0_5"),
             mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.oro").version("2.0.8_5"),
             mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.josql").version("1.5_5"),
             mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.aspectj").version("1.6.8_2"),
@@ -123,7 +121,7 @@ public class CacheTest {
                     }
                 },
             //Uncomment the line below to debug test
-            vmOption("-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"),
+            //vmOption("-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"),
             felix(),
             equinox()
     );
