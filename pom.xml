@@ -193,6 +193,7 @@ under the License.
 
   <modules>
     <module>directmemory-cache</module>
+    <module>itests</module>
   </modules>
 
   <scm>
@@ -237,6 +238,8 @@ under the License.
     <junit.version>4.10</junit.version>
     <junit-benchamrks.version>0.3.0-SNAPSHOT</junit-benchamrks.version>
     <logback.version>0.9.26</logback.version>
+    <pax-exam.version>1.2.4</pax-exam.version>
+    <pax-tiny-bundle.version>1.3.1</pax-tiny-bundle.version>
     <protostuff.version>1.0.1</protostuff.version>
     <slf4j.version>1.6.1</slf4j.version>
     <wagon.version>2.0</wagon.version>
@@ -449,6 +452,12 @@ under the License.
 
   <dependencyManagement>
     <dependencies>
+      <!-- Intenral Project Artifacts -->
+      <dependency>
+        <groupId>org.apache.directmemory</groupId>
+        <artifactId>directmemory-cache</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.aspectj</groupId>
         <artifactId>aspectjrt</artifactId>
@@ -510,6 +519,31 @@ under the License.
       </dependency>
 
       <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam</artifactId>
+        <version>${pax-exam.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam-junit</artifactId>
+        <version>${pax-exam.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam-container-default</artifactId>
+        <version>${pax-exam.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.swissbox</groupId>
+        <artifactId>pax-swissbox-tinybundles</artifactId>
+        <version>${pax-tiny-bundle.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
         <groupId>com.dyuproject.protostuff</groupId>
         <artifactId>protostuff-runtime</artifactId>
         <version>${protostuff.version}</version>
@@ -530,6 +564,12 @@ under the License.
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+        <type>jar</type>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
         <version>${slf4j.version}</version>
         <type>jar</type>
       </dependency>
