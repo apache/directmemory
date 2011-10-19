@@ -37,6 +37,13 @@ under the License.
   <url>http://incubator.apache.org/directmemory/</url>
   <inceptionYear>2011</inceptionYear>
 
+  <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
   <developers>
     <developer>
       <id>antelder</id>
@@ -218,6 +225,36 @@ under the License.
     <sonar.host.url>https://analysis.apache.org/</sonar.host.url>
     <maven.compile.source>1.6</maven.compile.source>
     <maven.compile.target>1.6</maven.compile.target>
+
+    <!-- Dependency Versions -->
+    <aspectj.bundle.version>1.6.8_2</aspectj.bundle.version>
+    <aspectj.version>1.6.11</aspectj.version>
+    <doclava.version>1.0.3</doclava.version>
+    <guava.version>r09</guava.version>
+    <h2.version>1.3.158</h2.version>
+    <josql.bundle.version>1.5_5</josql.bundle.version>
+    <josql.version>1.5</josql.version>
+    <junit.version>4.10</junit.version>
+    <junit-benchamrks.version>0.3.0-SNAPSHOT</junit-benchamrks.version>
+    <logback.version>0.9.26</logback.version>
+    <protostuff.version>1.0.1</protostuff.version>
+    <slf4j.version>1.6.1</slf4j.version>
+    <wagon.version>2.0</wagon.version>
+
+    <!-- Plugin Versions -->
+    <buildnumber-plugin.version>1.0</buildnumber-plugin.version>
+    <clean-plugin.version>2.4.1</clean-plugin.version>
+    <compiler-plugin.version>2.3.2</compiler-plugin.version>
+    <gpg-plugin.version>1.4</gpg-plugin.version>
+    <jar-plugin.version>2.3.2</jar-plugin.version>
+    <javadoc-plugin.version>2.8</javadoc-plugin.version>
+    <jxr-plugin.version>2.2</jxr-plugin.version>
+    <project-info-reports-plugin.version>2.4</project-info-reports-plugin.version>
+    <rat-plugin.version>0.7</rat-plugin.version>
+    <release-plugin.version>2.1</release-plugin.version>
+    <report-plugin.version>0.1</report-plugin.version>
+    <site-plugin.version>3.0</site-plugin.version>
+    <source-plugin.version>2.1.2</source-plugin.version>
   </properties>
 
   <build>
@@ -226,7 +263,7 @@ under the License.
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>2.4.1</version>
+          <version>${clean-plugin.version}</version>
         </plugin>
 
         <plugin>
@@ -243,12 +280,12 @@ under the License.
             <dependency>
               <groupId>org.apache.maven.wagon</groupId>
               <artifactId>wagon-ssh-external</artifactId>
-              <version>2.0</version>
+              <version>${wagon.version}</version>
             </dependency>
             <dependency>
               <groupId>org.apache.maven.wagon</groupId>
               <artifactId>wagon-ssh</artifactId>
-              <version>2.0</version>
+              <version>${wagon.version}</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -256,7 +293,7 @@ under the License.
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>2.1</version>
+          <version>${release-plugin.version}</version>
           <configuration>
             <mavenExecutorId>forked-path</mavenExecutorId>
             <useReleaseProfile>false</useReleaseProfile>
@@ -270,7 +307,7 @@ under the License.
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
-        <version>0.7</version>
+        <version>${rat-plugin.version}</version>
         <executions>
           <execution>
             <id>rat-verify</id>
@@ -298,7 +335,7 @@ under the License.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>buildnumber-maven-plugin</artifactId>
-        <version>1.0</version>
+        <version>${buildnumber-plugin.version}</version>
         <executions>
           <execution>
             <phase>validate</phase>
@@ -322,7 +359,7 @@ under the License.
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>${compiler-plugin.version}</version>
         <configuration>
           <source>${maven.compile.source}</source>
           <target>${maven.compile.target}</target>
@@ -332,7 +369,7 @@ under the License.
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>${jar-plugin.version}</version>
         <configuration>
           <archive>
             <manifestEntries>
@@ -366,12 +403,101 @@ under the License.
     </plugins>
   </build>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.aspectj</groupId>
+        <artifactId>aspectjrt</artifactId>
+        <version>${aspectj.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>${h2.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.sf.josql</groupId>
+        <artifactId>josql</artifactId>
+        <version>${josql.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.servicemix.bundles</groupId>
+        <artifactId>org.apache.servicemix.bundles.josql</artifactId>
+        <version>${josql.bundle.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.sf.josql</groupId>
+        <artifactId>gentlyweb-utils</artifactId>
+        <version>${josql.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.carrotsearch</groupId>
+        <artifactId>junit-benchmarks</artifactId>
+        <version>${junit-benchamrks.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+        <version>${logback.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.dyuproject.protostuff</groupId>
+        <artifactId>protostuff-runtime</artifactId>
+        <version>${protostuff.version}</version>
+        <type>jar</type>
+        <optional>false</optional>
+      </dependency>
+      <dependency>
+        <groupId>com.dyuproject.protostuff</groupId>
+        <artifactId>protostuff-core</artifactId>
+        <version>${protostuff.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.dyuproject.protostuff</groupId>
+        <artifactId>protostuff-api</artifactId>
+        <version>${protostuff.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+        <type>jar</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <reporting>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.4</version>
+        <version>${project-info-reports-plugin.version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -387,7 +513,7 @@ under the License.
           <docletArtifact>
             <groupId>com.google.doclava</groupId>
             <artifactId>doclava</artifactId>
-            <version>1.0.3</version>
+            <version>${doclava.version}</version>
           </docletArtifact>
           <doclet>com.google.doclava.Doclava</doclet>
           <!--
@@ -411,12 +537,12 @@ under the License.
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.2</version>
+        <version>${jxr-plugin.version}</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.sonar-plugins</groupId>
         <artifactId>maven-report</artifactId>
-        <version>0.1</version>
+        <version>${report-plugin.version}</version>
       </plugin>
     </plugins>
   </reporting>
@@ -429,7 +555,7 @@ under the License.
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
-            <version>2.1.2</version>
+            <version>${source-plugin.version}</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
@@ -489,7 +615,7 @@ under the License.
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.4</version>
+            <version>${gpg-plugin.version}</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
