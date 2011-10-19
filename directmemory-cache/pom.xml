@@ -31,10 +31,25 @@ under the License.
 
   <artifactId>directmemory-cache</artifactId>
   <name>Apache DirectMemory :: Cache</name>
+  <packaging>bundle</packaging>
   <description>DirectMemory Cache is a multi layered cache implementation featuring off-heap memory management (a-la
     BigMemory) to enable efficient handling of a large number of java objects without affecting jvm garbage collection
     performance
   </description>
+
+  <properties>
+    <osgi.import>
+      !org.apache.directmemory*,
+      com.dyuproject.protostuff*;version="[1,2)",
+      com.google.common.collect;version="[9.0,11)",
+      org.aspectj*;version="[1.6,2)",
+      org.josql*;version="[1.5,2)",
+      org.slf4j*,
+      *
+    </osgi.import>
+    <osgi.export>org.apache.directmemory*;version="${project.version}</osgi.export>
+  </properties>
+
 
   <build>
     <plugins>

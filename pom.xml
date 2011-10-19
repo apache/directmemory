@@ -243,6 +243,7 @@ under the License.
 
     <!-- Plugin Versions -->
     <buildnumber-plugin.version>1.0</buildnumber-plugin.version>
+    <bundle-plugin.version>2.1.0</bundle-plugin.version>
     <clean-plugin.version>2.4.1</clean-plugin.version>
     <compiler-plugin.version>2.3.2</compiler-plugin.version>
     <gpg-plugin.version>1.4</gpg-plugin.version>
@@ -255,6 +256,14 @@ under the License.
     <report-plugin.version>0.1</report-plugin.version>
     <site-plugin.version>3.0</site-plugin.version>
     <source-plugin.version>2.1.2</source-plugin.version>
+
+    <!-- Bundle Headers -->
+    <osgi.activator/>
+    <osgi.bundles/>
+    <osgi.dynamic.import/>
+    <osgi.export/>
+    <osgi.import/>
+    <osgi.private/>
   </properties>
 
   <build>
@@ -304,6 +313,40 @@ under the License.
     </pluginManagement>
 
     <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>${bundle-plugin.version}</version>
+        <extensions>true</extensions>
+        <inherited>true</inherited>
+        <configuration>
+          <instructions>
+            <Bundle-Name>${project.name}</Bundle-Name>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Export-Package>${osgi.export}</Export-Package>
+            <Import-Package>${osgi.import}</Import-Package>
+            <DynamicImport-Package>${osgi.dynamic.import}</DynamicImport-Package>
+            <Private-Package>${osgi.private}</Private-Package>
+            <Require-Bundle>${osgi.bundles}</Require-Bundle>
+            <Bundle-Activator>${osgi.activator}</Bundle-Activator>
+          </instructions>
+          <supportedProjectTypes>
+            <supportedProjectType>jar</supportedProjectType>
+            <supportedProjectType>war</supportedProjectType>
+            <supportedProjectType>bundle</supportedProjectType>
+          </supportedProjectTypes>
+          <unpackBundle>true</unpackBundle>
+        </configuration>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
@@ -372,6 +415,7 @@ under the License.
         <version>${jar-plugin.version}</version>
         <configuration>
           <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
             <manifestEntries>
               <Specification-Title>${project.name}</Specification-Title>
               <Specification-Version>${project.version}</Specification-Version>
