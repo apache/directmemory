@@ -191,7 +191,7 @@ public class ConcurrentTests2 {
 	@AfterClass
 	public static void dump() {
 		
-		for (OffHeapMemoryBuffer mem : MemoryManager.buffers) {
+		for (OffHeapMemoryBuffer mem : MemoryManager.getBuffers()) {
 			dump(mem);
 		}
 		

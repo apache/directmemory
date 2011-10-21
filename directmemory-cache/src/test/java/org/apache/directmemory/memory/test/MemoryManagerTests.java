@@ -58,9 +58,9 @@ public class MemoryManagerTests {
 		logger.info("stored");
 		assertNotNull(p);
 		assertEquals(size,p.end);
-		assertEquals(size, MemoryManager.activeBuffer.used());
+		assertEquals(size, MemoryManager.getActiveBuffer().used());
 		MemoryManager.free(p);
-		assertEquals(0, MemoryManager.activeBuffer.used());		
+		assertEquals(0, MemoryManager.getActiveBuffer().used());
 		logger.info("end");
 	}
 
@@ -85,7 +85,7 @@ public class MemoryManagerTests {
 	
 	@Test
 	public void readTest() {
-		for (OffHeapMemoryBuffer buffer : MemoryManager.buffers) {
+		for (OffHeapMemoryBuffer buffer : MemoryManager.getBuffers()) {
 			for (Pointer ptr : buffer.pointers) {
 				if (!ptr.free) {
 					byte[] res = MemoryManager.retrieve(ptr);

@@ -222,7 +222,7 @@ public class ConcurrentTests3 {
 	@AfterClass
 	public static void dump() {
 		
-		for (OffHeapMemoryBuffer mem : MemoryManager.buffers) {
+		for (OffHeapMemoryBuffer mem : MemoryManager.getBuffers()) {
 			dump(mem);
 		}
 		

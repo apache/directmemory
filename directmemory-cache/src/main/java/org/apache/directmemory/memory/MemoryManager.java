@@ -20,42 +20,23 @@ package org.apache.directmemory.memory;
  */
 
 import java.util.List;
-import java.util.Vector;
-
-import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.misc.Format;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MemoryManager {
 	private static Logger logger = LoggerFactory.getLogger(MemoryManager.class);
-	public static List<OffHeapMemoryBuffer> buffers = new Vector<OffHeapMemoryBuffer>();
-	public static OffHeapMemoryBuffer activeBuffer = null;
+	private static MemoryManagerService memoryManager = new MemoryManagerServiceImpl();;
 	
 	private MemoryManager() {
 		//static class
 	}
 	
 	public static void init(int numberOfBuffers, int size) {
-		for (int i = 0; i < numberOfBuffers; i++) {
-			buffers.add(OffHeapMemoryBuffer.createNew(size, i));
-		}
-		activeBuffer = buffers.get(0);
-		logger.info(Format.it("MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb(size)));
+    memoryManager.init(numberOfBuffers,size);
 	}
 	
 	public static Pointer store(byte[] payload, int expiresIn) {
-		Pointer p = activeBuffer.store(payload, expiresIn);
-		if (p == null) {
-			if (activeBuffer.bufferNumber+1 == buffers.size()) {
-				return null;
-			} else {
-				// try next buffer
-				activeBuffer = buffers.get(activeBuffer.bufferNumber+1);
-				p = activeBuffer.store(payload, expiresIn);
-			}
-		}
-		return p;
+		return memoryManager.store(payload,expiresIn);
 	}
 	
 	public static Pointer store(byte[] payload) {
@@ -63,54 +44,43 @@ public class MemoryManager {
 	}
 	
 	public static Pointer update(Pointer pointer, byte[] payload) {
-		Pointer p = activeBuffer.update(pointer, payload);
-		if (p == null) {
-			if (activeBuffer.bufferNumber == buffers.size()) {
-				return null;
-			} else {
-				// try next buffer
-				activeBuffer = buffers.get(activeBuffer.bufferNumber+1);
-				p = activeBuffer.store(payload);
-			}
-		}
-		return p;
+		return memoryManager.update(pointer,payload);
 	}
 	
 	public static byte[] retrieve(Pointer pointer) {
-		return buffers.get(pointer.bufferNumber).retrieve(pointer);
+		return memoryManager.retrieve(pointer);
 	}
 	
 	public static void free(Pointer pointer) {
-		buffers.get(pointer.bufferNumber).free(pointer);
+		memoryManager.free(pointer);
 	}
 	
 	public static void clear() {
-		for (OffHeapMemoryBuffer buffer : buffers) {
-			buffer.clear();
-		}
-		activeBuffer = buffers.get(0);
+		memoryManager.clear();
 	}
 	
 	public static long capacity() {
-		long totalCapacity = 0;
-		for (OffHeapMemoryBuffer buffer : buffers) {
-			totalCapacity += buffer.capacity();
-		}
-		return totalCapacity;
+		return memoryManager.capacity();
 	}
 
 	public static long collectExpired() {
-		long disposed = 0;
-		for (OffHeapMemoryBuffer buffer : buffers) {
-			disposed += buffer.collectExpired();
-		}
-		return disposed;
+		return memoryManager.collectExpired();
 	}
 
 	public static void collectLFU() {
-		for (OffHeapMemoryBuffer buf : MemoryManager.buffers) {
-			buf.collectLFU(-1);
-		}
+		memoryManager.collectLFU();
 	}
 
+   public static List<OffHeapMemoryBuffer> getBuffers() {
+    return memoryManager.getBuffers();
+  }
+
+
+  public static OffHeapMemoryBuffer getActiveBuffer() {
+    return memoryManager.getActiveBuffer();
+  }
+
+  public static MemoryManagerService getMemoryManager() {
+    return memoryManager;
+  }
 }

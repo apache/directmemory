@@ -106,7 +106,7 @@ public class Starter {
 		logger.info("...done in " + (System.currentTimeMillis() - start) + " msecs.");
 		logger.info("---------------------------------");
 
-		for (OffHeapMemoryBuffer buf : MemoryManager.buffers) {
+		for (OffHeapMemoryBuffer buf : MemoryManager.getBuffers()) {
 			dump(buf);
 		}
 	}

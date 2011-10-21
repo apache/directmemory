@@ -28,6 +28,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.apache.directmemory.measures.Every;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
+import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.misc.Format;
@@ -40,205 +41,106 @@ import com.google.common.collect.MapMaker;
 
 public class Cache {
 
-	private static Logger logger = LoggerFactory.getLogger(MemoryManager.class);
-	private static ConcurrentMap<String, Pointer> map;
-	
-	public static int DEFAULT_CONCURRENCY_LEVEL = 4;
-	public static int DEFAULT_INITIAL_CAPACITY = 100000;
-	
-	public static Serializer serializer = new ProtoStuffSerializerV1();
+	private static Logger logger = LoggerFactory.getLogger(Cache.class);
+  private static MemoryManagerService memoryManager = MemoryManager.getMemoryManager();
+  private static CacheService cacheService = new CacheServiceImpl(memoryManager);
 
 	private Cache() {
 		// not instantiable
 	}
-	
-	
 	private final static Timer timer = new Timer();
 
-    public static void scheduleDisposalEvery(long l) {
-        timer.schedule(new TimerTask() {
-            public void run() {
-				 logger.info("begin scheduled disposal");
-				 collectExpired();
-				 collectLFU();
-				 logger.info("scheduled disposal complete");
-            }
-        }, l);
-        logger.info("disposal scheduled every " + l + " milliseconds");
+    public static void scheduleDisposalEvery(long l){
+      cacheService.scheduleDisposalEvery(l);
     }	
 
 	public static void init(int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel) {
-		map = new MapMaker()
-			.concurrencyLevel(concurrencyLevel)
-			.initialCapacity(initialCapacity)
-			.makeMap();
-
-		logger.info("*** initializing *******************************\r\n" + Format.logo());
-		logger.info("************************************************");
-		MemoryManager.init(numberOfBuffers, size);
-		logger.info("initialized");
-		logger.info(Format.it("number of buffer(s): \t%1d  with %2s each", numberOfBuffers, Ram.inMb(size)));
-		logger.info(Format.it("initial capacity: \t%1d", initialCapacity));
-		logger.info(Format.it("concurrency level: \t%1d", concurrencyLevel));
-		scheduleDisposalEvery(Every.seconds(10));
+		cacheService.init(numberOfBuffers,size,initialCapacity,concurrencyLevel);
 	}
 
 	public static void init(int numberOfBuffers, int size) {
-		init(numberOfBuffers, size, DEFAULT_INITIAL_CAPACITY, DEFAULT_CONCURRENCY_LEVEL);
+		init(numberOfBuffers, size, CacheService.DEFAULT_INITIAL_CAPACITY, CacheService.DEFAULT_CONCURRENCY_LEVEL);
 	}
 
 	public static Pointer putByteArray(String key, byte[] payload, int expiresIn) {
-		Pointer ptr = MemoryManager.store(payload, expiresIn);
-		map.put(key, ptr);
-  		return ptr;
+		return cacheService.putByteArray(key,payload,expiresIn);
 	}
 	
 	public static Pointer putByteArray(String key, byte[] payload) {
-  		return putByteArray(key, payload, 0);
+  		return cacheService.putByteArray(key,payload);
 	}
 	
 	public static Pointer put(String key, Object object) {
-		return put(key, object, 0);
+		return cacheService.put(key,object);
 	}
 	
 	public static Pointer put(String key, Object object, int expiresIn) {
-		try {
-			byte[] payload = serializer.serialize(object, object.getClass());
-			Pointer ptr = putByteArray(key, payload, expiresIn);
-			ptr.clazz = object.getClass();
-			return ptr; 
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-			return null;
-		}
+	  return cacheService.put(key,object,expiresIn);
 	}
 	
 	public static Pointer updateByteArray(String key, byte[] payload) {
-		Pointer p = map.get(key);
-		p = MemoryManager.update(p, payload);
-  		return p;
+		return cacheService.updateByteArray(key, payload);
 	}
 	
 	public static Pointer update(String key, Object object) {
-		Pointer p = map.get(key);
-		try {
-			p = MemoryManager.update(p, serializer.serialize(object, object.getClass()));
-			p.clazz = object.getClass();
-	  		return p;
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-			return null;
-		}
+		return cacheService.update(key, object);
 	}
 	
 	public static byte[] retrieveByteArray(String key) {
-		Pointer ptr = getPointer(key);
-		if (ptr == null) return null;
-		if (ptr.expired() || ptr.free) {
-			map.remove(key);
-			if (!ptr.free) { 
-				MemoryManager.free(ptr);
-			}
-			return null;
-		} else {
-	  		return MemoryManager.retrieve(ptr);
-		}
+		return cacheService.retrieveByteArray(key);
 	}
 	
 	public static Object retrieve(String key) {
-		Pointer ptr = getPointer(key);
-		if (ptr == null) return null;
-		if (ptr.expired() || ptr.free) {
-			map.remove(key);
-			if (!ptr.free) { 
-				MemoryManager.free(ptr);
-			}
-			return null;
-		} else {
-	  		try {
-				return serializer.deserialize(MemoryManager.retrieve(ptr),ptr.clazz);
-			} catch (EOFException e) {
-				logger.error(e.getMessage());
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-			} catch (ClassNotFoundException e) {
-				logger.error(e.getMessage());
-			} catch (InstantiationException e) {
-				logger.error(e.getMessage());
-			} catch (IllegalAccessException e) {
-				logger.error(e.getMessage());
-			}
-		}
-		return null;
+		return cacheService.retrieve(key);
 	}
 	
 	public static Pointer getPointer(String key) {
-  		return map.get(key);
+  		return cacheService.getPointer(key);
 	}
 	
 	public static void free(String key) {
-		Pointer p = map.remove(key);
-		if (p != null) {
-			MemoryManager.free(p);
-		}
+		cacheService.free(key);
 	}
 	
 	public static void free(Pointer pointer) {
-		MemoryManager.free(pointer);
+		cacheService.free(pointer);
 	}
 	
 	public static void collectExpired() {
-		MemoryManager.collectExpired();
-		// still have to look for orphan (storing references to freed pointers) map entries
+		cacheService.collectExpired();
 	}
 	
 	public static void collectLFU() {
-		MemoryManager.collectLFU();
-		// can possibly clear one whole buffer if it's too fragmented - investigate
+		cacheService.collectLFU();
 	}
 	
 	public static void collectAll() {
-		 Thread thread = new Thread(){
-			 public void run(){
-				 logger.info("begin disposal");
-				 collectExpired();
-				 collectLFU();
-				 logger.info("disposal complete");
-			 }
-		 };
-		 thread.start();
+		 cacheService.collectAll();
 	}
 	
 	
 	public static void clear() {
-		map.clear();
-		MemoryManager.clear();
-		logger.info("Cache cleared");
+		cacheService.clear();
 	}
 	
 	public static long entries() {
-		return map.size();
+		return cacheService.entries();
 	}
 
 	private static void dump(OffHeapMemoryBuffer mem) {
-		logger.info(Format.it("off-heap - buffer: \t%1d", mem.bufferNumber));
-		logger.info(Format.it("off-heap - allocated: \t%1s", Ram.inMb(mem.capacity())));
-		logger.info(Format.it("off-heap - used:      \t%1s", Ram.inMb(mem.used())));
-		logger.info(Format.it("heap 	- max: \t%1s", Ram.inMb(Runtime.getRuntime().maxMemory())));
-		logger.info(Format.it("heap     - allocated: \t%1s", Ram.inMb(Runtime.getRuntime().totalMemory())));
-		logger.info(Format.it("heap     - free : \t%1s", Ram.inMb(Runtime.getRuntime().freeMemory())));
-		logger.info("************************************************");
+		cacheService.dump(mem);
 	}
 	
 	public static void dump() {
-		if (!logger.isInfoEnabled())
-			return;
-		
-		logger.info("*** DirectMemory statistics ********************");
-		
-		for (OffHeapMemoryBuffer mem : MemoryManager.buffers) {
-			dump(mem);
-		}
+	 cacheService.dump();
 	}
+
+  public static Serializer getSerializer() {
+    return cacheService.getSerializer();
+  }
+
+  public static MemoryManagerService getMemoryManager(){
+    return cacheService.getMemoryManager();
+  }
 	
 }
