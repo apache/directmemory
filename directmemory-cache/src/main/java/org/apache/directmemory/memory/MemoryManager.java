@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 public class MemoryManager {
 	private static Logger logger = LoggerFactory.getLogger(MemoryManager.class);
-	private static MemoryManagerService memoryManager = new MemoryManagerServiceImpl();;
+	private static MemoryManagerService memoryManager = new MemoryManagerServiceImpl();
 	
 	private MemoryManager() {
 		//static class

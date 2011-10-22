@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentMap;
 import com.google.common.collect.MapMaker;
 import org.apache.directmemory.measures.Every;
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.MemoryManager;
 import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.MemoryManagerServiceImpl;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
@@ -125,14 +124,14 @@ public class CacheServiceImpl implements CacheService {
 
   public Pointer updateByteArray(String key, byte[] payload) {
     Pointer p = map.get(key);
-    p = MemoryManager.update(p, payload);
+    p = memoryManager.update(p, payload);
     return p;
   }
 
   public Pointer update(String key, Object object) {
     Pointer p = map.get(key);
     try {
-      p = MemoryManager.update(p, serializer.serialize(object, object.getClass()));
+      p = memoryManager.update(p, serializer.serialize(object, object.getClass()));
       p.clazz = object.getClass();
       return p;
     } catch (IOException e) {
@@ -147,11 +146,11 @@ public class CacheServiceImpl implements CacheService {
     if (ptr.expired() || ptr.free) {
       map.remove(key);
       if (!ptr.free) {
-        MemoryManager.free(ptr);
+        memoryManager.free(ptr);
       }
       return null;
     } else {
-      return MemoryManager.retrieve(ptr);
+      return memoryManager.retrieve(ptr);
     }
   }
 
@@ -161,12 +160,12 @@ public class CacheServiceImpl implements CacheService {
     if (ptr.expired() || ptr.free) {
       map.remove(key);
       if (!ptr.free) {
-        MemoryManager.free(ptr);
+        memoryManager.free(ptr);
       }
       return null;
     } else {
       try {
-        return serializer.deserialize(MemoryManager.retrieve(ptr), ptr.clazz);
+        return serializer.deserialize(memoryManager.retrieve(ptr), ptr.clazz);
       } catch (EOFException e) {
         logger.error(e.getMessage());
       } catch (IOException e) {
@@ -189,21 +188,21 @@ public class CacheServiceImpl implements CacheService {
   public void free(String key) {
     Pointer p = map.remove(key);
     if (p != null) {
-      MemoryManager.free(p);
+      memoryManager.free(p);
     }
   }
 
   public void free(Pointer pointer) {
-    MemoryManager.free(pointer);
+    memoryManager.free(pointer);
   }
 
   public void collectExpired() {
-    MemoryManager.collectExpired();
+    memoryManager.collectExpired();
     // still have to look for orphan (storing references to freed pointers) map entries
   }
 
   public void collectLFU() {
-    MemoryManager.collectLFU();
+    memoryManager.collectLFU();
     // can possibly clear one whole buffer if it's too fragmented - investigate
   }
 
@@ -222,7 +221,7 @@ public class CacheServiceImpl implements CacheService {
 
   public void clear() {
     map.clear();
-    MemoryManager.clear();
+    memoryManager.clear();
     logger.info("Cache cleared");
   }
 
