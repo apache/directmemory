@@ -34,6 +34,11 @@ under the License.
 
   <dependencies>
 
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+    </dependency>
+
     <!-- Test -->
     <dependency>
       <groupId>org.apache.directmemory</groupId>

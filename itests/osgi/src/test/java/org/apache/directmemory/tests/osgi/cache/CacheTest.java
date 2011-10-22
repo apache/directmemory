@@ -20,17 +20,13 @@
 package org.apache.directmemory.tests.osgi.cache;
 
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 import org.apache.directmemory.cache.Cache;
 import org.apache.directmemory.measures.Every;
 import org.apache.directmemory.measures.Monitor;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.Pointer;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.apache.directmemory.tests.osgi.DirectMemoryOsgiTestSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -46,19 +42,16 @@ import static org.ops4j.pax.exam.CoreOptions.equinox;
 import static org.ops4j.pax.exam.CoreOptions.felix;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.OptionUtils.combine;
-import static org.ops4j.pax.exam.OptionUtils.expand;
-import static org.ops4j.pax.exam.container.def.PaxRunnerOptions.vmOption;
-import static org.ops4j.pax.exam.container.def.PaxRunnerOptions.workingDirectory;
 import static org.ops4j.pax.swissbox.tinybundles.core.TinyBundles.modifyBundle;
 
 @RunWith(JUnit4TestRunner.class)
-public class CacheTest {
+public class CacheTest extends DirectMemoryOsgiTestSupport{
 
   /**
    * This tests basic cache operations(put,retrieve) inside OSGi
    */
   @Test
-  public void testWithString() {
+  public void testCacheSingleton() {
     String key = "1";
     String obj = "Simple String Object";
     Cache.init(1, Ram.Mb(16));
@@ -78,7 +71,7 @@ public class CacheTest {
    * This test basic cache operations(put,retrieve) inside OSGi using an object of an imported class (provided by an other bundle).
    */
   @Test
-  public void testWithImportedObject() {
+  public void testCacheSingletonWithImportedObject() {
     SimpleObject obj1 = new SimpleObject("1","Object One");
     SimpleObject obj2 = new SimpleObject("2","Object Two");
     Cache.init(1, Ram.Mb(16));
@@ -100,17 +93,8 @@ public class CacheTest {
 
   @Configuration
   public Option[] configure() {
-    return expand(
-            mavenBundle().groupId("org.apache.felix").artifactId("org.apache.felix.configadmin").version("1.2.8"),
-            mavenBundle().groupId("org.ops4j.pax.logging").artifactId("pax-logging-api").version("1.6.2"),
-            mavenBundle().groupId("org.ops4j.pax.logging").artifactId("pax-logging-service").version("1.6.2"),
-            mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.guava").version("09_1"),
-            mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.ant").version("1.7.0_5"),
-            mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.oro").version("2.0.8_5"),
-            mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.josql").version("1.5_5"),
-            mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.aspectj").version("1.6.8_2"),
-            mavenBundle().groupId("com.dyuproject.protostuff").artifactId("protostuff-uberjar").version("1.0.2"),
-            mavenBundle().groupId("org.apache.directmemory").artifactId("directmemory-cache").version("0.5.5-SNAPSHOT"),
+    return combine(
+            getDynamicMemoryOptions(),
             new Customizer() {
                     @Override
                     public InputStream customizeTestProbe(InputStream testProbe) {
@@ -121,7 +105,7 @@ public class CacheTest {
                     }
                 },
             //Uncomment the line below to debug test
-            //vmOption("-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"),
+            //enabledDebuggingOnPort(5005,false),
             felix(),
             equinox()
     );
