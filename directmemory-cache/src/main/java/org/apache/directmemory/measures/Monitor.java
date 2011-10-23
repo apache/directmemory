@@ -22,68 +22,68 @@ package org.apache.directmemory.measures;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.apache.directmemory.misc.Format;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Monitor {
-	private AtomicLong hits = new AtomicLong(0);
-	private long totalTime = 0;
-	private long min = -1;
-	private long max = -1;
-	public String name;
+public class Monitor  {
 	
-	private static Logger logger = LoggerFactory.getLogger(Monitor.class);
-	public static Map<String, Monitor> monitors = new HashMap<String, Monitor>();
+	private static final Logger logger = LoggerFactory.getLogger(Monitor.class);
+
+  public static final Map<String, MonitorService> monitors = new HashMap<String, MonitorService>();
+  private MonitorService monitorService;
 	
-	public static Monitor get(String key) {
-		Monitor mon = monitors.get(key);
+	public static MonitorService get(String key) {
+		MonitorService mon = monitors.get(key);
 		if (mon == null) {
-			mon = new Monitor(key);
+			mon = new MonitorServiceImpl(key);
 			monitors.put(key, mon);
 		}
 		return mon;
 	}
-	
+
 	public Monitor(String name) {
-		this.name = name;
+		this.monitorService = new MonitorServiceImpl(name);
+    monitors.put(name,monitorService);
 	}
-	
+
 	public long start() {
 		return System.nanoTime();
 	}
 	public long stop(long begunAt) {
-		hits.incrementAndGet();
+		monitorService.getHits().incrementAndGet();
 		final long lastAccessed = System.nanoTime();
 		final long elapsed = lastAccessed - begunAt;
-		totalTime+=elapsed;
-		if (elapsed > max && hits.get() > 0) max = elapsed;
-		if (elapsed < min && hits.get() > 0) min = elapsed;
+		monitorService.addToTotalTime(elapsed);
+		if (elapsed > monitorService.getMax() && monitorService.getHits().get() > 0) {
+      monitorService.setMax(elapsed);
+    }
+		if (elapsed < monitorService.getMin() && monitorService.getHits().get() > 0) {
+      monitorService.setMin(elapsed);
+    }
 		return elapsed;
 	}
 	public long hits() {
-		return hits.get();
+		return monitorService.getHits().get();
 	}
 	public long totalTime() {
-		return totalTime;
+		return monitorService.totalTime();
 	}
 	public long average() {
-		return hits.get() > 0 ? totalTime/hits.get() : 0;
+		return monitorService.getHits().get() > 0 ? monitorService.getTotalTime()/monitorService.getHits().get() : 0;
 	}
 	public String toString() {
-		return Format.it("%1$s hits: %2$d, avg: %3$s ms, tot: %4$s seconds", 
-								name, 
-								hits.get(), 
-								new DecimalFormat("####.###").format((double)average()/1000000), 
-								new DecimalFormat("####.###").format((double)totalTime/1000000000)
-						);
+		return Format.it("%1$s hits: %2$d, avg: %3$s ms, tot: %4$s seconds",
+            monitorService.getName(),
+            monitorService.getHits().get(),
+            new DecimalFormat("####.###").format((double) average() / 1000000),
+            new DecimalFormat("####.###").format((double) monitorService.getTotalTime() / 1000000000)
+    );
 	}
 	
 	public static void dump(String prefix) {
-		for (Monitor monitor : Monitor.monitors.values()) {
-			if (monitor.name.startsWith(prefix))
+		for (MonitorService monitor : monitors.values()) {
+			if (monitor.getName().startsWith(prefix))
 				logger.info(monitor.toString());
 		}
 	}

@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.apache.directmemory.cache.CacheService;
 import org.apache.directmemory.measures.Every;
+import org.apache.directmemory.measures.Monitor;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.tests.osgi.DirectMemoryOsgiTestSupport;
 import org.junit.Test;
@@ -61,6 +62,7 @@ public class CacheServiceTest extends DirectMemoryOsgiTestSupport{
 
 		cacheService.scheduleDisposalEvery(Every.seconds(1));
 		cacheService.dump();
+    Monitor.dump("cache");
 
     Pointer p = cacheService.put("2", obj);
     result = cacheService.retrieve("2");
@@ -86,6 +88,7 @@ public class CacheServiceTest extends DirectMemoryOsgiTestSupport{
     Object result2 = cacheService.retrieve("3");
 
     cacheService.dump();
+    Monitor.dump("cache");
 
     assertEquals(obj1, result1);
     assertEquals(obj2, result2);

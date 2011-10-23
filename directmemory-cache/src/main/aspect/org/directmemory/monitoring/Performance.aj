@@ -21,6 +21,7 @@ package org.apache.directmemory.monitoring;
 
 import org.apache.directmemory.cache.Cache;
 import org.apache.directmemory.measures.Monitor;
+import org.apache.directmemory.measures.MonitorService;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.misc.Format;
 import org.slf4j.Logger;
@@ -80,7 +81,7 @@ public aspect Performance {
         args(source, clazz);
 
     Pointer around(String key, byte[] payload): putByteArrayPointcut(key, payload) {
-        Monitor mon = Monitor.get(cache_putByteArray);
+        MonitorService mon = Monitor.get(cache_putByteArray);
         final long startedAt = mon.start();
         Pointer entry = proceed(key, payload);
         if (logger.isDebugEnabled()) logger.debug(Format.it("put: [%s] %d bytes", key, payload.length ));
@@ -89,7 +90,7 @@ public aspect Performance {
     }
 
     Pointer around(String key, Object object, int expiresIn): putObjectPointcut(key, object, expiresIn) {
-        Monitor mon = Monitor.get(cache_putObject);
+        MonitorService mon = Monitor.get(cache_putObject);
         final long startedAt = mon.start();
         Pointer entry = proceed(key, object, expiresIn);
         if (logger.isDebugEnabled()) logger.debug(Format.it("put object: [%s]", key));
@@ -98,7 +99,7 @@ public aspect Performance {
     }
 
     byte[] around(String key): retrieveByteArrayPointcut(key) {
-        Monitor mon = Monitor.get(cache_retrieveByteArray);
+        MonitorService mon = Monitor.get(cache_retrieveByteArray);
         final long startedAt = mon.start();
         byte[] payload = proceed(key);
         if (logger.isDebugEnabled()) logger.debug(Format.it("retrieve: [%s]", key ));
@@ -107,7 +108,7 @@ public aspect Performance {
     }
 
     Object around(String key): retrieveObjectPointcut(key) {
-        Monitor mon = Monitor.get(cache_retrieveObject);
+        MonitorService mon = Monitor.get(cache_retrieveObject);
         final long startedAt = mon.start();
         Object payload = proceed(key);
         if (logger.isDebugEnabled()) logger.debug(Format.it("retrieve object: [%s]", key ));
@@ -116,7 +117,7 @@ public aspect Performance {
     }
 
     Pointer around(String key): getPointcut(key) {
-        Monitor mon = Monitor.get(cache_getPointer);
+        MonitorService mon = Monitor.get(cache_getPointer);
         final long startedAt = mon.start();
         Pointer pointer = proceed(key);
         if (logger.isDebugEnabled()) logger.debug(Format.it("get: [%s]", key));
@@ -125,7 +126,7 @@ public aspect Performance {
     }
 
     void around(): collectLFUPointcut() {
-        Monitor mon = Monitor.get(cache_collectLFU);
+        MonitorService mon = Monitor.get(cache_collectLFU);
         final long startedAt = mon.start();
         proceed();
         if (logger.isDebugEnabled()) logger.debug(Format.it("collect LFU"));
@@ -133,7 +134,7 @@ public aspect Performance {
     }
 
     void around(): collectExpiredPointcut() {
-        Monitor mon = Monitor.get(cache_collectExpired);
+        MonitorService mon = Monitor.get(cache_collectExpired);
         final long startedAt = mon.start();
         proceed();
         if (logger.isDebugEnabled()) logger.debug(Format.it("collect expired"));
@@ -141,7 +142,7 @@ public aspect Performance {
     }
 
     byte[] around(Object obj, @SuppressWarnings("rawtypes") Class clazz): serializePointcut(obj, clazz) {
-        Monitor mon = Monitor.get(cache_serialize);
+        MonitorService mon = Monitor.get(cache_serialize);
         final long startedAt = mon.start();
         byte[] payload = proceed(obj, clazz);
         if (logger.isDebugEnabled()) logger.debug(Format.it("serialize: [%s]", clazz.getSimpleName() ));
@@ -150,7 +151,7 @@ public aspect Performance {
     }
 
     Object around(byte[] source, @SuppressWarnings("rawtypes") Class clazz): deserializePointcut(source, clazz) {
-        Monitor mon = Monitor.get(cache_deserialize);
+        MonitorService mon = Monitor.get(cache_deserialize);
         final long startedAt = mon.start();
         Object obj = proceed(source, clazz);
         if (logger.isDebugEnabled()) logger.debug(Format.it("deserialize: [%s]", clazz.getSimpleName() ));

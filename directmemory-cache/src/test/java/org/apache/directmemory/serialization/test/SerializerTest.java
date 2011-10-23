@@ -25,6 +25,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 
 import org.apache.directmemory.measures.Monitor;
+import org.apache.directmemory.measures.MonitorService;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.misc.DummyPojo;
 import org.apache.directmemory.serialization.ProtoStuffSerializerV1;
@@ -57,8 +58,8 @@ public class SerializerTest {
 	private static Logger logger=LoggerFactory.getLogger(SerializerTest.class);
 	private void testSerializer(String name, Serializer serializer, int size, int howMany) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		logger.info("begin " + serializer.getClass().toString());
-        Monitor stopWatch = Monitor.get("serializer." + name + "." + size + "bytes");
-        Monitor stopWatch2 = Monitor.get("deserializer." + name + "." + size + "bytes");
+    MonitorService stopWatch = Monitor.get("serializer." + name + "." + size + "bytes");
+    MonitorService stopWatch2 = Monitor.get("deserializer." + name + "." + size + "bytes");
 		DummyPojo pojo = new DummyPojo("test", size);
 		for (int i = 0; i < howMany; i++) {
 	        long split = stopWatch.start();
