@@ -34,7 +34,8 @@
         performance</p>
     </div>
 
-    <section name="Disclaimer">
+    <div class="alert-message warning">
+      <h2>Disclaimer</h2>
       <p>Apache DirectMemory is an effort undergoing <a href="http://incubator.apache.org/">incubation</a> at
       The Apache Software Foundation (ASF), sponsored by the Apache Incubator PMC. Incubation is required of all newly
       accepted projects until a further review indicates that the infrastructure, communications, and decision making
@@ -43,6 +44,6 @@
       it does indicate that the project has yet to be fully endorsed by the ASF.</p>
       <p>You can view our current <a href="http://incubator.apache.org/projects/directmemory.html">incubation status</a>
       for more details.</p>
-    </section>
+    </div>
   </body>
 </document>
