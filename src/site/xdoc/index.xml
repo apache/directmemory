@@ -25,10 +25,10 @@
 
   <body>
     <div class="hero-unit">
-      <img src="images/Apache-DirectMemory-logo-medium.png" style="margin-bottom:15px"/>
-      
+      <img src="images/Apache-DirectMemory-logo-medium.png" style="margin-bottom:15px" />
+
       <br clear="left" />
-      
+
       <p><span style="font-weight: bold">Apache DirectMemory</span> is a multi layered cache implementation featuring off-heap memory management (a-la BigMemory)
         to enable efficient handling of a large number of java objects without affecting jvm garbage collection
         performance</p>
