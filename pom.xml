@@ -240,7 +240,7 @@ under the License.
     <josql.bundle.version>1.5_5</josql.bundle.version>
     <josql.version>1.5</josql.version>
     <junit.version>4.10</junit.version>
-    <junit-benchamrks.version>0.3.0-SNAPSHOT</junit-benchamrks.version>
+    <junit-benchamrks.version>0.3.0</junit-benchamrks.version>
     <logback.version>0.9.26</logback.version>
     <oro.bundle.version>2.0.8_5</oro.bundle.version>
     <osgi.version>4.2.0</osgi.version>
