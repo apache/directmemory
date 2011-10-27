@@ -19,7 +19,7 @@ package org.apache.directmemory.cache.test;
  * under the License.
  */
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Random;
 
@@ -29,19 +29,15 @@ import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.misc.DummyPojo;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.MethodRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 
 
-public class TestCachePlusSerialization {
-	@Rule
-	public MethodRule benchmarkRun = new BenchmarkRule();
+public class TestCachePlusSerialization  extends AbstractBenchmark {
 
 	private static Logger logger = LoggerFactory.getLogger(TestCachePlusSerialization.class);
 	

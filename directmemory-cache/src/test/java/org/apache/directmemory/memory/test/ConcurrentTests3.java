@@ -29,14 +29,11 @@ import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.MethodRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
 import com.carrotsearch.junitbenchmarks.annotation.BenchmarkHistoryChart;
 import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
@@ -198,10 +195,6 @@ public class ConcurrentTests3 {
 
 	Random rndGen = new Random();
 	
-	@Rule
-	public MethodRule benchmarkRun = new BenchmarkRule();
-
-
 	private static Logger logger = LoggerFactory.getLogger(ConcurrentTests3.class);
 
 	private static void dump(OffHeapMemoryBuffer mem) {

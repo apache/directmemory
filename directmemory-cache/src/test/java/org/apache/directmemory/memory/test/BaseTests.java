@@ -34,18 +34,14 @@ import org.apache.directmemory.memory.Pointer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.rules.MethodRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import com.google.common.collect.Maps;
 
-public class BaseTests {
-//	@Rule
-	public MethodRule benchmarkRun = new BenchmarkRule();
-	
+public class BaseTests extends AbstractBenchmark{
 	@Test
 	public void smokeTest() {
 		OffHeapMemoryBuffer mem = OffHeapMemoryBuffer.createNew(1 * 1024 * 1024);

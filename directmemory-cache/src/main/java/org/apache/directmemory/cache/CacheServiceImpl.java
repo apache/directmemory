@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentMap;
-import com.google.common.collect.MapMaker;
+
 import org.apache.directmemory.measures.Every;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManagerService;
@@ -32,17 +32,19 @@ import org.apache.directmemory.memory.MemoryManagerServiceImpl;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.misc.Format;
-import org.apache.directmemory.serialization.ProtoStuffSerializerV1;
+import org.apache.directmemory.serialization.ProtoStuffWithLinkedBufferSerializer;
 import org.apache.directmemory.serialization.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.MapMaker;
 
 public class CacheServiceImpl implements CacheService {
 
   private static Logger logger = LoggerFactory.getLogger(CacheServiceImpl.class);
   private ConcurrentMap<String, Pointer> map;
 
-  private Serializer serializer = new ProtoStuffSerializerV1();
+  private Serializer serializer = new ProtoStuffWithLinkedBufferSerializer();
   private MemoryManagerService memoryManager = new MemoryManagerServiceImpl();
 
   private final Timer timer = new Timer();

@@ -32,14 +32,12 @@ import org.josql.QueryExecutionException;
 import org.josql.QueryParseException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.MethodRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
 import com.carrotsearch.junitbenchmarks.annotation.BenchmarkHistoryChart;
 import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
@@ -49,7 +47,7 @@ import com.carrotsearch.junitbenchmarks.annotation.LabelType;
 @BenchmarkMethodChart()
 @BenchmarkHistoryChart(labelWith = LabelType.CUSTOM_KEY, maxRuns = 5)
 
-public class CacheLightConcurrentTest {
+public class CacheLightConcurrentTest extends AbstractBenchmark {
 	
 	private final static int entries = 10000;
 	public static AtomicInteger count = new AtomicInteger();
@@ -202,10 +200,6 @@ public class CacheLightConcurrentTest {
 
 	Random rndGen = new Random();
 	
-	@Rule
-	public MethodRule benchmarkRun = new BenchmarkRule();
-
-
 	private static Logger logger = LoggerFactory.getLogger(CacheLightConcurrentTest.class);
 
 	@BeforeClass

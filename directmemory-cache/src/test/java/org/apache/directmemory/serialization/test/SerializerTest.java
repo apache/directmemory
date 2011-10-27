@@ -32,14 +32,12 @@ import org.apache.directmemory.serialization.ProtoStuffSerializerV1;
 import org.apache.directmemory.serialization.ProtoStuffWithLinkedBufferSerializer;
 import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.serialization.StandardSerializer;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.MethodRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
 import com.carrotsearch.junitbenchmarks.annotation.BenchmarkHistoryChart;
 import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
@@ -50,10 +48,7 @@ import com.carrotsearch.junitbenchmarks.annotation.LabelType;
 @BenchmarkHistoryChart(labelWith = LabelType.CUSTOM_KEY, maxRuns = 5)
 	@BenchmarkOptions(benchmarkRounds = 2, warmupRounds=1, concurrency=1)
 
-public class SerializerTest {
-
-	@Rule
-	public MethodRule benchmarkRun = new BenchmarkRule();
+public class SerializerTest extends AbstractBenchmark {
 
 	private static Logger logger=LoggerFactory.getLogger(SerializerTest.class);
 	private void testSerializer(String name, Serializer serializer, int size, int howMany) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {

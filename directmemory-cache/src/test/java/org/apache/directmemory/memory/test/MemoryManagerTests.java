@@ -31,16 +31,13 @@ import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.rules.MethodRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.carrotsearch.junitbenchmarks.BenchmarkRule;
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.google.common.collect.Maps;
 
-public class MemoryManagerTests {
-//	@Rule
-	public MethodRule benchmarkRun = new BenchmarkRule();
+public class MemoryManagerTests extends AbstractBenchmark {
 	
 	
 	@BeforeClass

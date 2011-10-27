@@ -25,14 +25,12 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.apache.directmemory.measures.Ram;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.MethodRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
 import com.carrotsearch.junitbenchmarks.annotation.BenchmarkHistoryChart;
 import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
@@ -45,13 +43,8 @@ import com.google.common.collect.Maps;
 @BenchmarkOptions(benchmarkRounds = 1, warmupRounds = 0)
 @BenchmarkHistoryChart(labelWith = LabelType.CUSTOM_KEY, maxRuns = 5)
 
-public class MicroBenchmarks {
+public class MicroBenchmarks extends AbstractBenchmark {
 	
-	@Rule
-	public MethodRule benchmarkRun = new BenchmarkRule();
-
-
-
 	private static Logger logger = LoggerFactory.getLogger(MicroBenchmarks.class);
 
 

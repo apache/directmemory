@@ -36,6 +36,7 @@ import org.junit.rules.MethodRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
@@ -49,11 +50,8 @@ import com.google.common.collect.MapMaker;
 @BenchmarkOptions(benchmarkRounds = 1, warmupRounds = 0)
 @BenchmarkHistoryChart(labelWith = LabelType.CUSTOM_KEY, maxRuns = 5)
 
-public class MallocTests {
+public class MallocTests extends AbstractBenchmark {
 	
-	@Rule
-	public MethodRule benchmarkRun = new BenchmarkRule();
-
 	Random rnd = new Random();
 
 	private static Logger logger = LoggerFactory.getLogger(MallocTests.class);
