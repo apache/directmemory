@@ -54,7 +54,8 @@ public class MemoryManagerTests extends AbstractBenchmark {
 		Pointer p = MemoryManager.store(new byte[size]);
 		logger.info("stored");
 		assertNotNull(p);
-		assertEquals(size,p.end);
+		//assertEquals(size,p.end);
+    assertEquals(size,p.end-p.start); 
 		assertEquals(size, MemoryManager.getActiveBuffer().used());
 		MemoryManager.free(p);
 		assertEquals(0, MemoryManager.getActiveBuffer().used());
