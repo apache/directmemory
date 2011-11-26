@@ -26,6 +26,7 @@ under the License.
     <artifactId>apache</artifactId>
     <version>9</version>
   </parent>
+  <!-- wonderful patch :-) -->
 
   <groupId>org.apache.directmemory</groupId>
   <artifactId>directmemory-parent</artifactId>
