@@ -83,4 +83,6 @@ public interface CacheService {
 
   public void setMemoryManager(MemoryManagerService memoryManager);
 
+  public Pointer allocate(String key, int size);
+
 }

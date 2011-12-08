@@ -105,24 +105,23 @@ public class OffHeapMemoryBuffer {
 	}
 	
 	public byte[] retrieve(Pointer pointer) {
-//		if (!pointer.expired()) {
-			pointer.lastHit = System.currentTimeMillis();
-			pointer.hits++;
-			
-			ByteBuffer buf = null;
+		pointer.lastHit = System.currentTimeMillis();
+		pointer.hits++;
+		
+		ByteBuffer buf = null;
+		if (pointer.clazz == ByteBuffer.class) {
+			buf = pointer.directBuffer;
+			buf.position(0);
+		} else {
 			synchronized (buffer) {
 				buf = buffer.duplicate();
+				buf.position(pointer.start);
 			}
-			buf.position(pointer.start);
-			// not needed for reads
-			// buf.limit(pointer.end+pointer.start);
-			final byte[] swp = new byte[pointer.end-pointer.start];
-			buf.get(swp);
-			return swp;
-//		} else {
-//			free(pointer);
-//			return null;
-//		}
+		}
+		
+		final byte[] swp = new byte[pointer.end-pointer.start];
+		buf.get(swp);
+		return swp;
 	}
 	
 
@@ -310,6 +309,7 @@ public class OffHeapMemoryBuffer {
 		
 		fresh.directBuffer = buf.slice();
 		fresh.directBuffer.limit(size);
+		fresh.clazz = ByteBuffer.class;
 		pointers.add(fresh);
 		return fresh;	
 	}

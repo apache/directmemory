@@ -21,6 +21,7 @@ package org.apache.directmemory.cache;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentMap;
@@ -166,6 +167,10 @@ public class CacheServiceImpl implements CacheService {
       }
       return null;
     } else {
+      if (ptr.clazz == ByteBuffer.class) {
+    	  // skip serialization if it is a bytebuffer
+    	  return ptr.directBuffer;
+      }
       try {
         return serializer.deserialize(memoryManager.retrieve(ptr), ptr.clazz);
       } catch (EOFException e) {
@@ -274,5 +279,13 @@ public class CacheServiceImpl implements CacheService {
 
   public void setMemoryManager(MemoryManagerService memoryManager) {
     this.memoryManager = memoryManager;
+  }
+
+  @Override
+  public Pointer allocate(String key, int size) {
+    Pointer ptr = memoryManager.allocate(size, -1, -1);
+    map.put(key, ptr);
+    ptr.clazz = ByteBuffer.class;
+    return ptr;
   }
 }

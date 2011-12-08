@@ -73,9 +73,11 @@ public class NIOTests {
 		assertEquals(0, b.position());
 		assertEquals(size, b.limit());
 		
-		//assertEquals(size,p.end);
+		byte[] check = MemoryManager.retrieve(p);
+		
+		assertNotNull(check);
+		
 		assertEquals(size,p.end-p.start); 
-//		assertEquals(size, MemoryManager.getActiveBuffer().used());
 		logger.info("end");
 	}
 

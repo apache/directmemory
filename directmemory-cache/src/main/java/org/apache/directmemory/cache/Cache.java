@@ -132,5 +132,9 @@ public class Cache {
   public static MemoryManagerService getMemoryManager(){
     return cacheService.getMemoryManager();
   }
+
+public static Pointer allocate(String key, int size) {
+	return cacheService.allocate(key, size);
+}
 	
 }
