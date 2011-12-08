@@ -125,7 +125,7 @@ public class OffHeapMemoryBuffer {
 //		}
 	}
 	
-	
+
 	public long free(Pointer pointer2free) {
 		pointer2free.free = true;
 		pointer2free.created = 0;
@@ -133,6 +133,7 @@ public class OffHeapMemoryBuffer {
 		pointer2free.hits = 0;
 		pointer2free.expiresIn = 0;
 		pointer2free.clazz = null;
+		pointer2free.directBuffer = null;
 		used.addAndGet(-( pointer2free.end-pointer2free.start));
 		pointers.add(pointer2free);
 		return pointer2free.end-pointer2free.start;
