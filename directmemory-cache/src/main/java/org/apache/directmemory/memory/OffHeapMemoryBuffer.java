@@ -281,5 +281,36 @@ public class OffHeapMemoryBuffer {
 		free(pointer);
 		return store(payload);
 	}
+
+	public Pointer allocate(int size, int expiresIn, int expires) {
+		Pointer goodOne = firstMatch(size);
+		
+		if (goodOne == null ) {
+			allocationErrors++;
+			throw new NullPointerException("did not find a suitable buffer " + allocationErrors + " times since last cleanup");
+		}
+		
+		Pointer fresh = slice(goodOne, size);
+
+
+		fresh.created = System.currentTimeMillis();
+		if (expiresIn > 0) {
+			fresh.expiresIn = expiresIn;
+			fresh.expires = 0;
+		} else if (expires > 0) {
+			fresh.expiresIn = 0;
+			fresh.expires = expires;
+		}
+		
+		fresh.free = false;
+		used.addAndGet(size);
+		ByteBuffer buf = buffer.slice();
+		buf.position(fresh.start);
+		buf.limit(size);
+		
+		fresh.directBuffer = buf;
+		pointers.add(fresh);
+		return fresh;	
+	}
 	
 }

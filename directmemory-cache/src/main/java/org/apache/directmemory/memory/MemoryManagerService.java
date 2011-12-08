@@ -48,4 +48,6 @@ public interface MemoryManagerService {
 
   public OffHeapMemoryBuffer getActiveBuffer();
 
+  public Pointer allocate(int size, int expiresIn, int expires);
+
 }

@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 public class Cache {
 
-	private static Logger logger = LoggerFactory.getLogger(Cache.class);
+  private static Logger logger = LoggerFactory.getLogger(Cache.class);
   private static MemoryManagerService memoryManager = MemoryManager.getMemoryManager();
   private static CacheService cacheService = new CacheServiceImpl(memoryManager);
 

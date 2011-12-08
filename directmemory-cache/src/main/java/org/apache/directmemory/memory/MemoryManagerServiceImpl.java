@@ -127,4 +127,19 @@ public class MemoryManagerServiceImpl implements MemoryManagerService {
   public void setActiveBuffer(OffHeapMemoryBuffer activeBuffer) {
     this.activeBuffer = activeBuffer;
   }
+
+@Override
+public Pointer allocate(int size, int expiresIn, int expires) {
+    Pointer p = activeBuffer.allocate(size, expiresIn, expires);
+    if (p == null) {
+      if (activeBuffer.bufferNumber + 1 == buffers.size()) {
+        return null;
+      } else {
+        // try next buffer
+        activeBuffer = buffers.get(activeBuffer.bufferNumber + 1);
+        p = activeBuffer.allocate(size, expiresIn, expires);
+      }
+    }
+    return p;
+}
 }

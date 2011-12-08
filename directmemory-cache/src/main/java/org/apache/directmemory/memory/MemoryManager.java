@@ -83,4 +83,8 @@ public class MemoryManager {
   public static MemoryManagerService getMemoryManager() {
     return memoryManager;
   }
+
+  public static Pointer allocate(int size) {
+	return memoryManager.allocate(size ,-1, -1); //add a version with expiry
+  }
 }

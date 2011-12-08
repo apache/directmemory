@@ -1,5 +1,7 @@
 package org.apache.directmemory.memory;
 
+import java.nio.ByteBuffer;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -30,6 +32,7 @@ public class Pointer {
 	public long lastHit;
 	public int bufferNumber;
 	public Class<? extends Object> clazz;
+	public ByteBuffer directBuffer = null;
 	
 	public byte[] content() {
 		return null;
