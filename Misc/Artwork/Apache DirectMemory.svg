@@ -61,9 +61,9 @@ under the License.
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="805.95612"
-     inkscape:cy="601.95618"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="529.14506"
+     inkscape:cy="358.23676"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -96,7 +96,7 @@ under the License.
        height="226.6104"
        x="613.1355"
        y="328.07648"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
        inkscape:export-xdpi="72"
        inkscape:export-ydpi="72" />
     <g
@@ -176,7 +176,7 @@ under the License.
        x="612.56445"
        style="font-size:52.40646744px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#008ba4;fill-opacity:1;stroke:none;stroke-width:2.07279587px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        xml:space="preserve"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
        inkscape:export-xdpi="72.309998"
        inkscape:export-ydpi="72.309998"><tspan
          style="font-size:52.40646744px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#008ba4;fill-opacity:1;stroke:none;font-family:Gill Sans MT;-inkscape-font-specification:Gill Sans MT"
@@ -202,7 +202,7 @@ under the License.
        id="text5383"
        sodipodi:linespacing="125%"
        transform="scale(1.0322686,0.96874011)"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
        inkscape:export-xdpi="72.309998"
        inkscape:export-ydpi="72.309998"><tspan
          sodipodi:role="line"
@@ -218,7 +218,7 @@ under the License.
        x="608.38464"
        style="font-size:60.15320587px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#b1e1dd;fill-opacity:1;stroke:#0c083b;stroke-width:0.83030796px;stroke-opacity:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        xml:space="preserve"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
        inkscape:export-xdpi="72.309998"
        inkscape:export-ydpi="72.309998"><tspan
          style="font-size:60.15320587px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#b1e1dd;fill-opacity:1;stroke:#0c083b;stroke-width:0.83030796;stroke-opacity:1;font-family:Gill Sans MT;-inkscape-font-specification:Gill Sans MT"
@@ -237,7 +237,7 @@ under the License.
        y="536.57605"
        id="text5484"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
        inkscape:export-xdpi="72.309998"
        inkscape:export-ydpi="72.309998"><tspan
          sodipodi:role="line"
@@ -248,7 +248,7 @@ under the License.
     <g
        id="g3875"
        transform="matrix(0.40057392,0,0,0.40057392,602.26272,166.90068)"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
        inkscape:export-xdpi="72.309998"
        inkscape:export-ydpi="72.309998">
       <path
@@ -325,9 +325,9 @@ under the License.
        x="173.33484"
        style="font-size:44.57958603px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#008ba4;fill-opacity:1;stroke:none;stroke-width:2.07279587px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        xml:space="preserve"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-flat-large.png"
-       inkscape:export-xdpi="44.439999"
-       inkscape:export-ydpi="44.439999"><tspan
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-flat-small.png"
+       inkscape:export-xdpi="44.380001"
+       inkscape:export-ydpi="44.380001"><tspan
          style="font-size:44.57958603px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#008ba4;fill-opacity:1;stroke:none;font-family:Gill Sans MT;-inkscape-font-specification:Gill Sans MT"
          y="615.0274"
          x="173.33484"
@@ -341,9 +341,9 @@ under the License.
        id="text5383-4"
        sodipodi:linespacing="125%"
        transform="scale(1.0322686,0.96874011)"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-flat-large.png"
-       inkscape:export-xdpi="44.439999"
-       inkscape:export-ydpi="44.439999"><tspan
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-flat-small.png"
+       inkscape:export-xdpi="44.380001"
+       inkscape:export-ydpi="44.380001"><tspan
          sodipodi:role="line"
          id="tspan5385-8"
          x="302.96582"
@@ -357,9 +357,9 @@ under the License.
        x="169.77931"
        style="font-size:51.16935349px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#b1e1dd;fill-opacity:1;stroke:#0c083b;stroke-width:0.70630181px;stroke-opacity:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        xml:space="preserve"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-flat-large.png"
-       inkscape:export-xdpi="44.439999"
-       inkscape:export-ydpi="44.439999"><tspan
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-flat-small.png"
+       inkscape:export-xdpi="44.380001"
+       inkscape:export-ydpi="44.380001"><tspan
          style="font-size:51.16935349px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#b1e1dd;fill-opacity:1;stroke:#0c083b;stroke-width:0.70630181;stroke-opacity:1;font-family:Gill Sans MT;-inkscape-font-specification:Gill Sans MT"
          y="651.48792"
          x="169.77931"
@@ -376,9 +376,9 @@ under the License.
        y="646.2395"
        id="text5484-4"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-flat-large.png"
-       inkscape:export-xdpi="44.439999"
-       inkscape:export-ydpi="44.439999"><tspan
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-flat-small.png"
+       inkscape:export-xdpi="44.380001"
+       inkscape:export-ydpi="44.380001"><tspan
          sodipodi:role="line"
          id="tspan5486-8"
          x="178.78119"
@@ -387,9 +387,9 @@ under the License.
     <g
        id="g3875-8"
        transform="matrix(0.35784857,0,0,0.35784857,64.201347,401.32526)"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-flat-large.png"
-       inkscape:export-xdpi="44.439999"
-       inkscape:export-ydpi="44.439999">
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-flat-small.png"
+       inkscape:export-xdpi="44.380001"
+       inkscape:export-ydpi="44.380001">
       <path
          inkscape:export-ydpi="28.921841"
          inkscape:export-xdpi="28.921841"
@@ -795,5 +795,86 @@ under the License.
          x="210.82559"
          y="874.18213"
          style="font-size:43.00275803px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ff8811;fill-opacity:0.85026736;stroke:none;font-family:Gill Sans MT;-inkscape-font-specification:Gill Sans MT">Memory</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d=""
+       id="path3200"
+       inkscape:connector-curvature="0"
+       transform="translate(0,308.2677)" />
+    <text
+       xml:space="preserve"
+       style="font-size:7.97847271px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#004855;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Arial Rounded MT Bold;-inkscape-font-specification:'Arial Rounded MT Bold,'"
+       x="990.53766"
+       y="532.05322"
+       id="text5484-1"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-xdpi="72.309998"
+       inkscape:export-ydpi="72.309998"><tspan
+         sodipodi:role="line"
+         id="tspan5486-89"
+         x="990.53766"
+         y="532.05322"
+         style="font-size:7.97847271px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#004855;fill-opacity:1;font-family:Arial Rounded MT Bold;-inkscape-font-specification:'Arial Rounded MT Bold,'">TM</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:6.26150417px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#004855;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Arial Rounded MT Bold;-inkscape-font-specification:'Arial Rounded MT Bold,'"
+       x="484.25443"
+       y="642.33282"
+       id="text5484-1-3"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-flat-small.png"
+       inkscape:export-xdpi="44.380001"
+       inkscape:export-ydpi="44.380001"><tspan
+         sodipodi:role="line"
+         id="tspan5486-89-1"
+         x="484.25443"
+         y="642.33282"
+         style="font-size:6.26150417px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#004855;fill-opacity:1;font-family:Arial Rounded MT Bold;-inkscape-font-specification:'Arial Rounded MT Bold,'">TM</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7.97847271px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#004855;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Arial Rounded MT Bold;-inkscape-font-specification:'Arial Rounded MT Bold,'"
+       x="866.71674"
+       y="811.45477"
+       id="text5484-1-3-2"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-xdpi="72.309998"
+       inkscape:export-ydpi="72.309998"><tspan
+         sodipodi:role="line"
+         id="tspan5486-89-1-3"
+         x="866.71674"
+         y="811.45477"
+         style="font-size:7.97847271px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#004855;fill-opacity:1;font-family:Arial Rounded MT Bold;-inkscape-font-specification:'Arial Rounded MT Bold,'">TM</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7.97847271px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#004855;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Arial Rounded MT Bold;-inkscape-font-specification:'Arial Rounded MT Bold,'"
+       x="419.28818"
+       y="901.16907"
+       id="text5484-1-3-3"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-xdpi="72.309998"
+       inkscape:export-ydpi="72.309998"><tspan
+         sodipodi:role="line"
+         id="tspan5486-89-1-4"
+         x="419.28818"
+         y="901.16907"
+         style="font-size:7.97847271px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#004855;fill-opacity:1;font-family:Arial Rounded MT Bold;-inkscape-font-specification:'Arial Rounded MT Bold,'">TM</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7.97847271px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#004855;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Arial Rounded MT Bold;-inkscape-font-specification:'Arial Rounded MT Bold,'"
+       x="301.00247"
+       y="455.74051"
+       id="text5484-1-3-3-1"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\Misc\Artwork\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-xdpi="72.309998"
+       inkscape:export-ydpi="72.309998"><tspan
+         sodipodi:role="line"
+         id="tspan5486-89-1-4-1"
+         x="301.00247"
+         y="455.74051"
+         style="font-size:7.97847271px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#004855;fill-opacity:1;font-family:Arial Rounded MT Bold;-inkscape-font-specification:'Arial Rounded MT Bold,'">TM</tspan></text>
   </g>
 </svg>
