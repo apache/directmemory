@@ -307,9 +307,9 @@ public class OffHeapMemoryBuffer {
 		used.addAndGet(size);
 		ByteBuffer buf = buffer.slice();
 		buf.position(fresh.start);
-		buf.limit(size);
 		
-		fresh.directBuffer = buf;
+		fresh.directBuffer = buf.slice();
+		fresh.directBuffer.limit(size);
 		pointers.add(fresh);
 		return fresh;	
 	}
