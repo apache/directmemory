@@ -195,6 +195,7 @@ under the License.
     <module>directmemory-cache</module>
     <module>platforms</module>
     <module>itests</module>
+    <module>examples</module>
   </modules>
 
   <scm>

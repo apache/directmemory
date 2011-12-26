@@ -30,7 +30,7 @@ under the License.
   </parent>
 
   <artifactId>directmemory-examples</artifactId>
-  <name>Apache DirectMemory :: Cache</name>
+  <name>Apache DirectMemory :: Examples</name>
   <packaging>bundle</packaging>
 
   <properties>
