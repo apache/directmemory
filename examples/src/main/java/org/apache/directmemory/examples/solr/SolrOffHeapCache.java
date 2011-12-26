@@ -100,7 +100,6 @@ public class SolrOffHeapCache<K, V> implements SolrCache<K, V> {
     return Long.valueOf(Cache.entries()).intValue();
   }
 
-  // START SNIPPET: solrcache
   @Override
   public V put(K key, V value) {
     return (V) Cache.put(String.valueOf(key), value);
@@ -110,7 +109,6 @@ public class SolrOffHeapCache<K, V> implements SolrCache<K, V> {
   public V get(K key) {
     return (V) Cache.retrieve(String.valueOf(key));
   }
-  // END SNIPPET: solrcache
 
   @Override
   public void clear() {
