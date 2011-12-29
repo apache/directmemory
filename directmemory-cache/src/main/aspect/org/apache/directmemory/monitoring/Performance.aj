@@ -47,23 +47,23 @@ public aspect Performance {
     private static Logger logger = LoggerFactory.getLogger(Cache.class);
 
     pointcut putByteArrayPointcut(String key, byte[] payload) :
-        execution(Pointer org.apache.directmemory.cache.Cache.putByteArray(String, byte[])) &&
+        execution(Pointer org.apache.directmemory.cache.Cache.putByteArray(java.lang.String, byte[])) &&
         args(key, payload);
 
     pointcut putObjectPointcut(String key, Object object, int expiresIn) :
-        execution(Pointer org.apache.directmemory.cache.Cache.put(String, Object, int)) &&
+        execution(Pointer org.apache.directmemory.cache.Cache.put(java.lang.String, java.lang.Object, int)) &&
         args(key, object, expiresIn);
 
     pointcut retrieveByteArrayPointcut(String key) :
-        execution(byte[] org.apache.directmemory.cache.Cache.retrieveByteArray(String)) &&
+        execution(byte[] org.apache.directmemory.cache.Cache.retrieveByteArray(java.lang.String)) &&
         args(key);
 
     pointcut retrieveObjectPointcut(String key) :
-        execution(Object org.apache.directmemory.cache.Cache.retrieve(String)) &&
+        execution(java.lang.Object org.apache.directmemory.cache.Cache.retrieve(java.lang.String)) &&
         args(key);
 
     pointcut getPointcut(String key) :
-        execution(Pointer org.apache.directmemory.cache.Cache.getPointer(String)) &&
+        execution(Pointer org.apache.directmemory.cache.Cache.getPointer(java.lang.String)) &&
         args(key);
 
     pointcut collectLFUPointcut() :
@@ -73,11 +73,11 @@ public aspect Performance {
         execution(void org.apache.directmemory.cache.Cache.collectExpired());
 
     pointcut serializePointcut(Object obj, @SuppressWarnings("rawtypes") Class clazz) :
-        execution(byte[] org.apache.directmemory.serialization.ProtoStuffSerializerV1.serialize(Object, Class)) &&
+        execution(byte[] org.apache.directmemory.serialization.ProtoStuffSerializerV1.serialize(java.lang.Object, java.lang.Class)) &&
         args(obj, clazz);
 
     pointcut deserializePointcut(byte[] source, @SuppressWarnings("rawtypes") Class clazz) :
-        execution(Object org.apache.directmemory.serialization.ProtoStuffSerializerV1.deserialize(byte[], Class)) &&
+        execution(java.lang.Object org.apache.directmemory.serialization.ProtoStuffSerializerV1.deserialize(byte[], java.lang.Class)) &&
         args(source, clazz);
 
     Pointer around(String key, byte[] payload): putByteArrayPointcut(key, payload) {
