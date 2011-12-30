@@ -23,6 +23,7 @@ import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
+@Ignore
 public class NIOTest {
 
   private static Logger logger = LoggerFactory.getLogger(NIOTest.class);

@@ -31,6 +31,7 @@ import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,7 @@ import static org.junit.Assert.assertNotNull;
 @BenchmarkMethodChart()
 @BenchmarkOptions(benchmarkRounds = 1, warmupRounds = 0)
 @BenchmarkHistoryChart(labelWith = LabelType.CUSTOM_KEY, maxRuns = 5)
+@Ignore
 
 public class MallocTest extends AbstractBenchmark {
 	
