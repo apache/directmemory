@@ -19,13 +19,6 @@ package org.apache.directmemory.memory.test;
  * under the License.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.nio.ByteBuffer;
-import java.util.Random;
-
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
 import org.apache.directmemory.memory.Pointer;
@@ -34,9 +27,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NIOTests {
+import java.nio.ByteBuffer;
+import java.util.Random;
 
-  private static Logger logger = LoggerFactory.getLogger(NIOTests.class);
+import static org.junit.Assert.*;
+
+public class NIOTest {
+
+  private static Logger logger = LoggerFactory.getLogger(NIOTest.class);
 	
 	@BeforeClass
 	public static void init() {

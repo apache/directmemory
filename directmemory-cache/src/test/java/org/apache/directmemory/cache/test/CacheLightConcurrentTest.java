@@ -19,9 +19,12 @@ package org.apache.directmemory.cache.test;
  * under the License.
  */
 
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
-
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
+import com.carrotsearch.junitbenchmarks.annotation.BenchmarkHistoryChart;
+import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
+import com.carrotsearch.junitbenchmarks.annotation.LabelType;
 import org.apache.directmemory.cache.Cache;
 import org.apache.directmemory.measures.Every;
 import org.apache.directmemory.measures.Monitor;
@@ -32,21 +35,19 @@ import org.josql.QueryExecutionException;
 import org.josql.QueryParseException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
-import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
-import com.carrotsearch.junitbenchmarks.annotation.BenchmarkHistoryChart;
-import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
-import com.carrotsearch.junitbenchmarks.annotation.LabelType;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @AxisRange(min = 0, max = 1)
 @BenchmarkMethodChart()
 @BenchmarkHistoryChart(labelWith = LabelType.CUSTOM_KEY, maxRuns = 5)
 
+@Ignore
 public class CacheLightConcurrentTest extends AbstractBenchmark {
 	
 	private final static int entries = 10000;

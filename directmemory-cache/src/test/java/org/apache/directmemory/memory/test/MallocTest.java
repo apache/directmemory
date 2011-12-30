@@ -19,12 +19,13 @@ package org.apache.directmemory.memory.test;
  * under the License.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.Random;
-import java.util.concurrent.ConcurrentMap;
-
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
+import com.carrotsearch.junitbenchmarks.annotation.BenchmarkHistoryChart;
+import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
+import com.carrotsearch.junitbenchmarks.annotation.LabelType;
+import com.google.common.collect.MapMaker;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
@@ -34,24 +35,22 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
-import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
-import com.carrotsearch.junitbenchmarks.annotation.BenchmarkHistoryChart;
-import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
-import com.carrotsearch.junitbenchmarks.annotation.LabelType;
-import com.google.common.collect.MapMaker;
+import java.util.Random;
+import java.util.concurrent.ConcurrentMap;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @AxisRange(min = 0, max = 1)
 @BenchmarkMethodChart()
 @BenchmarkOptions(benchmarkRounds = 1, warmupRounds = 0)
 @BenchmarkHistoryChart(labelWith = LabelType.CUSTOM_KEY, maxRuns = 5)
 
-public class MallocTests extends AbstractBenchmark {
+public class MallocTest extends AbstractBenchmark {
 	
 	Random rnd = new Random();
 
-	private static Logger logger = LoggerFactory.getLogger(MallocTests.class);
+	private static Logger logger = LoggerFactory.getLogger(MallocTest.class);
 
 	@After
 	public void dump() {

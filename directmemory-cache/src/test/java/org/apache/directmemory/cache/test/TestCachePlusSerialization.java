@@ -19,24 +19,25 @@ package org.apache.directmemory.cache.test;
  * under the License.
  */
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Random;
-
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import org.apache.directmemory.cache.Cache;
 import org.apache.directmemory.measures.Monitor;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.misc.DummyPojo;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
-import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import java.util.Random;
+
+import static org.junit.Assert.assertEquals;
 
 
+@Ignore
 public class TestCachePlusSerialization  extends AbstractBenchmark {
 
 	private static Logger logger = LoggerFactory.getLogger(TestCachePlusSerialization.class);

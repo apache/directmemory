@@ -19,8 +19,18 @@ package org.apache.directmemory.memory.test;
  * under the License.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import com.google.common.collect.Maps;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.OffHeapMemoryBuffer;
+import org.apache.directmemory.memory.Pointer;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.Map;
@@ -28,20 +38,11 @@ import java.util.Random;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
-import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
-import org.apache.directmemory.memory.Pointer;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
-import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.google.common.collect.Maps;
-
-public class BaseTests extends AbstractBenchmark{
+@Ignore
+public class BaseTest extends AbstractBenchmark{
 	@Test
 	public void smokeTest() {
 		OffHeapMemoryBuffer mem = OffHeapMemoryBuffer.createNew(1 * 1024 * 1024);
@@ -65,7 +66,7 @@ public class BaseTests extends AbstractBenchmark{
 
 
 	
-	private static Logger logger = LoggerFactory.getLogger(MallocTests.class);
+	private static Logger logger = LoggerFactory.getLogger(MallocTest.class);
 	private static Random rnd = new Random();
 	final static Map<String, Byte> test = Maps.newHashMap();
 	private static int errors;

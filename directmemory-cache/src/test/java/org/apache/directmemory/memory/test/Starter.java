@@ -19,17 +19,17 @@ package org.apache.directmemory.memory.test;
  * under the License.
  */
 
-import static org.junit.Assert.assertNotNull;
-
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.junit.Assert.assertNotNull;
+
 public class Starter {
 
-	private static Logger logger = LoggerFactory.getLogger(MallocTests.class);
+	private static Logger logger = LoggerFactory.getLogger(MallocTest.class);
 
 	/**
 	 * @param args

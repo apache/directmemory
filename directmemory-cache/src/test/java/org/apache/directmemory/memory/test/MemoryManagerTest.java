@@ -19,10 +19,8 @@ package org.apache.directmemory.memory.test;
  * under the License.
  */
 
-import static org.junit.Assert.*;
-import java.util.Map;
-import java.util.Random;
-
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
+import com.google.common.collect.Maps;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
@@ -32,10 +30,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
-import com.google.common.collect.Maps;
+import java.util.Map;
+import java.util.Random;
 
-public class MemoryManagerTests extends AbstractBenchmark {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+public class MemoryManagerTest extends AbstractBenchmark {
 	
 	
 	@BeforeClass
@@ -93,7 +94,7 @@ public class MemoryManagerTests extends AbstractBenchmark {
 	}
 	
 
-	private static Logger logger = LoggerFactory.getLogger(MallocTests.class);
+	private static Logger logger = LoggerFactory.getLogger(MallocTest.class);
 
 	final static Map<String, Byte> test = Maps.newHashMap();
 

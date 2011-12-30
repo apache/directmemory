@@ -19,26 +19,25 @@ package org.apache.directmemory.preliminary.test;
  * under the License.
  */
 
-import static org.junit.Assert.*;
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import com.google.common.collect.MapMaker;
+import com.google.common.collect.Maps;
+import org.apache.directmemory.measures.Ram;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.directmemory.measures.Ram;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertNotNull;
 
-import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
-import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.google.common.collect.MapMaker;
-import com.google.common.collect.Maps;
+public class PreliminarBenchmark extends AbstractBenchmark {
 
-public class PreliminarBenchmarks extends AbstractBenchmark {
-
-	private static Logger logger = LoggerFactory.getLogger(PreliminarBenchmarks.class);
+	private static Logger logger = LoggerFactory.getLogger(PreliminarBenchmark.class);
 	final static byte payload[] = new byte[1024];
 
 //	@Before

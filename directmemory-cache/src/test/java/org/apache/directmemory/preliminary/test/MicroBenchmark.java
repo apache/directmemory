@@ -19,16 +19,6 @@ package org.apache.directmemory.preliminary.test;
  * under the License.
  */
 
-import java.nio.ByteBuffer;
-import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
-
-import org.apache.directmemory.measures.Ram;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
@@ -37,15 +27,24 @@ import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
 import com.carrotsearch.junitbenchmarks.annotation.LabelType;
 import com.google.common.collect.MapMaker;
 import com.google.common.collect.Maps;
+import org.apache.directmemory.measures.Ram;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.nio.ByteBuffer;
+import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 @AxisRange(min = 0, max = 1)
 @BenchmarkMethodChart(filePrefix = "latest-microbench")
 @BenchmarkOptions(benchmarkRounds = 1, warmupRounds = 0)
 @BenchmarkHistoryChart(labelWith = LabelType.CUSTOM_KEY, maxRuns = 5)
 
-public class MicroBenchmarks extends AbstractBenchmark {
+public class MicroBenchmark extends AbstractBenchmark {
 	
-	private static Logger logger = LoggerFactory.getLogger(MicroBenchmarks.class);
+	private static Logger logger = LoggerFactory.getLogger(MicroBenchmark.class);
 
 
 	private int many = 3000000;
