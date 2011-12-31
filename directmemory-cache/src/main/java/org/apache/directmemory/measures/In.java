@@ -55,17 +55,17 @@ public class In
 
     public static long minutes( double minutes )
     {
-        return (long) seconds( minutes * 60 );
+        return seconds( minutes * 60 );
     }
 
     public static long hours( double hours )
     {
-        return (long) minutes( hours * 60 );
+        return minutes( hours * 60 );
     }
 
     public static long days( double days )
     {
-        return (long) hours( days * 24 );
+        return hours( days * 24 );
     }
 
     public static In just( double measure )
