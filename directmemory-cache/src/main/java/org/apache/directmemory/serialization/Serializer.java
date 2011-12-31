@@ -19,7 +19,6 @@ package org.apache.directmemory.serialization;
  * under the License.
  */
 
-import java.io.EOFException;
 import java.io.IOException;
 
 public interface Serializer
@@ -29,6 +28,6 @@ public interface Serializer
         throws IOException;
 
     abstract Object deserialize( byte[] source, @SuppressWarnings( { "rawtypes", "unchecked" } ) Class clazz )
-        throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, EOFException;
+        throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException;
 
 }

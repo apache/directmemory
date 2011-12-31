@@ -19,15 +19,13 @@ package org.apache.directmemory.serialization;
  * under the License.
  */
 
-import java.io.EOFException;
-import java.io.IOException;
-
-import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.misc.DummyPojo;
-
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.misc.DummyPojo;
+
+import java.io.IOException;
 
 public final class DummyPojoSerializer
     implements Serializer
@@ -45,7 +43,7 @@ public final class DummyPojoSerializer
 
     @Override
     public Object deserialize( byte[] source, @SuppressWarnings( { "rawtypes", "unchecked" } ) Class clazz )
-        throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, EOFException
+        throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
     {
         // testing puts only
         return pojo;
