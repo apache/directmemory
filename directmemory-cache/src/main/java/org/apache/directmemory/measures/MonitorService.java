@@ -24,34 +24,34 @@ import java.util.concurrent.atomic.AtomicLong;
 public interface MonitorService
 {
 
-    public long start();
+    long start();
 
-    public long stop( long begunAt );
+    long stop( long begunAt );
 
-    public long hits();
+    long hits();
 
-    public long totalTime();
+    long totalTime();
 
-    public long average();
+    long average();
 
-    public void dump( String prefix );
+    void dump( String prefix );
 
-    public void dump();
+    void dump();
 
-    public AtomicLong getHits();
+    AtomicLong getHits();
 
-    public long getTotalTime();
+    long getTotalTime();
 
-    public void addToTotalTime( long time );
+    void addToTotalTime( long time );
 
-    public long getMin();
+    long getMin();
 
-    public void setMin( long min );
+    void setMin( long min );
 
-    public long getMax();
+    long getMax();
 
-    public void setMax( long max );
+    void setMax( long max );
 
 
-    public String getName();
+    String getName();
 }

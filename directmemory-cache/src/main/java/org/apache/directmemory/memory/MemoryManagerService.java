@@ -25,30 +25,30 @@ import java.util.List;
 public interface MemoryManagerService
 {
 
-    public void init( int numberOfBuffers, int size );
+    void init( int numberOfBuffers, int size );
 
-    public Pointer store( byte[] payload, int expiresIn );
+    Pointer store( byte[] payload, int expiresIn );
 
-    public Pointer store( byte[] payload );
+    Pointer store( byte[] payload );
 
-    public Pointer update( Pointer pointer, byte[] payload );
+    Pointer update( Pointer pointer, byte[] payload );
 
-    public byte[] retrieve( Pointer pointer );
+    byte[] retrieve( Pointer pointer );
 
-    public void free( Pointer pointer );
+    void free( Pointer pointer );
 
-    public void clear();
+    void clear();
 
-    public long capacity();
+    long capacity();
 
-    public long collectExpired();
+    long collectExpired();
 
-    public void collectLFU();
+    void collectLFU();
 
-    public List<OffHeapMemoryBuffer> getBuffers();
+    List<OffHeapMemoryBuffer> getBuffers();
 
-    public OffHeapMemoryBuffer getActiveBuffer();
+    OffHeapMemoryBuffer getActiveBuffer();
 
-    public Pointer allocate( int size, int expiresIn, int expires );
+    Pointer allocate( int size, int expiresIn, int expires );
 
 }
