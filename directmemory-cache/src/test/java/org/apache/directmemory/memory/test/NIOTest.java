@@ -34,52 +34,55 @@ import java.util.Random;
 import static org.junit.Assert.*;
 
 @Ignore
-public class NIOTest {
+public class NIOTest
+{
 
-  private static Logger logger = LoggerFactory.getLogger(NIOTest.class);
-	
-	@BeforeClass
-	public static void init() {
-		byte[] payload = "012345678901234567890123456789012345678901234567890123456789".getBytes();
+    private static Logger logger = LoggerFactory.getLogger( NIOTest.class );
 
-		logger.info("init");
-		MemoryManager.init(1, Ram.Mb(100));
+    @BeforeClass
+    public static void init()
+    {
+        byte[] payload = "012345678901234567890123456789012345678901234567890123456789".getBytes();
 
-		logger.info("payload size=" + Ram.inKb(payload.length));
-		long howMany = (MemoryManager.capacity() / payload.length);
-		howMany=(howMany*50)/100;
-		
-		
-		for (int i = 0; i < howMany ; i++) {
-			Pointer p = MemoryManager.store(payload);
-			assertNotNull(p);
-		}
-		
-		logger.info("" + howMany + " items stored");
-	}
-	
-	@Test
-	public void NIOTest() {
-		Random rnd = new Random();
-		int size = rnd.nextInt(10) * (int)MemoryManager.capacity() / 100;
-		logger.info("payload size=" + Ram.inKb(size));
-		Pointer p = MemoryManager.allocate(size);
-		ByteBuffer b = p.directBuffer;
-		logger.info("allocated");
-		assertNotNull(p);
-		assertNotNull(b);
-		
-		assertTrue(b.isDirect());
-		assertEquals(0, b.position());
-		assertEquals(size, b.limit());
-		
-		byte[] check = MemoryManager.retrieve(p);
-		
-		assertNotNull(check);
-		
-		assertEquals(size,p.end-p.start); 
-		logger.info("end");
-	}
+        logger.info( "init" );
+        MemoryManager.init( 1, Ram.Mb( 100 ) );
+
+        logger.info( "payload size=" + Ram.inKb( payload.length ) );
+        long howMany = ( MemoryManager.capacity() / payload.length );
+        howMany = ( howMany * 50 ) / 100;
+
+        for ( int i = 0; i < howMany; i++ )
+        {
+            Pointer p = MemoryManager.store( payload );
+            assertNotNull( p );
+        }
+
+        logger.info( "" + howMany + " items stored" );
+    }
+
+    @Test
+    public void NIOTest()
+    {
+        Random rnd = new Random();
+        int size = rnd.nextInt( 10 ) * (int) MemoryManager.capacity() / 100;
+        logger.info( "payload size=" + Ram.inKb( size ) );
+        Pointer p = MemoryManager.allocate( size );
+        ByteBuffer b = p.directBuffer;
+        logger.info( "allocated" );
+        assertNotNull( p );
+        assertNotNull( b );
+
+        assertTrue( b.isDirect() );
+        assertEquals( 0, b.position() );
+        assertEquals( size, b.limit() );
+
+        byte[] check = MemoryManager.retrieve( p );
+
+        assertNotNull( check );
+
+        assertEquals( size, p.end - p.start );
+        logger.info( "end" );
+    }
 
 
 }

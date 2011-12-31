@@ -22,32 +22,33 @@ package org.apache.directmemory.memory;
 
 import java.util.List;
 
-public interface MemoryManagerService {
+public interface MemoryManagerService
+{
 
-  public void init(int numberOfBuffers, int size);
+    public void init( int numberOfBuffers, int size );
 
-  public Pointer store(byte[] payload, int expiresIn);
+    public Pointer store( byte[] payload, int expiresIn );
 
-  public Pointer store(byte[] payload);
+    public Pointer store( byte[] payload );
 
-  public Pointer update(Pointer pointer, byte[] payload);
+    public Pointer update( Pointer pointer, byte[] payload );
 
-  public byte[] retrieve(Pointer pointer);
+    public byte[] retrieve( Pointer pointer );
 
-  public void free(Pointer pointer);
+    public void free( Pointer pointer );
 
-  public void clear();
+    public void clear();
 
-  public long capacity();
+    public long capacity();
 
-  public long collectExpired();
+    public long collectExpired();
 
-  public void collectLFU();
+    public void collectLFU();
 
-  public List<OffHeapMemoryBuffer> getBuffers();
+    public List<OffHeapMemoryBuffer> getBuffers();
 
-  public OffHeapMemoryBuffer getActiveBuffer();
+    public OffHeapMemoryBuffer getActiveBuffer();
 
-  public Pointer allocate(int size, int expiresIn, int expires);
+    public Pointer allocate( int size, int expiresIn, int expires );
 
 }

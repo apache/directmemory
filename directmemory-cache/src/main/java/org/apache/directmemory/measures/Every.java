@@ -19,10 +19,13 @@ package org.apache.directmemory.measures;
  * under the License.
  */
 
-public class Every extends In {
+public class Every
+    extends In
+{
 
-	public Every(double measure) {
-		super(measure);
-	}
+    public Every( double measure )
+    {
+        super( measure );
+    }
 
 }

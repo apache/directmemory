@@ -20,24 +20,31 @@
 package org.apache.directmemory.tests.osgi.cache;
 
 import java.util.Properties;
+
 import org.apache.directmemory.cache.CacheService;
 import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.measures.Ram;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class CacheServiceExportingActivator implements BundleActivator {
+public class CacheServiceExportingActivator
+    implements BundleActivator
+{
 
-  CacheService cacheService = new CacheServiceImpl();
+    CacheService cacheService = new CacheServiceImpl();
 
-  @Override
-  public void start(BundleContext context) throws Exception {
-    cacheService.init(1, Ram.Mb(16));
-    cacheService.put("1",new SimpleObject("1,","Activator Object"));
-    context.registerService(CacheService.class.getCanonicalName(),cacheService,new Properties());
-  }
+    @Override
+    public void start( BundleContext context )
+        throws Exception
+    {
+        cacheService.init( 1, Ram.Mb( 16 ) );
+        cacheService.put( "1", new SimpleObject( "1,", "Activator Object" ) );
+        context.registerService( CacheService.class.getCanonicalName(), cacheService, new Properties() );
+    }
 
-  @Override
-  public void stop(BundleContext context) throws Exception {
-  }
+    @Override
+    public void stop( BundleContext context )
+        throws Exception
+    {
+    }
 }

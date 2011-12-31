@@ -20,8 +20,6 @@
 package org.apache.directmemory.tests.osgi.cache;
 
 
-import java.io.IOException;
-import java.io.InputStream;
 import org.apache.directmemory.cache.CacheService;
 import org.apache.directmemory.measures.Every;
 import org.apache.directmemory.measures.Monitor;
@@ -35,6 +33,8 @@ import org.ops4j.pax.exam.junit.Configuration;
 import org.ops4j.pax.exam.junit.JUnit4TestRunner;
 import org.osgi.framework.Constants;
 
+import java.io.IOException;
+import java.io.InputStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -44,83 +44,84 @@ import static org.ops4j.pax.exam.OptionUtils.combine;
 import static org.ops4j.pax.swissbox.tinybundles.core.TinyBundles.modifyBundle;
 import static org.ops4j.pax.swissbox.tinybundles.core.TinyBundles.newBundle;
 
-@RunWith(JUnit4TestRunner.class)
-public class CacheServiceTest extends DirectMemoryOsgiTestSupport{
+@RunWith( JUnit4TestRunner.class )
+public class CacheServiceTest
+    extends DirectMemoryOsgiTestSupport
+{
 
-  /**
-   * This tests basic cache operations(put,retrieve) inside OSGi
-   */
-  @Test
-  public void testCacheService() {
-    String key = "2";
-    String obj = "Simple String Object";
-    CacheService cacheService = getOsgiService(CacheService.class);
+    /**
+     * This tests basic cache operations(put,retrieve) inside OSGi
+     */
+    @Test
+    public void testCacheService()
+    {
+        String key = "2";
+        String obj = "Simple String Object";
+        CacheService cacheService = getOsgiService( CacheService.class );
 
-    //Test retrieving an object added by an other bundle.
-    Object result = cacheService.retrieve("1");
-    assertNotNull(result);
+        //Test retrieving an object added by an other bundle.
+        Object result = cacheService.retrieve( "1" );
+        assertNotNull( result );
 
-		cacheService.scheduleDisposalEvery(Every.seconds(1));
-		cacheService.dump();
-    Monitor.dump("cache");
+        cacheService.scheduleDisposalEvery( Every.seconds( 1 ) );
+        cacheService.dump();
+        Monitor.dump( "cache" );
 
-    Pointer p = cacheService.put("2", obj);
-    result = cacheService.retrieve("2");
-    cacheService.dump();
-    assertEquals(obj, result);
-  }
+        Pointer p = cacheService.put( "2", obj );
+        result = cacheService.retrieve( "2" );
+        cacheService.dump();
+        assertEquals( obj, result );
+    }
 
-  /**
-   * This test basic cache operations(put,retrieve) inside OSGi using an object of an imported class (provided by an other bundle).
-   */
-  @Test
-  public void testCacheServiceWithImportedObject() {
-    SimpleObject obj1 = new SimpleObject("2","Object Two");
-    SimpleObject obj2 = new SimpleObject("3","Object Three");
+    /**
+     * This test basic cache operations(put,retrieve) inside OSGi using an object of an imported class (provided by an other bundle).
+     */
+    @Test
+    public void testCacheServiceWithImportedObject()
+    {
+        SimpleObject obj1 = new SimpleObject( "2", "Object Two" );
+        SimpleObject obj2 = new SimpleObject( "3", "Object Three" );
 
-    CacheService cacheService = getOsgiService(CacheService.class);
-		cacheService.scheduleDisposalEvery(Every.seconds(1));
-		cacheService.dump();
+        CacheService cacheService = getOsgiService( CacheService.class );
+        cacheService.scheduleDisposalEvery( Every.seconds( 1 ) );
+        cacheService.dump();
 
-    Pointer p1 = cacheService.put("2",obj1 );
-    Pointer p2 = cacheService.put("3",obj2 );
-    Object result1 = cacheService.retrieve("2");
-    Object result2 = cacheService.retrieve("3");
+        Pointer p1 = cacheService.put( "2", obj1 );
+        Pointer p2 = cacheService.put( "3", obj2 );
+        Object result1 = cacheService.retrieve( "2" );
+        Object result2 = cacheService.retrieve( "3" );
 
-    cacheService.dump();
-    Monitor.dump("cache");
+        cacheService.dump();
+        Monitor.dump( "cache" );
 
-    assertEquals(obj1, result1);
-    assertEquals(obj2, result2);
-  }
+        assertEquals( obj1, result1 );
+        assertEquals( obj2, result2 );
+    }
 
 
-  @Configuration
-  public Option[] configure() throws IOException {
-    return combine(
-            getDynamicMemoryOptions(),
+    @Configuration
+    public Option[] configure()
+        throws IOException
+    {
+        return combine( getDynamicMemoryOptions(),
 
-            bundle(newBundle()
-                    .add(SimpleObject.class)
-                    .add(CacheServiceExportingActivator.class)
-                    .set(Constants.BUNDLE_ACTIVATOR, CacheServiceExportingActivator.class.getCanonicalName())
-                    .set(Constants.BUNDLE_SYMBOLICNAME, "org.apache.directmemory.tests.osgi.cacheservice.exporter")
-                    .set(Constants.BUNDLE_VERSION, "1.0.0")
-                    .set(Constants.DYNAMICIMPORT_PACKAGE, "*")
-                    .build()).start(),
+                        bundle( newBundle().add( SimpleObject.class ).add( CacheServiceExportingActivator.class ).set(
+                            Constants.BUNDLE_ACTIVATOR, CacheServiceExportingActivator.class.getCanonicalName() ).set(
+                            Constants.BUNDLE_SYMBOLICNAME,
+                            "org.apache.directmemory.tests.osgi.cacheservice.exporter" ).set( Constants.BUNDLE_VERSION,
+                                                                                              "1.0.0" ).set(
+                            Constants.DYNAMICIMPORT_PACKAGE, "*" ).build() ).start(),
 
-            new Customizer() {
-              @Override
-              public InputStream customizeTestProbe(InputStream testProbe) {
-                return modifyBundle(testProbe)
-                        .set(Constants.DYNAMICIMPORT_PACKAGE, "*")
-                        .build();
-              }
-            },
-            //Uncomment the line below to debug test
-            //enabledDebuggingOnPort(5005,true),
-            felix(),
-            equinox()
-    );
-  }
+                        new Customizer()
+                        {
+                            @Override
+                            public InputStream customizeTestProbe( InputStream testProbe )
+                            {
+                                return modifyBundle( testProbe ).set( Constants.DYNAMICIMPORT_PACKAGE, "*" ).build();
+                            }
+                        },
+                        //Uncomment the line below to debug test
+                        //enabledDebuggingOnPort(5005,true),
+                        felix(), equinox() );
+    }
 }

@@ -19,10 +19,13 @@ package org.apache.directmemory.measures;
  * under the License.
  */
 
-public class For extends In {
+public class For
+    extends In
+{
 
-	public For(double measure) {
-		super(measure);
-	}
+    public For( double measure )
+    {
+        super( measure );
+    }
 
 }

@@ -19,70 +19,72 @@
 
 package org.apache.directmemory.cache;
 
-import java.util.concurrent.ConcurrentMap;
 import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.serialization.Serializer;
 
-public interface CacheService {
+import java.util.concurrent.ConcurrentMap;
 
-  public static int DEFAULT_CONCURRENCY_LEVEL = 4;
-  public static int DEFAULT_INITIAL_CAPACITY = 100000;
+public interface CacheService
+{
 
-  public void init(int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel);
+    public static int DEFAULT_CONCURRENCY_LEVEL = 4;
+    public static int DEFAULT_INITIAL_CAPACITY = 100000;
 
-  public void init(int numberOfBuffers, int size);
+    public void init( int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel );
 
-  public void scheduleDisposalEvery(long l);
+    public void init( int numberOfBuffers, int size );
 
-  public Pointer putByteArray(String key, byte[] payload, int expiresIn);
+    public void scheduleDisposalEvery( long l );
 
-  public Pointer putByteArray(String key, byte[] payload);
+    public Pointer putByteArray( String key, byte[] payload, int expiresIn );
 
-  public Pointer put(String key, Object object);
+    public Pointer putByteArray( String key, byte[] payload );
 
-  public Pointer put(String key, Object object, int expiresIn);
+    public Pointer put( String key, Object object );
 
-  public Pointer updateByteArray(String key, byte[] payload);
+    public Pointer put( String key, Object object, int expiresIn );
 
-  public Pointer update(String key, Object object);
+    public Pointer updateByteArray( String key, byte[] payload );
 
-  public byte[] retrieveByteArray(String key);
+    public Pointer update( String key, Object object );
 
-  public Object retrieve(String key);
+    public byte[] retrieveByteArray( String key );
 
-  public Pointer getPointer(String key);
+    public Object retrieve( String key );
 
-  public void free(String key);
+    public Pointer getPointer( String key );
 
-  public void free(Pointer pointer);
+    public void free( String key );
 
-  public void collectExpired();
+    public void free( Pointer pointer );
 
-  public void collectLFU();
+    public void collectExpired();
 
-  public void collectAll();
+    public void collectLFU();
+
+    public void collectAll();
 
 
-  public void clear();
+    public void clear();
 
-  public long entries();
+    public long entries();
 
-  public void dump(OffHeapMemoryBuffer mem);
+    public void dump( OffHeapMemoryBuffer mem );
 
-  public void dump();
+    public void dump();
 
-  public ConcurrentMap<String, Pointer> getMap();
+    public ConcurrentMap<String, Pointer> getMap();
 
-  public void setMap(ConcurrentMap<String, Pointer> map);
+    public void setMap( ConcurrentMap<String, Pointer> map );
 
-  public Serializer getSerializer();
+    public Serializer getSerializer();
 
-  public MemoryManagerService getMemoryManager();
+    public MemoryManagerService getMemoryManager();
 
-  public void setMemoryManager(MemoryManagerService memoryManager);
+    public void setMemoryManager( MemoryManagerService memoryManager );
 
-  public Pointer allocate(String key, int size);
+    public Pointer allocate( String key, int size );
 
 }

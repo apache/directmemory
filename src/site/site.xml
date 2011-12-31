@@ -27,8 +27,8 @@
     <href>http://incubator.apache.org/directmemory</href>
   </bannerLeft>
 
-  <publishDate position="right" />
-  <version position="right" />
+  <publishDate position="right"/>
+  <version position="right"/>
 
   <skin>
     <groupId>org.apache.maven.skins</groupId>
@@ -38,30 +38,32 @@
 
   <body>
     <links>
-      <item name="Apache" href="http://www.apache.org/" />
-      <item name="Apache Incubator" href="http://incubator.apache.org" />
+      <item name="Apache" href="http://www.apache.org/"/>
+      <item name="Apache Incubator" href="http://incubator.apache.org"/>
     </links>
 
     <breadcrumbs position="left">
-      <item name="Apache DirectMemory" href="http://incubator.apache.org/directmemory" />
+      <item name="Apache DirectMemory" href="http://incubator.apache.org/directmemory"/>
     </breadcrumbs>
 
     <!--<menu ref="modules" inherit="bottom"/>-->
     <menu ref="reports" inherit="bottom"/>
 
     <menu name="ASF">
-      <item name="How Apache Works" href="http://www.apache.org/foundation/how-it-works.html" />
-      <item name="Foundation" href="http://www.apache.org/foundation/" />
-      <item name="Sponsoring Apache" href="http://www.apache.org/foundation/sponsorship.html" />
-      <item name="Thanks" href="http://www.apache.org/foundation/thanks.html" />
+      <item name="How Apache Works" href="http://www.apache.org/foundation/how-it-works.html"/>
+      <item name="Foundation" href="http://www.apache.org/foundation/"/>
+      <item name="Sponsoring Apache" href="http://www.apache.org/foundation/sponsorship.html"/>
+      <item name="Thanks" href="http://www.apache.org/foundation/thanks.html"/>
     </menu>
   </body>
 
   <custom>
     <footer>
       <div>
-      Apache DirectMemory, Apache, the Apache feather logo, and the Apache DirectMemory project logos are trademarks of The Apache Software Foundation.
-      All other marks mentioned may be trademarks or registered trademarks of their respective owners.</div>
+        Apache DirectMemory, Apache, the Apache feather logo, and the Apache DirectMemory project logos are trademarks
+        of The Apache Software Foundation.
+        All other marks mentioned may be trademarks or registered trademarks of their respective owners.
+      </div>
     </footer>
   </custom>
 

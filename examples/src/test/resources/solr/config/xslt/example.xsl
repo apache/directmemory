@@ -22,7 +22,7 @@
  -->
 <xsl:stylesheet version='1.0'
                 xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
-        >
+    >
 
   <xsl:output media-type="text/html; charset=UTF-8" encoding="UTF-8"/>
 

@@ -21,17 +21,17 @@
   Display the luke request handler with graphs
  -->
 <xsl:stylesheet
-        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-        xmlns="http://www.w3.org/1999/xhtml"
-        version="1.0"
-        >
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns="http://www.w3.org/1999/xhtml"
+    version="1.0"
+    >
   <xsl:output
-          method="html"
-          encoding="UTF-8"
-          media-type="text/html; charset=UTF-8"
-          doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
-          doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
-          />
+      method="html"
+      encoding="UTF-8"
+      media-type="text/html; charset=UTF-8"
+      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
+      />
 
   <xsl:variable name="title">Solr Luke Request Handler Response</xsl:variable>
 
@@ -131,7 +131,7 @@
         <tbody>
           <xsl:choose>
             <xsl:when
-                    test="@name='histogram'">
+                test="@name='histogram'">
               <tr>
                 <td colspan="2">
                   <xsl:call-template name="histogram"/>
@@ -192,7 +192,7 @@
               <xsl:value-of select="."/>
               <div class="histogram">
                 <xsl:attribute name="style">background-color: <xsl:value-of select="$fill"/>; width: <xsl:value-of
-                        select="$bar_width"/>px; height: <xsl:value-of select="($iheight*number(.)) div $max"/>px;
+                    select="$bar_width"/>px; height: <xsl:value-of select="($iheight*number(.)) div $max"/>px;
                 </xsl:attribute>
               </div>
             </td>

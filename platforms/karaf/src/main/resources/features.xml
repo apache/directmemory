@@ -20,11 +20,21 @@
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
   <feature name='directmemory' description='Apache DirectMememory' version='${project.version}' resolver='(obr)'>
-    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.guava/${guava.bundle.version}</bundle>
-    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ant/${ant.bundle.version}</bundle>
-    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oro/${oro.bundle.version}</bundle>
-    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.josql/${josql.bundle.version}</bundle>
-    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aspectj/${aspectj.bundle.version}</bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.guava/${guava.bundle.version}
+    </bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ant/${ant.bundle.version}
+    </bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oro/${oro.bundle.version}
+    </bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.josql/${josql.bundle.version}
+    </bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aspectj/${aspectj.bundle.version}
+    </bundle>
     <bundle dependency='true'>mvn:com.dyuproject.protostuff/protostuff-uberjar/${protostuff.version}</bundle>
     <bundle>mvn:org.apache.directmemory/directmemory-cache/${project.version}</bundle>
   </feature>

@@ -19,6 +19,8 @@ package org.apache.directmemory.measures;
  * under the License.
  */
 
-public class Heap extends Sizing {
+public class Heap
+    extends Sizing
+{
 
 }

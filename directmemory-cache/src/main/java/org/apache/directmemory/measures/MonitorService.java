@@ -21,36 +21,37 @@ package org.apache.directmemory.measures;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-public interface MonitorService {
+public interface MonitorService
+{
 
-  public long start();
+    public long start();
 
-  public long stop(long begunAt);
+    public long stop( long begunAt );
 
-  public long hits();
+    public long hits();
 
-  public long totalTime();
+    public long totalTime();
 
-  public long average();
+    public long average();
 
-  public void dump(String prefix);
+    public void dump( String prefix );
 
-  public void dump();
+    public void dump();
 
-  public AtomicLong getHits();
+    public AtomicLong getHits();
 
-  public long getTotalTime();
+    public long getTotalTime();
 
-  public void addToTotalTime(long time);
+    public void addToTotalTime( long time );
 
-  public long getMin();
+    public long getMin();
 
-  public void setMin(long min);
+    public void setMin( long min );
 
-  public long getMax();
+    public long getMax();
 
-  public void setMax(long max);
+    public void setMax( long max );
 
 
-  public String getName();
+    public String getName();
 }

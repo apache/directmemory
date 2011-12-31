@@ -27,35 +27,41 @@ import static org.junit.Assert.fail;
 
 /**
  */
-public class SolrOffHeapIntegrationTest {
-  private TestHarness h;
+public class SolrOffHeapIntegrationTest
+{
+    private TestHarness h;
 
-  @Before
-  public void setUp() {
-    String data = "target/data/expand";
-    String config = this.getClass().getResource("/solr/config/solrconfig.xml").getFile();
-    String schema = this.getClass().getResource("/solr/config/schema.xml").getFile();
-    this.h = new TestHarness(data, config, schema);
-  }
-
-  @Test
-  public void testSimpleQuery() {
-    try {
-      // add a doc to Solr
-      h.validateAddDoc("id", "1", "text", "something is happening here");
-
-      // make the query
-      LocalSolrQueryRequest request = h.getRequestFactory("standard", 0, 100).makeRequest("q", "something");
-      String response = h.query("standard", request);
-      assertTrue(response != null);
-      assertTrue(!response.contains("error"));
-
-      // check the cache has been hit
-      assertTrue(Cache.entries() > 0);
-
-    } catch (Throwable e) {
-      e.printStackTrace();
-      fail(e.getLocalizedMessage());
+    @Before
+    public void setUp()
+    {
+        String data = "target/data/expand";
+        String config = this.getClass().getResource( "/solr/config/solrconfig.xml" ).getFile();
+        String schema = this.getClass().getResource( "/solr/config/schema.xml" ).getFile();
+        this.h = new TestHarness( data, config, schema );
     }
-  }
+
+    @Test
+    public void testSimpleQuery()
+    {
+        try
+        {
+            // add a doc to Solr
+            h.validateAddDoc( "id", "1", "text", "something is happening here" );
+
+            // make the query
+            LocalSolrQueryRequest request = h.getRequestFactory( "standard", 0, 100 ).makeRequest( "q", "something" );
+            String response = h.query( "standard", request );
+            assertTrue( response != null );
+            assertTrue( !response.contains( "error" ) );
+
+            // check the cache has been hit
+            assertTrue( Cache.entries() > 0 );
+
+        }
+        catch ( Throwable e )
+        {
+            e.printStackTrace();
+            fail( e.getLocalizedMessage() );
+        }
+    }
 }

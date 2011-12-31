@@ -19,72 +19,90 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MemoryManager {
-	private static Logger logger = LoggerFactory.getLogger(MemoryManager.class);
-	private static MemoryManagerService memoryManager = new MemoryManagerServiceImpl();
-	
-	private MemoryManager() {
-		//static class
-	}
-	
-	public static void init(int numberOfBuffers, int size) {
-    memoryManager.init(numberOfBuffers,size);
-	}
-	
-	public static Pointer store(byte[] payload, int expiresIn) {
-		return memoryManager.store(payload,expiresIn);
-	}
-	
-	public static Pointer store(byte[] payload) {
-		return store(payload, 0);
-	}
-	
-	public static Pointer update(Pointer pointer, byte[] payload) {
-		return memoryManager.update(pointer,payload);
-	}
-	
-	public static byte[] retrieve(Pointer pointer) {
-		return memoryManager.retrieve(pointer);
-	}
-	
-	public static void free(Pointer pointer) {
-		memoryManager.free(pointer);
-	}
-	
-	public static void clear() {
-		memoryManager.clear();
-	}
-	
-	public static long capacity() {
-		return memoryManager.capacity();
-	}
+import java.util.List;
 
-	public static long collectExpired() {
-		return memoryManager.collectExpired();
-	}
+public class MemoryManager
+{
+    private static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
 
-	public static void collectLFU() {
-		memoryManager.collectLFU();
-	}
+    private static MemoryManagerService memoryManager = new MemoryManagerServiceImpl();
 
-   public static List<OffHeapMemoryBuffer> getBuffers() {
-    return memoryManager.getBuffers();
-  }
+    private MemoryManager()
+    {
+        //static class
+    }
+
+    public static void init( int numberOfBuffers, int size )
+    {
+        memoryManager.init( numberOfBuffers, size );
+    }
+
+    public static Pointer store( byte[] payload, int expiresIn )
+    {
+        return memoryManager.store( payload, expiresIn );
+    }
+
+    public static Pointer store( byte[] payload )
+    {
+        return store( payload, 0 );
+    }
+
+    public static Pointer update( Pointer pointer, byte[] payload )
+    {
+        return memoryManager.update( pointer, payload );
+    }
+
+    public static byte[] retrieve( Pointer pointer )
+    {
+        return memoryManager.retrieve( pointer );
+    }
+
+    public static void free( Pointer pointer )
+    {
+        memoryManager.free( pointer );
+    }
+
+    public static void clear()
+    {
+        memoryManager.clear();
+    }
+
+    public static long capacity()
+    {
+        return memoryManager.capacity();
+    }
+
+    public static long collectExpired()
+    {
+        return memoryManager.collectExpired();
+    }
+
+    public static void collectLFU()
+    {
+        memoryManager.collectLFU();
+    }
+
+    public static List<OffHeapMemoryBuffer> getBuffers()
+    {
+        return memoryManager.getBuffers();
+    }
 
 
-  public static OffHeapMemoryBuffer getActiveBuffer() {
-    return memoryManager.getActiveBuffer();
-  }
+    public static OffHeapMemoryBuffer getActiveBuffer()
+    {
+        return memoryManager.getActiveBuffer();
+    }
 
-  public static MemoryManagerService getMemoryManager() {
-    return memoryManager;
-  }
+    public static MemoryManagerService getMemoryManager()
+    {
+        return memoryManager;
+    }
 
-  public static Pointer allocate(int size) {
-	return memoryManager.allocate(size ,-1, -1); //add a version with expiry
-  }
+    public static Pointer allocate( int size )
+    {
+        return memoryManager.allocate( size, -1, -1 ); //add a version with expiry
+    }
 }

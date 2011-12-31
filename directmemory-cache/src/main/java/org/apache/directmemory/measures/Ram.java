@@ -19,6 +19,8 @@ package org.apache.directmemory.measures;
  * under the License.
  */
 
-public class Ram extends Sizing {
+public class Ram
+    extends Sizing
+{
 
 }

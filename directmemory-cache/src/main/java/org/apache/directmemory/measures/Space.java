@@ -19,6 +19,8 @@ package org.apache.directmemory.measures;
  * under the License.
  */
 
-public class Space extends Sizing {
+public class Space
+    extends Sizing
+{
 
 }

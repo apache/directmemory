@@ -40,8 +40,8 @@ under the License.
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
-        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      </license>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
   </licenses>
 
   <developers>
@@ -673,15 +673,15 @@ under the License.
         <artifactId>maven-report</artifactId>
         <version>${report-plugin.version}</version>
       </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>${checkstyle-plugin.version}</version>
-            <configuration>
-                <configLocation>config/maven_checks.xml</configLocation>
-                <headerLocation>config/maven-header.txt</headerLocation>
-            </configuration>
-        </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${checkstyle-plugin.version}</version>
+        <configuration>
+          <configLocation>config/maven_checks.xml</configLocation>
+          <headerLocation>config/maven-header.txt</headerLocation>
+        </configuration>
+      </plugin>
     </plugins>
   </reporting>
 
