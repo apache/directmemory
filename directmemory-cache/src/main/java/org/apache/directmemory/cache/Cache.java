@@ -27,8 +27,6 @@ import org.apache.directmemory.serialization.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Timer;
-
 public class Cache
 {
 
@@ -42,8 +40,6 @@ public class Cache
     {
         // not instantiable
     }
-
-    private final static Timer timer = new Timer();
 
     public static void scheduleDisposalEvery( long l )
     {
