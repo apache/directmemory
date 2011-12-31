@@ -19,15 +19,6 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-import java.nio.BufferOverflowException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.zip.CRC32;
-import java.util.zip.Checksum;
-
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.misc.Format;
 import org.josql.Query;
@@ -37,16 +28,25 @@ import org.josql.QueryResults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.BufferOverflowException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.zip.CRC32;
+import java.util.zip.Checksum;
+
 public class OffHeapMemoryBuffer
 {
     private static Logger logger = LoggerFactory.getLogger( OffHeapMemoryBuffer.class );
 
     protected ByteBuffer buffer;
 
+    //TODO: Variable 'pointers' must be private and have accessor methods.
     public List<Pointer> pointers = new ArrayList<Pointer>();
 
-    //	public List<Pointer> pointers = new CopyOnWriteArrayList<Pointer>();
-    AtomicInteger used = new AtomicInteger();
+    private AtomicInteger used = new AtomicInteger();
 
     public int bufferNumber;
 
@@ -128,7 +128,7 @@ public class OffHeapMemoryBuffer
         pointer.lastHit = System.currentTimeMillis();
         pointer.hits++;
 
-        ByteBuffer buf = null;
+        ByteBuffer buf;
         if ( pointer.clazz == ByteBuffer.class )
         {
             buf = pointer.directBuffer;
@@ -231,8 +231,7 @@ public class OffHeapMemoryBuffer
     {
         Query q = new Query();
         q.parse( "SELECT * FROM " + Pointer.class.getCanonicalName() + "  WHERE " + whereClause );
-        QueryResults qr = q.execute( pointers );
-        return qr;
+        return q.execute( pointers );
     }
 
     private QueryResults selectOrderBy( String whereClause, String orderBy, String limit )
@@ -241,8 +240,7 @@ public class OffHeapMemoryBuffer
         Query q = new Query();
         q.parse( "SELECT * FROM " + Pointer.class.getCanonicalName() + "  WHERE " + whereClause + " order by " + orderBy
                      + " " + limit );
-        QueryResults qr = q.execute( pointers );
-        return qr;
+        return q.execute( pointers );
     }
 
     private boolean inShortage()
@@ -302,13 +300,13 @@ public class OffHeapMemoryBuffer
         {
             e.printStackTrace();
         }
-        return (List<Pointer>) new ArrayList<Pointer>();
+        return new ArrayList<Pointer>();
     }
 
-    private long free( List<Pointer> pointers )
+    private long free( List<Pointer> expiredPointers )
     {
         long howMuch = 0;
-        for ( Pointer expired : pointers )
+        for ( Pointer expired : expiredPointers )
         {
             howMuch += free( expired );
         }

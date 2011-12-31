@@ -32,11 +32,11 @@ public class MemoryManagerServiceImpl
     implements MemoryManagerService
 {
 
-    private static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
+    private static final Logger LOG = LoggerFactory.getLogger( MemoryManager.class );
 
-    public List<OffHeapMemoryBuffer> buffers = new Vector<OffHeapMemoryBuffer>();
+    private List<OffHeapMemoryBuffer> buffers = new Vector<OffHeapMemoryBuffer>();
 
-    public OffHeapMemoryBuffer activeBuffer = null;
+    private OffHeapMemoryBuffer activeBuffer;
 
     public MemoryManagerServiceImpl()
     {
@@ -49,8 +49,7 @@ public class MemoryManagerServiceImpl
             buffers.add( OffHeapMemoryBuffer.createNew( size, i ) );
         }
         activeBuffer = buffers.get( 0 );
-        logger.info(
-            Format.it( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
+        LOG.info( Format.it( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
     }
 
     public Pointer store( byte[] payload, int expiresIn )
