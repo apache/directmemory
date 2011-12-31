@@ -19,21 +19,19 @@ package org.apache.directmemory.serialization;
  * under the License.
  */
 
-import java.io.IOException;
-
-import org.apache.directmemory.measures.Ram;
-
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
+import org.apache.directmemory.measures.Ram;
+
+import java.io.IOException;
 
 public class ProtoStuffSerializerV1
     implements Serializer
 {
 
     static int serBufferSize = Ram.Kb( 3 );
-//	static int serBufferSize = 300;
 
     /* (non-Javadoc)
       * @see org.apache.directmemory.utils.Serializer#serialize(java.lang.Object, java.lang.Class)
