@@ -1,3 +1,5 @@
+package org.apache.directmemory.measures;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,16 +19,15 @@
  * under the License.
  */
 
-package org.apache.directmemory.measures;
+
+import org.apache.directmemory.misc.Format;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
-
-import org.apache.directmemory.misc.Format;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class MonitorServiceImpl
     implements MonitorService
@@ -42,9 +43,10 @@ public class MonitorServiceImpl
 
     public String name;
 
-    private static final Logger logger = LoggerFactory.getLogger( MonitorServiceImpl.class );
+    private static final Logger LOG = LoggerFactory.getLogger( MonitorServiceImpl.class );
 
-    public static final Map<String, MonitorServiceImpl> monitors = new HashMap<String, MonitorServiceImpl>();
+    //TODO: MONITORS looks like a good candidate to become a private field
+    public static final Map<String, MonitorServiceImpl> MONITORS = new HashMap<String, MonitorServiceImpl>();
 
     public MonitorServiceImpl( String name )
     {
@@ -97,11 +99,11 @@ public class MonitorServiceImpl
 
     public void dump( String prefix )
     {
-        for ( MonitorServiceImpl monitor : MonitorServiceImpl.monitors.values() )
+        for ( MonitorServiceImpl monitor : MonitorServiceImpl.MONITORS.values() )
         {
             if ( monitor.name.startsWith( prefix ) )
             {
-                logger.info( monitor.toString() );
+                LOG.info( monitor.toString() );
             }
         }
     }

@@ -1,3 +1,5 @@
+package org.apache.directmemory.measures;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,7 +19,6 @@
  * under the License.
  */
 
-package org.apache.directmemory.measures;
 
 import java.util.concurrent.atomic.AtomicLong;
 

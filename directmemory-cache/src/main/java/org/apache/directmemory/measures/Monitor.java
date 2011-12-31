@@ -19,30 +19,31 @@ package org.apache.directmemory.measures;
  * under the License.
  */
 
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.directmemory.misc.Format;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Monitor
 {
 
-    private static final Logger logger = LoggerFactory.getLogger( Monitor.class );
+    private static final Logger LOG = LoggerFactory.getLogger( Monitor.class );
 
-    public static final Map<String, MonitorService> monitors = new HashMap<String, MonitorService>();
+    //TODO: MONITORS looks like a good candidate to become a private field
+    public static final Map<String, MonitorService> MONITORS = new HashMap<String, MonitorService>();
 
     private MonitorService monitorService;
 
     public static MonitorService get( String key )
     {
-        MonitorService mon = monitors.get( key );
+        MonitorService mon = MONITORS.get( key );
         if ( mon == null )
         {
             mon = new MonitorServiceImpl( key );
-            monitors.put( key, mon );
+            MONITORS.put( key, mon );
         }
         return mon;
     }
@@ -50,7 +51,7 @@ public class Monitor
     public Monitor( String name )
     {
         this.monitorService = new MonitorServiceImpl( name );
-        monitors.put( name, monitorService );
+        MONITORS.put( name, monitorService );
     }
 
     public long start()
@@ -101,11 +102,11 @@ public class Monitor
 
     public static void dump( String prefix )
     {
-        for ( MonitorService monitor : monitors.values() )
+        for ( MonitorService monitor : MONITORS.values() )
         {
             if ( monitor.getName().startsWith( prefix ) )
             {
-                logger.info( monitor.toString() );
+                LOG.info( monitor.toString() );
             }
         }
     }

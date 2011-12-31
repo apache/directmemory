@@ -1,3 +1,5 @@
+package org.apache.directmemory.memory;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,15 +19,14 @@
  * under the License.
  */
 
-package org.apache.directmemory.memory;
-
-import java.util.List;
-import java.util.Vector;
 
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.misc.Format;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Vector;
 
 public class MemoryManagerServiceImpl
     implements MemoryManagerService
