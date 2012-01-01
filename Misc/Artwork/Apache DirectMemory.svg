@@ -33,7 +33,7 @@ under the License.
    height="744.09448"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.1 "
+   inkscape:version="0.48.2 r9819"
    sodipodi:docname="Apache DirectMemory.svg">
   <defs
      id="defs4">
@@ -61,14 +61,14 @@ under the License.
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="529.14506"
-     inkscape:cy="358.23676"
+     inkscape:zoom="1.4"
+     inkscape:cx="688.87117"
+     inkscape:cy="580.93308"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="748"
+     inkscape:window-width="1366"
+     inkscape:window-height="746"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
@@ -176,7 +176,7 @@ under the License.
        x="612.56445"
        style="font-size:52.40646744px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#008ba4;fill-opacity:1;stroke:none;stroke-width:2.07279587px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        xml:space="preserve"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium.png"
        inkscape:export-xdpi="72.309998"
        inkscape:export-ydpi="72.309998"><tspan
          style="font-size:52.40646744px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#008ba4;fill-opacity:1;stroke:none;font-family:Gill Sans MT;-inkscape-font-specification:Gill Sans MT"
@@ -202,7 +202,7 @@ under the License.
        id="text5383"
        sodipodi:linespacing="125%"
        transform="scale(1.0322686,0.96874011)"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium.png"
        inkscape:export-xdpi="72.309998"
        inkscape:export-ydpi="72.309998"><tspan
          sodipodi:role="line"
@@ -216,20 +216,20 @@ under the License.
        id="text5476"
        y="535.54608"
        x="608.38464"
-       style="font-size:60.15320587px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#b1e1dd;fill-opacity:1;stroke:#0c083b;stroke-width:0.83030796px;stroke-opacity:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-size:60.15320596px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#b1e1dd;fill-opacity:1;stroke:#0c083b;stroke-width:0.83030795999999996px;stroke-opacity:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Gill Sans MT;-inkscape-font-specification:Gill Sans MT"
        xml:space="preserve"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium.png"
        inkscape:export-xdpi="72.309998"
        inkscape:export-ydpi="72.309998"><tspan
-         style="font-size:60.15320587px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#b1e1dd;fill-opacity:1;stroke:#0c083b;stroke-width:0.83030796;stroke-opacity:1;font-family:Gill Sans MT;-inkscape-font-specification:Gill Sans MT"
+         style="font-size:60.15320596px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr;text-anchor:start;fill:#b1e1dd;fill-opacity:1;stroke:#0c083b;stroke-width:0.83030795999999996;stroke-opacity:1;font-family:Gill Sans MT;-inkscape-font-specification:Gill Sans MT"
          y="535.54608"
          x="608.38464"
          id="tspan5478"
          sodipodi:role="line"><tspan
            id="tspan5480"
-           style="fill:#b1e1dd;fill-opacity:1;stroke:none">Direct</tspan><tspan
+           style="fill:#b1e1dd;fill-opacity:1;stroke:none;-inkscape-font-specification:Gill Sans MT;font-family:Gill Sans MT;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:60.15320596px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">Direct</tspan><tspan
            id="tspan5482"
-           style="fill:#b1e1dd;fill-opacity:1;stroke:none" /></tspan></text>
+           style="fill:#b1e1dd;fill-opacity:1;stroke:none;-inkscape-font-specification:Gill Sans MT;font-family:Gill Sans MT;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:60.15320596px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%" /></tspan></text>
     <text
        xml:space="preserve"
        style="font-size:14.91607285px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#004855;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
@@ -237,7 +237,7 @@ under the License.
        y="536.57605"
        id="text5484"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium.png"
        inkscape:export-xdpi="72.309998"
        inkscape:export-ydpi="72.309998"><tspan
          sodipodi:role="line"
@@ -248,7 +248,7 @@ under the License.
     <g
        id="g3875"
        transform="matrix(0.40057392,0,0,0.40057392,602.26272,166.90068)"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium.png"
        inkscape:export-xdpi="72.309998"
        inkscape:export-ydpi="72.309998">
       <path
@@ -808,7 +808,7 @@ under the License.
        y="532.05322"
        id="text5484-1"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium-badge.png"
+       inkscape:export-filename="C:\Development\Apache\directmemory\trunk\src\site\resources\images\Apache-DirectMemory-logo-medium.png"
        inkscape:export-xdpi="72.309998"
        inkscape:export-ydpi="72.309998"><tspan
          sodipodi:role="line"
