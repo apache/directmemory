@@ -99,9 +99,9 @@ public class OffHeapMemoryBuffer
         Pointer fresh = new Pointer();
         fresh.bufferNumber = existing.bufferNumber;
         fresh.start = existing.start;
-        fresh.end = fresh.start + capacity;
+        fresh.end = fresh.start + capacity - 1; // 0 indexed
         fresh.free = true;
-        existing.start += capacity + 1;
+        existing.start = fresh.end + 1; // more readable
         return fresh;
     }
 
@@ -110,7 +110,7 @@ public class OffHeapMemoryBuffer
     {
         for ( Pointer ptr : pointers )
         {
-            if ( ptr.free && ptr.end >= capacity )
+            if (ptr.free && ptr.getCapacity() >= capacity)
             {
                 return ptr;
             }
@@ -143,7 +143,7 @@ public class OffHeapMemoryBuffer
             }
         }
 
-        final byte[] swp = new byte[pointer.end - pointer.start];
+        final byte[] swp = new byte[pointer.getCapacity()];
         buf.get( swp );
         return swp;
     }
@@ -158,8 +158,8 @@ public class OffHeapMemoryBuffer
         pointer2free.expiresIn = 0;
         pointer2free.clazz = null;
         pointer2free.directBuffer = null;
-        used.addAndGet( -( pointer2free.end - pointer2free.start ) );
-        return pointer2free.end - pointer2free.start;
+        used.addAndGet( - pointer2free.getCapacity() );
+        return pointer2free.getCapacity();
     }
 
     public void clear()
@@ -188,8 +188,7 @@ public class OffHeapMemoryBuffer
         if ( goodOne == null )
         {
             allocationErrors++;
-            throw new NullPointerException(
-                "did not find a suitable buffer " + allocationErrors + " times since last cleanup" );
+            return null;
         }
 
         Pointer fresh = slice( goodOne, payload.length );
@@ -353,8 +352,7 @@ public class OffHeapMemoryBuffer
         if ( goodOne == null )
         {
             allocationErrors++;
-            throw new NullPointerException(
-                "did not find a suitable buffer " + allocationErrors + " times since last cleanup" );
+            return null;
         }
 
         Pointer fresh = slice( goodOne, size );

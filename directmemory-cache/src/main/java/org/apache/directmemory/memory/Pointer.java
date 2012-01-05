@@ -45,6 +45,16 @@ public class Pointer
 
     public ByteBuffer directBuffer = null;
 
+    public Pointer()
+    {
+    }
+
+    public Pointer( int start, int end )
+    {
+        this.start = start;
+        this.end = end;
+    }
+
     public byte[] content()
     {
         return null;
@@ -65,5 +75,16 @@ public class Pointer
     public float getFrequency()
     {
         return (float) ( System.currentTimeMillis() - created ) / hits;
+    }
+
+    public int getCapacity()
+    {
+        return end - start + 1;
+    }
+
+    @Override
+    public String toString()
+    {
+        return getClass().getSimpleName() + "[" + start + "," + end + "]" + ( free ? "" : "not" ) + "free";
     }
 }
