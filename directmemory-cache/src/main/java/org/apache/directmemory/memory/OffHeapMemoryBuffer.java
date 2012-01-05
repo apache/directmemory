@@ -346,7 +346,7 @@ public class OffHeapMemoryBuffer
         return store( payload );
     }
 
-    public Pointer allocate( int size, long expiresIn, long expires )
+    public synchronized Pointer allocate( int size, long expiresIn, long expires )
     {
         Pointer goodOne = firstMatch( size );
 
