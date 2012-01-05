@@ -163,7 +163,7 @@ public class MemoryManagerServiceImpl
     }
 
     @Override
-    public Pointer allocate( int size, int expiresIn, int expires )
+    public Pointer allocate( int size, long expiresIn, long expires )
     {
         Pointer p = activeBuffer.allocate( size, expiresIn, expires );
         if ( p == null )

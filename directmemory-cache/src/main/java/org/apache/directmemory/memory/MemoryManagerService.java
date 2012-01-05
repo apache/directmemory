@@ -50,6 +50,6 @@ public interface MemoryManagerService
 
     OffHeapMemoryBuffer getActiveBuffer();
 
-    Pointer allocate( int size, int expiresIn, int expires );
+    Pointer allocate( int size, long expiresIn, long expires );
 
 }

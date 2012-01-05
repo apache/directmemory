@@ -149,7 +149,7 @@ public class OffHeapMemoryBuffer
     }
 
 
-    public long free( Pointer pointer2free )
+    public int free( Pointer pointer2free )
     {
         pointer2free.free = true;
         pointer2free.created = 0;
@@ -347,7 +347,7 @@ public class OffHeapMemoryBuffer
         return store( payload );
     }
 
-    public Pointer allocate( int size, int expiresIn, int expires )
+    public Pointer allocate( int size, long expiresIn, long expires )
     {
         Pointer goodOne = firstMatch( size );
 
