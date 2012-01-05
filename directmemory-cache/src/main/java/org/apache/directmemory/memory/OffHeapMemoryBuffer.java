@@ -159,7 +159,6 @@ public class OffHeapMemoryBuffer
         pointer2free.clazz = null;
         pointer2free.directBuffer = null;
         used.addAndGet( -( pointer2free.end - pointer2free.start ) );
-        pointers.add( pointer2free );
         return pointer2free.end - pointer2free.start;
     }
 
