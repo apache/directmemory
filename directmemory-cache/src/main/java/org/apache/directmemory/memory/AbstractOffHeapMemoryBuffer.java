@@ -233,4 +233,20 @@ public abstract class AbstractOffHeapMemoryBuffer
         pointer.clazz = null;
         pointer.directBuffer = null;
     }
+    
+    protected void setExpiration( final Pointer pointer, long expiresIn, long expires )
+    {
+
+        if ( expiresIn > 0 )
+        {
+            pointer.expiresIn = expiresIn;
+            pointer.expires = 0;
+        }
+        else if ( expires > 0 )
+        {
+            pointer.expiresIn = 0;
+            pointer.expires = expires;
+        }
+    }
+    
 }

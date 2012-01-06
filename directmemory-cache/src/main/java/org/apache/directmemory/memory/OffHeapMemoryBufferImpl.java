@@ -184,16 +184,7 @@ public class OffHeapMemoryBufferImpl
         Pointer fresh = slice( goodOne, payload.length );
 
         fresh.created = System.currentTimeMillis();
-        if ( expiresIn > 0 )
-        {
-            fresh.expiresIn = expiresIn;
-            fresh.expires = 0;
-        }
-        else if ( expires > 0 )
-        {
-            fresh.expiresIn = 0;
-            fresh.expires = expires;
-        }
+        setExpiration( fresh, expiresIn, expires );
 
         fresh.free = false;
         used.addAndGet( payload.length );
@@ -294,16 +285,7 @@ public class OffHeapMemoryBufferImpl
         Pointer fresh = slice( goodOne, size );
 
         fresh.created = System.currentTimeMillis();
-        if ( expiresIn > 0 )
-        {
-            fresh.expiresIn = expiresIn;
-            fresh.expires = 0;
-        }
-        else if ( expires > 0 )
-        {
-            fresh.expiresIn = 0;
-            fresh.expires = expires;
-        }
+        setExpiration( fresh, expiresIn, expires );
 
         fresh.free = false;
         used.addAndGet( size );
