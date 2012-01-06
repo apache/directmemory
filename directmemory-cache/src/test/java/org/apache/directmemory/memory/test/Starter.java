@@ -22,6 +22,7 @@ package org.apache.directmemory.memory.test;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
+import org.apache.directmemory.memory.OffHeapMemoryBufferImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +61,7 @@ public class Starter
 
     public void dump( OffHeapMemoryBuffer mem )
     {
-        logger.info( "off-heap - buffer: " + mem.pointers.get( 1 ).bufferNumber );
+        logger.info( "off-heap - buffer: " + mem.getBufferNumber() );
         logger.info( "off-heap - allocated: " + Ram.inMb( mem.capacity() ) );
         logger.info( "off-heap - used:      " + Ram.inMb( mem.used() ) );
         logger.info( "heap 	  - max: " + Ram.inMb( Runtime.getRuntime().maxMemory() ) );
@@ -71,7 +72,7 @@ public class Starter
 
     public void rawInsert( int megabytes, int howMany )
     {
-        OffHeapMemoryBuffer mem = OffHeapMemoryBuffer.createNew( megabytes * 1024 * 1024 );
+        OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( megabytes * 1024 * 1024 );
         assertNotNull( mem );
         int size = mem.capacity() / ( howMany );
         size -= size / 100 * 1;

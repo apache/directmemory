@@ -297,7 +297,7 @@ public class CacheServiceImpl
 
     public void dump( OffHeapMemoryBuffer mem )
     {
-        logger.info( Format.it( "off-heap - buffer: \t%1d", mem.bufferNumber ) );
+        logger.info( Format.it( "off-heap - buffer: \t%1d", mem.getBufferNumber() ) );
         logger.info( Format.it( "off-heap - allocated: \t%1s", Ram.inMb( mem.capacity() ) ) );
         logger.info( Format.it( "off-heap - used:      \t%1s", Ram.inMb( mem.used() ) ) );
         logger.info( Format.it( "heap 	- max: \t%1s", Ram.inMb( Runtime.getRuntime().maxMemory() ) ) );

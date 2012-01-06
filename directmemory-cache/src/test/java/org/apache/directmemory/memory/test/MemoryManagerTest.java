@@ -24,6 +24,7 @@ import com.google.common.collect.Maps;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
+import org.apache.directmemory.memory.OffHeapMemoryBufferImpl;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -90,7 +91,7 @@ public class MemoryManagerTest
     {
         for ( OffHeapMemoryBuffer buffer : MemoryManager.getBuffers() )
         {
-            for ( Pointer ptr : buffer.pointers )
+            for ( Pointer ptr : ((OffHeapMemoryBufferImpl)buffer).getPointers() )
             {
                 if ( !ptr.free )
                 {

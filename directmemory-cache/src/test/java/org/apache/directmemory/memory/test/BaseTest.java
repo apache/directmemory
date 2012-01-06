@@ -24,7 +24,9 @@ import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import com.google.common.collect.Maps;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
+import org.apache.directmemory.memory.OffHeapMemoryBufferImpl;
 import org.apache.directmemory.memory.Pointer;
+import org.apache.directmemory.misc.Util;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -48,7 +50,7 @@ public class BaseTest
     @Test
     public void smokeTest()
     {
-        OffHeapMemoryBuffer mem = OffHeapMemoryBuffer.createNew( 1 * 1024 * 1024 );
+        OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( 1 * 1024 * 1024 );
         logger.info( "buffer size=" + mem.capacity() );
         assertNotNull( mem );
 
@@ -115,7 +117,7 @@ public class BaseTest
     @Test
     public void aFewEntriesWithRead()
     {
-        OffHeapMemoryBuffer mem = OffHeapMemoryBuffer.createNew( 100 * 1024 * 1024 );
+        OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( 100 * 1024 * 1024 );
         logger.info( "total capacity=" + Ram.inMb( mem.capacity() ) );
         assertNotNull( mem );
         int howMany = 10000;
@@ -129,8 +131,8 @@ public class BaseTest
             final byte[] check = mem.retrieve( p );
             assertNotNull( check );
             assertEquals( test + " - " + i, new String( check ) );
-            long crc1 = OffHeapMemoryBuffer.crc32( payload );
-            long crc2 = OffHeapMemoryBuffer.crc32( check );
+            long crc1 = Util.crc32( payload );
+            long crc2 = Util.crc32( check );
             assertEquals( crc1, crc2 );
         }
 
@@ -140,7 +142,7 @@ public class BaseTest
     @Test
     public void aFewEntriesWithCheck()
     {
-        OffHeapMemoryBuffer mem = OffHeapMemoryBuffer.createNew( 10 * 1024 * 1024 );
+        OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( 10 * 1024 * 1024 );
         logger.info( "total capacity=" + Ram.inMb( mem.capacity() ) );
         assertNotNull( mem );
         int howMany = 10;
@@ -170,7 +172,7 @@ public class BaseTest
     public void checkExpiration()
         throws InterruptedException
     {
-        OffHeapMemoryBuffer mem = OffHeapMemoryBuffer.createNew( 10 * 1024 * 1024 );
+        OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( 10 * 1024 * 1024 );
         assertNotNull( mem );
         int size = 400;
         int howMany = 5000;

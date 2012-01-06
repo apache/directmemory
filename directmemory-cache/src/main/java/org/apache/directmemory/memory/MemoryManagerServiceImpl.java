@@ -9,7 +9,7 @@ package org.apache.directmemory.memory;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -19,24 +19,22 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.misc.Format;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Vector;
-
 public class MemoryManagerServiceImpl
     implements MemoryManagerService
 {
 
-    protected static final Logger LOG = LoggerFactory.getLogger( MemoryManager.class );
+    protected static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
 
-    protected List<OffHeapMemoryBuffer> buffers = new Vector<OffHeapMemoryBuffer>();
+    private List<OffHeapMemoryBuffer> buffers = new ArrayList<OffHeapMemoryBuffer>();
 
-    protected OffHeapMemoryBuffer activeBuffer;
+    private int activeBufferIndex = 0;
 
     public MemoryManagerServiceImpl()
     {
@@ -44,29 +42,34 @@ public class MemoryManagerServiceImpl
 
     public void init( int numberOfBuffers, int size )
     {
+        buffers = new ArrayList<OffHeapMemoryBuffer>( numberOfBuffers );
+
         for ( int i = 0; i < numberOfBuffers; i++ )
         {
-            buffers.add( OffHeapMemoryBuffer.createNew( size, i ) );
+            final OffHeapMemoryBuffer offHeapMemoryBuffer = instanciateOffHeapMemoryBuffer( size, i );
+            buffers.add( offHeapMemoryBuffer );
         }
-        activeBuffer = buffers.get( 0 );
-        LOG.info( Format.it( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
+
+        logger.info( Format.it( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
+    }
+
+    protected OffHeapMemoryBuffer instanciateOffHeapMemoryBuffer( int size, int bufferNumber )
+    {
+        return OffHeapMemoryBufferImpl.createNew( size, bufferNumber );
+    }
+
+    public OffHeapMemoryBuffer getActiveBuffer()
+    {
+        return buffers.get( activeBufferIndex );
     }
 
     public Pointer store( byte[] payload, int expiresIn )
     {
-        Pointer p = activeBuffer.store( payload, expiresIn );
+        Pointer p = getActiveBuffer().store( payload, expiresIn );
         if ( p == null )
         {
-            if ( activeBuffer.bufferNumber + 1 == buffers.size() )
-            {
-                return null;
-            }
-            else
-            {
-                // try next buffer
-                activeBuffer = buffers.get( activeBuffer.bufferNumber + 1 );
-                p = activeBuffer.store( payload, expiresIn );
-            }
+            nextBuffer();
+            p = getActiveBuffer().store( payload, expiresIn );
         }
         return p;
     }
@@ -78,21 +81,7 @@ public class MemoryManagerServiceImpl
 
     public Pointer update( Pointer pointer, byte[] payload )
     {
-        Pointer p = activeBuffer.update( pointer, payload );
-        if ( p == null )
-        {
-            if ( activeBuffer.bufferNumber == buffers.size() )
-            {
-                return null;
-            }
-            else
-            {
-                // try next buffer
-                activeBuffer = buffers.get( activeBuffer.bufferNumber + 1 );
-                p = activeBuffer.store( payload );
-            }
-        }
-        return p;
+        return buffers.get( pointer.bufferNumber ).update( pointer, payload );
     }
 
     public byte[] retrieve( Pointer pointer )
@@ -111,7 +100,7 @@ public class MemoryManagerServiceImpl
         {
             buffer.clear();
         }
-        activeBuffer = buffers.get( 0 );
+        activeBufferIndex = 0;
     }
 
     public long capacity()
@@ -152,33 +141,21 @@ public class MemoryManagerServiceImpl
         this.buffers = buffers;
     }
 
-    public OffHeapMemoryBuffer getActiveBuffer()
-    {
-        return activeBuffer;
-    }
-
-    public void setActiveBuffer( OffHeapMemoryBuffer activeBuffer )
-    {
-        this.activeBuffer = activeBuffer;
-    }
-
     @Override
     public Pointer allocate( int size, long expiresIn, long expires )
     {
-        Pointer p = activeBuffer.allocate( size, expiresIn, expires );
+        Pointer p = getActiveBuffer().allocate( size, expiresIn, expires );
         if ( p == null )
         {
-            if ( activeBuffer.bufferNumber + 1 == buffers.size() )
-            {
-                return null;
-            }
-            else
-            {
-                // try next buffer
-                activeBuffer = buffers.get( activeBuffer.bufferNumber + 1 );
-                p = activeBuffer.allocate( size, expiresIn, expires );
-            }
+            nextBuffer();
+            p = getActiveBuffer().allocate( size, expiresIn, expires );
         }
         return p;
     }
+
+    protected void nextBuffer()
+    {
+        activeBufferIndex = ( activeBufferIndex + 1 ) % buffers.size();
+    }
+
 }

@@ -228,7 +228,7 @@ public class Concurrent3Test
 
     private static void dump( OffHeapMemoryBuffer mem )
     {
-        logger.info( "off-heap - buffer: " + mem.bufferNumber );
+        logger.info( "off-heap - buffer: " + mem.getBufferNumber() );
         logger.info( "off-heap - allocated: " + Ram.inMb( mem.capacity() ) );
         logger.info( "off-heap - used:      " + Ram.inMb( mem.used() ) );
         logger.info( "heap 	  - max: " + Ram.inMb( Runtime.getRuntime().maxMemory() ) );
