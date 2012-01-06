@@ -32,11 +32,11 @@ public class MemoryManagerServiceImpl
     implements MemoryManagerService
 {
 
-    private static final Logger LOG = LoggerFactory.getLogger( MemoryManager.class );
+    protected static final Logger LOG = LoggerFactory.getLogger( MemoryManager.class );
 
-    private List<OffHeapMemoryBuffer> buffers = new Vector<OffHeapMemoryBuffer>();
+    protected List<OffHeapMemoryBuffer> buffers = new Vector<OffHeapMemoryBuffer>();
 
-    private OffHeapMemoryBuffer activeBuffer;
+    protected OffHeapMemoryBuffer activeBuffer;
 
     public MemoryManagerServiceImpl()
     {

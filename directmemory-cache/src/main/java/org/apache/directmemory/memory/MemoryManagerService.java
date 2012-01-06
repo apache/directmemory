@@ -20,7 +20,6 @@ package org.apache.directmemory.memory;
  */
 
 
-
 import java.util.List;
 
 public interface MemoryManagerService

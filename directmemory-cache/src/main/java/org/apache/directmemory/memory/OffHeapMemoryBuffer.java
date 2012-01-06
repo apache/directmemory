@@ -39,14 +39,14 @@ import java.util.zip.Checksum;
 
 public class OffHeapMemoryBuffer
 {
-    private static Logger logger = LoggerFactory.getLogger( OffHeapMemoryBuffer.class );
+    protected static Logger logger = LoggerFactory.getLogger( OffHeapMemoryBuffer.class );
 
     protected ByteBuffer buffer;
 
     //TODO: Variable 'pointers' must be private and have accessor methods.
     public List<Pointer> pointers = new ArrayList<Pointer>();
 
-    private AtomicInteger used = new AtomicInteger();
+    protected final AtomicInteger used = new AtomicInteger();
 
     public int bufferNumber;
 
@@ -76,7 +76,7 @@ public class OffHeapMemoryBuffer
         return new OffHeapMemoryBuffer( ByteBuffer.allocateDirect( capacity ), -1 );
     }
 
-    private OffHeapMemoryBuffer( ByteBuffer buffer, int bufferNumber )
+    protected OffHeapMemoryBuffer( ByteBuffer buffer, int bufferNumber )
     {
         this.buffer = buffer;
         this.bufferNumber = bufferNumber;
@@ -94,7 +94,7 @@ public class OffHeapMemoryBuffer
         return first;
     }
 
-    public Pointer slice( Pointer existing, int capacity )
+    protected Pointer slice( Pointer existing, int capacity )
     {
         Pointer fresh = new Pointer();
         fresh.bufferNumber = existing.bufferNumber;
@@ -106,7 +106,7 @@ public class OffHeapMemoryBuffer
     }
 
 
-    public Pointer firstMatch( int capacity )
+    protected Pointer firstMatch( int capacity )
     {
         for ( Pointer ptr : pointers )
         {
@@ -181,7 +181,7 @@ public class OffHeapMemoryBuffer
         return store( payload, expiresIn, 0 );
     }
 
-    private synchronized Pointer store( byte[] payload, long expiresIn, long expires )
+    protected synchronized Pointer store( byte[] payload, long expiresIn, long expires )
     {
         Pointer goodOne = firstMatch( payload.length );
 
@@ -224,7 +224,7 @@ public class OffHeapMemoryBuffer
         return fresh;
     }
 
-    private QueryResults select( String whereClause )
+    protected QueryResults select( String whereClause )
         throws QueryParseException, QueryExecutionException
     {
         Query q = new Query();
@@ -232,7 +232,7 @@ public class OffHeapMemoryBuffer
         return q.execute( pointers );
     }
 
-    private QueryResults selectOrderBy( String whereClause, String orderBy, String limit )
+    protected QueryResults selectOrderBy( String whereClause, String orderBy, String limit )
         throws QueryParseException, QueryExecutionException
     {
         Query q = new Query();
