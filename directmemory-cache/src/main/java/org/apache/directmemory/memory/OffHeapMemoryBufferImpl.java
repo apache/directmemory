@@ -150,6 +150,10 @@ public class OffHeapMemoryBufferImpl
 
     public synchronized void clear()
     {
+        for (final Pointer pointer : pointers)
+        {
+            pointer.free = true;
+        }
         allocationErrors = 0;
         pointers.clear();
         createAndAddFirstPointer();
