@@ -1,4 +1,4 @@
-package org.apache.directmemory.serialization;
+package org.apache.directmemory.serialization.test;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -24,6 +24,7 @@ import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.misc.DummyPojo;
+import org.apache.directmemory.serialization.Serializer;
 
 import java.io.IOException;
 
