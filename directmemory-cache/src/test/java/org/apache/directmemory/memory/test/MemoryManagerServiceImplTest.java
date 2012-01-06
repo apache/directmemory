@@ -19,8 +19,6 @@ package org.apache.directmemory.memory.test;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import junit.framework.Assert;
@@ -33,13 +31,14 @@ import org.junit.Test;
 public class MemoryManagerServiceImplTest
 {
 
-    private static final Random R = new Random();
+    protected static final Random R = new Random();
 
-    private static final char PAYLOAD_CHAR = 'X';
+    protected static final byte[] SMALL_PAYLOAD = "ABCD".getBytes();
 
-    private static final String PAYLOAD_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-    private static final byte[] SMALL_PAYLOAD = "ABCD".getBytes();
+    protected MemoryManagerService getMemoryManagerService()
+    {
+        return new MemoryManagerServiceImpl();
+    }
 
     @Test
     public void testFirstMatchBorderCase()
@@ -51,7 +50,7 @@ public class MemoryManagerServiceImplTest
 
         final int BUFFER_SIZE = 5;
 
-        final MemoryManagerService memoryManagerService = new MemoryManagerServiceImpl();
+        final MemoryManagerService memoryManagerService = getMemoryManagerService();
 
         memoryManagerService.init( 1, BUFFER_SIZE );
 
@@ -72,7 +71,7 @@ public class MemoryManagerServiceImplTest
 
         final int NUMBER_OF_OBJECTS = 4;
 
-        final MemoryManagerServiceImpl memoryManagerService = new MemoryManagerServiceImpl();
+        final MemoryManagerService memoryManagerService = getMemoryManagerService();
 
         memoryManagerService.init( NUMBER_OF_OBJECTS, SMALL_PAYLOAD.length );
 
@@ -95,7 +94,7 @@ public class MemoryManagerServiceImplTest
 
         final int NUMBER_OF_OBJECTS = 10;
 
-        final MemoryManagerServiceImpl memoryManagerService = new MemoryManagerServiceImpl();
+        final MemoryManagerService memoryManagerService = getMemoryManagerService();
         memoryManagerService.init( 1, NUMBER_OF_OBJECTS * SMALL_PAYLOAD.length );
 
         for ( int i = 0; i < NUMBER_OF_OBJECTS; i++ )
@@ -118,7 +117,7 @@ public class MemoryManagerServiceImplTest
         final int NUMBER_OF_OBJECTS = 4;
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD.length;
 
-        final MemoryManagerServiceImpl memoryManagerService = new MemoryManagerServiceImpl();
+        final MemoryManagerService memoryManagerService = getMemoryManagerService();
 
         memoryManagerService.init( 1, BUFFER_SIZE );
 
@@ -151,13 +150,13 @@ public class MemoryManagerServiceImplTest
         final int NUMBER_OF_OBJECTS = 10;
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD.length;
 
-        final MemoryManagerServiceImpl memoryManagerService = new MemoryManagerServiceImpl();
+        final MemoryManagerService memoryManagerService = getMemoryManagerService();
 
         memoryManagerService.init( 1, BUFFER_SIZE );
 
         for ( int i = 0; i < NUMBER_OF_OBJECTS; i++ )
         {
-            byte[] payload = generateRandomPayload( SMALL_PAYLOAD.length );
+            byte[] payload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD.length );
             Pointer pointer = memoryManagerService.store( payload );
             Assert.assertNotNull( pointer );
             byte[] fetchedPayload = memoryManagerService.retrieve( pointer );
@@ -172,7 +171,7 @@ public class MemoryManagerServiceImplTest
 
         for ( int i = 0; i < NUMBER_OF_OBJECTS; i++ )
         {
-            byte[] payload = generateRandomPayload( SMALL_PAYLOAD.length );
+            byte[] payload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD.length );
             Pointer pointer = memoryManagerService.store( payload );
             Assert.assertNotNull( pointer );
             byte[] fetchedPayload = memoryManagerService.retrieve( pointer );
@@ -189,7 +188,7 @@ public class MemoryManagerServiceImplTest
         Pointer pointer = null;
         do
         {
-            byte[] payload = generateRandomPayload( R.nextInt( BUFFER_SIZE / 4 + 1 ) );
+            byte[] payload = MemoryTestUtils.generateRandomPayload( R.nextInt( BUFFER_SIZE / 4 + 1 ) );
             pointer = memoryManagerService.store( payload );
             if ( pointer != null && R.nextBoolean() )
             {
@@ -198,16 +197,6 @@ public class MemoryManagerServiceImplTest
         }
         while ( pointer != null );
 
-    }
-
-    private static byte[] generateRandomPayload( int sizeInByte )
-    {
-        final StringBuilder sb = new StringBuilder( sizeInByte );
-        for ( int i = 0; i < sizeInByte; i++ )
-        {
-            sb.append( PAYLOAD_CHARS.charAt( R.nextInt( PAYLOAD_CHARS.length() ) ) );
-        }
-        return sb.toString().getBytes();
     }
 
 }
