@@ -158,7 +158,7 @@ public class BaseTest
             {
                 assertEquals( lastP.end + 1, p.start );
             }
-            assertEquals( p.end - p.start, payload.length );
+            assertEquals( p.getCapacity(), payload.length );
             lastP = p;
             logger.info( "---" );
         }

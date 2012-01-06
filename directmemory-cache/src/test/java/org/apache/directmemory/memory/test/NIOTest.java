@@ -80,7 +80,7 @@ public class NIOTest
 
         assertNotNull( check );
 
-        assertEquals( size, p.end - p.start );
+        assertEquals( size, p.getCapacity() );
         logger.info( "end" );
     }
 
