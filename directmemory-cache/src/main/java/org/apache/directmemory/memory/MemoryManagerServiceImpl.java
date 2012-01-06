@@ -32,9 +32,9 @@ public class MemoryManagerServiceImpl
 
     protected static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
 
-    private List<OffHeapMemoryBuffer> buffers = new ArrayList<OffHeapMemoryBuffer>();
+    protected List<OffHeapMemoryBuffer> buffers = new ArrayList<OffHeapMemoryBuffer>();
 
-    private int activeBufferIndex = 0;
+    protected int activeBufferIndex = 0;
 
     public MemoryManagerServiceImpl()
     {
