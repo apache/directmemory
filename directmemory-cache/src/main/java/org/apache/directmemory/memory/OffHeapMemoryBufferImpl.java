@@ -290,10 +290,10 @@ public class OffHeapMemoryBufferImpl
         fresh.free = false;
         used.addAndGet( size );
         ByteBuffer buf = buffer.slice();
+        buf.limit( fresh.start + size );
         buf.position( fresh.start );
 
         fresh.directBuffer = buf.slice();
-        fresh.directBuffer.limit( size );
         fresh.clazz = ByteBuffer.class;
         pointers.add( fresh );
         return fresh;

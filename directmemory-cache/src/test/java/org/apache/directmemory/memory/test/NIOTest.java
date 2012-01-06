@@ -75,6 +75,7 @@ public class NIOTest
         assertTrue( b.isDirect() );
         assertEquals( 0, b.position() );
         assertEquals( size, b.limit() );
+        assertEquals( size, b.capacity() );
 
         byte[] check = MemoryManager.retrieve( p );
 
