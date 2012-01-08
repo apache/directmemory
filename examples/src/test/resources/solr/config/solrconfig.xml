@@ -66,7 +66,7 @@
     cause a serious error to be logged if it can't be loaded. <lib
     path="../a-jar-that-does-not-exist.jar" />
   -->
-
+   <luceneMatchVersion>LUCENE_35</luceneMatchVersion>
 
   <!--
     Used to specify an alternate directory to hold all index data other
@@ -360,8 +360,8 @@
       for each document). Since Lucene internal document ids are
       transient, this cache will not be autowarmed.
     -->
-    <queryResultCache class="org.apache.directmemory.examples.solr.SolrOffHeapCache" size="512"
-                      initialSize="512" autowarmCount="0" buffers="10"/>
+    <queryResultCache class="org.apache.directmemory.examples.solr.SolrOffHeapCache" size="10000"
+                      initialSize="1000" autowarmCount="0" buffers="2"/>
 
     <!--
       If true, stored fields that are not requested will be loaded
