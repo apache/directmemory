@@ -35,53 +35,67 @@ import static org.junit.Assert.*;
 /**
  * Testcase for {@link SolrOffHeapCache}
  */
-public class SolrOffHeapCacheTest {
+public class SolrOffHeapCacheTest
+{
 
     private SolrOffHeapCache solrOffHeapCache;
 
     @Before
-    public void setUp() {
+    public void setUp()
+    {
         solrOffHeapCache = new SolrOffHeapCache();
         Map<String, String> args = new HashMap<String, String>();
-        args.put("size", "10000");
-        args.put("initialSize", "1000");
-        solrOffHeapCache.init(args, null, null);
+        args.put( "size", "10000" );
+        args.put( "initialSize", "1000" );
+        solrOffHeapCache.init( args, null, null );
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         solrOffHeapCache.clear();
         solrOffHeapCache.close();
     }
 
     @Test
-    public void testStatisticsWhenCacheNotUsedYet() {
-        try {
+    public void testStatisticsWhenCacheNotUsedYet()
+    {
+        try
+        {
             NamedList stats = solrOffHeapCache.getStatistics();
-            assertNotNull(stats);
-            assertEquals(0l, stats.get("lookups"));
-            assertEquals(0l, stats.get("evictions"));
-            assertEquals(0l, stats.get("hits"));
-            assertEquals(0l, stats.get("inserts"));
-        } catch (Exception e) {
-            fail(e.getLocalizedMessage());
+            assertNotNull( stats );
+            assertEquals( 0l, stats.get( "lookups" ) );
+            assertEquals( 0l, stats.get( "evictions" ) );
+            assertEquals( 0l, stats.get( "hits" ) );
+            assertEquals( 0l, stats.get( "inserts" ) );
+        }
+        catch ( Exception e )
+        {
+            fail( e.getLocalizedMessage() );
         }
     }
 
     @Test
-    public void testPut() {
-        try {
-            QueryResultKey queryResultKey = new QueryResultKey(new MatchAllDocsQuery(), new ArrayList<Query>(), new Sort(), 1);
-            DocValues docValues = new DocValues() {
+    public void testPut()
+    {
+        try
+        {
+            QueryResultKey queryResultKey =
+                new QueryResultKey( new MatchAllDocsQuery(), new ArrayList<Query>(), new Sort(), 1 );
+            DocValues docValues = new DocValues()
+            {
                 @Override
-                public String toString(int doc) {
+                public String toString( int doc )
+                {
                     return doc + "asd";
                 }
             };
-            solrOffHeapCache.put(queryResultKey, docValues);
-        } catch (Exception e) {
+            solrOffHeapCache.put( queryResultKey, docValues );
+        }
+        catch ( Exception e )
+        {
             e.printStackTrace();
-            fail(e.getLocalizedMessage());
+            fail( e.getLocalizedMessage() );
         }
     }
 }

@@ -28,39 +28,46 @@ import static org.junit.Assert.fail;
 
 /**
  */
-public class SolrOffHeapIntegrationTest {
+public class SolrOffHeapIntegrationTest
+{
     private static TestHarness h;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp()
+    {
         String data = "target/data/expand";
-        String config = SolrOffHeapCache.class.getResource("/solr/config/solrconfig.xml").getFile();
-        String schema = SolrOffHeapCache.class.getResource("/solr/config/schema.xml").getFile();
-        h = new TestHarness(data, config, schema);
+        String config = SolrOffHeapCache.class.getResource( "/solr/config/solrconfig.xml" ).getFile();
+        String schema = SolrOffHeapCache.class.getResource( "/solr/config/schema.xml" ).getFile();
+        h = new TestHarness( data, config, schema );
     }
 
     @AfterClass
-    public static void tearDown() {
+    public static void tearDown()
+    {
         Cache.clear();
     }
 
     @Test
-    public void testSimpleQuery() {
-        try {
+    public void testSimpleQuery()
+    {
+        try
+        {
             // add a doc to Solr
-            h.validateAddDoc("id", "1", "text", "something is happening here");
+            h.validateAddDoc( "id", "1", "text", "something is happening here" );
 
             // make the query
-            LocalSolrQueryRequest request = h.getRequestFactory("standard", 0, 10).makeRequest("q", "something");
-            String response = h.query("standard", request);
-            assertTrue(response != null);
-            assertTrue(!response.contains("error"));
+            LocalSolrQueryRequest request = h.getRequestFactory( "standard", 0, 10 ).makeRequest( "q", "something" );
+            String response = h.query( "standard", request );
+            assertTrue( response != null );
+            assertTrue( !response.contains( "error" ) );
 
             // check the cache has been hit
-            assertTrue(Cache.entries() > 0);
+            assertTrue( Cache.entries() > 0 );
 
-        } catch (Throwable e) {
-            fail(e.getLocalizedMessage());
+        }
+        catch ( Throwable e )
+        {
+            fail( e.getLocalizedMessage() );
         }
     }
 }
