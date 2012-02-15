@@ -37,6 +37,7 @@
 
   <modules>
     <module>protostuff</module>
+    <module>msgpack</module>
   </modules>
 
   <dependencies>
