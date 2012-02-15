@@ -21,6 +21,13 @@ package org.apache.directmemory.measures;
 
 public class In
 {
+
+    private static final int MILLISECONDS_IN_SECOND = 1000;
+
+    private static final int SECONDS_IN_MINUTE_OR_MINUTES_IN_HOUR = 60;
+
+    private static final int HOUR_IN_DAY = 24;
+
     private double measure;
 
     public In( double measure )
@@ -50,22 +57,22 @@ public class In
 
     public static long seconds( double seconds )
     {
-        return (long) seconds * 1000;
+        return (long) seconds * MILLISECONDS_IN_SECOND;
     }
 
     public static long minutes( double minutes )
     {
-        return seconds( minutes * 60 );
+        return seconds( minutes * SECONDS_IN_MINUTE_OR_MINUTES_IN_HOUR );
     }
 
     public static long hours( double hours )
     {
-        return minutes( hours * 60 );
+        return minutes( hours * SECONDS_IN_MINUTE_OR_MINUTES_IN_HOUR );
     }
 
     public static long days( double days )
     {
-        return hours( days * 24 );
+        return hours( days * HOUR_IN_DAY );
     }
 
     public static In just( double measure )
