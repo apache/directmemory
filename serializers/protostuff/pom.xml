@@ -24,9 +24,9 @@ under the License.
 
   <parent>
     <groupId>org.apache.directmemory</groupId>
-    <artifactId>directmemory-parent</artifactId>
+    <artifactId>directmemory-serializers</artifactId>
     <version>0.5.5-SNAPSHOT</version>
-    <relativePath>../../</relativePath>
+    <relativePath>../</relativePath>
   </parent>
 
   <artifactId>directmemory-protostuff</artifactId>
