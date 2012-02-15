@@ -1,4 +1,4 @@
-package org.apache.directmemory.memory.test;
+package org.apache.directmemory.memory;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

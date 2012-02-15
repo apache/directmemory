@@ -1,4 +1,4 @@
-package org.apache.directmemory.memory.test;
+package org.apache.directmemory.memory;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -20,15 +20,33 @@ package org.apache.directmemory.memory.test;
  */
 
 
-import org.apache.directmemory.memory.OffHeapMergingMemoryBufferImpl;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
+import org.apache.directmemory.memory.OffHeapMemoryBufferImpl;
+import org.junit.Test;
 
-public class OffHeapMergingMemoryBufferTest extends AbstractOffHeapMemoryBufferTest
+public class OffHeapMemoryBufferTest extends AbstractOffHeapMemoryBufferTest
 {
 
     protected OffHeapMemoryBuffer instanciateOffHeapMemoryBuffer( int bufferSize ) 
     {
-        return OffHeapMergingMemoryBufferImpl.createNew( bufferSize );
+        return OffHeapMemoryBufferImpl.createNew( bufferSize );
     }
 
+    @Test
+    public void testFullFillAndFreeAndClearBuffer()
+    {
+        // DIRECTMEMORY-40 : Pointers merging with adjacent free pointers when freeing.
+    }
+    
+    @Test
+    public void testStoreAllocAndFree()
+    {
+        // DIRECTMEMORY-40 : Pointers merging with adjacent free pointers when freeing.
+    }
+    
+    @Test
+    public void testUpdate()
+    {
+        // DIRECTMEMORY-49 : OffHeapMemoryBufferImpl.update does not reuse the same pointer
+    }
 }

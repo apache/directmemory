@@ -1,4 +1,4 @@
-package org.apache.directmemory.serialization.test;
+package org.apache.directmemory.serialization;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
