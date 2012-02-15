@@ -19,11 +19,12 @@ package org.apache.directmemory.monitoring;
  * under the License.
  */
 
+import static java.lang.String.format;
+
 import org.apache.directmemory.cache.Cache;
 import org.apache.directmemory.measures.Monitor;
 import org.apache.directmemory.measures.MonitorService;
 import org.apache.directmemory.memory.Pointer;
-import org.apache.directmemory.misc.Format;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +93,7 @@ public aspect Performance
         Pointer entry = proceed( key, payload );
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( Format.it( "put: [%s] %d bytes", key, payload.length ) );
+            logger.debug( format( "put: [%s] %d bytes", key, payload.length ) );
         }
         mon.stop( startedAt );
         return entry;
@@ -104,7 +105,7 @@ public aspect Performance
         Pointer entry = proceed( key, object, expiresIn );
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( Format.it( "put object: [%s]", key ) );
+            logger.debug( format( "put object: [%s]", key ) );
         }
         mon.stop( startedAt );
         return entry;
@@ -116,7 +117,7 @@ public aspect Performance
         byte[] payload = proceed( key );
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( Format.it( "retrieve: [%s]", key ) );
+            logger.debug( format( "retrieve: [%s]", key ) );
         }
         mon.stop( startedAt );
         return payload;
@@ -128,7 +129,7 @@ public aspect Performance
         Object payload = proceed( key );
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( Format.it( "retrieve object: [%s]", key ) );
+            logger.debug( format( "retrieve object: [%s]", key ) );
         }
         mon.stop( startedAt );
         return payload;
@@ -140,7 +141,7 @@ public aspect Performance
         Pointer pointer = proceed( key );
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( Format.it( "get: [%s]", key ) );
+            logger.debug( format( "get: [%s]", key ) );
         }
         mon.stop( startedAt );
         return pointer;
@@ -152,7 +153,7 @@ public aspect Performance
         proceed();
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( Format.it( "collect LFU" ) );
+            logger.debug( "collect LFU" );
         }
         mon.stop( startedAt );
     }
@@ -163,7 +164,7 @@ public aspect Performance
         proceed();
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( Format.it( "collect expired" ) );
+            logger.debug( "collect expired" );
         }
         mon.stop( startedAt );
     }
@@ -174,7 +175,7 @@ public aspect Performance
         byte[] payload = proceed( obj, clazz );
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( Format.it( "serialize: [%s]", clazz.getSimpleName() ) );
+            logger.debug( format( "serialize: [%s]", clazz.getSimpleName() ) );
         }
         mon.stop( startedAt );
         return payload;
@@ -186,7 +187,7 @@ public aspect Performance
         Object obj = proceed( source, clazz );
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( Format.it( "deserialize: [%s]", clazz.getSimpleName() ) );
+            logger.debug( format( "deserialize: [%s]", clazz.getSimpleName() ) );
         }
         mon.stop( startedAt );
         return obj;
