@@ -24,13 +24,13 @@ under the License.
 
   <parent>
     <groupId>org.apache.directmemory</groupId>
-    <artifactId>directmemory-parent</artifactId>
+    <artifactId>directmemory-platforms</artifactId>
     <version>0.5.5-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
-  <artifactId>directmemory-examples</artifactId>
-  <name>Apache DirectMemory :: Examples</name>
+  <artifactId>directmemory-solr</artifactId>
+  <name>Apache DirectMemory :: Integrations :: Apache Solr</name>
   <packaging>bundle</packaging>
 
   <properties>
@@ -40,7 +40,6 @@ under the License.
     </osgi.import>
     <osgi.export>org.apache.directmemory.examples.*;version="${project.version}</osgi.export>
   </properties>
-
 
   <build>
     <plugins>
@@ -72,20 +71,7 @@ under the License.
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.6.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.directmemory</groupId>
-      <artifactId>directmemory-cache</artifactId>
-      <version>0.5.5-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.2</version>
-      <scope>test</scope>
+      <version>${slf4j.version}</version>
     </dependency>
 
     <dependency>
@@ -95,9 +81,17 @@ under the License.
     </dependency>
 
     <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.10</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr-test-framework</artifactId>
       <version>3.5.0</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
