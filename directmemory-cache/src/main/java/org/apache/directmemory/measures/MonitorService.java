@@ -53,6 +53,6 @@ public interface MonitorService
 
     void setMax( long max );
 
-
     String getName();
+
 }
