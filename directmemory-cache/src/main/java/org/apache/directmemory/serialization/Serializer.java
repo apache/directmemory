@@ -24,10 +24,10 @@ import java.io.IOException;
 public interface Serializer
 {
 
-    byte[] serialize( Object obj, @SuppressWarnings( { "rawtypes", "unchecked" } ) Class clazz )
+    <T> byte[] serialize( T obj )
         throws IOException;
 
-    Object deserialize( byte[] source, @SuppressWarnings( { "rawtypes", "unchecked" } ) Class clazz )
+    <T> T deserialize( byte[] source, Class<T> clazz )
         throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException;
 
 }

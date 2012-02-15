@@ -128,7 +128,7 @@ public class CacheServiceImpl
     {
         try
         {
-            byte[] payload = serializer.serialize( object, object.getClass() );
+            byte[] payload = serializer.serialize( object );
             Pointer ptr = putByteArray( key, payload, expiresIn );
             ptr.clazz = object.getClass();
             return ptr;
@@ -152,7 +152,7 @@ public class CacheServiceImpl
         Pointer p = map.get( key );
         try
         {
-            p = memoryManager.update( p, serializer.serialize( object, object.getClass() ) );
+            p = memoryManager.update( p, serializer.serialize( object ) );
             p.clazz = object.getClass();
             return p;
         }

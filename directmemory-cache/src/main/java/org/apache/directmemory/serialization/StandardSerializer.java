@@ -24,13 +24,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 public class StandardSerializer
     implements Serializer
 {
 
-    public byte[] serialize( Object obj, @SuppressWarnings( { "rawtypes", "unchecked" } ) Class clazz )
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> byte[] serialize( T obj )
         throws IOException
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -41,13 +44,18 @@ public class StandardSerializer
         return baos.toByteArray();
     }
 
-    public Serializable deserialize( byte[] source, @SuppressWarnings( { "rawtypes", "unchecked" } ) Class clazz )
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> T deserialize( byte[] source, Class<T> clazz )
         throws IOException, ClassNotFoundException
     {
         ByteArrayInputStream bis = new ByteArrayInputStream( source );
         ObjectInputStream ois = new ObjectInputStream( bis );
-        Serializable obj = (Serializable) ois.readObject();
+        T obj = clazz.cast( ois.readObject() );
         ois.close();
         return obj;
     }
+
 }

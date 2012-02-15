@@ -64,7 +64,7 @@ public class SerializerTest
         for ( int i = 0; i < howMany; i++ )
         {
             long split = stopWatch.start();
-            final byte[] array = serializer.serialize( pojo, pojo.getClass() );
+            final byte[] array = serializer.serialize( pojo );
             stopWatch.stop( split );
             long split2 = stopWatch2.start();
             DummyPojo check = (DummyPojo) serializer.deserialize( array, pojo.getClass() );

@@ -19,13 +19,17 @@ package org.apache.directmemory.serialization;
  * under the License.
  */
 
-import com.dyuproject.protostuff.LinkedBuffer;
-import com.dyuproject.protostuff.ProtostuffIOUtil;
-import com.dyuproject.protostuff.Schema;
-import com.dyuproject.protostuff.runtime.RuntimeSchema;
-import org.apache.directmemory.measures.Ram;
+import static com.dyuproject.protostuff.LinkedBuffer.allocate;
+import static com.dyuproject.protostuff.ProtostuffIOUtil.mergeFrom;
+import static com.dyuproject.protostuff.ProtostuffIOUtil.toByteArray;
+import static com.dyuproject.protostuff.runtime.RuntimeSchema.getSchema;
 
 import java.io.IOException;
+
+import org.apache.directmemory.measures.Ram;
+
+import com.dyuproject.protostuff.LinkedBuffer;
+import com.dyuproject.protostuff.Schema;
 
 public class ProtoStuffSerializerV1
     implements Serializer
@@ -33,20 +37,22 @@ public class ProtoStuffSerializerV1
 
     static int serBufferSize = Ram.Kb( 3 );
 
-    /* (non-Javadoc)
-      * @see org.apache.directmemory.utils.Serializer#serialize(java.lang.Object, java.lang.Class)
-      */
-    @SuppressWarnings( "unchecked" )
-    public byte[] serialize( Object obj, @SuppressWarnings( "rawtypes" ) Class clazz )
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> byte[] serialize( T obj )
         throws IOException
     {
-        @SuppressWarnings( "rawtypes" ) Schema schema = RuntimeSchema.getSchema( clazz );
-        final LinkedBuffer buffer = LinkedBuffer.allocate( serBufferSize );
+        @SuppressWarnings( "unchecked" ) // type should be safe since got directly from the obj
+        final Class<T> clazz = (Class<T>) obj.getClass();
+        final Schema<T> schema = getSchema( clazz );
+        final LinkedBuffer buffer = allocate( serBufferSize );
         byte[] protostuff = null;
 
         try
         {
-            protostuff = ProtostuffIOUtil.toByteArray( obj, schema, buffer );
+            protostuff = toByteArray( obj, schema, buffer );
         }
         finally
         {
@@ -55,17 +61,17 @@ public class ProtoStuffSerializerV1
         return protostuff;
     }
 
-    /* (non-Javadoc)
-      * @see org.apache.directmemory.utils.Serializer#deserialize(byte[], java.lang.Class)
-      */
-    @SuppressWarnings( "unchecked" )
-    public Object deserialize( byte[] source, @SuppressWarnings( "rawtypes" ) Class clazz )
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> T deserialize( byte[] source, Class<T> clazz )
         throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
     {
-        final Object object = clazz.newInstance();
-        @SuppressWarnings( "rawtypes" )
-        final Schema schema = RuntimeSchema.getSchema( clazz );
-        ProtostuffIOUtil.mergeFrom( source, object, schema );
+        final T object = clazz.newInstance();
+        final Schema<T> schema = getSchema( clazz );
+        mergeFrom( source, object, schema );
         return object;
     }
+
 }

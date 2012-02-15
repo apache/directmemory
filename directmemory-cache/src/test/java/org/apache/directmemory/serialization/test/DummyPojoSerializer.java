@@ -19,6 +19,11 @@ package org.apache.directmemory.serialization.test;
  * under the License.
  */
 
+import static com.dyuproject.protostuff.LinkedBuffer.*;
+import static com.dyuproject.protostuff.runtime.RuntimeSchema.*;
+
+import static com.dyuproject.protostuff.ProtostuffIOUtil.*;
+
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
@@ -38,24 +43,22 @@ public final class DummyPojoSerializer
 
     public DummyPojoSerializer()
     {
-        data = ProtostuffIOUtil.toByteArray( pojo, RuntimeSchema.getSchema( DummyPojo.class ),
-                                             LinkedBuffer.allocate( 2048 ) );
+        data = toByteArray( pojo, getSchema( DummyPojo.class ),
+                                             allocate( 2048 ) );
     }
 
     @Override
-    public Object deserialize( byte[] source, @SuppressWarnings( { "rawtypes", "unchecked" } ) Class clazz )
+    public <T> T deserialize( byte[] source, Class<T> clazz )
         throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
     {
         // testing puts only
-        return pojo;
+        return (T) pojo;
     }
 
     @Override
-    public byte[] serialize( Object obj, @SuppressWarnings( { "rawtypes", "unchecked" } ) Class clazz )
+    public <T> byte[] serialize( T obj )
         throws IOException
     {
-//            byte[] ser = new byte[data.length];
-//            System.arraycopy(data, 0, ser, 0, data.length);
         return data;
     }
 
