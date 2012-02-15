@@ -19,20 +19,8 @@ package org.apache.directmemory.memory.test;
  * under the License.
  */
 
-import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
-import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.google.common.collect.Maps;
-import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
-import org.apache.directmemory.memory.OffHeapMemoryBufferImpl;
-import org.apache.directmemory.memory.Pointer;
-import org.apache.directmemory.misc.Util;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Date;
 import java.util.Map;
@@ -40,8 +28,20 @@ import java.util.Random;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.OffHeapMemoryBuffer;
+import org.apache.directmemory.memory.OffHeapMemoryBufferImpl;
+import org.apache.directmemory.memory.Pointer;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import com.google.common.collect.Maps;
 
 @Ignore
 public class BaseTest
@@ -131,12 +131,19 @@ public class BaseTest
             final byte[] check = mem.retrieve( p );
             assertNotNull( check );
             assertEquals( test + " - " + i, new String( check ) );
-            long crc1 = Util.crc32( payload );
-            long crc2 = Util.crc32( check );
+            long crc1 = crc32( payload );
+            long crc2 = crc32( check );
             assertEquals( crc1, crc2 );
         }
 
         logger.info( "total used=" + Ram.inMb( mem.used() ) );
+    }
+
+    private static long crc32( byte[] payload )
+    {
+        final Checksum checksum = new CRC32();
+        checksum.update( payload, 0, payload.length );
+        return checksum.getValue();
     }
 
     @Test
