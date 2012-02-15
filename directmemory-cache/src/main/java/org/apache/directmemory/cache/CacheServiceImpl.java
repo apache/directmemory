@@ -20,18 +20,6 @@ package org.apache.directmemory.cache;
  */
 
 import static java.lang.String.format;
-import com.google.common.collect.MapMaker;
-import org.apache.directmemory.measures.Every;
-import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.MemoryManagerService;
-import org.apache.directmemory.memory.MemoryManagerServiceImpl;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
-import org.apache.directmemory.memory.Pointer;
-import org.apache.directmemory.misc.Format;
-import org.apache.directmemory.serialization.ProtoStuffWithLinkedBufferSerializer;
-import org.apache.directmemory.serialization.Serializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -39,6 +27,19 @@ import java.nio.ByteBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentMap;
+
+import org.apache.directmemory.measures.Every;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.MemoryManagerService;
+import org.apache.directmemory.memory.MemoryManagerServiceImpl;
+import org.apache.directmemory.memory.OffHeapMemoryBuffer;
+import org.apache.directmemory.memory.Pointer;
+import org.apache.directmemory.serialization.ProtoStuffWithLinkedBufferSerializer;
+import org.apache.directmemory.serialization.Serializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.MapMaker;
 
 public class CacheServiceImpl
     implements CacheService
@@ -72,7 +73,6 @@ public class CacheServiceImpl
         this.memoryManager = memoryManager;
     }
 
-
     public void scheduleDisposalEvery( long l )
     {
         timer.schedule( new TimerTask()
@@ -92,9 +92,17 @@ public class CacheServiceImpl
     {
         map = new MapMaker().concurrencyLevel( concurrencyLevel ).initialCapacity( initialCapacity ).makeMap();
 
-        logger.info( "*** initializing *******************************\r\n" + Format.logo() );
-        logger.info( "************************************************" );
+        logger.info( "******************************** initializing *******************************" );
+        logger.info( "         ____  _                 __  __  ___" );
+        logger.info( "        / __ \\(_)________  _____/ /_/  |/  /___  ____ ___  ____  _______  __" );
+        logger.info( "       / / / / // ___/ _ \\/ ___/ __/ /|_/ // _ \\/ __ `__ \\/ __ \\/ ___/ / / /" );
+        logger.info( "      / /_/ / // /  /  __/ /__/ /_/ /  / //  __/ / / / / / /_/ / /  / /_/ / " );
+        logger.info( "     /_____/_//_/   \\___/\\___/\\__/_/  /_/ \\___/_/ /_/ /_/\\____/_/   \\__, /" );
+        logger.info( "                                                                   /____/   " );
+        logger.info( "********************************************************************************" );
+
         memoryManager.init( numberOfBuffers, size );
+
         logger.info( "initialized" );
         logger.info( format( "number of buffer(s): \t%1d  with %2s each", numberOfBuffers, Ram.inMb( size ) ) );
         logger.info( format( "initial capacity: \t%1d", initialCapacity ) );
