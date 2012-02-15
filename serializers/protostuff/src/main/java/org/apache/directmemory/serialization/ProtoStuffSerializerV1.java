@@ -31,7 +31,7 @@ import org.apache.directmemory.measures.Ram;
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.Schema;
 
-public class ProtoStuffSerializerV1
+public final class ProtoStuffSerializerV1
     implements Serializer
 {
 

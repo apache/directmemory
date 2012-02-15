@@ -9,7 +9,7 @@ package org.apache.directmemory.serialization;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -19,23 +19,34 @@ package org.apache.directmemory.serialization;
  * under the License.
  */
 
-import static org.apache.directmemory.serialization.SerializerFactory.createNewSerializer;
-import static org.junit.Assert.assertTrue;
+import java.io.Serializable;
 
-import org.junit.Test;
-
-public final class SerializerFactoryTestCase
+/**
+ * Copied from the core.
+ */
+public class DummyPojo
+    implements Serializable
 {
-
-    /*
-     * TODO please update the test once DM will be modularized!
+    /**
+     * A dummy pojo implementation for test purposes
      */
-    @Test
-    public void verifySerializerInstantiation()
-    {
-        Serializer serializer = createNewSerializer();
+    private static final long serialVersionUID = 1L;
 
-        assertTrue( serializer instanceof StandardSerializer );
+    public DummyPojo()
+    {
+
     }
 
+    public DummyPojo( String name, int size )
+    {
+        this.name = name;
+        this.size = size;
+        payLoad = new String( new byte[size] );
+    }
+
+    public String name;
+
+    public int size;
+
+    public String payLoad;
 }

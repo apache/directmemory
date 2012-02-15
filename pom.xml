@@ -194,6 +194,7 @@ under the License.
   <modules>
     <module>directmemory-cache</module>
     <module>platforms</module>
+    <module>serializers/protostuff</module>
     <module>itests</module>
     <module>examples</module>
   </modules>

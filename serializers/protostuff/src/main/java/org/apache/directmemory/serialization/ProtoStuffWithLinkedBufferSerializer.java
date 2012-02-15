@@ -112,4 +112,5 @@ public final class ProtoStuffWithLinkedBufferSerializer
         mergeFrom( source, object, schema );
         return object;
     }
+
 }

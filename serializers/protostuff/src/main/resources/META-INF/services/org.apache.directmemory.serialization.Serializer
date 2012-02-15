@@ -16,3 +16,4 @@
  # under the License.
 
 org.apache.directmemory.serialization.ProtoStuffWithLinkedBufferSerializer
+org.apache.directmemory.serialization.ProtoStuffSerializerV1.java
