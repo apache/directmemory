@@ -20,6 +20,7 @@ package org.apache.directmemory.cache;
  */
 
 import static java.lang.String.format;
+import static org.apache.directmemory.serialization.SerializerFactory.createNewSerializer;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -34,7 +35,6 @@ import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.MemoryManagerServiceImpl;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
-import org.apache.directmemory.serialization.ProtoStuffWithLinkedBufferSerializer;
 import org.apache.directmemory.serialization.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +49,7 @@ public class CacheServiceImpl
 
     private ConcurrentMap<String, Pointer> map;
 
-    private Serializer serializer = new ProtoStuffWithLinkedBufferSerializer();
+    private Serializer serializer = createNewSerializer();
 
     private MemoryManagerService memoryManager = new MemoryManagerServiceImpl();
 
