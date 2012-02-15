@@ -30,9 +30,18 @@ public final class SerializerFactory
     {
         Iterator<Serializer> serializers = load( Serializer.class ).iterator();
 
-        if ( serializers.hasNext() )
+        // iterate over all found services
+        while ( serializers.hasNext() )
         {
-            return serializers.next();
+            // try getting the current service and return
+            try
+            {
+                return serializers.next();
+            }
+            catch ( Throwable t )
+            {
+                // just ignore, skip and try getting the next
+            }
         }
 
         return new StandardSerializer();
