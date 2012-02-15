@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.directmemory.serialization.Serializer;
 import org.kohsuke.MetaInfServices;
 import org.msgpack.MessagePack;
+import org.msgpack.annotation.Message;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -39,6 +40,14 @@ public final class MessagePackSerializer
     public <T> byte[] serialize( T obj )
         throws IOException
     {
+        Class<?> clazz = obj.getClass();
+
+        if ( !clazz.isAnnotationPresent( Message.class )
+                        && msgpack.lookup( clazz ) == null )
+        {
+            msgpack.register( clazz );
+        }
+
         return msgpack.write( obj );
     }
 
