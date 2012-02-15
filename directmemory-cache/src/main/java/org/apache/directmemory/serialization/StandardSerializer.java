@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class StandardSerializer
+public final class StandardSerializer
     implements Serializer
 {
 
