@@ -19,6 +19,8 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
+import static java.lang.String.format;
+
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -34,31 +36,30 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.misc.Format;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * {@link OffHeapMemoryBuffer} implementation that internally user 3 data structures to
  * store the pointers :
- * 
+ *
  * - 1 sorted list backed by a ({@link TreeMap}) that store the free pointers sorted
  * by size desc, used to allocate memory efficiently : if the first pointer has
  * not enough capacity, then no other pointers will.
- * 
+ *
  * - 1 sorted list backed by a ({@link TreeMap}) that store the free pointers sorted
  * by address offset, used to merge freed pointer efficiently : when freeing a
  * pointer, direct lookup and navigation in this list will find adjacent
  * pointers
- * 
+ *
  * - 1 set backed by ({@link ConcurrentHashMap}) of used pointers, to not loose a
  * reference to a pointer, and to be able to the buffer and stay in a consistent
  * state
- * 
+ *
  * {@link TreeMap} can be safely used because synchronization is achieved through a {@link Lock}
- * 
+ *
  * @author bperroud
- * 
+ *
  */
 public class OffHeapMergingMemoryBufferImpl
     extends AbstractOffHeapMemoryBuffer
@@ -96,8 +97,8 @@ public class OffHeapMergingMemoryBufferImpl
      */
     public static OffHeapMergingMemoryBufferImpl createNew( int capacity, int bufferNumber )
     {
-        logger.info( Format.it( "Creating OffHeapLinkedMemoryBuffer %d with a capacity of %s", bufferNumber,
-                                Ram.inMb( capacity ) ) );
+        logger.info( format( "Creating OffHeapLinkedMemoryBuffer %d with a capacity of %s",
+                             bufferNumber, Ram.inMb( capacity ) ) );
         return new OffHeapMergingMemoryBufferImpl( ByteBuffer.allocateDirect( capacity ), bufferNumber );
     }
 
@@ -191,7 +192,7 @@ public class OffHeapMergingMemoryBufferImpl
 
                 Pointer lowerPointerToMerge = pointer2free;
 
-                // search for adjacent pointers lower than the current one 
+                // search for adjacent pointers lower than the current one
                 for ( Pointer adjacentPointer : freePointersByMemoryOffsetAsc.headMap( pointer2free, false )
                     .descendingKeySet() )
                 {
@@ -328,7 +329,7 @@ public class OffHeapMergingMemoryBufferImpl
             if ( goodOne == null )
             {
                 allocationErrors++;
-                return null; // not enough space on this buffer. 
+                return null; // not enough space on this buffer.
             }
 
             // Remove good pointer because it's size and offset will change.
@@ -346,7 +347,7 @@ public class OffHeapMergingMemoryBufferImpl
                 fresh.free = true;
                 fresh.created = System.currentTimeMillis();
 
-                // create a new pointer for the remaining space 
+                // create a new pointer for the remaining space
                 final Pointer newGoodOne = new Pointer( fresh.end + 1, goodOne.end );
                 newGoodOne.free = true;
 

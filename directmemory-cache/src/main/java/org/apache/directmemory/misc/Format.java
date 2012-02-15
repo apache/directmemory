@@ -22,12 +22,6 @@ package org.apache.directmemory.misc;
 public class Format
 {
 
-    public static String it( String string, Object... args )
-    {
-        java.util.Formatter formatter = new java.util.Formatter();
-        return formatter.format( string, args ).toString();
-    }
-
     public static String logo()
     {
         return "         ____  _                 __  __  ___\r\n"

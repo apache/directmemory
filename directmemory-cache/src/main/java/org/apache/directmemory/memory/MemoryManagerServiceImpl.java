@@ -19,10 +19,12 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
+import static java.lang.String.format;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.misc.Format;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +52,7 @@ public class MemoryManagerServiceImpl
             buffers.add( offHeapMemoryBuffer );
         }
 
-        logger.info( Format.it( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
+        logger.info( format( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
     }
 
     protected OffHeapMemoryBuffer instanciateOffHeapMemoryBuffer( int size, int bufferNumber )

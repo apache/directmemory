@@ -19,15 +19,15 @@ package org.apache.directmemory.measures;
  * under the License.
  */
 
-
-import org.apache.directmemory.misc.Format;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.lang.String.format;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MonitorServiceImpl
     implements MonitorService
@@ -92,9 +92,9 @@ public class MonitorServiceImpl
 
     public String toString()
     {
-        return Format.it( "%1$s hits: %2$d, avg: %3$s ms, tot: %4$s seconds", name, hits.get(),
-                          new DecimalFormat( "####.###" ).format( (double) average() / 1000000 ),
-                          new DecimalFormat( "####.###" ).format( (double) totalTime / 1000000000 ) );
+        return format( "%1$s hits: %2$d, avg: %3$s ms, tot: %4$s seconds", name, hits.get(),
+                       new DecimalFormat( "####.###" ).format( (double) average() / 1000000 ),
+                       new DecimalFormat( "####.###" ).format( (double) totalTime / 1000000000 ) );
     }
 
     public void dump( String prefix )

@@ -19,6 +19,8 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
+import static java.lang.String.format;
+
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -28,7 +30,6 @@ import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.misc.Format;
 import org.josql.Query;
 import org.josql.QueryExecutionException;
 import org.josql.QueryParseException;
@@ -61,8 +62,8 @@ public class OffHeapMemoryBufferImpl
 
     public static OffHeapMemoryBufferImpl createNew( int capacity, int bufferNumber )
     {
-        logger.info( Format.it( "Creating OffHeapMemoryBuffer %d with a capacity of %s", bufferNumber,
-                                Ram.inMb( capacity ) ) );
+        logger.info( format( "Creating OffHeapMemoryBuffer %d with a capacity of %s",
+                             bufferNumber, Ram.inMb( capacity ) ) );
         return new OffHeapMemoryBufferImpl( ByteBuffer.allocateDirect( capacity ), bufferNumber );
     }
 
@@ -258,7 +259,7 @@ public class OffHeapMemoryBufferImpl
         return howMuch;
     }
 
-    // TODO : This function should be put in an Util class. 
+    // TODO : This function should be put in an Util class.
     public static long crc32( byte[] payload )
     {
         final Checksum checksum = new CRC32();

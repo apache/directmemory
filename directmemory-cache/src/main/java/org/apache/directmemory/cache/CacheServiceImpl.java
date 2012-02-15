@@ -19,7 +19,7 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
-
+import static java.lang.String.format;
 import com.google.common.collect.MapMaker;
 import org.apache.directmemory.measures.Every;
 import org.apache.directmemory.measures.Ram;
@@ -96,9 +96,9 @@ public class CacheServiceImpl
         logger.info( "************************************************" );
         memoryManager.init( numberOfBuffers, size );
         logger.info( "initialized" );
-        logger.info( Format.it( "number of buffer(s): \t%1d  with %2s each", numberOfBuffers, Ram.inMb( size ) ) );
-        logger.info( Format.it( "initial capacity: \t%1d", initialCapacity ) );
-        logger.info( Format.it( "concurrency level: \t%1d", concurrencyLevel ) );
+        logger.info( format( "number of buffer(s): \t%1d  with %2s each", numberOfBuffers, Ram.inMb( size ) ) );
+        logger.info( format( "initial capacity: \t%1d", initialCapacity ) );
+        logger.info( format( "concurrency level: \t%1d", concurrencyLevel ) );
         scheduleDisposalEvery( Every.seconds( 10 ) );
     }
 
@@ -297,12 +297,12 @@ public class CacheServiceImpl
 
     public void dump( OffHeapMemoryBuffer mem )
     {
-        logger.info( Format.it( "off-heap - buffer: \t%1d", mem.getBufferNumber() ) );
-        logger.info( Format.it( "off-heap - allocated: \t%1s", Ram.inMb( mem.capacity() ) ) );
-        logger.info( Format.it( "off-heap - used:      \t%1s", Ram.inMb( mem.used() ) ) );
-        logger.info( Format.it( "heap 	- max: \t%1s", Ram.inMb( Runtime.getRuntime().maxMemory() ) ) );
-        logger.info( Format.it( "heap     - allocated: \t%1s", Ram.inMb( Runtime.getRuntime().totalMemory() ) ) );
-        logger.info( Format.it( "heap     - free : \t%1s", Ram.inMb( Runtime.getRuntime().freeMemory() ) ) );
+        logger.info( format( "off-heap - buffer: \t%1d", mem.getBufferNumber() ) );
+        logger.info( format( "off-heap - allocated: \t%1s", Ram.inMb( mem.capacity() ) ) );
+        logger.info( format( "off-heap - used:      \t%1s", Ram.inMb( mem.used() ) ) );
+        logger.info( format( "heap 	- max: \t%1s", Ram.inMb( Runtime.getRuntime().maxMemory() ) ) );
+        logger.info( format( "heap     - allocated: \t%1s", Ram.inMb( Runtime.getRuntime().totalMemory() ) ) );
+        logger.info( format( "heap     - free : \t%1s", Ram.inMb( Runtime.getRuntime().freeMemory() ) ) );
         logger.info( "************************************************" );
     }
 
