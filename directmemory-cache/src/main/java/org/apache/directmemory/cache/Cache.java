@@ -23,13 +23,9 @@ import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.serialization.Serializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Cache
 {
-
-    private static Logger logger = LoggerFactory.getLogger( Cache.class );
 
     private static CacheService cacheService = new CacheServiceImpl( getMemoryManager() );
 
