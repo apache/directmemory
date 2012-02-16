@@ -22,11 +22,11 @@ package org.apache.directmemory.memory;
 import java.util.List;
 
 /**
- * Interface describing the buffer allocation policy. 
- * The implementations will be initialized by setting the list of buffers {@link #init(List)}, 
- * and every allocation will call {@link #getActiveBuffer(OffHeapMemoryBuffer, int)}, 
- * passing the previously (possibly null) buffer that failed to allocate and the number of the current allocation 
- * 
+ * Interface describing the buffer allocation policy.
+ * The implementations will be initialized by setting the list of buffers {@link #init(List)},
+ * and every allocation will call {@link #getActiveBuffer(OffHeapMemoryBuffer, int)},
+ * passing the previously (possibly null) buffer that failed to allocate and the number of the current allocation
+ *
  * @author bperroud
  *
  */
@@ -35,14 +35,14 @@ public interface AllocationPolicy
 
     /**
      * Initialization function.
-     * 
+     *
      * @param buffers
      */
     void init( List<OffHeapMemoryBuffer> buffers );
 
     /**
      * Returns the active buffer in which to allocate.
-     * 
+     *
      * @param previouslyAllocatedBuffer : the previously allocated buffer, or null if it's the first allocation
      * @param allocationNumber : the number of time the allocation has already failed.
      * @return the buffer to allocate, or null if allocation has failed.
@@ -53,5 +53,5 @@ public interface AllocationPolicy
      * Reset internal state
      */
     void reset();
-    
+
 }
