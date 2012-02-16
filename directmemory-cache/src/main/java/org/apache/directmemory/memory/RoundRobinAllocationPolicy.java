@@ -56,7 +56,7 @@ public class RoundRobinAllocationPolicy
     }
 
     @Override
-    public void setBuffers( List<OffHeapMemoryBuffer> buffers )
+    public void init( List<OffHeapMemoryBuffer> buffers )
     {
         this.buffers = buffers;
     }

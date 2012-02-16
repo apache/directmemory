@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * Interface describing the buffer allocation policy. 
- * The implementations will be initialized by setting the list of buffers {@link #setBuffers(List)}, 
+ * The implementations will be initialized by setting the list of buffers {@link #init(List)}, 
  * and every allocation will call {@link #getActiveBuffer(OffHeapMemoryBuffer, int)}, 
  * passing the previously (possibly null) buffer that failed to allocate and the number of the current allocation 
  * 
@@ -38,7 +38,7 @@ public interface AllocationPolicy
      * 
      * @param buffers
      */
-    void setBuffers( List<OffHeapMemoryBuffer> buffers );
+    void init( List<OffHeapMemoryBuffer> buffers );
 
     /**
      * Returns the active buffer in which to allocate.

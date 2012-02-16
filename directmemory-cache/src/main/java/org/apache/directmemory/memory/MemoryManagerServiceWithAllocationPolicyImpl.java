@@ -35,7 +35,7 @@ public class MemoryManagerServiceWithAllocationPolicyImpl
     public void init( int numberOfBuffers, int size )
     {
         super.init( numberOfBuffers, size );
-        allocationPolicy.setBuffers( getBuffers() );
+        allocationPolicy.init( getBuffers() );
     }
     
     public void setAllocationPolicy( final AllocationPolicy allocationPolicy )
