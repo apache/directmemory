@@ -19,11 +19,9 @@ package org.apache.directmemory.serialization;
  * under the License.
  */
 
-import static com.dyuproject.protostuff.LinkedBuffer.allocate;
-import static com.dyuproject.protostuff.ProtostuffIOUtil.toByteArray;
-import static com.dyuproject.protostuff.runtime.RuntimeSchema.getSchema;
-
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.misc.DummyPojo;
@@ -38,8 +36,19 @@ public final class DummyPojoSerializer
 
     public DummyPojoSerializer()
     {
-        data = toByteArray( pojo, getSchema( DummyPojo.class ),
-                                             allocate( 2048 ) );
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try
+        {
+            ObjectOutputStream oos = new ObjectOutputStream( baos );
+            oos.writeObject( pojo );
+            oos.flush();
+            oos.close();
+        }
+        catch ( Exception e )
+        {
+            // should not happen
+        }
+        data = baos.toByteArray();
     }
 
     @Override
