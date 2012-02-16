@@ -251,6 +251,7 @@ under the License.
     <protostuff.version>1.0.4</protostuff.version>
     <slf4j.version>1.6.4</slf4j.version>
     <msgpack.version>0.6.5</msgpack.version>
+    <protobuf.version>2.4.1</protobuf.version>
     <wagon.version>2.2</wagon.version>
 
     <!-- Plugin Versions -->
@@ -600,6 +601,12 @@ under the License.
         <groupId>org.msgpack</groupId>
         <artifactId>msgpack</artifactId>
         <version>${msgpack.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>${protobuf.version}</version>
       </dependency>
 
       <dependency>

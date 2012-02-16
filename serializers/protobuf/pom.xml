@@ -38,7 +38,7 @@ under the License.
   <properties>
     <osgi.import>
       !org.apache.directmemory*,
-      com.dyuproject.protostuff*;version="[1,2)",
+      com.google.protobuf*;version="[${protobuf.version})",
       *
     </osgi.import>
     <osgi.export>org.apache.directmemory*;version="${project.version}</osgi.export>
@@ -54,7 +54,6 @@ under the License.
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
-      <version>2.4.1</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
