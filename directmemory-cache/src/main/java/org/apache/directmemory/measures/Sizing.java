@@ -19,7 +19,7 @@ package org.apache.directmemory.measures;
  * under the License.
  */
 
-import java.util.Formatter;
+import static java.lang.String.format;
 
 public class Sizing
 {
@@ -45,16 +45,17 @@ public class Sizing
 
     public static String inKb( long bytes )
     {
-        return new Formatter().format( "%(,.1fKb", (double) bytes / 1024 ).toString();
+        return format( "%(,.1fKb", (double) bytes / 1024 );
     }
 
     public static String inMb( long bytes )
     {
-        return new Formatter().format( "%(,.1fMb", (double) bytes / 1024 / 1024 ).toString();
+        return format( "%(,.1fMb", (double) bytes / 1024 / 1024 );
     }
 
     public static String inGb( long bytes )
     {
-        return new Formatter().format( "%(,.1fKb", (double) bytes / 1024 / 1024 / 1024 ).toString();
+        return format( "%(,.1fKb", (double) bytes / 1024 / 1024 / 1024 );
     }
+
 }
