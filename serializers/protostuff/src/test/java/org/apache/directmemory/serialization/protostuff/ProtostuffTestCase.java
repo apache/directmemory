@@ -1,4 +1,4 @@
-package org.apache.directmemory.serialization;
+package org.apache.directmemory.serialization.protostuff;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -27,6 +27,9 @@ import java.io.IOException;
 import org.apache.directmemory.measures.Monitor;
 import org.apache.directmemory.measures.MonitorService;
 import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.serialization.Serializer;
+import org.apache.directmemory.serialization.protostuff.ProtoStuffSerializerV1;
+import org.apache.directmemory.serialization.protostuff.ProtoStuffWithLinkedBufferSerializer;
 import org.junit.Test;
 
 public final class ProtostuffTestCase

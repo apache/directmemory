@@ -1,4 +1,4 @@
-package org.apache.directmemory.serialization;
+package org.apache.directmemory.serialization.protostuff;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

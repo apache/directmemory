@@ -1,4 +1,4 @@
-package org.apache.directmemory.serialization;
+package org.apache.directmemory.serialization.protostuff;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -27,15 +27,54 @@ import static com.dyuproject.protostuff.runtime.RuntimeSchema.getSchema;
 import java.io.IOException;
 
 import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.serialization.Serializer;
 
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.Schema;
 
-public final class ProtoStuffSerializerV1
+public final class ProtoStuffWithLinkedBufferSerializer
     implements Serializer
 {
 
-    static int serBufferSize = Ram.Kb( 3 );
+    static int bufferSize = Ram.Kb( 3 );
+
+    /*
+         *
+         *
+         *
+        LinkedBuffer buffer8k = ...;
+        try
+        {
+            ProtostuffIOUtil.writeTo(new ByteBufferOutputStream() { // paging logic }, message, schema, buffer8k)
+        }
+        finally
+        {
+            buffer8k.clear();
+        }
+
+        ProtostuffIOUtil.mergeFrom(new ByteArrayInputStream() { // paging logic}, message, schema, buffer8k);
+
+    */
+
+    private static final ThreadLocal<LinkedBuffer> localBuffer = new ThreadLocal<LinkedBuffer>()
+    {
+        protected LinkedBuffer initialValue()
+        {
+            return allocate( bufferSize );
+        }
+    };
+
+    public ProtoStuffWithLinkedBufferSerializer()
+    {
+
+    }
+
+
+    public ProtoStuffWithLinkedBufferSerializer( int bufferSize )
+    {
+        ProtoStuffWithLinkedBufferSerializer.bufferSize = bufferSize;
+    }
+
 
     /**
      * {@inheritDoc}
@@ -47,7 +86,8 @@ public final class ProtoStuffSerializerV1
         @SuppressWarnings( "unchecked" ) // type should be safe since got directly from the obj
         final Class<T> clazz = (Class<T>) obj.getClass();
         final Schema<T> schema = getSchema( clazz );
-        final LinkedBuffer buffer = allocate( serBufferSize );
+
+        final LinkedBuffer buffer = localBuffer.get();
         byte[] protostuff = null;
 
         try
@@ -68,8 +108,8 @@ public final class ProtoStuffSerializerV1
     public <T> T deserialize( byte[] source, Class<T> clazz )
         throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
     {
-        final T object = clazz.newInstance();
-        final Schema<T> schema = getSchema( clazz );
+        T object = clazz.newInstance();
+        Schema<T> schema = getSchema( clazz );
         mergeFrom( source, object, schema );
         return object;
     }

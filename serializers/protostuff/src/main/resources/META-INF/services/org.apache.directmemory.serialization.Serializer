@@ -15,5 +15,5 @@
  # specific language governing permissions and limitations
  # under the License.
 
-org.apache.directmemory.serialization.ProtoStuffWithLinkedBufferSerializer
-org.apache.directmemory.serialization.ProtoStuffSerializerV1.java
+org.apache.directmemory.serialization.protostuff.ProtoStuffWithLinkedBufferSerializer
+org.apache.directmemory.serialization.protostuff.ProtoStuffSerializerV1.java
