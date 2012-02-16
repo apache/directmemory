@@ -19,20 +19,14 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
-import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
-import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
-import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
-import com.carrotsearch.junitbenchmarks.annotation.BenchmarkHistoryChart;
-import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
-import com.carrotsearch.junitbenchmarks.annotation.LabelType;
-import org.apache.directmemory.cache.Cache;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.directmemory.measures.Every;
 import org.apache.directmemory.measures.Monitor;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
 import org.apache.directmemory.memory.Pointer;
-import org.josql.QueryExecutionException;
-import org.josql.QueryParseException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -40,8 +34,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
+import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
+import com.carrotsearch.junitbenchmarks.annotation.BenchmarkHistoryChart;
+import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
+import com.carrotsearch.junitbenchmarks.annotation.LabelType;
 
 @AxisRange( min = 0, max = 1 )
 @BenchmarkMethodChart()
@@ -103,7 +101,7 @@ public class CacheLightConcurrentTest
     @BenchmarkOptions( benchmarkRounds = 1, warmupRounds = 0, concurrency = 1 )
     @Test
     public void LFUEviction()
-        throws QueryParseException, QueryExecutionException
+        throws Exception
     {
         Cache.collectAll();
     }
@@ -265,6 +263,6 @@ public class CacheLightConcurrentTest
     }
 
 }
-	
-	
+
+
 

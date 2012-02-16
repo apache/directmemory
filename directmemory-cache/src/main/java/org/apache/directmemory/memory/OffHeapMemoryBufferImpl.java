@@ -30,10 +30,6 @@ import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
 import org.apache.directmemory.measures.Ram;
-import org.josql.Query;
-import org.josql.QueryExecutionException;
-import org.josql.QueryParseException;
-import org.josql.QueryResults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -206,57 +202,10 @@ public class OffHeapMemoryBufferImpl
         return fresh;
     }
 
-    protected QueryResults select( String whereClause )
-        throws QueryParseException, QueryExecutionException
-    {
-        Query q = new Query();
-        q.parse( "SELECT * FROM " + Pointer.class.getCanonicalName() + "  WHERE " + whereClause );
-        QueryResults qr = q.execute( pointers );
-        return qr;
-    }
-
-    protected QueryResults selectOrderBy( String whereClause, String orderBy, String limit )
-        throws QueryParseException, QueryExecutionException
-    {
-        Query q = new Query();
-        q.parse( "SELECT * FROM " + Pointer.class.getCanonicalName() + "  WHERE " + whereClause + " order by "
-            + orderBy + " " + limit );
-        QueryResults qr = q.execute( pointers );
-        return qr;
-    }
-
     protected boolean inShortage()
     {
         // a place holder for a more refined version
         return allocationErrors > OffHeapMemoryBufferImpl.maxAllocationErrors;
-    }
-
-    @SuppressWarnings("unchecked")
-    protected List<Pointer> filter( final String whereClause )
-    {
-        try
-        {
-            return select( whereClause ).getResults();
-        }
-        catch ( QueryParseException e )
-        {
-            e.printStackTrace();
-        }
-        catch ( QueryExecutionException e )
-        {
-            e.printStackTrace();
-        }
-        return (List<Pointer>) new ArrayList<Pointer>();
-    }
-
-    protected long free( List<Pointer> pointers )
-    {
-        long howMuch = 0;
-        for ( Pointer expired : pointers )
-        {
-            howMuch += free( expired );
-        }
-        return howMuch;
     }
 
     // TODO : This function should be put in an Util class.

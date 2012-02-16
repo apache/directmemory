@@ -19,18 +19,20 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.limit;
+import static com.google.common.collect.Ordering.from;
+
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.josql.Query;
-import org.josql.QueryExecutionException;
-import org.josql.QueryParseException;
-import org.josql.QueryResults;
 import org.slf4j.Logger;
+
+import com.google.common.base.Predicate;
 
 public abstract class AbstractOffHeapMemoryBuffer
     implements OffHeapMemoryBuffer
@@ -47,6 +49,32 @@ public abstract class AbstractOffHeapMemoryBuffer
     public static int maxAllocationErrors = 0;
 
     protected abstract Logger getLogger();
+
+    private final Predicate<Pointer> relative = new Predicate<Pointer>()
+    {
+
+        @Override
+        public boolean apply( Pointer input )
+        {
+            return !input.free
+                            && input.expiresIn > 0
+                            && ( input.expiresIn + input.created ) <= System.currentTimeMillis();
+        }
+
+    };
+
+    private final Predicate<Pointer> absolute = new Predicate<Pointer>()
+    {
+
+        @Override
+        public boolean apply( Pointer input )
+        {
+            return !input.free
+                            && input.expires > 0
+                            && input.expires <= System.currentTimeMillis();
+        }
+
+    };
 
     public int used()
     {
@@ -101,50 +129,18 @@ public abstract class AbstractOffHeapMemoryBuffer
 
     protected abstract Pointer store( byte[] payload, long expiresIn, long expires );
 
-    protected QueryResults select( String whereClause, List<Pointer> pointers )
-        throws QueryParseException, QueryExecutionException
-    {
-        Query q = new Query();
-        q.parse( "SELECT * FROM " + Pointer.class.getCanonicalName() + "  WHERE " + whereClause );
-        QueryResults qr = q.execute( pointers );
-        return qr;
-    }
-
-    protected QueryResults selectOrderBy( String whereClause, String orderBy, String limit, List<Pointer> pointers )
-        throws QueryParseException, QueryExecutionException
-    {
-        Query q = new Query();
-        q.parse( "SELECT * FROM " + Pointer.class.getCanonicalName() + "  WHERE " + whereClause + " order by "
-            + orderBy + " " + limit );
-        QueryResults qr = q.execute( pointers );
-        return qr;
-    }
-
     protected boolean inShortage()
     {
         // a place holder for a more refined version
         return allocationErrors > AbstractOffHeapMemoryBuffer.maxAllocationErrors;
     }
 
-    @SuppressWarnings("unchecked")
-    protected List<Pointer> filter( final String whereClause, List<Pointer> pointers )
+    protected long free( Predicate<Pointer> predicate )
     {
-        try
-        {
-            return select( whereClause, pointers ).getResults();
-        }
-        catch ( QueryParseException e )
-        {
-            e.printStackTrace();
-        }
-        catch ( QueryExecutionException e )
-        {
-            e.printStackTrace();
-        }
-        return (List<Pointer>) new ArrayList<Pointer>();
+        return free( filter( getUsedPointers(), predicate ) );
     }
 
-    protected long free( List<Pointer> pointers )
+    protected long free( Iterable<Pointer> pointers )
     {
         long howMuch = 0;
         for ( Pointer expired : pointers )
@@ -158,23 +154,19 @@ public abstract class AbstractOffHeapMemoryBuffer
 
     public void disposeExpiredRelative()
     {
-        free( filter( "free=false and expiresIn > 0 and (expiresIn+created) <= " + System.currentTimeMillis(),
-                      getUsedPointers() ) );
+        free( relative );
     }
 
     public void disposeExpiredAbsolute()
     {
-        free( filter( "free=false and expires > 0 and (expires) <= " + System.currentTimeMillis(), getUsedPointers() ) );
+        free( absolute );
     }
 
     public long collectExpired()
     {
         int limit = 50;
-        long disposed = free( filter( "free=false and expiresIn > 0 and (expiresIn+created) <= "
-                                          + System.currentTimeMillis() + " limit 1, " + limit, getUsedPointers() ) );
-        disposed += free( filter( "free=false and expires > 0 and (expires) <= " + System.currentTimeMillis()
-            + " limit 1, 100" + limit, getUsedPointers() ) );
-        return disposed;
+        return free( limit( filter( getUsedPointers(), relative ), limit ) )
+                        + free( limit( filter( getUsedPointers(), absolute ), limit ) );
     }
 
     public long collectLFU( int limit )
@@ -184,31 +176,38 @@ public abstract class AbstractOffHeapMemoryBuffer
             return 0;
         }
         if ( limit <= 0 )
+        {
             limit = getUsedPointers().size() / 10;
-        QueryResults qr;
-        try
+        }
+
+        Iterable<Pointer> result = from( new Comparator<Pointer>()
         {
-            qr = selectOrderBy( "free=false", "frequency", "limit 1, " + limit, getUsedPointers() );
-            @SuppressWarnings("unchecked")
-            List<Pointer> result = qr.getResults();
-            if ( result.size() > 0 )
+
+            public int compare( Pointer o1, Pointer o2 )
             {
-                // reset allocation errors if we made some room
-                allocationErrors = 0;
+                float f1 = o1.getFrequency();
+                float f2 = o2.getFrequency();
+
+                return Float.compare( f1, f2 );
             }
-            return free( result );
-        }
-        catch ( QueryParseException e )
+
+        } ).sortedCopy( limit( filter( getUsedPointers(), new Predicate<Pointer>()
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch ( QueryExecutionException e )
+
+            @Override
+            public boolean apply( Pointer input )
+            {
+                return !input.free;
+            }
+
+        } ), limit ) );
+
+        if ( result.iterator().hasNext() )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            // reset allocation errors if we made some room
+            allocationErrors = 0;
         }
-        return 0;
+        return free( result );
     }
 
     public Pointer update( Pointer pointer, byte[] payload )
@@ -223,7 +222,7 @@ public abstract class AbstractOffHeapMemoryBuffer
 
     public abstract Pointer allocate( int size, long expiresIn, long expires );
 
-    protected void resetPointer( final Pointer pointer ) 
+    protected void resetPointer( final Pointer pointer )
     {
         pointer.free = true;
         pointer.created = 0;
@@ -233,7 +232,7 @@ public abstract class AbstractOffHeapMemoryBuffer
         pointer.clazz = null;
         pointer.directBuffer = null;
     }
-    
+
     protected void setExpiration( final Pointer pointer, long expiresIn, long expires )
     {
 
@@ -248,5 +247,5 @@ public abstract class AbstractOffHeapMemoryBuffer
             pointer.expires = expires;
         }
     }
-    
+
 }

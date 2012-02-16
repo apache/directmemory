@@ -239,8 +239,6 @@ under the License.
     <guava.version>r09</guava.version>
     <h2.version>1.3.158</h2.version>
     <karaf.version>2.2.4</karaf.version>
-    <josql.bundle.version>1.5_5</josql.bundle.version>
-    <josql.version>1.5</josql.version>
     <junit.version>4.10</junit.version>
     <junit-benchamrks.version>0.3.0</junit-benchamrks.version>
     <logback.version>1.0.0</logback.version>
@@ -504,22 +502,6 @@ under the License.
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
         <version>${h2.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>net.sf.josql</groupId>
-        <artifactId>josql</artifactId>
-        <version>${josql.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.servicemix.bundles</groupId>
-        <artifactId>org.apache.servicemix.bundles.josql</artifactId>
-        <version>${josql.bundle.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>net.sf.josql</groupId>
-        <artifactId>gentlyweb-utils</artifactId>
-        <version>${josql.version}</version>
       </dependency>
 
       <dependency>

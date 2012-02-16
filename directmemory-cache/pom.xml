@@ -42,7 +42,6 @@ under the License.
       !org.apache.directmemory*,
       com.google.common.collect;version="[9.0,11)",
       org.aspectj*;version="[1.6,2)",
-      org.josql*;version="[1.5,2)",
       org.slf4j*,
       *
     </osgi.import>
@@ -107,10 +106,6 @@ under the License.
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjrt</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.servicemix.bundles</groupId>
-      <artifactId>org.apache.servicemix.bundles.josql</artifactId>
     </dependency>
 
     <dependency>
