@@ -19,7 +19,6 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
-import org.apache.directmemory.memory.MemoryManager;
 import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
@@ -32,9 +31,7 @@ public class Cache
 
     private static Logger logger = LoggerFactory.getLogger( Cache.class );
 
-    private static MemoryManagerService memoryManager = MemoryManager.getMemoryManager();
-
-    private static CacheService cacheService = new CacheServiceImpl( memoryManager );
+    private static CacheService cacheService = new CacheServiceImpl( getMemoryManager() );
 
     private Cache()
     {
