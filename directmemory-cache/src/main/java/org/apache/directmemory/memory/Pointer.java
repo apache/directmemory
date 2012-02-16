@@ -66,10 +66,7 @@ public class Pointer
         {
             return ( expiresIn + created < System.currentTimeMillis() );
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     public float getFrequency()
