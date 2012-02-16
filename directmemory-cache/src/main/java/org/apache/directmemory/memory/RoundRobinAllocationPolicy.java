@@ -23,13 +23,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Round Robin allocation policy.
- * An internal counter is incremented (modulo the size of the buffer), 
- * so each calls to {@link #getActiveBuffer(OffHeapMemoryBuffer, int)} 
- * will increment the counter and return the buffer at the index of the counter.
- * 
- * @author bperroud
+ * Round Robin allocation policy. An internal counter is incremented (modulo the size of the buffer), so each calls to
+ * {@link #getActiveBuffer(OffHeapMemoryBuffer, int)} will increment the counter and return the buffer at the index of
+ * the counter.
  *
+ * @author bperroud
  */
 public class RoundRobinAllocationPolicy
     implements AllocationPolicy
@@ -37,14 +35,14 @@ public class RoundRobinAllocationPolicy
 
     // Increment the counter and get the value. Need to start at -1 to have 0'index at first call.
     private static final int BUFFERS_INDEX_INITIAL_VALUE = -1;
-    
+
     // All the buffers to allocate
     private List<OffHeapMemoryBuffer> buffers;
 
     // Cyclic counter
     private AtomicInteger buffersIndexCounter = new AtomicInteger( BUFFERS_INDEX_INITIAL_VALUE );
 
-    // Default max number of allocations before returning null buffer. 
+    // Default max number of allocations before returning null buffer.
     private static final int DEFAULT_MAX_ALLOCATIONS = 2;
 
     // Current max number of allocations
@@ -62,8 +60,7 @@ public class RoundRobinAllocationPolicy
     }
 
     @Override
-    public OffHeapMemoryBuffer getActiveBuffer( OffHeapMemoryBuffer previouslyAllocatedBuffer,
-                                                             int allocationNumber )
+    public OffHeapMemoryBuffer getActiveBuffer( OffHeapMemoryBuffer previouslyAllocatedBuffer, int allocationNumber )
     {
         // If current allocation is more than the limit, return a null buffer.
         if ( allocationNumber > maxAllocations )
@@ -88,6 +85,7 @@ public class RoundRobinAllocationPolicy
 
     /**
      * Optimistic (lock free) cyclic (modulo size of the buffer) increment of the counter
+     *
      * @return next index
      */
     private int incrementAndGetBufferIndex()
@@ -103,4 +101,5 @@ public class RoundRobinAllocationPolicy
         while ( !updateOk );
         return newIndex;
     }
+
 }
