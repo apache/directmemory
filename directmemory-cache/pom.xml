@@ -40,7 +40,6 @@ under the License.
   <properties>
     <osgi.import>
       !org.apache.directmemory*,
-      com.dyuproject.protostuff*;version="[1,2)",
       com.google.common.collect;version="[9.0,11)",
       org.aspectj*;version="[1.6,2)",
       org.josql*;version="[1.5,2)",
@@ -101,21 +100,19 @@ under the License.
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.apache.servicemix.bundles</groupId>
       <artifactId>org.apache.servicemix.bundles.josql</artifactId>
     </dependency>
-    <dependency>
-      <groupId>net.sf.josql</groupId>
-      <artifactId>gentlyweb-utils</artifactId>
-    </dependency>
-    <!--
-      <dependency>
-      <groupId>net.sf.josql</groupId>
-      <artifactId>josql</artifactId>
-    </dependency>
-    -->
+
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
@@ -127,31 +124,9 @@ under the License.
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjrt</artifactId>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.dyuproject.protostuff</groupId>
-      <artifactId>protostuff-runtime</artifactId>
-      <type>jar</type>
-      <optional>false</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.dyuproject.protostuff</groupId>
-      <artifactId>protostuff-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.dyuproject.protostuff</groupId>
-      <artifactId>protostuff-api</artifactId>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
