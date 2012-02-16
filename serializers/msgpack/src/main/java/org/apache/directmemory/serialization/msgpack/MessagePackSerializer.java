@@ -1,12 +1,5 @@
 package org.apache.directmemory.serialization.msgpack;
 
-import java.io.IOException;
-
-import org.apache.directmemory.serialization.Serializer;
-import org.kohsuke.MetaInfServices;
-import org.msgpack.MessagePack;
-import org.msgpack.annotation.Message;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -25,6 +18,13 @@ import org.msgpack.annotation.Message;
  * specific language governing permissions and limitations
  * under the License.
  */
+
+import java.io.IOException;
+
+import org.apache.directmemory.serialization.Serializer;
+import org.kohsuke.MetaInfServices;
+import org.msgpack.MessagePack;
+import org.msgpack.annotation.Message;
 
 @MetaInfServices
 public final class MessagePackSerializer
