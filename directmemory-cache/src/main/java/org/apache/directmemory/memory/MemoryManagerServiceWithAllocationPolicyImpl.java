@@ -21,9 +21,8 @@ package org.apache.directmemory.memory;
 
 /**
  * PoC of {@link MemoryManagerService} that allows {@link AllocationPolicy} to get wired.
- * 
- * @author bperroud
  *
+ * @author bperroud
  */
 public class MemoryManagerServiceWithAllocationPolicyImpl
     extends MemoryManagerServiceImpl
@@ -37,31 +36,35 @@ public class MemoryManagerServiceWithAllocationPolicyImpl
         super.init( numberOfBuffers, size );
         allocationPolicy.init( getBuffers() );
     }
-    
+
     public void setAllocationPolicy( final AllocationPolicy allocationPolicy )
     {
         this.allocationPolicy = allocationPolicy;
     }
 
     @Override
-    public OffHeapMemoryBuffer getActiveBuffer() {
+    public OffHeapMemoryBuffer getActiveBuffer()
+    {
         return allocationPolicy.getActiveBuffer( null, 0 );
     }
-    
+
     @Override
     public Pointer store( byte[] payload, int expiresIn )
     {
         Pointer p = null;
         OffHeapMemoryBuffer buffer = null;
         int allocationNumber = 1;
-        do {
+        do
+        {
             buffer = allocationPolicy.getActiveBuffer( buffer, allocationNumber );
-            if (buffer == null) {
+            if ( buffer == null )
+            {
                 return null;
             }
             p = buffer.store( payload, expiresIn );
             allocationNumber++;
-        } while (p == null);
+        }
+        while ( p == null );
         return p;
     }
 
@@ -72,22 +75,24 @@ public class MemoryManagerServiceWithAllocationPolicyImpl
         allocationPolicy.reset();
     }
 
-    
     @Override
     public Pointer allocate( int size, long expiresIn, long expires )
     {
         Pointer p = null;
         OffHeapMemoryBuffer buffer = null;
         int allocationNumber = 1;
-        do {
+        do
+        {
             buffer = allocationPolicy.getActiveBuffer( buffer, allocationNumber );
-            if (buffer == null) {
+            if ( buffer == null )
+            {
                 return null;
             }
             p = buffer.allocate( size, expiresIn, expires );
             allocationNumber++;
-        } while (p == null);
+        }
+        while ( p == null );
         return p;
     }
-    
+
 }
