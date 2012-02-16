@@ -19,19 +19,14 @@ package org.apache.directmemory.serialization;
  * under the License.
  */
 
-import static com.dyuproject.protostuff.LinkedBuffer.*;
-import static com.dyuproject.protostuff.runtime.RuntimeSchema.*;
-
-import static com.dyuproject.protostuff.ProtostuffIOUtil.*;
-
-import com.dyuproject.protostuff.LinkedBuffer;
-import com.dyuproject.protostuff.ProtostuffIOUtil;
-import com.dyuproject.protostuff.runtime.RuntimeSchema;
-import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.misc.DummyPojo;
-import org.apache.directmemory.serialization.Serializer;
+import static com.dyuproject.protostuff.LinkedBuffer.allocate;
+import static com.dyuproject.protostuff.ProtostuffIOUtil.toByteArray;
+import static com.dyuproject.protostuff.runtime.RuntimeSchema.getSchema;
 
 import java.io.IOException;
+
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.misc.DummyPojo;
 
 public final class DummyPojoSerializer
     implements Serializer
