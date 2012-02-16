@@ -19,6 +19,9 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
+import static java.lang.System.currentTimeMillis;
+import static java.lang.String.format;
+
 import java.nio.ByteBuffer;
 
 public class Pointer
@@ -64,14 +67,14 @@ public class Pointer
     {
         if ( expires > 0 || expiresIn > 0 )
         {
-            return ( expiresIn + created < System.currentTimeMillis() );
+            return ( expiresIn + created < currentTimeMillis() );
         }
         return false;
     }
 
     public float getFrequency()
     {
-        return (float) ( System.currentTimeMillis() - created ) / hits;
+        return (float) ( currentTimeMillis() - created ) / hits;
     }
 
     public int getCapacity()
@@ -82,6 +85,6 @@ public class Pointer
     @Override
     public String toString()
     {
-        return getClass().getSimpleName() + "[" + start + "," + end + "]" + ( free ? "" : "not" ) + "free";
+        return format( "%s[%s, %s] %s free", getClass().getSimpleName(), start, end,( free ? "" : "not" ) );
     }
 }
