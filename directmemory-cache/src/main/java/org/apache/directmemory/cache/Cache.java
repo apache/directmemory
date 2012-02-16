@@ -130,7 +130,7 @@ public class Cache
         return cacheService.entries();
     }
 
-    private static void dump( OffHeapMemoryBuffer mem )
+    public static void dump( OffHeapMemoryBuffer mem )
     {
         cacheService.dump( mem );
     }
