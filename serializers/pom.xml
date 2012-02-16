@@ -36,6 +36,7 @@
   <description>${project.name}</description>
 
   <modules>
+    <module>protobuf</module>
     <module>protostuff</module>
     <module>msgpack</module>
   </modules>
