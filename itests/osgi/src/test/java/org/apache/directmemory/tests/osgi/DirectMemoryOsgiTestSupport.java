@@ -170,8 +170,6 @@ public class DirectMemoryOsgiTestSupport
             mavenBundle().groupId( "org.apache.servicemix.bundles" ).artifactId(
                 "org.apache.servicemix.bundles.oro" ).version( "2.0.8_5" ),
             mavenBundle().groupId( "org.apache.servicemix.bundles" ).artifactId(
-                "org.apache.servicemix.bundles.josql" ).version( "1.5_5" ),
-            mavenBundle().groupId( "org.apache.servicemix.bundles" ).artifactId(
                 "org.apache.servicemix.bundles.aspectj" ).version( "1.6.8_2" ),
             mavenBundle().groupId( "com.dyuproject.protostuff" ).artifactId( "protostuff-uberjar" ).version( "1.0.2" ),
             mavenBundle().groupId( "org.apache.directmemory" ).artifactId( "directmemory-cache" ).version(

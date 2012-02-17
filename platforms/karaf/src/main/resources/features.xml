@@ -30,9 +30,6 @@
       mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oro/${oro.bundle.version}
     </bundle>
     <bundle dependency='true'>
-      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.josql/${josql.bundle.version}
-    </bundle>
-    <bundle dependency='true'>
       mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aspectj/${aspectj.bundle.version}
     </bundle>
     <bundle dependency='true'>mvn:com.dyuproject.protostuff/protostuff-uberjar/${protostuff.version}</bundle>
