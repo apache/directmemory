@@ -33,23 +33,23 @@ import org.junit.Test;
 
 /**
  * Unit test of {@link RoundRobinAllocationPolicy} class.
- * 
+ *
  * @author benoit@noisette.ch
  *
  */
 public class RoundRobinAllocationPolicyTest
 {
-    
+
     private static final int NUMBER_OF_BUFFERS = 4;
-    
+
     List<OffHeapMemoryBuffer> buffers;
-    
-    RoundRobinAllocationPolicy allocationPolicy; 
-    
+
+    RoundRobinAllocationPolicy allocationPolicy;
+
     @Before
     public void initAllocationPolicy()
     {
-        
+
         buffers = new ArrayList<OffHeapMemoryBuffer>();
 
         for ( int i = 0; i < NUMBER_OF_BUFFERS; i++ )
@@ -58,9 +58,9 @@ public class RoundRobinAllocationPolicyTest
         }
 
         allocationPolicy = new RoundRobinAllocationPolicy();
-        allocationPolicy.setBuffers( buffers );
+        allocationPolicy.init( buffers );
     }
-    
+
     @Test
     public void testSequence()
     {
@@ -79,7 +79,7 @@ public class RoundRobinAllocationPolicyTest
         Assert.assertNull( allocationPolicy.getActiveBuffer( null, 3 ) );
 
         allocationPolicy.reset();
-        
+
         Assert.assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
         Assert.assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
         Assert.assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
@@ -88,22 +88,22 @@ public class RoundRobinAllocationPolicyTest
         Assert.assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
         Assert.assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
         Assert.assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        
+
     }
-    
-    
+
+
     @Test
     public void testMaxAllocation()
     {
- 
+
         allocationPolicy.setMaxAllocations( 1 );
-        
+
         Assert.assertNotNull( allocationPolicy.getActiveBuffer( null, 1 ) );
         Assert.assertNull( allocationPolicy.getActiveBuffer( null, 2 ) );
         Assert.assertNull( allocationPolicy.getActiveBuffer( null, 3 ) );
 
     }
-    
+
 
     /**
      * Dummy {@link OffHeapMemoryBuffer} that do nothing.
