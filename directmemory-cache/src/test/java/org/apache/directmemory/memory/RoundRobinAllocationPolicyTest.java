@@ -19,15 +19,14 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.Assert;
-
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
-import org.apache.directmemory.memory.Pointer;
-import org.apache.directmemory.memory.RoundRobinAllocationPolicy;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -65,29 +64,29 @@ public class RoundRobinAllocationPolicyTest
     public void testSequence()
     {
 
-        Assert.assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
 
-        Assert.assertNotNull( allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertNotNull( allocationPolicy.getActiveBuffer( null, 2 ) );
-        Assert.assertNull( allocationPolicy.getActiveBuffer( null, 3 ) );
+        assertNotNull( allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertNotNull( allocationPolicy.getActiveBuffer( null, 2 ) );
+        assertNull( allocationPolicy.getActiveBuffer( null, 3 ) );
 
         allocationPolicy.reset();
 
-        Assert.assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
 
     }
 
@@ -98,9 +97,9 @@ public class RoundRobinAllocationPolicyTest
 
         allocationPolicy.setMaxAllocations( 1 );
 
-        Assert.assertNotNull( allocationPolicy.getActiveBuffer( null, 1 ) );
-        Assert.assertNull( allocationPolicy.getActiveBuffer( null, 2 ) );
-        Assert.assertNull( allocationPolicy.getActiveBuffer( null, 3 ) );
+        assertNotNull( allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertNull( allocationPolicy.getActiveBuffer( null, 2 ) );
+        assertNull( allocationPolicy.getActiveBuffer( null, 3 ) );
 
     }
 
