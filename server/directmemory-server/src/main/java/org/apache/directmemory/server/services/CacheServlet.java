@@ -34,6 +34,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
 /**
@@ -93,24 +94,34 @@ public class CacheServlet
         String servletPath = req.getServletPath();
         String key = retrieveKeyFromPath( path );
 
-        try
-        {
-            DirectMemoryCacheRequest cacheRequest = parser.buildRequest( req.getInputStream() );
+        String contentType = req.getContentType();
 
-            //exists ?
-            if ( cacheService.retrieveByteArray( key ) == null )
-            {
-                cacheService.putByteArray( key, cacheRequest.getCacheContent(), cacheRequest.getExpiresIn() );
-            }
-            else
-            {
-                cacheService.updateByteArray( key, cacheRequest.getCacheContent() );
-            }
-        }
-        catch ( DirectMemoryCacheException e )
+        if ( StringUtils.startsWith( contentType, MediaType.APPLICATION_JSON ) )
         {
-            resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() );
+            // 	application/json
+
+            try
+            {
+                DirectMemoryCacheRequest cacheRequest = parser.buildRequest( req.getInputStream() );
+
+                //exists ?
+                if ( cacheService.retrieveByteArray( key ) == null )
+                {
+                    cacheService.putByteArray( key, cacheRequest.getCacheContent(), cacheRequest.getExpiresIn() );
+                }
+                else
+                {
+                    cacheService.updateByteArray( key, cacheRequest.getCacheContent() );
+                }
+            }
+            catch ( DirectMemoryCacheException e )
+            {
+                resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() );
+            }
+            return;
         }
+        resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        "Content-Type '" + contentType + "' not supported" );
     }
 
     @Override
@@ -121,7 +132,7 @@ public class CacheServlet
         String servletPath = req.getServletPath();
         String key = retrieveKeyFromPath( path );
 
-        // TODO if key == null -> BAD_REQUEST http response
+        // TODO if key == null -> BAD_REQUEST http response or SC_NO_CONTENT (olamy: I prefer SC_NO_CONTENT )
 
         cacheService.free( key );
     }
@@ -148,18 +159,29 @@ public class CacheServlet
             resp.sendError( HttpServletResponse.SC_NO_CONTENT, "No content for key: " + key );
             return;
         }
-        DirectMemoryCacheResponse response = new DirectMemoryCacheResponse().setKey( key ).setCacheContent( bytes );
 
-        try
+        String acceptContentType = req.getHeader( "Accept" );
+
+        if ( StringUtils.contains( acceptContentType, MediaType.APPLICATION_JSON ) )
         {
-            // TODO directly write in output stream
-            String json = writer.generateJsonResponse( response );
-            resp.getWriter().write( json );
+            DirectMemoryCacheResponse response = new DirectMemoryCacheResponse().setKey( key ).setCacheContent( bytes );
+
+            try
+            {
+                // TODO directly write in output stream
+                String json = writer.generateJsonResponse( response );
+                resp.getWriter().write( json );
+                resp.setContentType( MediaType.APPLICATION_JSON );
+            }
+            catch ( DirectMemoryCacheException e )
+            {
+                resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() );
+            }
+            return;
         }
-        catch ( DirectMemoryCacheException e )
-        {
-            resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() );
-        }
+
+        resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        "you must specify Accept with Content-Type you want in the response" );
     }
 
     /**

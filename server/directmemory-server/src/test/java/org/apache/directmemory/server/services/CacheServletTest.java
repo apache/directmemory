@@ -34,6 +34,7 @@ import org.springframework.mock.web.MockServletConfig;
 import org.springframework.mock.web.MockServletContext;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
 import java.io.ByteArrayInputStream;
 
 import static org.junit.Assert.assertEquals;
@@ -70,6 +71,7 @@ public class CacheServletTest
     {
 
         MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addHeader( "Accept", MediaType.APPLICATION_JSON );
 
         MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -86,6 +88,7 @@ public class CacheServletTest
     {
 
         MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addHeader( "Accept", MediaType.APPLICATION_JSON );
 
         request.setServletPath( "cache" );
 
@@ -115,6 +118,8 @@ public class CacheServletTest
 
         MockHttpServletRequest putRequest = new MockHttpServletRequest();
 
+        putRequest.setContentType( MediaType.APPLICATION_JSON );
+
         putRequest.setServletPath( "cache" );
 
         putRequest.setPathInfo( "/bordeaux" );
@@ -131,6 +136,8 @@ public class CacheServletTest
 
         MockHttpServletRequest getRequest = new MockHttpServletRequest();
 
+        getRequest.addHeader( "Accept", MediaType.APPLICATION_JSON );
+
         getRequest.setPathInfo( "/bordeaux" );
 
         MockHttpServletResponse getResponse = new MockHttpServletResponse();
@@ -138,6 +145,8 @@ public class CacheServletTest
         cacheServlet.doGet( getRequest, getResponse );
 
         assertEquals( HttpServletResponse.SC_OK, getResponse.getStatus() );
+
+        assertEquals( MediaType.APPLICATION_JSON, getResponse.getContentType() );
 
         DirectMemoryCacheResponse response =
             parser.buildResponse( new ByteArrayInputStream( getResponse.getContentAsByteArray() ) );
@@ -166,6 +175,8 @@ public class CacheServletTest
 
         MockHttpServletRequest putRequest = new MockHttpServletRequest();
 
+        putRequest.setContentType( MediaType.APPLICATION_JSON );
+
         putRequest.setServletPath( "cache" );
 
         putRequest.setPathInfo( "/bordeaux" );
@@ -183,6 +194,8 @@ public class CacheServletTest
         // now retrieve the content
 
         MockHttpServletRequest getRequest = new MockHttpServletRequest();
+
+        getRequest.addHeader( "Accept", MediaType.APPLICATION_JSON );
 
         getRequest.setPathInfo( "/bordeaux" );
 
@@ -212,6 +225,8 @@ public class CacheServletTest
 
         MockHttpServletRequest putRequest = new MockHttpServletRequest();
 
+        putRequest.setContentType( MediaType.APPLICATION_JSON );
+
         putRequest.setServletPath( "cache" );
 
         putRequest.setPathInfo( "/bordeaux" );
@@ -228,6 +243,8 @@ public class CacheServletTest
 
         MockHttpServletRequest getRequest = new MockHttpServletRequest();
 
+        getRequest.addHeader( "Accept", MediaType.APPLICATION_JSON );
+
         getRequest.setPathInfo( "/bordeaux" );
 
         MockHttpServletResponse getResponse = new MockHttpServletResponse();
@@ -235,6 +252,8 @@ public class CacheServletTest
         cacheServlet.doGet( getRequest, getResponse );
 
         assertEquals( HttpServletResponse.SC_OK, getResponse.getStatus() );
+
+        assertEquals( MediaType.APPLICATION_JSON, getResponse.getContentType() );
 
         DirectMemoryCacheResponse response =
             parser.buildResponse( new ByteArrayInputStream( getResponse.getContentAsByteArray() ) );
@@ -259,6 +278,8 @@ public class CacheServletTest
         // now try again a read MUST be not content
 
         getRequest = new MockHttpServletRequest();
+
+        getRequest.addHeader( "Accept", MediaType.APPLICATION_JSON );
 
         getRequest.setPathInfo( "/bordeaux" );
 
