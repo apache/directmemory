@@ -47,8 +47,9 @@
     </breadcrumbs>
 
     <menu name="Apache DirectMemory">
-      <item name="About"  href="index.html"/>
-      <item name="Server" href="server.html"/>
+      <item name="About"                      href="index.html"/>
+      <item name="Server"                     href="server.html"/>
+      <item name="Committer Environment"      href="committer-environment.html"/>
     </menu>
 
     <!--<menu ref="modules" inherit="bottom"/>-->
