@@ -194,6 +194,7 @@ under the License.
   <modules>
     <module>directmemory-cache</module>
     <module>platforms</module>
+    <module>server</module>
     <module>integrations</module>
     <module>serializers</module>
     <module>itests</module>
@@ -235,8 +236,8 @@ under the License.
     <aspectj.bundle.version>1.6.8_2</aspectj.bundle.version>
     <aspectj.version>1.6.11</aspectj.version>
     <doclava.version>1.0.3</doclava.version>
-    <guava.bundle.version>09_1</guava.bundle.version>
-    <guava.version>r09</guava.version>
+    <guava.bundle.version>11_1</guava.bundle.version>
+    <guava.version>11.0.1</guava.version>
     <h2.version>1.3.158</h2.version>
     <karaf.version>2.2.4</karaf.version>
     <junit.version>4.10</junit.version>
@@ -480,12 +481,18 @@ under the License.
 
   <dependencyManagement>
     <dependencies>
-      <!-- Intenral Project Artifacts -->
+      <!-- Internal Project Artifacts -->
       <dependency>
         <groupId>org.apache.directmemory</groupId>
         <artifactId>directmemory-cache</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.directmemory</groupId>
+        <artifactId>directmemory-protostuff</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>org.aspectj</groupId>
         <artifactId>aspectjrt</artifactId>
