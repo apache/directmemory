@@ -19,9 +19,9 @@ package org.apache.directmemory.serialization;
  * under the License.
  */
 
-import static java.util.ServiceLoader.load;
-
 import java.util.Iterator;
+
+import static java.util.ServiceLoader.load;
 
 public final class SerializerFactory
 {
@@ -45,6 +45,69 @@ public final class SerializerFactory
         }
 
         return new StandardSerializer();
+    }
+
+    public static <S extends Serializer> S createNewSerializer( Class<S> serializer )
+    {
+        Iterator<Serializer> serializers = load( Serializer.class ).iterator();
+
+        // iterate over all found services
+        while ( serializers.hasNext() )
+        {
+            // try getting the current service and return
+            try
+            {
+                Serializer next = serializers.next();
+                if ( next.getClass().getName().equals( serializer.getName() ) )
+                {
+                    return serializer.cast( next );
+                }
+            }
+            catch ( Throwable t )
+            {
+                // just ignore, skip and try getting the next
+            }
+        }
+
+        return null;
+    }
+
+    public static Serializer createNewSerializer( String serializerClassName )
+    {
+        Class<?> serializerClass;
+        try
+        {
+            serializerClass = Class.forName( serializerClassName );
+        }
+        catch ( ClassNotFoundException e )
+        {
+            return null;
+        }
+
+        if ( serializerClass.isAssignableFrom( Serializer.class ) )
+        {
+            Iterator<Serializer> serializers = load( Serializer.class ).iterator();
+
+            // iterate over all found services
+            while ( serializers.hasNext() )
+            {
+                // try getting the current service and return
+                try
+                {
+                    Serializer next = serializers.next();
+                    if ( next.getClass().getName().equals( serializerClassName ) )
+                    {
+                        return next;
+                    }
+                }
+                catch ( Throwable t )
+                {
+                    // just ignore, skip and try getting the next
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
