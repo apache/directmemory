@@ -28,7 +28,6 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.apache.directmemory.server</groupId>
   <artifactId>directmemory-server-client</artifactId>
   <packaging>war</packaging>
   <name>Apache DirectMemory :: Server :: Client</name>

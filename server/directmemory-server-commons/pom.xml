@@ -28,7 +28,6 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.apache.directmemory.server</groupId>
   <artifactId>directmemory-server-commons</artifactId>
   <packaging>war</packaging>
   <name>Apache DirectMemory :: Server :: Commons</name>
@@ -50,6 +49,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
