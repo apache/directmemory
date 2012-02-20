@@ -24,10 +24,6 @@ package org.apache.directmemory.server.commons;
 public class DirectMemoryCacheConstants
 {
 
-    public static final String ROOT_RQ_NAME = "DirectMemoryRQ";
-
-    public static final String ROOT_RS_NAME = "DirectMemoryRS";
-
     public static final String CACHE_CONTENT_FIELD_NAME = "cacheContent";
 
     public static final String PUT_FIELD_NAME = "put";

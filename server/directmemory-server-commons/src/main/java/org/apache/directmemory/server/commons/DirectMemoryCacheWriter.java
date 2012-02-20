@@ -68,8 +68,6 @@ public class DirectMemoryCacheWriter
 
             g.writeStartObject();
 
-            g.writeObjectFieldStart( DirectMemoryCacheConstants.ROOT_RQ_NAME );
-
             g.writeStringField( DirectMemoryCacheConstants.KEY_FIELD_NAME, request.getKey() );
 
             g.writeBooleanField( DirectMemoryCacheConstants.PUT_FIELD_NAME, request.isUpdate() );
@@ -92,7 +90,6 @@ public class DirectMemoryCacheWriter
                 g.writeStringField( DirectMemoryCacheConstants.SERIALIZER_FIELD_NAME, serializer.getClass().getName() );
             }
 
-            g.writeEndObject();
             g.writeEndObject();
             g.close();
         }
@@ -118,8 +115,6 @@ public class DirectMemoryCacheWriter
 
             g.writeStartObject();
 
-            g.writeObjectFieldStart( DirectMemoryCacheConstants.ROOT_RS_NAME );
-
             g.writeBooleanField( DirectMemoryCacheConstants.FOUND_FIELD_NAME, response.isFound() );
 
             g.writeBooleanField( DirectMemoryCacheConstants.UPDATED_FIELD_NAME, response.isUpdated() );
@@ -131,7 +126,7 @@ public class DirectMemoryCacheWriter
                 g.writeFieldName( DirectMemoryCacheConstants.CACHE_CONTENT_FIELD_NAME );
                 g.writeBinary( response.getCacheContent() );
             }
-            g.writeEndObject();
+
             g.writeEndObject();
             g.close();
 
