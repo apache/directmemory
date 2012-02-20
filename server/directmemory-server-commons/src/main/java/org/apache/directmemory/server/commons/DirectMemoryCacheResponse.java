@@ -19,15 +19,10 @@ package org.apache.directmemory.server.commons;
  */
 
 /**
- * xml format response:
- * <pre><![CDATA[
- * <DirectMemoryRS version="1.0" found="" updated="true" key="">
- *   <cacheContent>
- *     <![CDATA[
- *     ]]>
- *   </cacheContent>
- * </DirectMemoryRS>]]>
- * </pre>
+ * json format response:
+ * {"DirectMemoryRS":{"found":true,"updated":false,"key":"foo","cacheContent":""}}
+ *
+ * cache content is byte[] ie object serialisation
  *
  * @author Olivier Lamy
  */

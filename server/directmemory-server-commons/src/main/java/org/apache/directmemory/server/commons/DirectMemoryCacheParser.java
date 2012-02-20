@@ -62,19 +62,19 @@ public class DirectMemoryCacheParser
             while ( jp.nextToken() != JsonToken.END_OBJECT )
             {
                 String fieldName = jp.getCurrentName();
-                if ( DirectMemoryCacheConstants.KEY_ATT_NAME.equals( fieldName ) )
+                if ( DirectMemoryCacheConstants.KEY_FIELD_NAME.equals( fieldName ) )
                 {
                     rq.setKey( jp.getText() );
                 }
-                if ( DirectMemoryCacheConstants.PUT_ATT_NAME.equals( fieldName ) )
+                if ( DirectMemoryCacheConstants.PUT_FIELD_NAME.equals( fieldName ) )
                 {
                     rq.setUpdate( jp.getValueAsBoolean() );
                 }
-                if ( DirectMemoryCacheConstants.EXPIRES_IN_ATT_NAME.equals( fieldName ) )
+                if ( DirectMemoryCacheConstants.EXPIRES_IN_FIELD_NAME.equals( fieldName ) )
                 {
                     rq.setExpiresIn( jp.getValueAsInt() );
                 }
-                if ( DirectMemoryCacheConstants.CACHE_CONTENT_ELEM_NAME.equals( fieldName ) )
+                if ( DirectMemoryCacheConstants.CACHE_CONTENT_FIELD_NAME.equals( fieldName ) )
                 {
                     // binaryValue need to go to nextToken
                     jp.nextToken();
@@ -115,19 +115,19 @@ public class DirectMemoryCacheParser
             while ( jp.nextToken() != JsonToken.END_OBJECT )
             {
                 String fieldName = jp.getCurrentName();
-                if ( DirectMemoryCacheConstants.FOUND_ATT_NAME.equals( fieldName ) )
+                if ( DirectMemoryCacheConstants.FOUND_FIELD_NAME.equals( fieldName ) )
                 {
                     rs.setFound( jp.getValueAsBoolean() );
                 }
-                if ( DirectMemoryCacheConstants.UPDATED_ATT_NAME.equals( fieldName ) )
+                if ( DirectMemoryCacheConstants.UPDATED_FIELD_NAME.equals( fieldName ) )
                 {
                     rs.setUpdated( jp.getValueAsBoolean() );
                 }
-                if ( DirectMemoryCacheConstants.KEY_ATT_NAME.equals( fieldName ) )
+                if ( DirectMemoryCacheConstants.KEY_FIELD_NAME.equals( fieldName ) )
                 {
                     rs.setKey( jp.getText() );
                 }
-                if ( DirectMemoryCacheConstants.CACHE_CONTENT_ELEM_NAME.equals( fieldName ) )
+                if ( DirectMemoryCacheConstants.CACHE_CONTENT_FIELD_NAME.equals( fieldName ) )
                 {
                     // binaryValue need to go to nextToken
                     jp.nextToken();

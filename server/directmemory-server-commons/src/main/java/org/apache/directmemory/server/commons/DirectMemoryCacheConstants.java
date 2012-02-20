@@ -24,21 +24,21 @@ package org.apache.directmemory.server.commons;
 public class DirectMemoryCacheConstants
 {
 
-    public static final String XML_REQUEST_ROOT_ELEM_NAME = "DirectMemoryRQ";
+    public static final String ROOT_RQ_NAME = "DirectMemoryRQ";
 
-    public static final String XML_RESPONSE_ROOT_ELEM_NAME = "DirectMemoryRS";
+    public static final String ROOT_RS_NAME = "DirectMemoryRS";
 
-    public static final String CACHE_CONTENT_ELEM_NAME = "cacheContent";
+    public static final String CACHE_CONTENT_FIELD_NAME = "cacheContent";
 
-    public static final String PUT_ATT_NAME = "put";
+    public static final String PUT_FIELD_NAME = "put";
 
-    public static final String KEY_ATT_NAME = "key";
+    public static final String KEY_FIELD_NAME = "key";
 
-    public static final String EXPIRES_IN_ATT_NAME = "expiresIn";
+    public static final String EXPIRES_IN_FIELD_NAME = "expiresIn";
 
-    public static final String UPDATED_ATT_NAME = "updated";
+    public static final String UPDATED_FIELD_NAME = "updated";
 
-    public static final String FOUND_ATT_NAME = "found";
+    public static final String FOUND_FIELD_NAME = "found";
 
     public static final String SERIALIZER_FIELD_NAME = "serializer";
 

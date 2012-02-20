@@ -21,16 +21,11 @@ package org.apache.directmemory.server.commons;
 import org.apache.directmemory.serialization.Serializer;
 
 /**
- * xml format request:
- * <pre><![CDATA[
- * <DirectMemoryRQ version="1.0" key="" put="true" expiresIn="">
- *   <!-- only use when put is true for updating/add cache content -->
- *   <cacheContent>
- *     <![CDATA[
- *     ]]>
- *   </cacheContent>
- * </DirectMemoryRQ>]]>
- * </pre>
+ * json format request:
+ * {"DirectMemoryRQ":{"key":"101","put":true,"expiresIn":123,
+ *    "cacheContent":""}}
+ *
+ * cache content is byte[] ie object serialisation
  *
  * @author Olivier Lamy
  */

@@ -43,14 +43,6 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.codehaus.woodstox</groupId>
-        <artifactId>wstx-asl</artifactId>
-        <!--
-        large CDATA parsing http://jira.codehaus.org/browse/WSTX-211
-         -->
-        <version>4.0.6</version>
-      </dependency>
-      <dependency>
         <groupId>org.codehaus.jackson</groupId>
         <artifactId>jackson-core-asl</artifactId>
         <version>1.9.4</version>

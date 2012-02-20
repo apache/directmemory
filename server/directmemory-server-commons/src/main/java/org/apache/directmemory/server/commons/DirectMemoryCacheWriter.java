@@ -65,12 +65,12 @@ public class DirectMemoryCacheWriter
             XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter( stringWriter );
             xmlStreamWriter.writeStartDocument( "1.0" );
 
-            xmlStreamWriter.writeStartElement( DirectMemoryCacheConstants.XML_REQUEST_ROOT_ELEM_NAME );
+            xmlStreamWriter.writeStartElement( DirectMemoryCacheConstants.ROOT_RQ_NAME );
 
-            xmlStreamWriter.writeAttribute( DirectMemoryCacheConstants.KEY_ATT_NAME, request.getKey() );
-            xmlStreamWriter.writeAttribute( DirectMemoryCacheConstants.PUT_ATT_NAME,
+            xmlStreamWriter.writeAttribute( DirectMemoryCacheConstants.KEY_FIELD_NAME, request.getKey() );
+            xmlStreamWriter.writeAttribute( DirectMemoryCacheConstants.PUT_FIELD_NAME,
                                             Boolean.toString( request.isUpdate() ) );
-            xmlStreamWriter.writeAttribute( DirectMemoryCacheConstants.EXPIRES_IN_ATT_NAME,
+            xmlStreamWriter.writeAttribute( DirectMemoryCacheConstants.EXPIRES_IN_FIELD_NAME,
                                             Integer.toString( request.getExpiresIn() ) );
 
             if ( request.isUpdate() )
@@ -82,7 +82,7 @@ public class DirectMemoryCacheWriter
                 byte[] bytes = request.getObject() != null
                     ? request.getSerializer().serialize( request.getObject() )
                     : request.getCacheContent();
-                xmlStreamWriter.writeStartElement( DirectMemoryCacheConstants.CACHE_CONTENT_ELEM_NAME );
+                xmlStreamWriter.writeStartElement( DirectMemoryCacheConstants.CACHE_CONTENT_FIELD_NAME );
                 xmlStreamWriter.writeCData( new String( bytes ) );// charset ?
                 xmlStreamWriter.writeEndElement();
             }
@@ -116,13 +116,13 @@ public class DirectMemoryCacheWriter
 
             g.writeStartObject();
 
-            g.writeObjectFieldStart( DirectMemoryCacheConstants.XML_REQUEST_ROOT_ELEM_NAME );
+            g.writeObjectFieldStart( DirectMemoryCacheConstants.ROOT_RQ_NAME );
 
-            g.writeStringField( DirectMemoryCacheConstants.KEY_ATT_NAME, request.getKey() );
+            g.writeStringField( DirectMemoryCacheConstants.KEY_FIELD_NAME, request.getKey() );
 
-            g.writeBooleanField( DirectMemoryCacheConstants.PUT_ATT_NAME, request.isUpdate() );
+            g.writeBooleanField( DirectMemoryCacheConstants.PUT_FIELD_NAME, request.isUpdate() );
 
-            g.writeNumberField( DirectMemoryCacheConstants.EXPIRES_IN_ATT_NAME, request.getExpiresIn() );
+            g.writeNumberField( DirectMemoryCacheConstants.EXPIRES_IN_FIELD_NAME, request.getExpiresIn() );
 
             // FIXME take care of NPE
             // cache content generation
@@ -132,7 +132,7 @@ public class DirectMemoryCacheWriter
                 ? request.getSerializer().serialize( request.getObject() )
                 : request.getCacheContent();
 
-            g.writeFieldName( DirectMemoryCacheConstants.CACHE_CONTENT_ELEM_NAME );
+            g.writeFieldName( DirectMemoryCacheConstants.CACHE_CONTENT_FIELD_NAME );
             g.writeBinary( bytes );
 
             if ( serializer != null )
@@ -166,17 +166,17 @@ public class DirectMemoryCacheWriter
 
             g.writeStartObject();
 
-            g.writeObjectFieldStart( DirectMemoryCacheConstants.XML_RESPONSE_ROOT_ELEM_NAME );
+            g.writeObjectFieldStart( DirectMemoryCacheConstants.ROOT_RS_NAME );
 
-            g.writeBooleanField( DirectMemoryCacheConstants.FOUND_ATT_NAME, response.isFound() );
+            g.writeBooleanField( DirectMemoryCacheConstants.FOUND_FIELD_NAME, response.isFound() );
 
-            g.writeBooleanField( DirectMemoryCacheConstants.UPDATED_ATT_NAME, response.isUpdated() );
+            g.writeBooleanField( DirectMemoryCacheConstants.UPDATED_FIELD_NAME, response.isUpdated() );
 
-            g.writeStringField( DirectMemoryCacheConstants.KEY_ATT_NAME, response.getKey() );
+            g.writeStringField( DirectMemoryCacheConstants.KEY_FIELD_NAME, response.getKey() );
 
             if ( response.getCacheContent() != null && response.getCacheContent().length > 0 )
             {
-                g.writeFieldName( DirectMemoryCacheConstants.CACHE_CONTENT_ELEM_NAME );
+                g.writeFieldName( DirectMemoryCacheConstants.CACHE_CONTENT_FIELD_NAME );
                 g.writeBinary( response.getCacheContent() );
             }
             g.writeEndObject();
