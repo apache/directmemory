@@ -139,7 +139,9 @@ public class ServletWithClientTest
         assertEquals( "Bordeaux", wine.getName() );
         assertEquals( "very great wine", wine.getDescription() );
 
-        client.delete( new DirectMemoryCacheRequest<Wine>().setKey( "bordeaux" ) );
+        DirectMemoryCacheResponse deleteResponse =
+            client.delete( new DirectMemoryCacheRequest<Wine>().setKey( "bordeaux" ) );
+        assertTrue( deleteResponse.isDeleted() );
 
         response = client.retrieve( new DirectMemoryCacheRequest().setKey( "bordeaux" ).setSerializer(
             SerializerFactory.createNewSerializer() ).setExchangeType( ExchangeType.JSON ).setObjectClass(
@@ -148,5 +150,14 @@ public class ServletWithClientTest
         assertFalse( response.isFound() );
         wine = response.getResponse();
         assertNull( wine );
+    }
+
+    @Test
+    public void deleteNotFound()
+        throws Exception
+    {
+        DirectMemoryCacheResponse deleteResponse =
+            client.delete( new DirectMemoryCacheRequest<Wine>().setKey( "fofoofofof" ) );
+        assertFalse( deleteResponse.isDeleted() );
     }
 }

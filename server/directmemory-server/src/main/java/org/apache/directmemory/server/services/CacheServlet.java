@@ -21,6 +21,7 @@ package org.apache.directmemory.server.services;
 import org.apache.commons.lang.StringUtils;
 import org.apache.directmemory.cache.CacheService;
 import org.apache.directmemory.cache.CacheServiceImpl;
+import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.server.commons.DirectMemoryCacheException;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.slf4j.Logger;
@@ -154,8 +155,13 @@ public class CacheServlet
         String key = retrieveKeyFromPath( path );
 
         // TODO if key == null -> BAD_REQUEST http response or SC_NO_CONTENT (olamy: I prefer SC_NO_CONTENT )
-
-        cacheService.free( key );
+        Pointer pointer = cacheService.getPointer( key );
+        if ( pointer == null )
+        {
+            resp.sendError( HttpServletResponse.SC_NO_CONTENT, "No content for key: " + key );
+            return;
+        }
+        cacheService.free( pointer );
     }
 
     @Override
