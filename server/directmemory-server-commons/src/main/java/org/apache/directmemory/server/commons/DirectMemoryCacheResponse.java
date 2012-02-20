@@ -21,7 +21,7 @@ package org.apache.directmemory.server.commons;
 /**
  * json format response:
  * {"DirectMemoryRS":{"found":true,"updated":false,"key":"foo","cacheContent":""}}
- *
+ * <p/>
  * cache content is byte[] ie object serialisation
  *
  * @author Olivier Lamy
@@ -34,6 +34,8 @@ public class DirectMemoryCacheResponse
     private boolean updated;
 
     private Class objectClass;
+
+    private boolean deleted = false;
 
     public boolean isFound()
     {
@@ -77,6 +79,17 @@ public class DirectMemoryCacheResponse
     public DirectMemoryCacheResponse setKey( String key )
     {
         super.setKey( key );
+        return this;
+    }
+
+    public boolean isDeleted()
+    {
+        return deleted;
+    }
+
+    public DirectMemoryCacheResponse setDeleted( boolean deleted )
+    {
+        this.deleted = deleted;
         return this;
     }
 }

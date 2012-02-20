@@ -24,6 +24,11 @@ package org.apache.directmemory.server.commons;
 public class DirectMemoryCacheException
     extends Exception
 {
+    public DirectMemoryCacheException( String message )
+    {
+        super( message );
+    }
+
     public DirectMemoryCacheException( String message, Throwable throwable )
     {
         super( message, throwable );

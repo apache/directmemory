@@ -23,8 +23,8 @@ import org.apache.directmemory.serialization.Serializer;
 /**
  * json format request:
  * {"DirectMemoryRQ":{"key":"101","put":true,"expiresIn":123,
- *    "cacheContent":""}}
- *
+ * "cacheContent":""}}
+ * <p/>
  * cache content is byte[] ie object serialisation
  *
  * @author Olivier Lamy
@@ -38,6 +38,11 @@ public class DirectMemoryCacheRequest
     private boolean update;
 
     private int expiresIn;
+
+    /**
+     * to generate a delete request <b>key mandatory</b>
+     */
+    private boolean deleteRequest = false;
 
     public boolean isUpdate()
     {
@@ -85,6 +90,17 @@ public class DirectMemoryCacheRequest
     public DirectMemoryCacheRequest setCacheContent( byte[] cacheContent )
     {
         super.setCacheContent( cacheContent );
+        return this;
+    }
+
+    public boolean isDeleteRequest()
+    {
+        return deleteRequest;
+    }
+
+    public DirectMemoryCacheRequest setDeleteRequest( boolean deleteRequest )
+    {
+        this.deleteRequest = deleteRequest;
         return this;
     }
 }
