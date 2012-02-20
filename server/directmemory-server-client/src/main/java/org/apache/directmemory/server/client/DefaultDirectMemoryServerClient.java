@@ -22,6 +22,7 @@ import org.apache.directmemory.server.commons.DirectMemoryCacheException;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
 
+import java.io.IOException;
 import java.util.concurrent.Future;
 
 /**
@@ -51,9 +52,16 @@ public class DefaultDirectMemoryServerClient
 
     @Override
     public DirectMemoryCacheResponse retrieve( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException
+        throws DirectMemoryCacheException, IOException, ClassNotFoundException, InstantiationException,
+        IllegalAccessException
     {
-        return this.directMemoryHttpClient.get( directMemoryCacheRequest );
+        DirectMemoryCacheResponse response = this.directMemoryHttpClient.get( directMemoryCacheRequest );
+        if ( response.isFound() && response.getCacheContent() != null && response.getCacheContent().length > 0 )
+        {
+            response.setResponse( directMemoryCacheRequest.getSerializer().deserialize( response.getCacheContent(),
+                                                                                        directMemoryCacheRequest.getObjectClass() ) );
+        }
+        return response;
     }
 
     @Override
@@ -81,13 +89,13 @@ public class DefaultDirectMemoryServerClient
     public DirectMemoryCacheResponse delete( DirectMemoryCacheRequest directMemoryCacheRequest )
         throws DirectMemoryCacheException
     {
-        return this.directMemoryHttpClient.get( directMemoryCacheRequest.setDeleteRequest( true ) );
+        return this.directMemoryHttpClient.delete( directMemoryCacheRequest.setDeleteRequest( true ) );
     }
 
     @Override
     public Future<DirectMemoryCacheResponse> asyncDelete( DirectMemoryCacheRequest directMemoryCacheRequest )
         throws DirectMemoryCacheException
     {
-        return this.directMemoryHttpClient.asyncGet( directMemoryCacheRequest.setDeleteRequest( true ) );
+        return this.directMemoryHttpClient.asyncDelete( directMemoryCacheRequest.setDeleteRequest( true ) );
     }
 }

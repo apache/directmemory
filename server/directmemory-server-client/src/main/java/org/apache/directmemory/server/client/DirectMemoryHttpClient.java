@@ -44,4 +44,12 @@ public interface DirectMemoryHttpClient
     Future<DirectMemoryCacheResponse> asyncGet( DirectMemoryCacheRequest request )
         throws DirectMemoryCacheException;
 
+
+    DirectMemoryCacheResponse delete( DirectMemoryCacheRequest request )
+        throws DirectMemoryCacheException;
+
+    Future<DirectMemoryCacheResponse> asyncDelete( DirectMemoryCacheRequest request )
+        throws DirectMemoryCacheException;
+
+
 }

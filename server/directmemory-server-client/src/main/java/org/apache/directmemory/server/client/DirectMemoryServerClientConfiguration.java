@@ -18,6 +18,8 @@ package org.apache.directmemory.server.client;
  * under the License.
  */
 
+import org.apache.directmemory.server.commons.DirectMemoryCacheException;
+
 /**
  * @author Olivier Lamy
  */
@@ -92,8 +94,10 @@ public class DirectMemoryServerClientConfiguration
 
     public DirectMemoryServerClientConfiguration setDirectMemoryHttpClient(
         DirectMemoryHttpClient directMemoryHttpClient )
+        throws DirectMemoryCacheException
     {
         this.directMemoryHttpClient = directMemoryHttpClient;
+        this.directMemoryHttpClient.configure( this );
         return this;
     }
 

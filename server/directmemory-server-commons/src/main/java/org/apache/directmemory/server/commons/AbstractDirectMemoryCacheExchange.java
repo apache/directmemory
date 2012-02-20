@@ -23,11 +23,11 @@ import org.apache.directmemory.serialization.Serializer;
 /**
  * @author Olivier Lamy
  */
-public abstract class AbstractDirectMemoryCacheExchange
+public abstract class AbstractDirectMemoryCacheExchange<V>
 {
     private String key;
 
-    private Object object;
+    private V object;
 
     private Serializer serializer;
 
@@ -44,12 +44,12 @@ public abstract class AbstractDirectMemoryCacheExchange
         return this;
     }
 
-    public Object getObject()
+    public V getObject()
     {
         return object;
     }
 
-    public AbstractDirectMemoryCacheExchange setObject( Object object )
+    public AbstractDirectMemoryCacheExchange setObject( V object )
     {
         this.object = object;
         return this;

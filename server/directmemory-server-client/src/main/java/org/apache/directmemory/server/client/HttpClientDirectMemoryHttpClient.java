@@ -24,6 +24,7 @@ import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ByteArrayEntity;
@@ -54,7 +55,7 @@ public class HttpClientDirectMemoryHttpClient
     private HttpClient httpClient;
 
 
-    private HttpClientDirectMemoryHttpClient( DirectMemoryServerClientConfiguration configuration )
+    public HttpClientDirectMemoryHttpClient( DirectMemoryServerClientConfiguration configuration )
     {
         super( configuration );
     }
@@ -79,6 +80,7 @@ public class HttpClientDirectMemoryHttpClient
             log.debug( "put request to: {}", uri.toString() );
         }
         HttpPut httpPut = new HttpPut( uri.toString() );
+        httpPut.addHeader( "Content-Type", getRequestContentType( request ) );
         httpPut.setEntity( new ByteArrayEntity( getPutContent( request ) ) );
 
         try
@@ -125,6 +127,9 @@ public class HttpClientDirectMemoryHttpClient
         }
 
         HttpGet httpGet = new HttpGet( uri );
+
+        httpGet.addHeader( "Accept", getAcceptContentType( request ) );
+
         try
         {
             HttpResponse httpResponse = this.httpClient.execute( httpGet );
@@ -141,7 +146,7 @@ public class HttpClientDirectMemoryHttpClient
                 return new DirectMemoryCacheResponse().setFound( true ).setDeleted( true );
             }
 
-            return buildResponse( httpResponse.getEntity().getContent() );
+            return buildResponse( httpResponse.getEntity().getContent() ).setFound( true );
         }
         catch ( IOException e )
         {
@@ -160,6 +165,53 @@ public class HttpClientDirectMemoryHttpClient
                 throws Exception
             {
                 return get( request );
+            }
+        } );
+    }
+
+    @Override
+    public DirectMemoryCacheResponse delete( DirectMemoryCacheRequest request )
+        throws DirectMemoryCacheException
+    {
+        String uri = buildRequestWithKey( request );
+        if ( log.isDebugEnabled() )
+        {
+            log.debug( "get request to: {}", uri.toString() );
+        }
+
+        HttpDelete httpDelete = new HttpDelete( uri );
+
+        try
+        {
+            HttpResponse httpResponse = this.httpClient.execute( httpDelete );
+
+            // handle no content response
+            StatusLine statusLine = httpResponse.getStatusLine();
+            if ( statusLine.getStatusCode() == 204 )
+            {
+                return new DirectMemoryCacheResponse().setFound( false ).setDeleted( false );
+            }
+
+            return new DirectMemoryCacheResponse().setFound( true ).setDeleted( true );
+
+        }
+        catch ( IOException e )
+        {
+            throw new DirectMemoryCacheException( e.getMessage(), e );
+        }
+    }
+
+    @Override
+    public Future<DirectMemoryCacheResponse> asyncDelete( final DirectMemoryCacheRequest request )
+        throws DirectMemoryCacheException
+    {
+        return Executors.newSingleThreadExecutor().submit( new Callable<DirectMemoryCacheResponse>()
+        {
+            @Override
+            public DirectMemoryCacheResponse call()
+                throws Exception
+            {
+                return delete( request );
             }
         } );
     }

@@ -20,10 +20,10 @@ package org.apache.directmemory.server.commons;
 
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * @author Olivier Lamy
@@ -57,5 +57,16 @@ public class DirectMemoryCacheParserTest
         assertEquals( true, dmRs.isFound() );
         assertEquals( false, dmRs.isUpdated() );
         assertEquals( "foo bar", new String( dmRs.getCacheContent() ) );
+    }
+
+    @Test
+    public void parseEmptyRequest()
+        throws Exception
+    {
+        InputStream is = new ByteArrayInputStream( new byte[0] );
+        DirectMemoryCacheRequest dmRq = DirectMemoryCacheParser.instance().buildRequest( is );
+        assertNotNull( dmRq );
+        assertNull( dmRq.getCacheContent() );
+
     }
 }

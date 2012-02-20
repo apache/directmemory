@@ -107,10 +107,8 @@ public class CacheServlet
         {
             resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                             "Content-Type '" + req.getContentType() + "' not supported" );
+            return;
         }
-
-        // 	application/json
-        contentTypeHandlers.get( MediaType.APPLICATION_JSON );
         try
         {
             cacheRequest = contentTypeHandler.handlePut( req, resp );
@@ -177,7 +175,9 @@ public class CacheServlet
 
         byte[] bytes = cacheService.retrieveByteArray( key );
 
-        if ( bytes == null )
+        log.debug( "content size {} for key {}", ( bytes == null ? "null" : bytes.length ), key );
+
+        if ( bytes == null || bytes.length == 0 )
         {
             resp.sendError( HttpServletResponse.SC_NO_CONTENT, "No content for key: " + key );
             return;

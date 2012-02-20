@@ -22,6 +22,7 @@ import org.apache.directmemory.server.commons.DirectMemoryCacheException;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
 
+import java.io.IOException;
 import java.util.concurrent.Future;
 
 /**
@@ -31,7 +32,8 @@ public interface DirectMemoryServerClient
 {
 
     DirectMemoryCacheResponse retrieve( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException;
+        throws DirectMemoryCacheException, IOException, ClassNotFoundException, InstantiationException,
+        IllegalAccessException;
 
     Future<DirectMemoryCacheResponse> asyncRetrieve( DirectMemoryCacheRequest directMemoryCacheRequest )
         throws DirectMemoryCacheException;

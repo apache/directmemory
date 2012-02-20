@@ -54,7 +54,8 @@ public class DirectMemoryCacheParser
         {
             JsonParser jp = this.jsonFactory.createJsonParser( inputStream );
             DirectMemoryCacheRequest rq = new DirectMemoryCacheRequest();
-            while ( jp.nextToken() != JsonToken.END_OBJECT )
+            JsonToken jsonToken = jp.nextToken();
+            while ( jsonToken != JsonToken.END_OBJECT && jsonToken != null )
             {
                 String fieldName = jp.getCurrentName();
                 if ( DirectMemoryCacheConstants.KEY_FIELD_NAME.equals( fieldName ) )
@@ -75,6 +76,7 @@ public class DirectMemoryCacheParser
                     jp.nextToken();
                     rq.setCacheContent( jp.getBinaryValue() );
                 }
+                jsonToken = jp.nextToken();
             }
 
             jp.close();
@@ -100,7 +102,9 @@ public class DirectMemoryCacheParser
             JsonParser jp = this.jsonFactory.createJsonParser( inputStream );
             DirectMemoryCacheResponse rs = new DirectMemoryCacheResponse();
 
-            while ( jp.nextToken() != JsonToken.END_OBJECT )
+            JsonToken jsonToken = jp.nextToken();
+
+            while ( jsonToken != JsonToken.END_OBJECT && jsonToken != null)
             {
                 String fieldName = jp.getCurrentName();
                 if ( DirectMemoryCacheConstants.FOUND_FIELD_NAME.equals( fieldName ) )
@@ -121,7 +125,9 @@ public class DirectMemoryCacheParser
                     jp.nextToken();
                     rs.setCacheContent( jp.getBinaryValue() );
                 }
+                jsonToken = jp.nextToken();
             }
+
 
             return rs;
         }

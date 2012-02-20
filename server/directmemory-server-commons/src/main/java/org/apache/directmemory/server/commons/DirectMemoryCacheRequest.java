@@ -29,8 +29,8 @@ import org.apache.directmemory.serialization.Serializer;
  *
  * @author Olivier Lamy
  */
-public class DirectMemoryCacheRequest
-    extends AbstractDirectMemoryCacheExchange
+public class DirectMemoryCacheRequest<V>
+    extends AbstractDirectMemoryCacheExchange<V>
 {
     /**
      * to update/put content in the server
@@ -38,6 +38,10 @@ public class DirectMemoryCacheRequest
     private boolean update;
 
     private int expiresIn;
+
+    private ExchangeType exchangeType;
+
+    private Class<V> objectClass;
 
     /**
      * to generate a delete request <b>key mandatory</b>
@@ -73,7 +77,7 @@ public class DirectMemoryCacheRequest
     }
 
 
-    public DirectMemoryCacheRequest setObject( Object object )
+    public DirectMemoryCacheRequest setObject( V object )
     {
         super.setObject( object );
         return this;
@@ -101,6 +105,28 @@ public class DirectMemoryCacheRequest
     public DirectMemoryCacheRequest setDeleteRequest( boolean deleteRequest )
     {
         this.deleteRequest = deleteRequest;
+        return this;
+    }
+
+    public ExchangeType getExchangeType()
+    {
+        return exchangeType;
+    }
+
+    public DirectMemoryCacheRequest setExchangeType( ExchangeType exchangeType )
+    {
+        this.exchangeType = exchangeType;
+        return this;
+    }
+
+    public Class<V> getObjectClass()
+    {
+        return objectClass;
+    }
+
+    public DirectMemoryCacheRequest setObjectClass( Class<V> objectClass )
+    {
+        this.objectClass = objectClass;
         return this;
     }
 }

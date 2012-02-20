@@ -63,8 +63,20 @@ public abstract class AbstractDirectMemoryHttpClient
         StringBuilder uri = new StringBuilder( this.configuration.getProtocol() );
         uri.append( "://" ).append( this.configuration.getHost() );
         uri.append( ':' ).append( this.configuration.getPort() );
-        uri.append( this.configuration.getHttpPath() );
+        uri.append( '/' ).append( this.configuration.getHttpPath() );
         uri.append( '/' ).append( request.getKey() );
-        return uri.toString();
+        // we take care of spaces in the key
+        // TODO use something more generics to take care of all characters
+        return uri.toString().replace( ' ', '+' );
+    }
+
+    protected String getRequestContentType( DirectMemoryCacheRequest request )
+    {
+        return request.getExchangeType().getContentType();
+    }
+
+    protected String getAcceptContentType( DirectMemoryCacheRequest request )
+    {
+        return request.getExchangeType().getContentType();
     }
 }
