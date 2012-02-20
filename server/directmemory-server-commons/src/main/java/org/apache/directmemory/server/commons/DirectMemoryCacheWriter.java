@@ -24,9 +24,6 @@ import org.codehaus.jackson.JsonGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -35,8 +32,6 @@ import java.io.StringWriter;
  */
 public class DirectMemoryCacheWriter
 {
-    private XMLOutputFactory xmlOutputFactory;
-
     private JsonFactory jsonFactory;
 
     private static final DirectMemoryCacheWriter INSTANCE = new DirectMemoryCacheWriter();
@@ -50,9 +45,6 @@ public class DirectMemoryCacheWriter
 
     private DirectMemoryCacheWriter()
     {
-        this.xmlOutputFactory = XMLOutputFactory.newInstance();
-        this.xmlOutputFactory.setProperty( XMLOutputFactory.IS_REPAIRING_NAMESPACES, Boolean.FALSE );
-
         this.jsonFactory = new JsonFactory();
     }
 

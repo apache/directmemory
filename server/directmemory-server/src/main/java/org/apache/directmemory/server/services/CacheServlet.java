@@ -22,10 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.directmemory.cache.CacheService;
 import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.server.commons.DirectMemoryCacheException;
-import org.apache.directmemory.server.commons.DirectMemoryCacheParser;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
-import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
-import org.apache.directmemory.server.commons.DirectMemoryCacheWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +33,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * TODO add some listener plugin mechanism to store figures/statistics on cache access
@@ -48,11 +47,12 @@ public class CacheServlet
 
     private Logger log = LoggerFactory.getLogger( getClass() );
 
+    public static final String JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER = "application/x-java-serialized-object";
+
     private CacheService cacheService = new CacheServiceImpl();
 
-    private DirectMemoryCacheParser parser = DirectMemoryCacheParser.instance();
+    private Map<String, CacheContentTypeHandler> contentTypeHandlers;
 
-    private DirectMemoryCacheWriter writer = DirectMemoryCacheWriter.instance();
 
     @Override
     public void init( ServletConfig config )
@@ -68,6 +68,11 @@ public class CacheServlet
         int concurrencyLevel =
             Integer.getInteger( "directMemory.concurrencyLevel", CacheService.DEFAULT_CONCURRENCY_LEVEL );
         cacheService.init( numberOfBuffers, size, initialCapacity, concurrencyLevel );
+
+        //
+
+        contentTypeHandlers = new HashMap<String, CacheContentTypeHandler>( 1 );
+        contentTypeHandlers.put( MediaType.APPLICATION_JSON, new JsonCacheContentTypeHandler() );
     }
 
     @Override
@@ -94,34 +99,52 @@ public class CacheServlet
         String servletPath = req.getServletPath();
         String key = retrieveKeyFromPath( path );
 
-        String contentType = req.getContentType();
+        DirectMemoryCacheRequest cacheRequest = null;
 
+        CacheContentTypeHandler contentTypeHandler = findPutCacheContentTypeHandler( req, resp );
+
+        if ( contentTypeHandler == null )
+        {
+            resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                            "Content-Type '" + req.getContentType() + "' not supported" );
+        }
+
+        // 	application/json
+        contentTypeHandlers.get( MediaType.APPLICATION_JSON );
+        try
+        {
+            cacheRequest = contentTypeHandler.handlePut( req, resp );
+        }
+        catch ( DirectMemoryCacheException e )
+        {
+            resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() );
+            return;
+        }
+
+        //exists ?
+        if ( cacheService.retrieveByteArray( key ) == null )
+        {
+            cacheService.putByteArray( key, cacheRequest.getCacheContent(), cacheRequest.getExpiresIn() );
+        }
+        else
+        {
+            cacheService.updateByteArray( key, cacheRequest.getCacheContent() );
+        }
+
+
+    }
+
+    protected CacheContentTypeHandler findPutCacheContentTypeHandler( HttpServletRequest req,
+                                                                      HttpServletResponse response )
+    {
+
+        String contentType = req.getContentType();
         if ( StringUtils.startsWith( contentType, MediaType.APPLICATION_JSON ) )
         {
             // 	application/json
-
-            try
-            {
-                DirectMemoryCacheRequest cacheRequest = parser.buildRequest( req.getInputStream() );
-
-                //exists ?
-                if ( cacheService.retrieveByteArray( key ) == null )
-                {
-                    cacheService.putByteArray( key, cacheRequest.getCacheContent(), cacheRequest.getExpiresIn() );
-                }
-                else
-                {
-                    cacheService.updateByteArray( key, cacheRequest.getCacheContent() );
-                }
-            }
-            catch ( DirectMemoryCacheException e )
-            {
-                resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() );
-            }
-            return;
+            return contentTypeHandlers.get( MediaType.APPLICATION_JSON );
         }
-        resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                        "Content-Type '" + contentType + "' not supported" );
+        return null;
     }
 
     @Override
@@ -162,26 +185,47 @@ public class CacheServlet
 
         String acceptContentType = req.getHeader( "Accept" );
 
-        if ( StringUtils.contains( acceptContentType, MediaType.APPLICATION_JSON ) )
+        if ( StringUtils.isEmpty( acceptContentType ) )
         {
-            DirectMemoryCacheResponse response = new DirectMemoryCacheResponse().setKey( key ).setCacheContent( bytes );
-
-            try
-            {
-                // TODO directly write in output stream
-                String json = writer.generateJsonResponse( response );
-                resp.getWriter().write( json );
-                resp.setContentType( MediaType.APPLICATION_JSON );
-            }
-            catch ( DirectMemoryCacheException e )
-            {
-                resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() );
-            }
+            resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                            "you must specify Accept with Content-Type you want in the response" );
             return;
         }
 
-        resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                        "you must specify Accept with Content-Type you want in the response" );
+        CacheContentTypeHandler contentTypeHandler = findGetCacheContentTypeHandler( req, resp );
+
+        if ( contentTypeHandler == null )
+        {
+            resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                            "Content-Type: " + acceptContentType + " not supported" );
+            return;
+        }
+
+        try
+        {
+            byte[] respBytes =
+                contentTypeHandler.handleGet( new DirectMemoryCacheRequest().setKey( key ), bytes, resp );
+            resp.getOutputStream().write( respBytes );
+        }
+        catch ( DirectMemoryCacheException e )
+        {
+            resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() );
+        }
+
+
+    }
+
+    protected CacheContentTypeHandler findGetCacheContentTypeHandler( HttpServletRequest req,
+                                                                      HttpServletResponse response )
+    {
+
+        String acceptContentType = req.getHeader( "Accept" );
+        if ( StringUtils.contains( acceptContentType, MediaType.APPLICATION_JSON ) )
+        {
+            // 	application/json
+            return contentTypeHandlers.get( MediaType.APPLICATION_JSON );
+        }
+        return null;
     }
 
     /**
@@ -190,6 +234,7 @@ public class CacheServlet
      * @param path
      * @return
      */
+
     protected String retrieveKeyFromPath( String path )
     {
         if ( StringUtils.endsWith( path, "/" ) )

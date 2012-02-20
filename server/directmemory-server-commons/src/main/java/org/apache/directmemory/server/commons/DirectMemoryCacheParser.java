@@ -23,7 +23,6 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 
-import javax.xml.stream.XMLInputFactory;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -32,7 +31,6 @@ import java.io.InputStream;
  */
 public class DirectMemoryCacheParser
 {
-    private XMLInputFactory xmlInputFactory;
 
     private JsonFactory jsonFactory;
 
@@ -41,9 +39,6 @@ public class DirectMemoryCacheParser
 
     private DirectMemoryCacheParser()
     {
-        this.xmlInputFactory = XMLInputFactory.newInstance();
-        this.xmlInputFactory.setProperty( XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.FALSE );
-
         this.jsonFactory = new JsonFactory();
     }
 
@@ -104,13 +99,6 @@ public class DirectMemoryCacheParser
         {
             JsonParser jp = this.jsonFactory.createJsonParser( inputStream );
             DirectMemoryCacheResponse rs = new DirectMemoryCacheResponse();
-
-            /* <DirectMemoryRS version="1.0" found="" updated="true" key="">
-            *   <cacheContent>
-            *     <![CDATA[
-            *     ]]>
-            *   </cacheContent>
-            * </DirectMemoryRS>*/
 
             while ( jp.nextToken() != JsonToken.END_OBJECT )
             {

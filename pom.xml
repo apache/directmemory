@@ -236,8 +236,8 @@ under the License.
     <aspectj.bundle.version>1.6.8_2</aspectj.bundle.version>
     <aspectj.version>1.6.11</aspectj.version>
     <doclava.version>1.0.3</doclava.version>
-    <guava.bundle.version>11_1</guava.bundle.version>
-    <guava.version>11.0.1</guava.version>
+    <guava.bundle.version>09_1</guava.bundle.version>
+    <guava.version>r09</guava.version>
     <h2.version>1.3.158</h2.version>
     <karaf.version>2.2.4</karaf.version>
     <junit.version>4.10</junit.version>
