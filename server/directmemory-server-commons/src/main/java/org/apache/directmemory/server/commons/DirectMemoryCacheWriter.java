@@ -56,54 +56,6 @@ public class DirectMemoryCacheWriter
         this.jsonFactory = new JsonFactory();
     }
 
-    public String generateXmlRequest( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException
-    {
-        try
-        {
-            StringWriter stringWriter = new StringWriter();
-            XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter( stringWriter );
-            xmlStreamWriter.writeStartDocument( "1.0" );
-
-            xmlStreamWriter.writeStartElement( DirectMemoryCacheConstants.ROOT_RQ_NAME );
-
-            xmlStreamWriter.writeAttribute( DirectMemoryCacheConstants.KEY_FIELD_NAME, request.getKey() );
-            xmlStreamWriter.writeAttribute( DirectMemoryCacheConstants.PUT_FIELD_NAME,
-                                            Boolean.toString( request.isUpdate() ) );
-            xmlStreamWriter.writeAttribute( DirectMemoryCacheConstants.EXPIRES_IN_FIELD_NAME,
-                                            Integer.toString( request.getExpiresIn() ) );
-
-            if ( request.isUpdate() )
-            {
-                // FIXME take care of NPE
-                // cache content generation
-                Serializer serializer = request.getSerializer();
-                // if no Object users are able to pass a string content
-                byte[] bytes = request.getObject() != null
-                    ? request.getSerializer().serialize( request.getObject() )
-                    : request.getCacheContent();
-                xmlStreamWriter.writeStartElement( DirectMemoryCacheConstants.CACHE_CONTENT_FIELD_NAME );
-                xmlStreamWriter.writeCData( new String( bytes ) );// charset ?
-                xmlStreamWriter.writeEndElement();
-            }
-
-            xmlStreamWriter.writeEndElement();
-
-            xmlStreamWriter.writeEndDocument();
-
-            return stringWriter.toString();
-        }
-        catch ( IOException e )
-        {
-            throw new DirectMemoryCacheException( e.getMessage(), e );
-        }
-        catch ( XMLStreamException e )
-        {
-            throw new DirectMemoryCacheException( e.getMessage(), e );
-        }
-
-    }
-
     public String generateJsonRequest( DirectMemoryCacheRequest request )
         throws DirectMemoryCacheException
     {

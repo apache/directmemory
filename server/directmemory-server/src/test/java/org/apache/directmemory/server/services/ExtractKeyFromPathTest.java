@@ -1,5 +1,4 @@
 package org.apache.directmemory.server.services;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,37 +18,32 @@ package org.apache.directmemory.server.services;
  * under the License.
  */
 
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
-import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
+import org.junit.Test;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import static junit.framework.Assert.assertEquals;
 
 /**
  * @author Olivier Lamy
  */
-@Path( "directMemoryService" )
-public interface DirectMemoryCacheService
+public class ExtractKeyFromPathTest
 {
-    @GET
-    @Path( "retrieve/{key}" )
-    @Produces( MediaType.APPLICATION_JSON )
-    DirectMemoryCacheResponse retrieve( @PathParam( "key" ) String key );
 
-    @PUT
-    @Path( "store" )
-    @Produces( MediaType.APPLICATION_JSON )
-    @Consumes( MediaType.APPLICATION_JSON )
-    Boolean store( DirectMemoryCacheRequest request );
+    private CacheServlet cacheServlet = new CacheServlet();
 
-    @DELETE
-    @Path( "delete/{key}" )
-    Boolean delete( @PathParam( "key" ) String key );
+    @Test
+    public void pathEndedWithSlash()
+        throws Exception
+    {
+        String key = cacheServlet.retrieveKeyFromPath( "cache/foo/" );
+        assertEquals( "foo", key );
+    }
 
+    @Test
+    public void pathNotEndedWithSlash()
+        throws Exception
+    {
+        String key = cacheServlet.retrieveKeyFromPath( "/cache/foo" );
+        assertEquals( "foo", key );
+
+    }
 }
