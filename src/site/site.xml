@@ -50,6 +50,8 @@
       <item name="About"                      href="index.html"/>
       <item name="Server"                     href="server.html"/>
       <item name="Committer Environment"      href="committer-environment.html"/>
+      <item name="JIRA report"                href="jira-report.html"/>
+      <item name="Changes report"             href="changes-report.html"/>
     </menu>
 
     <menu ref="reports" inherit="bottom"/>

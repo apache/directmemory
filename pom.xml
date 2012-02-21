@@ -700,6 +700,14 @@ under the License.
           <configLocation>config/maven_checks.xml</configLocation>
           <headerLocation>config/maven-header.txt</headerLocation>
         </configuration>
+        <inherited>false</inherited>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>checkstyle-aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
     </plugins>
   </reporting>
