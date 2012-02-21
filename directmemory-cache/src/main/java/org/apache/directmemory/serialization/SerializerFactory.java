@@ -91,7 +91,7 @@ public final class SerializerFactory
 
         if ( anonSerializerClass.isAssignableFrom( Serializer.class ) )
         {
-            @SuppressWarnings( "unchecked" ) // the assignment is guarded by
+            @SuppressWarnings( "unchecked" ) // the assignment is guarded by the previous check
             Class<? extends Serializer> serializerClass = (Class<? extends Serializer>) anonSerializerClass;
 
             return createNewSerializer( serializerClass );
