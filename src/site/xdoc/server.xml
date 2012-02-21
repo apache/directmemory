@@ -24,6 +24,10 @@
     <author>Olivier Lamy</author>
   </properties>
   <body>
+    <macro name="toc">
+      <param name="fromDepth" value="0"/>
+      <param name="toDepth" value="4"/>
+    </macro>
     <section name="DirectMemory Server">
       <p>Apache DirectMemory has a server implementation (a servlet) to provide you a way to store your project remotely and to share those cached objects with various applications.</p>
       <p>Server side and client side (Java only) are provided.</p>
@@ -81,51 +85,37 @@
     <section name="Java Client API">
       <subsection name="Client Configuration">
         <p>Before using the client api, you must configure it using the following pattern:
-          <source>
-            DirectMemoryServerClientConfiguration configuration =
-                new DirectMemoryServerClientConfiguration()
-                    .setHost( "localhost" )
-                    .setPort( port )
-                    .setHttpPath( "/direct-memory/CacheServlet" );
-            DirectMemoryHttpClient httpClient = HttpClientDirectMemoryHttpClient.instance( configuration );
-            configuration.setDirectMemoryHttpClient( httpClient );
-
-            DirectMemoryServerClient client = DefaultDirectMemoryServerClient.instance( configuration );
-          </source>
+          <macro name="snippet">
+            <param name="id" value="client-configuration"/>
+            <param name="url" value="http://svn.apache.org/repos/asf/incubator/directmemory/trunk/server/directmemory-server/src/test/java/org/apache/directmemory/server/services/ServletWithClientTest.java"/>
+          </macro>
           Here you have a configured client. Have a look at DirectMemoryServerClientConfiguration javadoc for advanced options.
         </p>
       </subsection>
       <subsection name="PUT Content">
         <p>
         With the Java client is something like:
-        <source>
-          Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
-
-          client.put( new DirectMemoryCacheRequest&lt;Wine&gt;().setObject( bordeaux ).setKey( "bordeaux" ).setSerializer(
-              SerializerFactory.createNewSerializer() ).setExchangeType( ExchangeType.JSON ) );
-        </source>
+          <macro name="snippet">
+            <param name="id" value="client-put"/>
+            <param name="url" value="http://svn.apache.org/repos/asf/incubator/directmemory/trunk/server/directmemory-server/src/test/java/org/apache/directmemory/server/services/ServletWithClientTest.java"/>
+          </macro>
       </p>
       </subsection>
       <subsection name="GET Content">
         <p>With the Java api:
-          <source>
-            DirectMemoryCacheResponse&lt;Wine&gt; response =
-              client.retrieve(
-                new DirectMemoryCacheRequest().setKey( "bordeaux" )
-                    .setSerializer( SerializerFactory.createNewSerializer() )
-                    .setExchangeType( ExchangeType.JSON )
-                    .setObjectClass( Wine.class ) );
-          </source>
+          <macro name="snippet">
+            <param name="id" value="client-get"/>
+            <param name="url" value="http://svn.apache.org/repos/asf/incubator/directmemory/trunk/server/directmemory-server/src/test/java/org/apache/directmemory/server/services/ServletWithClientTest.java"/>
+          </macro>
           You must check the method (response.isFound()) if true retrieve the object with: Wine wine = response.getResponse();
         </p>
       </subsection>
       <subsection name="DELETE Content">
         <p>With the Java api:
-          <source>
-            DirectMemoryCacheResponse deleteResponse =
-                client.delete( new DirectMemoryCacheRequest&lt;Wine&gt;().setKey( "bordeaux" ) );
-            deleteResponse.isDeleted();
-          </source>
+          <macro name="snippet">
+            <param name="id" value="client-delete"/>
+            <param name="url" value="http://svn.apache.org/repos/asf/incubator/directmemory/trunk/server/directmemory-server/src/test/java/org/apache/directmemory/server/services/ServletWithClientTest.java"/>
+          </macro>
         </p>
       </subsection>
     </section>
