@@ -69,16 +69,6 @@ public class Cache
         return cacheService.put( key, object, expiresIn );
     }
 
-    public static Pointer updateByteArray( String key, byte[] payload )
-    {
-        return cacheService.updateByteArray( key, payload );
-    }
-
-    public static Pointer update( String key, Object object )
-    {
-        return cacheService.update( key, object );
-    }
-
     public static byte[] retrieveByteArray( String key )
     {
         return cacheService.retrieveByteArray( key );

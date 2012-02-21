@@ -120,17 +120,9 @@ public class CacheServlet
             return;
         }
 
-        //exists ?
-        if ( cacheService.retrieveByteArray( key ) == null )
-        {
-            cacheService.putByteArray( key, cacheRequest.getCacheContent(), cacheRequest.getExpiresIn() );
-        }
-        else
-        {
-            cacheService.updateByteArray( key, cacheRequest.getCacheContent() );
-        }
-
-
+        //if exists free first ?
+        //if ( cacheService.retrieveByteArray( key ) == null )
+        cacheService.putByteArray( key, cacheRequest.getCacheContent(), cacheRequest.getExpiresIn() );
     }
 
     protected CacheContentTypeHandler findPutCacheContentTypeHandler( HttpServletRequest req,

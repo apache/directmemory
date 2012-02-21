@@ -47,10 +47,6 @@ public interface CacheService
 
     Pointer put( String key, Object object, int expiresIn );
 
-    Pointer updateByteArray( String key, byte[] payload );
-
-    Pointer update( String key, Object object );
-
     byte[] retrieveByteArray( String key );
 
     Object retrieve( String key );

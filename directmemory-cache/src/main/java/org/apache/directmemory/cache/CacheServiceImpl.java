@@ -114,22 +114,20 @@ public class CacheServiceImpl
     {
         init( numberOfBuffers, size, DEFAULT_INITIAL_CAPACITY, DEFAULT_CONCURRENCY_LEVEL );
     }
-
-    public Pointer putByteArray( String key, byte[] payload, int expiresIn )
-    {
-        Pointer ptr = memoryManager.store( payload, expiresIn );
-        map.put( key, ptr );
-        return ptr;
-    }
-
+    
     public Pointer putByteArray( String key, byte[] payload )
     {
-        return putByteArray( key, payload, 0 );
+    	return store(key, payload, 0);
+    }
+    
+    public Pointer putByteArray( String key, byte[] payload, int expiresIn )
+    {
+        return store(key, payload, expiresIn);
     }
 
     public Pointer put( String key, Object object )
     {
-        return put( key, object, 0 );
+    	return put(key, object, 0);
     }
 
     public Pointer put( String key, Object object, int expiresIn )
@@ -137,7 +135,7 @@ public class CacheServiceImpl
         try
         {
             byte[] payload = serializer.serialize( object );
-            Pointer ptr = putByteArray( key, payload, expiresIn );
+            Pointer ptr = store( key, payload, expiresIn );
             ptr.clazz = object.getClass();
             return ptr;
         }
@@ -147,28 +145,17 @@ public class CacheServiceImpl
             return null;
         }
     }
-
-    public Pointer updateByteArray( String key, byte[] payload )
+    
+    private Pointer store( String key, byte[] payload, int expiresIn )
     {
-        Pointer p = map.get( key );
-        p = memoryManager.update( p, payload );
-        return p;
-    }
-
-    public Pointer update( String key, Object object )
-    {
-        Pointer p = map.get( key );
-        try
-        {
-            p = memoryManager.update( p, serializer.serialize( object ) );
-            p.clazz = object.getClass();
-            return p;
-        }
-        catch ( IOException e )
-        {
-            logger.error( e.getMessage() );
-            return null;
-        }
+    	Pointer pointer = map.get( key );
+    	if(pointer != null){
+            return memoryManager.update( pointer, payload );
+    	}else{
+    		pointer = memoryManager.store( payload, expiresIn );
+    		map.put( key, pointer );	
+    		return pointer;
+    	}
     }
 
     public byte[] retrieveByteArray( String key )
