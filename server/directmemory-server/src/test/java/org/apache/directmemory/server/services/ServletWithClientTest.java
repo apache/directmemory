@@ -74,7 +74,8 @@ public class ServletWithClientTest
             new DirectMemoryServerClientConfiguration()
                 .setHost( "localhost" )
                 .setPort( port )
-                .setHttpPath( "/direct-memory/CacheServlet" );
+                .setHttpPath( "/direct-memory/CacheServlet" )
+                .setSerializer( SerializerFactory.createNewSerializer() );
         DirectMemoryHttpClient httpClient = HttpClientDirectMemoryHttpClient.instance( configuration );
         configuration.setDirectMemoryHttpClient( httpClient );
 
@@ -100,7 +101,6 @@ public class ServletWithClientTest
             new DirectMemoryCacheRequest<Wine>()
                 .setObject( bordeaux )
                 .setKey( "bordeaux" )
-                .setSerializer( SerializerFactory.createNewSerializer() )
                 .setExchangeType( ExchangeType.JSON ) );
 
         // END SNIPPET: client-put
@@ -109,7 +109,6 @@ public class ServletWithClientTest
         DirectMemoryCacheRequest rq =
             new DirectMemoryCacheRequest()
                 .setKey( "bordeaux" )
-                .setSerializer( SerializerFactory.createNewSerializer() )
                 .setExchangeType( ExchangeType.JSON )
                 .setObjectClass( Wine.class );
         DirectMemoryCacheResponse<Wine> response = client.retrieve( rq );
@@ -127,8 +126,9 @@ public class ServletWithClientTest
     {
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve(
-            new DirectMemoryCacheRequest().setKey( "Italian wine better than French" ).setSerializer(
-                SerializerFactory.createNewSerializer() ).setExchangeType( ExchangeType.JSON ).setObjectClass(
+            new DirectMemoryCacheRequest().setKey( "Italian wine better than French" )
+                .setExchangeType( ExchangeType.JSON )
+                .setObjectClass(
                 Wine.class ) );
 
         // due to the key used the server should response BAD Request but it says not found
@@ -142,13 +142,16 @@ public class ServletWithClientTest
     {
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
 
-        client.put( new DirectMemoryCacheRequest<Wine>().setObject( bordeaux ).setKey( "bordeaux" ).setSerializer(
-            SerializerFactory.createNewSerializer() ).setExchangeType( ExchangeType.JSON ) );
+        client.put( new DirectMemoryCacheRequest<Wine>()
+                        .setObject( bordeaux )
+                        .setKey( "bordeaux" )
+                        .setExchangeType( ExchangeType.JSON ) );
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve(
-            new DirectMemoryCacheRequest().setKey( "bordeaux" ).setSerializer(
-                SerializerFactory.createNewSerializer() ).setExchangeType( ExchangeType.JSON ).setObjectClass(
-                Wine.class ) );
+            new DirectMemoryCacheRequest()
+                .setKey( "bordeaux" )
+                .setExchangeType( ExchangeType.JSON )
+                .setObjectClass( Wine.class ) );
 
         assertTrue( response.isFound() );
         Wine wine = response.getResponse();
@@ -162,9 +165,10 @@ public class ServletWithClientTest
 
         // END SNIPPET: client-delete
 
-        response = client.retrieve( new DirectMemoryCacheRequest().setKey( "bordeaux" ).setSerializer(
-            SerializerFactory.createNewSerializer() ).setExchangeType( ExchangeType.JSON ).setObjectClass(
-            Wine.class ) );
+        response = client.retrieve( new DirectMemoryCacheRequest()
+                                        .setKey( "bordeaux" )
+                                        .setExchangeType( ExchangeType.JSON )
+                                        .setObjectClass( Wine.class ) );
 
         assertFalse( response.isFound() );
         wine = response.getResponse();

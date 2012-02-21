@@ -49,6 +49,12 @@ public abstract class AbstractDirectMemoryHttpClient
     {
         // TODO handle various exchange model json raw etc..
 
+
+
+        if ( request.getSerializer() == null )
+        {
+            request.setSerializer( this.configuration.getSerializer() );
+        }
         return writer.generateJsonRequest( request ).getBytes();
     }
 

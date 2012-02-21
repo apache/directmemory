@@ -18,6 +18,7 @@ package org.apache.directmemory.server.client;
  * under the License.
  */
 
+import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.server.commons.DirectMemoryCacheException;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
@@ -58,8 +59,13 @@ public class DefaultDirectMemoryServerClient
         DirectMemoryCacheResponse response = this.directMemoryHttpClient.get( directMemoryCacheRequest );
         if ( response.isFound() && response.getCacheContent() != null && response.getCacheContent().length > 0 )
         {
-            response.setResponse( directMemoryCacheRequest.getSerializer().deserialize( response.getCacheContent(),
-                                                                                        directMemoryCacheRequest.getObjectClass() ) );
+            Serializer serializer = directMemoryCacheRequest.getSerializer();
+            if ( serializer == null )
+            {
+                serializer = clientConfiguration.getSerializer();
+            }
+            response.setResponse(
+                serializer.deserialize( response.getCacheContent(), directMemoryCacheRequest.getObjectClass() ) );
         }
         return response;
     }

@@ -18,7 +18,9 @@ package org.apache.directmemory.server.client;
  * under the License.
  */
 
+import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.server.commons.DirectMemoryCacheException;
+import org.apache.directmemory.server.commons.ExchangeType;
 
 /**
  * @author Olivier Lamy
@@ -46,6 +48,10 @@ public class DirectMemoryServerClientConfiguration
     private long connectionTimeOut;
 
     private long readTimeOut;
+
+    private ExchangeType exchangeType;
+
+    private Serializer serializer;
 
     private DirectMemoryHttpClient directMemoryHttpClient;
 
@@ -142,6 +148,28 @@ public class DirectMemoryServerClientConfiguration
     public DirectMemoryServerClientConfiguration setProtocol( String protocol )
     {
         this.protocol = protocol;
+        return this;
+    }
+
+    public ExchangeType getExchangeType()
+    {
+        return exchangeType;
+    }
+
+    public DirectMemoryServerClientConfiguration setExchangeType( ExchangeType exchangeType )
+    {
+        this.exchangeType = exchangeType;
+        return this;
+    }
+
+    public Serializer getSerializer()
+    {
+        return serializer;
+    }
+
+    public DirectMemoryServerClientConfiguration setSerializer( Serializer serializer )
+    {
+        this.serializer = serializer;
         return this;
     }
 }
