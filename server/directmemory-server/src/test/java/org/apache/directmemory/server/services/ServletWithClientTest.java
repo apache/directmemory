@@ -95,10 +95,9 @@ public class ServletWithClientTest
     public void putAndGet()
         throws Exception
     {
-        Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
-
         // START SNIPPET: client-put
 
+        Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
         client.put(
             new DirectMemoryCacheRequest<Wine>( "bordeaux", bordeaux ) );
 
@@ -147,6 +146,7 @@ public class ServletWithClientTest
         assertEquals( "very great wine", wine.getDescription() );
 
         // START SNIPPET: client-delete
+
         DirectMemoryCacheResponse deleteResponse =
             client.delete( new DirectMemoryCacheRequest<Wine>( "bordeaux" ) );
         assertTrue( deleteResponse.isDeleted() );
