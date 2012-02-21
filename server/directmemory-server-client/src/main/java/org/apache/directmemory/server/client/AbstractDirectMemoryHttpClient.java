@@ -49,8 +49,6 @@ public abstract class AbstractDirectMemoryHttpClient
     {
         // TODO handle various exchange model json raw etc..
 
-
-
         if ( request.getSerializer() == null )
         {
             request.setSerializer( this.configuration.getSerializer() );
@@ -78,11 +76,15 @@ public abstract class AbstractDirectMemoryHttpClient
 
     protected String getRequestContentType( DirectMemoryCacheRequest request )
     {
-        return request.getExchangeType().getContentType();
+        return request.getExchangeType() == null
+            ? this.configuration.getExchangeType().getContentType()
+            : request.getExchangeType().getContentType();
     }
 
     protected String getAcceptContentType( DirectMemoryCacheRequest request )
     {
-        return request.getExchangeType().getContentType();
+        return request.getExchangeType() == null
+            ? this.configuration.getExchangeType().getContentType()
+            : request.getExchangeType().getContentType();
     }
 }

@@ -75,7 +75,9 @@ public class ServletWithClientTest
                 .setHost( "localhost" )
                 .setPort( port )
                 .setHttpPath( "/direct-memory/CacheServlet" )
-                .setSerializer( SerializerFactory.createNewSerializer() );
+                .setSerializer( SerializerFactory.createNewSerializer())
+                .setExchangeType( ExchangeType.JSON );
+
         DirectMemoryHttpClient httpClient = HttpClientDirectMemoryHttpClient.instance( configuration );
         configuration.setDirectMemoryHttpClient( httpClient );
 
@@ -100,8 +102,7 @@ public class ServletWithClientTest
         client.put(
             new DirectMemoryCacheRequest<Wine>()
                 .setObject( bordeaux )
-                .setKey( "bordeaux" )
-                .setExchangeType( ExchangeType.JSON ) );
+                .setKey( "bordeaux" ) );
 
         // END SNIPPET: client-put
 
@@ -109,8 +110,8 @@ public class ServletWithClientTest
         DirectMemoryCacheRequest rq =
             new DirectMemoryCacheRequest()
                 .setKey( "bordeaux" )
-                .setExchangeType( ExchangeType.JSON )
                 .setObjectClass( Wine.class );
+
         DirectMemoryCacheResponse<Wine> response = client.retrieve( rq );
 
         assertTrue( response.isFound() );
@@ -127,9 +128,7 @@ public class ServletWithClientTest
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve(
             new DirectMemoryCacheRequest().setKey( "Italian wine better than French" )
-                .setExchangeType( ExchangeType.JSON )
-                .setObjectClass(
-                Wine.class ) );
+                .setObjectClass( Wine.class ) );
 
         // due to the key used the server should response BAD Request but it says not found
         assertFalse( response.isFound() );
@@ -144,13 +143,11 @@ public class ServletWithClientTest
 
         client.put( new DirectMemoryCacheRequest<Wine>()
                         .setObject( bordeaux )
-                        .setKey( "bordeaux" )
-                        .setExchangeType( ExchangeType.JSON ) );
+                        .setKey( "bordeaux" ) );
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve(
             new DirectMemoryCacheRequest()
                 .setKey( "bordeaux" )
-                .setExchangeType( ExchangeType.JSON )
                 .setObjectClass( Wine.class ) );
 
         assertTrue( response.isFound() );
@@ -167,7 +164,6 @@ public class ServletWithClientTest
 
         response = client.retrieve( new DirectMemoryCacheRequest()
                                         .setKey( "bordeaux" )
-                                        .setExchangeType( ExchangeType.JSON )
                                         .setObjectClass( Wine.class ) );
 
         assertFalse( response.isFound() );
