@@ -48,6 +48,16 @@ public class DirectMemoryCacheRequest<V>
      */
     private boolean deleteRequest = false;
 
+    public DirectMemoryCacheRequest( )
+    {
+        // no op
+    }
+
+    public DirectMemoryCacheRequest( String key )
+    {
+        this.setKey( key );
+    }
+
     public boolean isUpdate()
     {
         return update;

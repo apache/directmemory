@@ -100,16 +100,14 @@ public class ServletWithClientTest
         // START SNIPPET: client-put
 
         client.put(
-            new DirectMemoryCacheRequest<Wine>()
-                .setObject( bordeaux )
-                .setKey( "bordeaux" ) );
+            new DirectMemoryCacheRequest<Wine>( "bordeaux" )
+                .setObject( bordeaux ) );
 
         // END SNIPPET: client-put
 
         // START SNIPPET: client-get
         DirectMemoryCacheRequest rq =
-            new DirectMemoryCacheRequest()
-                .setKey( "bordeaux" )
+            new DirectMemoryCacheRequest( "bordeaux" )
                 .setObjectClass( Wine.class );
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve( rq );
@@ -127,7 +125,7 @@ public class ServletWithClientTest
     {
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve(
-            new DirectMemoryCacheRequest().setKey( "Italian wine better than French" )
+            new DirectMemoryCacheRequest( "Italian wine better than French" )
                 .setObjectClass( Wine.class ) );
 
         // due to the key used the server should response BAD Request but it says not found
@@ -146,8 +144,7 @@ public class ServletWithClientTest
                         .setKey( "bordeaux" ) );
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve(
-            new DirectMemoryCacheRequest()
-                .setKey( "bordeaux" )
+            new DirectMemoryCacheRequest( "bordeaux" )
                 .setObjectClass( Wine.class ) );
 
         assertTrue( response.isFound() );
@@ -157,13 +154,12 @@ public class ServletWithClientTest
 
         // START SNIPPET: client-delete
         DirectMemoryCacheResponse deleteResponse =
-            client.delete( new DirectMemoryCacheRequest<Wine>().setKey( "bordeaux" ) );
+            client.delete( new DirectMemoryCacheRequest<Wine>( "bordeaux" ) );
         assertTrue( deleteResponse.isDeleted() );
 
         // END SNIPPET: client-delete
 
-        response = client.retrieve( new DirectMemoryCacheRequest()
-                                        .setKey( "bordeaux" )
+        response = client.retrieve( new DirectMemoryCacheRequest( "bordeaux" )
                                         .setObjectClass( Wine.class ) );
 
         assertFalse( response.isFound() );
@@ -176,7 +172,7 @@ public class ServletWithClientTest
         throws Exception
     {
         DirectMemoryCacheResponse deleteResponse =
-            client.delete( new DirectMemoryCacheRequest<Wine>().setKey( "fofoofofof" ) );
+            client.delete( new DirectMemoryCacheRequest<Wine>( "fofoofofof" ) );
         assertFalse( deleteResponse.isDeleted() );
     }
 }
