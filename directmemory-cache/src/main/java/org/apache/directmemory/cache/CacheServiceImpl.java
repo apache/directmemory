@@ -19,16 +19,7 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
-import static java.lang.String.format;
-import static org.apache.directmemory.serialization.SerializerFactory.createNewSerializer;
-
-import java.io.EOFException;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ConcurrentMap;
-
+import com.google.common.collect.MapMaker;
 import org.apache.directmemory.measures.Every;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManagerService;
@@ -39,7 +30,15 @@ import org.apache.directmemory.serialization.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.MapMaker;
+import java.io.EOFException;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ConcurrentMap;
+
+import static java.lang.String.format;
+import static org.apache.directmemory.serialization.SerializerFactory.createNewSerializer;
 
 public class CacheServiceImpl
     implements CacheService
@@ -114,20 +113,20 @@ public class CacheServiceImpl
     {
         init( numberOfBuffers, size, DEFAULT_INITIAL_CAPACITY, DEFAULT_CONCURRENCY_LEVEL );
     }
-    
+
     public Pointer putByteArray( String key, byte[] payload )
     {
-    	return store(key, payload, 0);
+        return store( key, payload, 0 );
     }
-    
+
     public Pointer putByteArray( String key, byte[] payload, int expiresIn )
     {
-        return store(key, payload, expiresIn);
+        return store( key, payload, expiresIn );
     }
 
     public Pointer put( String key, Object object )
     {
-    	return put(key, object, 0);
+        return put( key, object, 0 );
     }
 
     public Pointer put( String key, Object object, int expiresIn )
@@ -145,17 +144,20 @@ public class CacheServiceImpl
             return null;
         }
     }
-    
+
     private Pointer store( String key, byte[] payload, int expiresIn )
     {
-    	Pointer pointer = map.get( key );
-    	if(pointer != null){
+        Pointer pointer = map.get( key );
+        if ( pointer != null )
+        {
             return memoryManager.update( pointer, payload );
-    	}else{
-    		pointer = memoryManager.store( payload, expiresIn );
-    		map.put( key, pointer );	
-    		return pointer;
-    	}
+        }
+        else
+        {
+            pointer = memoryManager.store( payload, expiresIn );
+            map.put( key, pointer );
+            return pointer;
+        }
     }
 
     public byte[] retrieveByteArray( String key )
