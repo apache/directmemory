@@ -44,7 +44,7 @@ Subversion Configuration
  {{{http://www.apache.org/dev/version-control.html#https-svn}Committer Subversion Access}}
  document and you must set your svn client with this properties file: {{{./svn-eol-style.txt}svn-eol-style.txt}}
 
-{DirectMemory Code Style}
+DirectMemory Code Style
 
  The following sections show how to set up the code style for DirectMemory in IDEA and Eclipse.
  It is strongly preferred that patches use this style before they are supplied.
