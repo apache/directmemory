@@ -100,8 +100,7 @@ public class ServletWithClientTest
         // START SNIPPET: client-put
 
         client.put(
-            new DirectMemoryCacheRequest<Wine>( "bordeaux" )
-                .setObject( bordeaux ) );
+            new DirectMemoryCacheRequest<Wine>( "bordeaux", bordeaux ) );
 
         // END SNIPPET: client-put
 
@@ -137,8 +136,7 @@ public class ServletWithClientTest
     {
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
 
-        client.put( new DirectMemoryCacheRequest<Wine>( "bordeaux" )
-                        .setObject( bordeaux ) );
+        client.put( new DirectMemoryCacheRequest<Wine>( "bordeaux", bordeaux ) );
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve(
             new DirectMemoryCacheRequest( "bordeaux", Wine.class )  );

@@ -64,6 +64,12 @@ public class DirectMemoryCacheRequest<V>
         this.setObjectClass( objectClass );
     }
 
+    public DirectMemoryCacheRequest( String key, V object )
+    {
+        this.setKey( key );
+        this.setObject( object );
+    }
+
     public boolean isUpdate()
     {
         return update;
