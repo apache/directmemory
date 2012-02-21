@@ -58,7 +58,7 @@ public final class SerializerFactory
             try
             {
                 Serializer next = serializers.next();
-                if ( next.getClass().getName().equals( serializer.getName() ) )
+                if ( serializer.isInstance( next ) )
                 {
                     return serializer.cast( next );
                 }
@@ -74,37 +74,27 @@ public final class SerializerFactory
 
     public static Serializer createNewSerializer( String serializerClassName )
     {
-        Class<?> serializerClass;
+        return createNewSerializer( serializerClassName, SerializerFactory.class.getClassLoader() );
+    }
+
+    public static Serializer createNewSerializer( String serializerClassName, ClassLoader classLoader )
+    {
+        Class<?> anonSerializerClass;
         try
         {
-            serializerClass = Class.forName( serializerClassName );
+            anonSerializerClass = classLoader.loadClass( serializerClassName );
         }
         catch ( ClassNotFoundException e )
         {
             return null;
         }
 
-        if ( serializerClass.isAssignableFrom( Serializer.class ) )
+        if ( anonSerializerClass.isAssignableFrom( Serializer.class ) )
         {
-            Iterator<Serializer> serializers = load( Serializer.class ).iterator();
+            @SuppressWarnings( "unchecked" ) // the assignment is guarded by
+            Class<? extends Serializer> serializerClass = (Class<? extends Serializer>) anonSerializerClass;
 
-            // iterate over all found services
-            while ( serializers.hasNext() )
-            {
-                // try getting the current service and return
-                try
-                {
-                    Serializer next = serializers.next();
-                    if ( next.getClass().getName().equals( serializerClassName ) )
-                    {
-                        return next;
-                    }
-                }
-                catch ( Throwable t )
-                {
-                    // just ignore, skip and try getting the next
-                }
-            }
+            return createNewSerializer( serializerClass );
         }
 
         return null;
