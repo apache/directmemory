@@ -627,6 +627,7 @@ under the License.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
         <version>2.3</version>
+        <inherited>false</inherited>
         <configuration>
           <issueLinkTemplate>%URL%/../%ISSUE%</issueLinkTemplate>
         </configuration>
