@@ -69,14 +69,17 @@ public class ServletWithClientTest
 
         log.info( "Tomcat started on port:" + port );
 
+        // START SNIPPET: client-configuration
         DirectMemoryServerClientConfiguration configuration =
-            new DirectMemoryServerClientConfiguration().setHost( "localhost" ).setPort( port ).setHttpPath(
-                "/direct-memory/CacheServlet" );
+            new DirectMemoryServerClientConfiguration()
+                .setHost( "localhost" )
+                .setPort( port )
+                .setHttpPath( "/direct-memory/CacheServlet" );
         DirectMemoryHttpClient httpClient = HttpClientDirectMemoryHttpClient.instance( configuration );
         configuration.setDirectMemoryHttpClient( httpClient );
 
         client = DefaultDirectMemoryServerClient.instance( configuration );
-
+        // END SNIPPET: client-configuration
     }
 
     public void shutdown()
@@ -91,16 +94,29 @@ public class ServletWithClientTest
     {
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
 
-        client.put( new DirectMemoryCacheRequest<Wine>().setObject( bordeaux ).setKey( "bordeaux" ).setSerializer(
-            SerializerFactory.createNewSerializer() ).setExchangeType( ExchangeType.JSON ) );
+        // START SNIPPET: client-put
 
-        DirectMemoryCacheResponse<Wine> response = client.retrieve(
-            new DirectMemoryCacheRequest().setKey( "bordeaux" ).setSerializer(
-                SerializerFactory.createNewSerializer() ).setExchangeType( ExchangeType.JSON ).setObjectClass(
-                Wine.class ) );
+        client.put(
+            new DirectMemoryCacheRequest<Wine>()
+                .setObject( bordeaux )
+                .setKey( "bordeaux" )
+                .setSerializer( SerializerFactory.createNewSerializer() )
+                .setExchangeType( ExchangeType.JSON ) );
+
+        // END SNIPPET: client-put
+
+        // START SNIPPET: client-get
+        DirectMemoryCacheRequest rq =
+            new DirectMemoryCacheRequest()
+                .setKey( "bordeaux" )
+                .setSerializer( SerializerFactory.createNewSerializer() )
+                .setExchangeType( ExchangeType.JSON )
+                .setObjectClass( Wine.class );
+        DirectMemoryCacheResponse<Wine> response = client.retrieve( rq );
 
         assertTrue( response.isFound() );
         Wine wine = response.getResponse();
+        // END SNIPPET: client-get
         assertEquals( "Bordeaux", wine.getName() );
         assertEquals( "very great wine", wine.getDescription() );
     }
@@ -139,9 +155,12 @@ public class ServletWithClientTest
         assertEquals( "Bordeaux", wine.getName() );
         assertEquals( "very great wine", wine.getDescription() );
 
+        // START SNIPPET: client-delete
         DirectMemoryCacheResponse deleteResponse =
             client.delete( new DirectMemoryCacheRequest<Wine>().setKey( "bordeaux" ) );
         assertTrue( deleteResponse.isDeleted() );
+
+        // END SNIPPET: client-delete
 
         response = client.retrieve( new DirectMemoryCacheRequest().setKey( "bordeaux" ).setSerializer(
             SerializerFactory.createNewSerializer() ).setExchangeType( ExchangeType.JSON ).setObjectClass(
