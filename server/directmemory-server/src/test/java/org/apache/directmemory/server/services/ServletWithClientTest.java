@@ -107,8 +107,7 @@ public class ServletWithClientTest
 
         // START SNIPPET: client-get
         DirectMemoryCacheRequest rq =
-            new DirectMemoryCacheRequest( "bordeaux" )
-                .setObjectClass( Wine.class );
+            new DirectMemoryCacheRequest( "bordeaux", Wine.class );
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve( rq );
 
@@ -125,8 +124,7 @@ public class ServletWithClientTest
     {
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve(
-            new DirectMemoryCacheRequest( "Italian wine better than French" )
-                .setObjectClass( Wine.class ) );
+            new DirectMemoryCacheRequest( "Italian wine better than French", Wine.class ) );
 
         // due to the key used the server should response BAD Request but it says not found
         assertFalse( response.isFound() );
@@ -139,13 +137,11 @@ public class ServletWithClientTest
     {
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
 
-        client.put( new DirectMemoryCacheRequest<Wine>()
-                        .setObject( bordeaux )
-                        .setKey( "bordeaux" ) );
+        client.put( new DirectMemoryCacheRequest<Wine>( "bordeaux" )
+                        .setObject( bordeaux ) );
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve(
-            new DirectMemoryCacheRequest( "bordeaux" )
-                .setObjectClass( Wine.class ) );
+            new DirectMemoryCacheRequest( "bordeaux", Wine.class )  );
 
         assertTrue( response.isFound() );
         Wine wine = response.getResponse();
@@ -159,8 +155,7 @@ public class ServletWithClientTest
 
         // END SNIPPET: client-delete
 
-        response = client.retrieve( new DirectMemoryCacheRequest( "bordeaux" )
-                                        .setObjectClass( Wine.class ) );
+        response = client.retrieve( new DirectMemoryCacheRequest( "bordeaux", Wine.class ) );
 
         assertFalse( response.isFound() );
         wine = response.getResponse();
