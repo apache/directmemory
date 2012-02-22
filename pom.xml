@@ -256,7 +256,7 @@ under the License.
     <!-- Plugin Versions -->
     <buildnumber-plugin.version>1.0</buildnumber-plugin.version>
     <build-helper-plugin.version>1.7</build-helper-plugin.version>
-    <bundle-plugin.version>2.1.0</bundle-plugin.version>
+    <bundle-plugin.version>2.3.7</bundle-plugin.version>
     <clean-plugin.version>2.4.1</clean-plugin.version>
     <compiler-plugin.version>2.3.2</compiler-plugin.version>
     <gpg-plugin.version>1.4</gpg-plugin.version>
