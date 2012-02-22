@@ -1,4 +1,4 @@
-package org.apache.directmemory.server.services;
+package org.apache.directmemory.test;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -29,6 +29,11 @@ public class Wine
     private String name;
 
     private String description;
+
+    public Wine()
+    {
+        // no op
+    }
 
     public Wine( String name, String description )
     {

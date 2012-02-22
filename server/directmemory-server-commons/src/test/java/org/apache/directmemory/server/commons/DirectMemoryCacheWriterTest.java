@@ -21,6 +21,7 @@ package org.apache.directmemory.server.commons;
 
 import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.serialization.SerializerFactory;
+import org.apache.directmemory.test.Wine;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

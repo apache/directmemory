@@ -24,6 +24,7 @@ import org.apache.directmemory.server.commons.DirectMemoryCacheParser;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
 import org.apache.directmemory.server.commons.DirectMemoryCacheWriter;
+import org.apache.directmemory.test.Wine;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
