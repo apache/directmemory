@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.directmemory.cache.CacheService;
 import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.memory.Pointer;
+import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.DirectMemoryCacheException;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.slf4j.Logger;
@@ -72,7 +73,7 @@ public class CacheServlet
 
         contentTypeHandlers = new HashMap<String, CacheContentTypeHandler>( 2 );
         contentTypeHandlers.put( MediaType.APPLICATION_JSON, new JsonCacheContentTypeHandler() );
-        contentTypeHandlers.put( CacheServletConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER,
+        contentTypeHandlers.put( DirectMemoryHttpConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER,
                                  new JavaSerializedCacheContentTypeHandler() );
     }
 

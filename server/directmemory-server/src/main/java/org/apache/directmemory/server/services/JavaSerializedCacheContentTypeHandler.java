@@ -20,6 +20,7 @@ package org.apache.directmemory.server.services;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.DirectMemoryCacheException;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.slf4j.Logger;
@@ -41,7 +42,7 @@ public class JavaSerializedCacheContentTypeHandler
     public byte[] handleGet( DirectMemoryCacheRequest request, byte[] cacheResponseContent, HttpServletResponse resp )
         throws DirectMemoryCacheException, IOException
     {
-        resp.setContentType( CacheServletConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER );
+        resp.setContentType( DirectMemoryHttpConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER );
         return cacheResponseContent;
     }
 
@@ -49,7 +50,7 @@ public class JavaSerializedCacheContentTypeHandler
     public DirectMemoryCacheRequest handlePut( HttpServletRequest request, HttpServletResponse response )
         throws DirectMemoryCacheException, IOException
     {
-        String expiresInHeader = request.getHeader( CacheServletConstants.EXPIRES_IN_HTTP_HEADER );
+        String expiresInHeader = request.getHeader( DirectMemoryHttpConstants.EXPIRES_IN_HTTP_HEADER );
         int expiresIn = StringUtils.isEmpty( expiresInHeader ) ? 0 : Integer.valueOf( expiresInHeader );
         log.debug( "expiresIn: {} for header value: {}", expiresIn, expiresInHeader );
         return new DirectMemoryCacheRequest().setExpiresIn( expiresIn ).setCacheContent(

@@ -1,4 +1,4 @@
-package org.apache.directmemory.server.services;
+package org.apache.directmemory.server.commons;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,7 +21,7 @@ package org.apache.directmemory.server.services;
 /**
  * @author Olivier Lamy
  */
-public class CacheServletConstants
+public class DirectMemoryHttpConstants
 {
     public static final String JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER = "application/x-java-serialized-object";
 
@@ -30,7 +30,7 @@ public class CacheServletConstants
     public static final String EXPIRES_IN_HTTP_HEADER = "X-DirectMemory-ExpiresIn";
 
 
-    private CacheServletConstants()
+    private DirectMemoryHttpConstants()
     {
         // no op only a constants class
     }

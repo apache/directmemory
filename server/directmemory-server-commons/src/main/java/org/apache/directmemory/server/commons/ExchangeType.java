@@ -23,8 +23,8 @@ package org.apache.directmemory.server.commons;
  */
 public enum ExchangeType
 {
-    JSON( "application/json", 1 ), JAVA_SERIALIZED_OBJECT( "application/x-java-serialized-object", 2 ), TEXT_PLAIN(
-    "text/plain", 3 );
+    JSON( "application/json", 1 ), JAVA_SERIALIZED_OBJECT(
+    DirectMemoryHttpConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER, 2 ), TEXT_PLAIN( "text/plain", 3 );
 
     private String contentType;
 

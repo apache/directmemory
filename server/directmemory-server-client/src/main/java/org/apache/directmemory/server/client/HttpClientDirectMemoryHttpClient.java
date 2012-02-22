@@ -21,6 +21,7 @@ package org.apache.directmemory.server.client;
 import org.apache.directmemory.server.commons.DirectMemoryCacheException;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
+import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.ExchangeType;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -83,7 +84,8 @@ public class HttpClientDirectMemoryHttpClient
 
         if ( request.getExchangeType() == ExchangeType.JAVA_SERIALIZED_OBJECT && request.getExpiresIn() > 0 )
         {
-            httpPut.addHeader( "X-DirectMemory-ExpiresIn", Integer.toString( request.getExpiresIn() ) );
+            httpPut.addHeader( DirectMemoryHttpConstants.EXPIRES_IN_HTTP_HEADER,
+                               Integer.toString( request.getExpiresIn() ) );
         }
 
         httpPut.setEntity( new ByteArrayEntity( getPutContent( request ) ) );
