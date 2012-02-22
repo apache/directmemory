@@ -19,12 +19,12 @@ package org.apache.directmemory.serialization.msgpack;
  * under the License.
  */
 
-import java.io.IOException;
-
 import org.apache.directmemory.serialization.Serializer;
-import org.kohsuke.MetaInfServices;
 import org.msgpack.MessagePack;
+import org.msgpack.MessageTypeException;
 import org.msgpack.annotation.Message;
+
+import java.io.IOException;
 
 // olamy currently this doesn't work so use manual file
 //@MetaInfServices
@@ -43,11 +43,7 @@ public final class MessagePackSerializer
     {
         Class<?> clazz = obj.getClass();
 
-        if ( !clazz.isAnnotationPresent( Message.class )
-                        && msgpack.lookup( clazz ) == null )
-        {
-            msgpack.register( clazz );
-        }
+        checkRegiterNeeded( clazz );
 
         return msgpack.write( obj );
     }
@@ -59,7 +55,28 @@ public final class MessagePackSerializer
     public <T> T deserialize( byte[] source, Class<T> clazz )
         throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
     {
+        checkRegiterNeeded( clazz );
         return msgpack.read( source, clazz );
+    }
+
+    private void checkRegiterNeeded( Class<?> clazz )
+    {
+        if ( clazz.isAnnotationPresent( Message.class ) )
+        {
+            return;
+        }
+        try
+        {
+            if ( msgpack.lookup( clazz ) != null )
+            {
+                return;
+            }
+        }
+        catch ( MessageTypeException e )
+        {
+            // ignore as register needed
+        }
+        msgpack.register( clazz );
     }
 
 }

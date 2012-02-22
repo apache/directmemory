@@ -15,4 +15,4 @@
  # specific language governing permissions and limitations
  # under the License.
 
-org.apache.directmemory.serialization.StandardSerializer
+org.apache.directmemory.serialization.msgpack.MessagePackSerializer
