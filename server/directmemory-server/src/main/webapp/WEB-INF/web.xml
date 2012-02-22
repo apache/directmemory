@@ -23,12 +23,12 @@
   <display-name>Apache DirectMemory</display-name>
   
   <servlet>
-    <servlet-name>CacheServlet</servlet-name>
-    <servlet-class>org.apache.directmemory.server.services.CacheServlet</servlet-class>
+    <servlet-name>DirectMemoryServlet</servlet-name>
+    <servlet-class>org.apache.directmemory.server.services.DirectMemoryServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>CacheServlet</servlet-name>
+    <servlet-name>DirectMemoryServlet</servlet-name>
     <url-pattern>/cache/*</url-pattern>
   </servlet-mapping>
 

@@ -43,11 +43,11 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Olivier Lamy
  */
-public class CacheServletTest
+public class DirectMemoryServletTest
 {
     private Logger log = LoggerFactory.getLogger( getClass() );
 
-    CacheServlet cacheServlet = new CacheServlet();
+    DirectMemoryServlet directMemoryServlet = new DirectMemoryServlet();
 
     DirectMemoryWriter writer = DirectMemoryWriter.instance();
 
@@ -63,7 +63,7 @@ public class CacheServletTest
 
         MockServletConfig mockServletConfig = new MockServletConfig( mockServletContext );
 
-        cacheServlet.init( mockServletConfig );
+        directMemoryServlet.init( mockServletConfig );
     }
 
     @Test
@@ -76,7 +76,7 @@ public class CacheServletTest
 
         MockHttpServletResponse response = new MockHttpServletResponse();
 
-        cacheServlet.doGet( request, response );
+        directMemoryServlet.doGet( request, response );
 
         assertEquals( HttpServletResponse.SC_BAD_REQUEST, response.getStatus() );
 
@@ -97,7 +97,7 @@ public class CacheServletTest
 
         MockHttpServletResponse response = new MockHttpServletResponse();
 
-        cacheServlet.doGet( request, response );
+        directMemoryServlet.doGet( request, response );
 
         assertEquals( HttpServletResponse.SC_NO_CONTENT, response.getStatus() );
 
@@ -129,7 +129,7 @@ public class CacheServletTest
 
         MockHttpServletResponse putResponse = new MockHttpServletResponse();
 
-        cacheServlet.doPut( putRequest, putResponse );
+        directMemoryServlet.doPut( putRequest, putResponse );
 
         assertEquals( HttpServletResponse.SC_OK, putResponse.getStatus() );
 
@@ -143,7 +143,7 @@ public class CacheServletTest
 
         MockHttpServletResponse getResponse = new MockHttpServletResponse();
 
-        cacheServlet.doGet( getRequest, getResponse );
+        directMemoryServlet.doGet( getRequest, getResponse );
 
         assertEquals( HttpServletResponse.SC_OK, getResponse.getStatus() );
 
@@ -186,7 +186,7 @@ public class CacheServletTest
 
         MockHttpServletResponse putResponse = new MockHttpServletResponse();
 
-        cacheServlet.doPut( putRequest, putResponse );
+        directMemoryServlet.doPut( putRequest, putResponse );
 
         assertEquals( HttpServletResponse.SC_OK, putResponse.getStatus() );
 
@@ -202,7 +202,7 @@ public class CacheServletTest
 
         MockHttpServletResponse getResponse = new MockHttpServletResponse();
 
-        cacheServlet.doGet( getRequest, getResponse );
+        directMemoryServlet.doGet( getRequest, getResponse );
 
         assertEquals( HttpServletResponse.SC_NO_CONTENT, getResponse.getStatus() );
 
@@ -236,7 +236,7 @@ public class CacheServletTest
 
         MockHttpServletResponse putResponse = new MockHttpServletResponse();
 
-        cacheServlet.doPut( putRequest, putResponse );
+        directMemoryServlet.doPut( putRequest, putResponse );
 
         assertEquals( HttpServletResponse.SC_OK, putResponse.getStatus() );
 
@@ -250,7 +250,7 @@ public class CacheServletTest
 
         MockHttpServletResponse getResponse = new MockHttpServletResponse();
 
-        cacheServlet.doGet( getRequest, getResponse );
+        directMemoryServlet.doGet( getRequest, getResponse );
 
         assertEquals( HttpServletResponse.SC_OK, getResponse.getStatus() );
 
@@ -272,7 +272,7 @@ public class CacheServletTest
 
         MockHttpServletResponse deleteResponse = new MockHttpServletResponse();
 
-        cacheServlet.doDelete( deleteRq, deleteResponse );
+        directMemoryServlet.doDelete( deleteRq, deleteResponse );
 
         assertEquals( HttpServletResponse.SC_OK, deleteResponse.getStatus() );
 
@@ -286,7 +286,7 @@ public class CacheServletTest
 
         getResponse = new MockHttpServletResponse();
 
-        cacheServlet.doGet( getRequest, getResponse );
+        directMemoryServlet.doGet( getRequest, getResponse );
 
         assertEquals( HttpServletResponse.SC_NO_CONTENT, getResponse.getStatus() );
 

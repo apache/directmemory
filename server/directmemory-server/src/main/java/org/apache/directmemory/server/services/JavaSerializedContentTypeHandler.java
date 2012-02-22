@@ -18,47 +18,42 @@ package org.apache.directmemory.server.services;
  * under the License.
  */
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.DirectMemoryException;
-import org.apache.directmemory.server.commons.DirectMemoryParser;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;
-import org.apache.directmemory.server.commons.DirectMemoryResponse;
-import org.apache.directmemory.server.commons.DirectMemoryWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
 /**
  * @author Olivier Lamy
  */
-public class JsonCacheContentTypeHandler
-    implements CacheContentTypeHandler
+public class JavaSerializedContentTypeHandler
+    implements ContentTypeHandler
 {
-
-    private DirectMemoryParser parser = DirectMemoryParser.instance();
-
-    private DirectMemoryWriter writer = DirectMemoryWriter.instance();
+    private Logger log = LoggerFactory.getLogger( getClass() );
 
     @Override
     public byte[] handleGet( DirectMemoryRequest request, byte[] cacheResponseContent, HttpServletResponse resp )
         throws DirectMemoryException, IOException
     {
-        DirectMemoryResponse response =
-            new DirectMemoryResponse().setKey( request.getKey() ).setCacheContent( cacheResponseContent );
-        String json = writer.generateJsonResponse( response );
-        resp.setContentType( MediaType.APPLICATION_JSON );
-        return json.getBytes();
+        resp.setContentType( DirectMemoryHttpConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER );
+        return cacheResponseContent;
     }
 
     @Override
-    public DirectMemoryRequest handlePut( HttpServletRequest req, HttpServletResponse resp )
+    public DirectMemoryRequest handlePut( HttpServletRequest request, HttpServletResponse response )
         throws DirectMemoryException, IOException
     {
-        // 	application/json
-
-        DirectMemoryRequest request = parser.buildRequest( req.getInputStream() );
-        return request;
-
+        String expiresInHeader = request.getHeader( DirectMemoryHttpConstants.EXPIRES_IN_HTTP_HEADER );
+        int expiresIn = StringUtils.isEmpty( expiresInHeader ) ? 0 : Integer.valueOf( expiresInHeader );
+        log.debug( "expiresIn: {} for header value: {}", expiresIn, expiresInHeader );
+        return new DirectMemoryRequest().setExpiresIn( expiresIn ).setCacheContent(
+            IOUtils.toByteArray( request.getInputStream() ) );
     }
 }

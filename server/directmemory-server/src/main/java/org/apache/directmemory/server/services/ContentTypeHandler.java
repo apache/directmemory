@@ -28,7 +28,7 @@ import java.io.IOException;
 /**
  * @author Olivier Lamy
  */
-public interface CacheContentTypeHandler
+public interface ContentTypeHandler
 {
     byte[] handleGet( DirectMemoryRequest request, byte[] cacheResponseContent, HttpServletResponse response )
         throws DirectMemoryException, IOException;

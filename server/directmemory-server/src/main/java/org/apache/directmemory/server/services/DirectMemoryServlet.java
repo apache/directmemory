@@ -43,7 +43,7 @@ import java.util.Map;
  *
  * @author Olivier Lamy
  */
-public class CacheServlet
+public class DirectMemoryServlet
     extends HttpServlet
 {
 
@@ -51,7 +51,7 @@ public class CacheServlet
 
     private CacheService cacheService = new CacheServiceImpl();
 
-    private Map<String, CacheContentTypeHandler> contentTypeHandlers;
+    private Map<String, ContentTypeHandler> contentTypeHandlers;
 
 
     @Override
@@ -71,10 +71,10 @@ public class CacheServlet
 
         //
 
-        contentTypeHandlers = new HashMap<String, CacheContentTypeHandler>( 2 );
-        contentTypeHandlers.put( MediaType.APPLICATION_JSON, new JsonCacheContentTypeHandler() );
+        contentTypeHandlers = new HashMap<String, ContentTypeHandler>( 2 );
+        contentTypeHandlers.put( MediaType.APPLICATION_JSON, new JsonContentTypeHandler() );
         contentTypeHandlers.put( DirectMemoryHttpConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER,
-                                 new JavaSerializedCacheContentTypeHandler() );
+                                 new JavaSerializedContentTypeHandler() );
     }
 
     @Override
@@ -103,7 +103,7 @@ public class CacheServlet
 
         DirectMemoryRequest request = null;
 
-        CacheContentTypeHandler contentTypeHandler = findPutCacheContentTypeHandler( req, resp );
+        ContentTypeHandler contentTypeHandler = findPutCacheContentTypeHandler( req, resp );
 
         if ( contentTypeHandler == null )
         {
@@ -128,7 +128,7 @@ public class CacheServlet
         cacheService.putByteArray( key, request.getCacheContent(), request.getExpiresIn() );
     }
 
-    protected CacheContentTypeHandler findPutCacheContentTypeHandler( HttpServletRequest req,
+    protected ContentTypeHandler findPutCacheContentTypeHandler( HttpServletRequest req,
                                                                       HttpServletResponse response )
     {
 
@@ -183,7 +183,7 @@ public class CacheServlet
             return;
         }
 
-        CacheContentTypeHandler contentTypeHandler = findGetCacheContentTypeHandler( req, resp );
+        ContentTypeHandler contentTypeHandler = findGetCacheContentTypeHandler( req, resp );
 
         if ( contentTypeHandler == null )
         {
@@ -218,7 +218,7 @@ public class CacheServlet
 
     }
 
-    protected CacheContentTypeHandler findGetCacheContentTypeHandler( HttpServletRequest req,
+    protected ContentTypeHandler findGetCacheContentTypeHandler( HttpServletRequest req,
                                                                       HttpServletResponse response )
     {
 

@@ -28,13 +28,13 @@ import static junit.framework.Assert.assertEquals;
 public class ExtractKeyFromPathTest
 {
 
-    private CacheServlet cacheServlet = new CacheServlet();
+    private DirectMemoryServlet directMemoryServlet = new DirectMemoryServlet();
 
     @Test
     public void pathEndedWithSlash()
         throws Exception
     {
-        String key = cacheServlet.retrieveKeyFromPath( "cache/foo/" );
+        String key = directMemoryServlet.retrieveKeyFromPath( "cache/foo/" );
         assertEquals( "foo", key );
     }
 
@@ -42,7 +42,7 @@ public class ExtractKeyFromPathTest
     public void pathNotEndedWithSlash()
         throws Exception
     {
-        String key = cacheServlet.retrieveKeyFromPath( "/cache/foo" );
+        String key = directMemoryServlet.retrieveKeyFromPath( "/cache/foo" );
         assertEquals( "foo", key );
 
     }

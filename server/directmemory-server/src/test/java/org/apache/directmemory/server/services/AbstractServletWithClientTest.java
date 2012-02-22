@@ -62,8 +62,8 @@ public abstract class AbstractServletWithClientTest
 
         Context context = tomcat.addContext( "/direct-memory", System.getProperty( "java.io.tmpdir" ) );
 
-        tomcat.addServlet( context, CacheServlet.class.getName(), new CacheServlet() );
-        context.addServletMapping( "/CacheServlet/*", CacheServlet.class.getName() );
+        tomcat.addServlet( context, DirectMemoryServlet.class.getName(), new DirectMemoryServlet() );
+        context.addServletMapping( "/DirectMemoryServlet/*", DirectMemoryServlet.class.getName() );
 
         tomcat.start();
 
@@ -76,7 +76,7 @@ public abstract class AbstractServletWithClientTest
             new DirectMemoryClientConfiguration()
                 .setHost( "localhost" )
                 .setPort( port )
-                .setHttpPath( "/direct-memory/CacheServlet" )
+                .setHttpPath( "/direct-memory/DirectMemoryServlet" )
                 .setSerializer( SerializerFactory.createNewSerializer() )
                 .setExchangeType( getExchangeType() );
 
