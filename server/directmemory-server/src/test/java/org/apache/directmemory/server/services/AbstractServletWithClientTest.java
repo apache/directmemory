@@ -73,9 +73,12 @@ public abstract class AbstractServletWithClientTest
 
         // START SNIPPET: client-configuration
         DirectMemoryServerClientConfiguration configuration =
-            new DirectMemoryServerClientConfiguration().setHost( "localhost" ).setPort( port ).setHttpPath(
-                "/direct-memory/CacheServlet" ).setSerializer(
-                SerializerFactory.createNewSerializer() ).setExchangeType( getExchangeType() );
+            new DirectMemoryServerClientConfiguration()
+                .setHost( "localhost" )
+                .setPort( port )
+                .setHttpPath( "/direct-memory/CacheServlet" )
+                .setSerializer( SerializerFactory.createNewSerializer() )
+                .setExchangeType( getExchangeType() );
 
         DirectMemoryHttpClient httpClient = HttpClientDirectMemoryHttpClient.instance( configuration );
         configuration.setDirectMemoryHttpClient( httpClient );
