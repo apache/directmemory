@@ -28,7 +28,7 @@ import java.util.concurrent.Future;
 /**
  * @author Olivier Lamy
  */
-public interface DirectMemoryServerClient
+public interface DirectMemoryClient
 {
 
     DirectMemoryCacheResponse retrieve( DirectMemoryCacheRequest directMemoryCacheRequest )

@@ -21,10 +21,10 @@ package org.apache.directmemory.server.services;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.directmemory.serialization.SerializerFactory;
-import org.apache.directmemory.server.client.DefaultDirectMemoryServerClient;
+import org.apache.directmemory.server.client.DefaultDirectMemoryClient;
 import org.apache.directmemory.server.client.DirectMemoryClientConfiguration;
 import org.apache.directmemory.server.client.DirectMemoryHttpClient;
-import org.apache.directmemory.server.client.DirectMemoryServerClient;
+import org.apache.directmemory.server.client.DirectMemoryClient;
 import org.apache.directmemory.server.client.HttpClientDirectMemoryHttpClient;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
@@ -48,7 +48,7 @@ public abstract class AbstractServletWithClientTest
 
     private int port;
 
-    DirectMemoryServerClient client;
+    DirectMemoryClient client;
 
     protected abstract ExchangeType getExchangeType();
 
@@ -83,7 +83,7 @@ public abstract class AbstractServletWithClientTest
         DirectMemoryHttpClient httpClient = HttpClientDirectMemoryHttpClient.instance( configuration );
         configuration.setDirectMemoryHttpClient( httpClient );
 
-        client = DefaultDirectMemoryServerClient.instance( configuration );
+        client = DefaultDirectMemoryClient.instance( configuration );
         // END SNIPPET: client-configuration
     }
 

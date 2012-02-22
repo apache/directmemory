@@ -29,21 +29,21 @@ import java.util.concurrent.Future;
 /**
  * @author Olivier Lamy
  */
-public class DefaultDirectMemoryServerClient
-    implements DirectMemoryServerClient
+public class DefaultDirectMemoryClient
+    implements DirectMemoryClient
 {
 
-    public static DirectMemoryServerClient instance( DirectMemoryClientConfiguration configuration )
+    public static DirectMemoryClient instance( DirectMemoryClientConfiguration configuration )
         throws DirectMemoryCacheException
     {
-        return new DefaultDirectMemoryServerClient( configuration );
+        return new DefaultDirectMemoryClient( configuration );
     }
 
     private DirectMemoryClientConfiguration clientConfiguration;
 
     private DirectMemoryHttpClient directMemoryHttpClient;
 
-    private DefaultDirectMemoryServerClient( DirectMemoryClientConfiguration configuration )
+    private DefaultDirectMemoryClient( DirectMemoryClientConfiguration configuration )
         throws DirectMemoryCacheException
     {
         this.directMemoryHttpClient = configuration.getDirectMemoryHttpClient();
