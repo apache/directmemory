@@ -25,7 +25,7 @@ import org.apache.directmemory.server.commons.ExchangeType;
 /**
  * @author Olivier Lamy
  */
-public class DirectMemoryServerClientConfiguration
+public class DirectMemoryClientConfiguration
 {
 
 
@@ -55,7 +55,7 @@ public class DirectMemoryServerClientConfiguration
 
     private DirectMemoryHttpClient directMemoryHttpClient;
 
-    public DirectMemoryServerClientConfiguration()
+    public DirectMemoryClientConfiguration()
     {
         // no op
     }
@@ -65,7 +65,7 @@ public class DirectMemoryServerClientConfiguration
         return host;
     }
 
-    public DirectMemoryServerClientConfiguration setHost( String host )
+    public DirectMemoryClientConfiguration setHost( String host )
     {
         this.host = host;
         return this;
@@ -76,7 +76,7 @@ public class DirectMemoryServerClientConfiguration
         return port;
     }
 
-    public DirectMemoryServerClientConfiguration setPort( int port )
+    public DirectMemoryClientConfiguration setPort( int port )
     {
         this.port = port;
         return this;
@@ -87,7 +87,7 @@ public class DirectMemoryServerClientConfiguration
         return httpPath;
     }
 
-    public DirectMemoryServerClientConfiguration setHttpPath( String httpPath )
+    public DirectMemoryClientConfiguration setHttpPath( String httpPath )
     {
         this.httpPath = httpPath;
         return this;
@@ -98,7 +98,7 @@ public class DirectMemoryServerClientConfiguration
         return directMemoryHttpClient;
     }
 
-    public DirectMemoryServerClientConfiguration setDirectMemoryHttpClient(
+    public DirectMemoryClientConfiguration setDirectMemoryHttpClient(
         DirectMemoryHttpClient directMemoryHttpClient )
         throws DirectMemoryCacheException
     {
@@ -112,7 +112,7 @@ public class DirectMemoryServerClientConfiguration
         return maxConcurentConnection;
     }
 
-    public DirectMemoryServerClientConfiguration setMaxConcurentConnection( int maxConcurentConnection )
+    public DirectMemoryClientConfiguration setMaxConcurentConnection( int maxConcurentConnection )
     {
         this.maxConcurentConnection = maxConcurentConnection;
         return this;
@@ -123,7 +123,7 @@ public class DirectMemoryServerClientConfiguration
         return connectionTimeOut;
     }
 
-    public DirectMemoryServerClientConfiguration setConnectionTimeOut( long connectionTimeOut )
+    public DirectMemoryClientConfiguration setConnectionTimeOut( long connectionTimeOut )
     {
         this.connectionTimeOut = connectionTimeOut;
         return this;
@@ -134,7 +134,7 @@ public class DirectMemoryServerClientConfiguration
         return readTimeOut;
     }
 
-    public DirectMemoryServerClientConfiguration setReadTimeOut( long readTimeOut )
+    public DirectMemoryClientConfiguration setReadTimeOut( long readTimeOut )
     {
         this.readTimeOut = readTimeOut;
         return this;
@@ -145,7 +145,7 @@ public class DirectMemoryServerClientConfiguration
         return protocol;
     }
 
-    public DirectMemoryServerClientConfiguration setProtocol( String protocol )
+    public DirectMemoryClientConfiguration setProtocol( String protocol )
     {
         this.protocol = protocol;
         return this;
@@ -156,7 +156,7 @@ public class DirectMemoryServerClientConfiguration
         return exchangeType;
     }
 
-    public DirectMemoryServerClientConfiguration setExchangeType( ExchangeType exchangeType )
+    public DirectMemoryClientConfiguration setExchangeType( ExchangeType exchangeType )
     {
         this.exchangeType = exchangeType;
         return this;
@@ -167,7 +167,7 @@ public class DirectMemoryServerClientConfiguration
         return serializer;
     }
 
-    public DirectMemoryServerClientConfiguration setSerializer( Serializer serializer )
+    public DirectMemoryClientConfiguration setSerializer( Serializer serializer )
     {
         this.serializer = serializer;
         return this;

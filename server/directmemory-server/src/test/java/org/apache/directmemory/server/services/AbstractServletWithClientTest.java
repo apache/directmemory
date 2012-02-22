@@ -22,9 +22,9 @@ import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.directmemory.serialization.SerializerFactory;
 import org.apache.directmemory.server.client.DefaultDirectMemoryServerClient;
+import org.apache.directmemory.server.client.DirectMemoryClientConfiguration;
 import org.apache.directmemory.server.client.DirectMemoryHttpClient;
 import org.apache.directmemory.server.client.DirectMemoryServerClient;
-import org.apache.directmemory.server.client.DirectMemoryServerClientConfiguration;
 import org.apache.directmemory.server.client.HttpClientDirectMemoryHttpClient;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
@@ -72,8 +72,8 @@ public abstract class AbstractServletWithClientTest
         log.info( "Tomcat started on port:" + port );
 
         // START SNIPPET: client-configuration
-        DirectMemoryServerClientConfiguration configuration =
-            new DirectMemoryServerClientConfiguration()
+        DirectMemoryClientConfiguration configuration =
+            new DirectMemoryClientConfiguration()
                 .setHost( "localhost" )
                 .setPort( port )
                 .setHttpPath( "/direct-memory/CacheServlet" )

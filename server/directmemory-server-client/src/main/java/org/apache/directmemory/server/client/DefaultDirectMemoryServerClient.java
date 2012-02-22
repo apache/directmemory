@@ -33,17 +33,17 @@ public class DefaultDirectMemoryServerClient
     implements DirectMemoryServerClient
 {
 
-    public static DirectMemoryServerClient instance( DirectMemoryServerClientConfiguration configuration )
+    public static DirectMemoryServerClient instance( DirectMemoryClientConfiguration configuration )
         throws DirectMemoryCacheException
     {
         return new DefaultDirectMemoryServerClient( configuration );
     }
 
-    private DirectMemoryServerClientConfiguration clientConfiguration;
+    private DirectMemoryClientConfiguration clientConfiguration;
 
     private DirectMemoryHttpClient directMemoryHttpClient;
 
-    private DefaultDirectMemoryServerClient( DirectMemoryServerClientConfiguration configuration )
+    private DefaultDirectMemoryServerClient( DirectMemoryClientConfiguration configuration )
         throws DirectMemoryCacheException
     {
         this.directMemoryHttpClient = configuration.getDirectMemoryHttpClient();

@@ -48,7 +48,7 @@ public class HttpClientDirectMemoryHttpClient
 {
     private Logger log = LoggerFactory.getLogger( getClass() );
 
-    public static HttpClientDirectMemoryHttpClient instance( DirectMemoryServerClientConfiguration configuration )
+    public static HttpClientDirectMemoryHttpClient instance( DirectMemoryClientConfiguration configuration )
     {
         return new HttpClientDirectMemoryHttpClient( configuration );
     }
@@ -56,13 +56,13 @@ public class HttpClientDirectMemoryHttpClient
     private HttpClient httpClient;
 
 
-    public HttpClientDirectMemoryHttpClient( DirectMemoryServerClientConfiguration configuration )
+    public HttpClientDirectMemoryHttpClient( DirectMemoryClientConfiguration configuration )
     {
         super( configuration );
     }
 
     @Override
-    public void configure( DirectMemoryServerClientConfiguration configuration )
+    public void configure( DirectMemoryClientConfiguration configuration )
         throws DirectMemoryCacheException
     {
         this.configuration = configuration;

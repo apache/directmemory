@@ -29,7 +29,7 @@ import java.util.concurrent.Future;
  */
 public interface DirectMemoryHttpClient
 {
-    void configure( DirectMemoryServerClientConfiguration configuration )
+    void configure( DirectMemoryClientConfiguration configuration )
         throws DirectMemoryCacheException;
 
     void put( DirectMemoryCacheRequest request )

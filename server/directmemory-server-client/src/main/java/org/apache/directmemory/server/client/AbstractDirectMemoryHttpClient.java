@@ -45,9 +45,9 @@ public abstract class AbstractDirectMemoryHttpClient
 
     private DirectMemoryCacheParser parser = DirectMemoryCacheParser.instance();
 
-    protected DirectMemoryServerClientConfiguration configuration;
+    protected DirectMemoryClientConfiguration configuration;
 
-    protected AbstractDirectMemoryHttpClient( DirectMemoryServerClientConfiguration configuration )
+    protected AbstractDirectMemoryHttpClient( DirectMemoryClientConfiguration configuration )
     {
         this.configuration = configuration;
     }
@@ -98,7 +98,7 @@ public abstract class AbstractDirectMemoryHttpClient
             {
                 DirectMemoryCacheResponse response = new DirectMemoryCacheResponse();
                 response.setResponse( request.getSerializer().deserialize( IOUtils.toByteArray( inputStream ),
-                                                                         request.getObjectClass() ) );
+                                                                           request.getObjectClass() ) );
                 return response;
 
             }
