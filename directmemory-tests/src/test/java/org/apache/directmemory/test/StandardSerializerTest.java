@@ -23,7 +23,8 @@ import org.apache.directmemory.serialization.StandardSerializer;
 /**
  * @author Olivier Lamy
  */
-public class StandardSerializerTest    extends AbstractSerializerTest
+public class StandardSerializerTest
+    extends AbstractSerializerTest
 {
     @Override
     public String getSerializerClassName()

@@ -19,10 +19,11 @@ package org.apache.directmemory.test;
  * under the License.
  */
 
-import static  junit.framework.Assert.*;
 import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.serialization.SerializerFactory;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
 
 /**
  * A kind of tck test for serializer.
@@ -32,22 +33,25 @@ public abstract class AbstractSerializerTest
     public abstract String getSerializerClassName();
 
     @Test
-    public void factoryWithFQDN() throws Exception
+    public void factoryWithFQDN()
+        throws Exception
     {
-        assertEquals( getSerializerClassName(), SerializerFactory.createNewSerializer( getSerializerClassName() ).getClass().getName() );
+        assertEquals( getSerializerClassName(),
+                      SerializerFactory.createNewSerializer( getSerializerClassName() ).getClass().getName() );
     }
 
     @Test
-    public void simpleSerialization() throws Exception
+    public void simpleSerialization()
+        throws Exception
     {
-       Wine wine = new Wine( "Gevrey-Chambertin", "nice French wine from Bourgogne");
+        Wine wine = new Wine( "Gevrey-Chambertin", "nice French wine from Bourgogne" );
         Serializer serializer = SerializerFactory.createNewSerializer( getSerializerClassName() );
 
         byte[] bytes = serializer.serialize( wine );
 
-      Wine newWine = serializer.deserialize( bytes, Wine.class );
+        Wine newWine = serializer.deserialize( bytes, Wine.class );
 
-      assertEquals( wine.getName(), newWine.getName() );
+        assertEquals( wine.getName(), newWine.getName() );
         assertEquals( wine.getDescription(), newWine.getDescription() );
 
     }
