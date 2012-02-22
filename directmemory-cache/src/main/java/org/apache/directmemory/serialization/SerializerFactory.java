@@ -54,7 +54,7 @@ public final class SerializerFactory
 
     public static <S extends Serializer> S createNewSerializer( Class<S> serializer )
     {
-        Iterator<Serializer> serializers = load( Serializer.class ).iterator();
+        Iterator<Serializer> serializers = load( Serializer.class, serializer.getClassLoader() ).iterator();
 
         // iterate over all found services
         while ( serializers.hasNext() )
