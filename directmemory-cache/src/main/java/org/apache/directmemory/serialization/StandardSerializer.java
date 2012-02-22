@@ -24,6 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
 
 public final class StandardSerializer
     implements Serializer
@@ -48,11 +49,16 @@ public final class StandardSerializer
      * {@inheritDoc}
      */
     @Override
-    public <T> T deserialize( byte[] source, Class<T> clazz )
+    public <T> T deserialize( byte[] source, final Class<T> clazz )
         throws IOException, ClassNotFoundException
     {
         ByteArrayInputStream bis = new ByteArrayInputStream( source );
-        ObjectInputStream ois = new ObjectInputStream( bis );
+        ObjectInputStream ois = new ObjectInputStream( bis ) {
+            @Override
+            protected Class<?> resolveClass(ObjectStreamClass objectStreamClass) throws IOException, ClassNotFoundException {
+                return clazz.getClassLoader().loadClass(objectStreamClass.getName());
+            }
+        };
         T obj = clazz.cast( ois.readObject() );
         ois.close();
         return obj;
