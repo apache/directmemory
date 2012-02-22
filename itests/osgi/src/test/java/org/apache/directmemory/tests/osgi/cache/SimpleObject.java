@@ -19,7 +19,10 @@
 
 package org.apache.directmemory.tests.osgi.cache;
 
+import java.io.Serializable;
+
 public class SimpleObject
+    implements Serializable
 {
     private String id;
 

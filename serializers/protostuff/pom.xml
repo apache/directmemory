@@ -38,12 +38,12 @@ under the License.
   <properties>
     <osgi.import>
       !org.apache.directmemory*,
-      com.dyuproject.protostuff*;version="[${protostuff.version})",
-      com.google.common*;version="${guava.version}",
-      org.aspectj*;version="${aspectj.version}",
-      org.slf4j*;version="${slf4j.version}"
+      com.dyuproject.protostuff*;version=${protostuff.version},
+      com.google.common*;version=${guava.version},
+      org.aspectj*;version=${aspectj.version},
+      org.slf4j*;version=${slf4j.version}
     </osgi.import>
-    <osgi.export>org.apache.directmemory*;version="${project.version}</osgi.export>
+    <osgi.export>org.apache.directmemory*;version=${project.version}</osgi.export>
   </properties>
 
   <dependencies>

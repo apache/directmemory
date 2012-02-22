@@ -38,8 +38,13 @@ under the License.
   <properties>
     <osgi.import>
       !org.apache.directmemory*,
-      com.google.protobuf*;version="[${protobuf.version})",
-      *
+      com.google.protobuf*;version=${protobuf.version},
+      com.google.common.base,
+      com.google.common.collect,
+      org.aspectj.lang,
+      org.aspectj.lang.annotation,
+      org.aspectj.runtime.internal,
+      org.slf4j;resolution:=optional
     </osgi.import>
     <osgi.export>org.apache.directmemory*;version="${project.version}</osgi.export>
   </properties>
