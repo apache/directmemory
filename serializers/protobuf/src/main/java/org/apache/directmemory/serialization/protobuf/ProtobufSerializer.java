@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 import org.apache.directmemory.serialization.Serializer;
-import org.kohsuke.MetaInfServices;
 
 import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.Message;
