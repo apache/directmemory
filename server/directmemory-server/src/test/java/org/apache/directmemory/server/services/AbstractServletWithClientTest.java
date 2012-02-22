@@ -40,7 +40,7 @@ import static org.junit.Assert.*;
 /**
  * @author Olivier Lamy
  */
-public class ServletWithClientTest
+public abstract class AbstractServletWithClientTest
 {
     Logger log = LoggerFactory.getLogger( getClass() );
 
@@ -50,6 +50,7 @@ public class ServletWithClientTest
 
     DirectMemoryServerClient client;
 
+    protected abstract ExchangeType getExchangeType();
 
     @Before
     public void initialize()
@@ -72,12 +73,9 @@ public class ServletWithClientTest
 
         // START SNIPPET: client-configuration
         DirectMemoryServerClientConfiguration configuration =
-            new DirectMemoryServerClientConfiguration()
-                .setHost( "localhost" )
-                .setPort( port )
-                .setHttpPath( "/direct-memory/CacheServlet" )
-                .setSerializer( SerializerFactory.createNewSerializer())
-                .setExchangeType( ExchangeType.JSON );
+            new DirectMemoryServerClientConfiguration().setHost( "localhost" ).setPort( port ).setHttpPath(
+                "/direct-memory/CacheServlet" ).setSerializer(
+                SerializerFactory.createNewSerializer() ).setExchangeType( getExchangeType() );
 
         DirectMemoryHttpClient httpClient = HttpClientDirectMemoryHttpClient.instance( configuration );
         configuration.setDirectMemoryHttpClient( httpClient );
@@ -99,14 +97,12 @@ public class ServletWithClientTest
         // START SNIPPET: client-put
 
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
-        client.put(
-            new DirectMemoryCacheRequest<Wine>( "bordeaux", bordeaux ) );
+        client.put( new DirectMemoryCacheRequest<Wine>( "bordeaux", bordeaux ) );
 
         // END SNIPPET: client-put
 
         // START SNIPPET: client-get
-        DirectMemoryCacheRequest rq =
-            new DirectMemoryCacheRequest( "bordeaux", Wine.class );
+        DirectMemoryCacheRequest rq = new DirectMemoryCacheRequest( "bordeaux", Wine.class );
 
         DirectMemoryCacheResponse<Wine> response = client.retrieve( rq );
 
@@ -122,8 +118,8 @@ public class ServletWithClientTest
         throws Exception
     {
 
-        DirectMemoryCacheResponse<Wine> response = client.retrieve(
-            new DirectMemoryCacheRequest( "Italian wine better than French", Wine.class ) );
+        DirectMemoryCacheResponse<Wine> response =
+            client.retrieve( new DirectMemoryCacheRequest( "Italian wine better than French", Wine.class ) );
 
         // due to the key used the server should response BAD Request but it says not found
         assertFalse( response.isFound() );
@@ -138,8 +134,8 @@ public class ServletWithClientTest
 
         client.put( new DirectMemoryCacheRequest<Wine>( "bordeaux", bordeaux ) );
 
-        DirectMemoryCacheResponse<Wine> response = client.retrieve(
-            new DirectMemoryCacheRequest( "bordeaux", Wine.class )  );
+        DirectMemoryCacheResponse<Wine> response =
+            client.retrieve( new DirectMemoryCacheRequest( "bordeaux", Wine.class ) );
 
         assertTrue( response.isFound() );
         Wine wine = response.getResponse();
@@ -148,8 +144,7 @@ public class ServletWithClientTest
 
         // START SNIPPET: client-delete
 
-        DirectMemoryCacheResponse deleteResponse =
-            client.delete( new DirectMemoryCacheRequest<Wine>( "bordeaux" ) );
+        DirectMemoryCacheResponse deleteResponse = client.delete( new DirectMemoryCacheRequest<Wine>( "bordeaux" ) );
         assertTrue( deleteResponse.isDeleted() );
 
         // END SNIPPET: client-delete
@@ -165,8 +160,7 @@ public class ServletWithClientTest
     public void deleteNotFound()
         throws Exception
     {
-        DirectMemoryCacheResponse deleteResponse =
-            client.delete( new DirectMemoryCacheRequest<Wine>( "fofoofofof" ) );
+        DirectMemoryCacheResponse deleteResponse = client.delete( new DirectMemoryCacheRequest<Wine>( "fofoofofof" ) );
         assertFalse( deleteResponse.isDeleted() );
     }
 }

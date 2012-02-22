@@ -44,7 +44,8 @@ public abstract class AbstractSerializerTest
     public void simpleSerialization()
         throws Exception
     {
-        Wine wine = new Wine( "Gevrey-Chambertin", "nice French wine from Bourgogne" );
+        Wine wine = getWineInstance();
+
         Serializer serializer = SerializerFactory.createNewSerializer( getSerializerClassName() );
 
         byte[] bytes = serializer.serialize( wine );
@@ -54,5 +55,10 @@ public abstract class AbstractSerializerTest
         assertEquals( wine.getName(), newWine.getName() );
         assertEquals( wine.getDescription(), newWine.getDescription() );
 
+    }
+
+    protected Wine getWineInstance()
+    {
+        return new Wine( "Gevrey-Chambertin", "nice French wine from Bourgogne" );
     }
 }
