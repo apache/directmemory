@@ -71,6 +71,7 @@ under the License.
         <configuration>
           <source>${maven.compile.source}</source>
           <target>${maven.compile.target}</target>
+          <complianceLevel>${java.version}</complianceLevel>
         </configuration>
         <executions>
           <execution>
@@ -82,6 +83,13 @@ under the License.
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>${aspectj.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
 
     </plugins>

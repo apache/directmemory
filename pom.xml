@@ -234,7 +234,7 @@ under the License.
     <!-- Dependency Versions -->
     <ant.bundle.version>1.7.0_1</ant.bundle.version>
     <aspectj.bundle.version>1.6.8_2</aspectj.bundle.version>
-    <aspectj.version>1.6.11</aspectj.version>
+    <aspectj.version>1.6.12</aspectj.version>
     <doclava.version>1.0.3</doclava.version>
     <guava.bundle.version>09_1</guava.bundle.version>
     <guava.version>r09</guava.version>
