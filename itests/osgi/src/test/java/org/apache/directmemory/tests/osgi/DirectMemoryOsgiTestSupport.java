@@ -173,7 +173,7 @@ public class DirectMemoryOsgiTestSupport
                 "org.apache.servicemix.bundles.aspectj" ).version( "1.6.8_2" ),
             mavenBundle().groupId( "com.dyuproject.protostuff" ).artifactId( "protostuff-uberjar" ).version( "1.0.2" ),
             mavenBundle().groupId( "org.apache.directmemory" ).artifactId( "directmemory-cache" ).version(
-                "0.5.5-SNAPSHOT" ) };
+                "0.6.0-SNAPSHOT" ) };
     }
 
     protected static UrlProvisionOption bundle( final InputStream stream )
