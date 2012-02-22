@@ -26,8 +26,6 @@ import org.msgpack.annotation.Message;
 
 import java.io.IOException;
 
-// olamy currently this doesn't work so use manual file
-//@MetaInfServices
 public final class MessagePackSerializer
     implements Serializer
 {
