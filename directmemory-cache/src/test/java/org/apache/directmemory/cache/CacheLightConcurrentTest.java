@@ -108,7 +108,7 @@ public class CacheLightConcurrentTest
 
     private void getAndRetrieve( String key )
     {
-        Pointer p = Cache.getPointer( key );
+        Pointer<Object> p = Cache.getPointer( key );
         @SuppressWarnings( "unused" ) byte[] check = Cache.retrieveByteArray( key );
         read.incrementAndGet();
         if ( p != null )

@@ -68,7 +68,7 @@ public class MallocTest
         logger.info( "************************************************" );
     }
 
-    OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( 512 * 1024 * 1024 );
+    OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 512 * 1024 * 1024 );
 
     @Test
     public void oneMillionEntries()
@@ -144,7 +144,7 @@ public class MallocTest
     public void withMap()
     {
 
-        ConcurrentMap<Long, Pointer> map = new MapMaker().concurrencyLevel( 4 ).initialCapacity( 500000 ).makeMap();
+        ConcurrentMap<Long, Pointer<Object>> map = new MapMaker().concurrencyLevel( 4 ).initialCapacity( 500000 ).makeMap();
 
         String str = "This is the string to store into the off-heap memory";
 
@@ -155,7 +155,7 @@ public class MallocTest
         logger.info( "adding " + howMany + " strings of " + size + " bytes..." );
         for ( long i = 0; i < howMany; i++ )
         {
-            Pointer p = mem.store( payload );
+            Pointer<Object> p = mem.store( payload );
             map.put( i, p );
         }
         logger.info( "...done" );
@@ -183,7 +183,7 @@ public class MallocTest
         byte[] payload = test.getBytes();
         for ( int i = 0; i < howMany; i++ )
         {
-            Pointer p = mem.store( payload );
+            Pointer<Object> p = mem.store( payload );
             byte[] check = mem.retrieve( p );
             assertNotNull( check );
             assertEquals( test, new String( check ) );
@@ -192,6 +192,3 @@ public class MallocTest
         logger.info( "total used=" + Ram.inMb( mem.used() ) );
     }
 }
-	
-	
-

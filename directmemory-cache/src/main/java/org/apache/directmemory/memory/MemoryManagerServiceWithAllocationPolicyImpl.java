@@ -24,11 +24,11 @@ package org.apache.directmemory.memory;
  *
  * @author bperroud
  */
-public class MemoryManagerServiceWithAllocationPolicyImpl
-    extends MemoryManagerServiceImpl
+public class MemoryManagerServiceWithAllocationPolicyImpl<V>
+    extends MemoryManagerServiceImpl<V>
 {
 
-    protected AllocationPolicy allocationPolicy;
+    protected AllocationPolicy<V> allocationPolicy;
 
     @Override
     public void init( int numberOfBuffers, int size )
@@ -37,22 +37,22 @@ public class MemoryManagerServiceWithAllocationPolicyImpl
         allocationPolicy.init( getBuffers() );
     }
 
-    public void setAllocationPolicy( final AllocationPolicy allocationPolicy )
+    public void setAllocationPolicy( final AllocationPolicy<V> allocationPolicy )
     {
         this.allocationPolicy = allocationPolicy;
     }
 
     @Override
-    public OffHeapMemoryBuffer getActiveBuffer()
+    public OffHeapMemoryBuffer<V> getActiveBuffer()
     {
         return allocationPolicy.getActiveBuffer( null, 0 );
     }
 
     @Override
-    public Pointer store( byte[] payload, int expiresIn )
+    public Pointer<V> store( byte[] payload, int expiresIn )
     {
-        Pointer p = null;
-        OffHeapMemoryBuffer buffer = null;
+        Pointer<V> p = null;
+        OffHeapMemoryBuffer<V> buffer = null;
         int allocationNumber = 1;
         do
         {
@@ -76,10 +76,10 @@ public class MemoryManagerServiceWithAllocationPolicyImpl
     }
 
     @Override
-    public Pointer allocate( int size, long expiresIn, long expires )
+    public <T extends V> Pointer<V> allocate( Class<T> type, int size, long expiresIn, long expires )
     {
-        Pointer p = null;
-        OffHeapMemoryBuffer buffer = null;
+        Pointer<V> p = null;
+        OffHeapMemoryBuffer<V> buffer = null;
         int allocationNumber = 1;
         do
         {
@@ -88,7 +88,7 @@ public class MemoryManagerServiceWithAllocationPolicyImpl
             {
                 return null;
             }
-            p = buffer.allocate( size, expiresIn, expires );
+            p = buffer.allocate( type, size, expiresIn, expires );
             allocationNumber++;
         }
         while ( p == null );

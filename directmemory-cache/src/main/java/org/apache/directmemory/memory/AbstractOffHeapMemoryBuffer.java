@@ -34,8 +34,8 @@ import org.slf4j.Logger;
 
 import com.google.common.base.Predicate;
 
-public abstract class AbstractOffHeapMemoryBuffer
-    implements OffHeapMemoryBuffer
+public abstract class AbstractOffHeapMemoryBuffer<T>
+    implements OffHeapMemoryBuffer<T>
 {
 
     protected final ByteBuffer buffer;
@@ -50,11 +50,11 @@ public abstract class AbstractOffHeapMemoryBuffer
 
     protected abstract Logger getLogger();
 
-    private final Predicate<Pointer> relative = new Predicate<Pointer>()
+    private final Predicate<Pointer<T>> relative = new Predicate<Pointer<T>>()
     {
 
         @Override
-        public boolean apply( Pointer input )
+        public boolean apply( Pointer<T> input )
         {
             return !input.free
                             && input.expiresIn > 0
@@ -63,11 +63,11 @@ public abstract class AbstractOffHeapMemoryBuffer
 
     };
 
-    private final Predicate<Pointer> absolute = new Predicate<Pointer>()
+    private final Predicate<Pointer<T>> absolute = new Predicate<Pointer<T>>()
     {
 
         @Override
-        public boolean apply( Pointer input )
+        public boolean apply( Pointer<T> input )
         {
             return !input.free
                             && input.expires > 0
@@ -95,17 +95,17 @@ public abstract class AbstractOffHeapMemoryBuffer
     {
         this.buffer = buffer;
         this.bufferNumber = bufferNumber;
-        //		createAndAddFirstPointer();
+        //		createAndAddFirstPointer<T>();
     }
 
-    protected abstract Pointer createAndAddFirstPointer();
+    protected abstract Pointer<T> createAndAddFirstPointer();
 
-    public Pointer store( byte[] payload )
+    public Pointer<T> store( byte[] payload )
     {
         return store( payload, -1 );
     }
 
-    protected void freePointer( Pointer pointer2free )
+    protected void freePointer( Pointer<T> pointer2free )
     {
         pointer2free.free = true;
         pointer2free.created = 0;
@@ -117,17 +117,17 @@ public abstract class AbstractOffHeapMemoryBuffer
         used.addAndGet( -pointer2free.getCapacity() );
     }
 
-    public Pointer store( byte[] payload, Date expires )
+    public Pointer<T> store( byte[] payload, Date expires )
     {
         return store( payload, 0, expires.getTime() );
     }
 
-    public Pointer store( byte[] payload, long expiresIn )
+    public Pointer<T> store( byte[] payload, long expiresIn )
     {
         return store( payload, expiresIn, 0 );
     }
 
-    protected abstract Pointer store( byte[] payload, long expiresIn, long expires );
+    protected abstract Pointer<T> store( byte[] payload, long expiresIn, long expires );
 
     protected boolean inShortage()
     {
@@ -135,22 +135,22 @@ public abstract class AbstractOffHeapMemoryBuffer
         return allocationErrors > AbstractOffHeapMemoryBuffer.maxAllocationErrors;
     }
 
-    protected long free( Predicate<Pointer> predicate )
+    protected long free( Predicate<Pointer<T>> predicate )
     {
         return free( filter( getUsedPointers(), predicate ) );
     }
 
-    protected long free( Iterable<Pointer> pointers )
+    protected long free( Iterable<Pointer<T>> pointers )
     {
         long howMuch = 0;
-        for ( Pointer expired : pointers )
+        for ( Pointer<T> expired : pointers )
         {
             howMuch += free( expired );
         }
         return howMuch;
     }
 
-    protected abstract List<Pointer> getUsedPointers();
+    protected abstract List<Pointer<T>> getUsedPointers();
 
     public void disposeExpiredRelative()
     {
@@ -180,10 +180,10 @@ public abstract class AbstractOffHeapMemoryBuffer
             limit = getUsedPointers().size() / 10;
         }
 
-        Iterable<Pointer> result = from( new Comparator<Pointer>()
+        Iterable<Pointer<T>> result = from( new Comparator<Pointer<T>>()
         {
 
-            public int compare( Pointer o1, Pointer o2 )
+            public int compare( Pointer<T> o1, Pointer<T> o2 )
             {
                 float f1 = o1.getFrequency();
                 float f2 = o2.getFrequency();
@@ -191,11 +191,11 @@ public abstract class AbstractOffHeapMemoryBuffer
                 return Float.compare( f1, f2 );
             }
 
-        } ).sortedCopy( limit( filter( getUsedPointers(), new Predicate<Pointer>()
+        } ).sortedCopy( limit( filter( getUsedPointers(), new Predicate<Pointer<T>>()
         {
 
             @Override
-            public boolean apply( Pointer input )
+            public boolean apply( Pointer<T> input )
             {
                 return !input.free;
             }
@@ -210,7 +210,7 @@ public abstract class AbstractOffHeapMemoryBuffer
         return free( result );
     }
 
-    public Pointer update( Pointer pointer, byte[] payload )
+    public Pointer<T> update( Pointer<T> pointer, byte[] payload )
     {
         if ( payload.length > pointer.getCapacity() )
         {
@@ -220,9 +220,7 @@ public abstract class AbstractOffHeapMemoryBuffer
         return store( payload );
     }
 
-    public abstract Pointer allocate( int size, long expiresIn, long expires );
-
-    protected void resetPointer( final Pointer pointer )
+    protected void resetPointer( final Pointer<T> pointer )
     {
         pointer.free = true;
         pointer.created = 0;
@@ -233,7 +231,7 @@ public abstract class AbstractOffHeapMemoryBuffer
         pointer.directBuffer = null;
     }
 
-    protected void setExpiration( final Pointer pointer, long expiresIn, long expires )
+    protected void setExpiration( final Pointer<T> pointer, long expiresIn, long expires )
     {
 
         if ( expiresIn > 0 )

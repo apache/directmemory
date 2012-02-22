@@ -33,39 +33,39 @@ import org.apache.directmemory.measures.Ram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class OffHeapMemoryBufferImpl
-    extends AbstractOffHeapMemoryBuffer
+public class OffHeapMemoryBufferImpl<T>
+    extends AbstractOffHeapMemoryBuffer<T>
 {
 
     protected static Logger logger = LoggerFactory.getLogger( OffHeapMemoryBufferImpl.class );
 
-    protected final List<Pointer> pointers = new ArrayList<Pointer>();
+    protected final List<Pointer<T>> pointers = new ArrayList<Pointer<T>>();
 
     protected Logger getLogger()
     {
         return logger;
     }
 
-    protected List<Pointer> getUsedPointers()
+    protected List<Pointer<T>> getUsedPointers()
     {
         return pointers;
     }
 
-    public List<Pointer> getPointers()
+    public List<Pointer<T>> getPointers()
     {
         return pointers;
     }
 
-    public static OffHeapMemoryBufferImpl createNew( int capacity, int bufferNumber )
+    public static <V> OffHeapMemoryBufferImpl<V> createNew( int capacity, int bufferNumber )
     {
         logger.info( format( "Creating OffHeapMemoryBuffer %d with a capacity of %s",
                              bufferNumber, Ram.inMb( capacity ) ) );
-        return new OffHeapMemoryBufferImpl( ByteBuffer.allocateDirect( capacity ), bufferNumber );
+        return new OffHeapMemoryBufferImpl<V>( ByteBuffer.allocateDirect( capacity ), bufferNumber );
     }
 
-    public static OffHeapMemoryBufferImpl createNew( int capacity )
+    public static <V> OffHeapMemoryBufferImpl<V> createNew( int capacity )
     {
-        return new OffHeapMemoryBufferImpl( ByteBuffer.allocateDirect( capacity ), -1 );
+        return new OffHeapMemoryBufferImpl<V>( ByteBuffer.allocateDirect( capacity ), -1 );
     }
 
     protected OffHeapMemoryBufferImpl( ByteBuffer buffer, int bufferNumber )
@@ -74,9 +74,9 @@ public class OffHeapMemoryBufferImpl
         createAndAddFirstPointer();
     }
 
-    protected Pointer createAndAddFirstPointer()
+    protected Pointer<T> createAndAddFirstPointer()
     {
-        Pointer first = new Pointer();
+        Pointer<T> first = new Pointer<T>();
         first.bufferNumber = bufferNumber;
         first.start = 0;
         first.free = true;
@@ -85,9 +85,9 @@ public class OffHeapMemoryBufferImpl
         return first;
     }
 
-    protected Pointer slice( Pointer existing, int capacity )
+    protected Pointer<T> slice( Pointer<T> existing, int capacity )
     {
-        Pointer fresh = new Pointer();
+        Pointer<T> fresh = new Pointer<T>();
         fresh.bufferNumber = existing.bufferNumber;
         fresh.start = existing.start;
         fresh.end = fresh.start + capacity - 1; // 0 indexed
@@ -96,9 +96,9 @@ public class OffHeapMemoryBufferImpl
         return fresh;
     }
 
-    protected Pointer firstMatch( int capacity )
+    protected Pointer<T> firstMatch( int capacity )
     {
-        for ( Pointer ptr : pointers )
+        for ( Pointer<T> ptr : pointers )
         {
             if ( ptr.free && ptr.getCapacity() >= capacity )
             {
@@ -108,12 +108,12 @@ public class OffHeapMemoryBufferImpl
         return null;
     }
 
-    public Pointer store( byte[] payload )
+    public Pointer<T> store( byte[] payload )
     {
         return store( payload, -1 );
     }
 
-    public byte[] retrieve( Pointer pointer )
+    public byte[] retrieve( Pointer<T> pointer )
     {
         pointer.lastHit = System.currentTimeMillis();
         pointer.hits++;
@@ -138,7 +138,7 @@ public class OffHeapMemoryBufferImpl
         return swp;
     }
 
-    public synchronized int free( Pointer pointer2free )
+    public synchronized int free( Pointer<T> pointer2free )
     {
         resetPointer( pointer2free );
         used.addAndGet( -pointer2free.getCapacity() );
@@ -147,7 +147,7 @@ public class OffHeapMemoryBufferImpl
 
     public synchronized void clear()
     {
-        for (final Pointer pointer : pointers)
+        for (final Pointer<T> pointer : pointers)
         {
             pointer.free = true;
         }
@@ -158,19 +158,19 @@ public class OffHeapMemoryBufferImpl
         used.set( 0 );
     }
 
-    public Pointer store( byte[] payload, Date expires )
+    public Pointer<T> store( byte[] payload, Date expires )
     {
         return store( payload, 0, expires.getTime() );
     }
 
-    public Pointer store( byte[] payload, long expiresIn )
+    public Pointer<T> store( byte[] payload, long expiresIn )
     {
         return store( payload, expiresIn, 0 );
     }
 
-    protected synchronized Pointer store( byte[] payload, long expiresIn, long expires )
+    protected synchronized Pointer<T> store( byte[] payload, long expiresIn, long expires )
     {
-        Pointer goodOne = firstMatch( payload.length );
+        Pointer<T> goodOne = firstMatch( payload.length );
 
         if ( goodOne == null )
         {
@@ -178,7 +178,7 @@ public class OffHeapMemoryBufferImpl
             return null;
         }
 
-        Pointer fresh = slice( goodOne, payload.length );
+        Pointer<T> fresh = slice( goodOne, payload.length );
 
         fresh.created = System.currentTimeMillis();
         setExpiration( fresh, expiresIn, expires );
@@ -216,15 +216,15 @@ public class OffHeapMemoryBufferImpl
         return checksum.getValue();
     }
 
-    public Pointer update( Pointer pointer, byte[] payload )
+    public Pointer<T> update( Pointer<T> pointer, byte[] payload )
     {
         free( pointer );
         return store( payload );
     }
 
-    public synchronized Pointer allocate( int size, long expiresIn, long expires )
+    public synchronized <V extends T> Pointer<T> allocate( Class<V> type, int size, long expiresIn, long expires )
     {
-        Pointer goodOne = firstMatch( size );
+        Pointer<T> goodOne = firstMatch( size );
 
         if ( goodOne == null )
         {
@@ -232,7 +232,7 @@ public class OffHeapMemoryBufferImpl
             return null;
         }
 
-        Pointer fresh = slice( goodOne, size );
+        Pointer<T> fresh = slice( goodOne, size );
 
         fresh.created = System.currentTimeMillis();
         setExpiration( fresh, expiresIn, expires );
@@ -244,7 +244,7 @@ public class OffHeapMemoryBufferImpl
         buf.position( fresh.start );
 
         fresh.directBuffer = buf.slice();
-        fresh.clazz = ByteBuffer.class;
+        fresh.clazz = type;
         pointers.add( fresh );
         return fresh;
     }

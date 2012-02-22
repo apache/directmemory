@@ -28,7 +28,7 @@ public class MemoryManager
 {
     private static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
 
-    private static MemoryManagerService memoryManager = new MemoryManagerServiceImpl();
+    private static MemoryManagerService<Object> memoryManager = new MemoryManagerServiceImpl<Object>();
 
     private MemoryManager()
     {
@@ -40,27 +40,27 @@ public class MemoryManager
         memoryManager.init( numberOfBuffers, size );
     }
 
-    public static Pointer store( byte[] payload, int expiresIn )
+    public static Pointer<Object> store( byte[] payload, int expiresIn )
     {
         return memoryManager.store( payload, expiresIn );
     }
 
-    public static Pointer store( byte[] payload )
+    public static Pointer<Object> store( byte[] payload )
     {
         return store( payload, 0 );
     }
 
-    public static Pointer update( Pointer pointer, byte[] payload )
+    public static Pointer<Object> update( Pointer<Object> pointer, byte[] payload )
     {
         return memoryManager.update( pointer, payload );
     }
 
-    public static byte[] retrieve( Pointer pointer )
+    public static byte[] retrieve( Pointer<Object> pointer )
     {
         return memoryManager.retrieve( pointer );
     }
 
-    public static void free( Pointer pointer )
+    public static void free( Pointer<Object> pointer )
     {
         memoryManager.free( pointer );
     }
@@ -85,24 +85,24 @@ public class MemoryManager
         memoryManager.collectLFU();
     }
 
-    public static List<OffHeapMemoryBuffer> getBuffers()
+    public static List<OffHeapMemoryBuffer<Object>> getBuffers()
     {
         return memoryManager.getBuffers();
     }
 
 
-    public static OffHeapMemoryBuffer getActiveBuffer()
+    public static OffHeapMemoryBuffer<Object> getActiveBuffer()
     {
         return memoryManager.getActiveBuffer();
     }
 
-    public static MemoryManagerService getMemoryManager()
+    public static MemoryManagerService<Object> getMemoryManager()
     {
         return memoryManager;
     }
 
-    public static Pointer allocate( int size )
+    public static Pointer<Object> allocate( int size )
     {
-        return memoryManager.allocate( size, -1, -1 ); //add a version with expiration
+        return memoryManager.allocate( Object.class, size, -1, -1 ); //add a version with expiration
     }
 }

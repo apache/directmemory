@@ -59,7 +59,7 @@ public class Starter
         starter.rawInsertMultipleBuffers( buffers, mb, entries );
     }
 
-    public void dump( OffHeapMemoryBuffer mem )
+    public void dump( OffHeapMemoryBuffer<Object> mem )
     {
         logger.info( "off-heap - buffer: " + mem.getBufferNumber() );
         logger.info( "off-heap - allocated: " + Ram.inMb( mem.capacity() ) );
@@ -72,7 +72,7 @@ public class Starter
 
     public void rawInsert( int megabytes, int howMany )
     {
-        OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( megabytes * 1024 * 1024 );
+        OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( megabytes * 1024 * 1024 );
         assertNotNull( mem );
         int size = mem.capacity() / ( howMany );
         size -= size / 100 * 1;
@@ -116,7 +116,7 @@ public class Starter
         logger.info( "...done in " + ( System.currentTimeMillis() - start ) + " msecs." );
         logger.info( "---------------------------------" );
 
-        for ( OffHeapMemoryBuffer buf : MemoryManager.getBuffers() )
+        for ( OffHeapMemoryBuffer<Object> buf : MemoryManager.getBuffers() )
         {
             dump( buf );
         }

@@ -27,7 +27,7 @@ import org.apache.directmemory.serialization.Serializer;
 public class Cache
 {
 
-    private static CacheService cacheService = new CacheServiceImpl();
+    private static CacheService<String, Object> cacheService = new CacheServiceImpl<String, Object>();
 
     // olamy chicken and eggs isssue
     // private static CacheService cacheService = new CacheServiceImpl( getMemoryManager());
@@ -52,22 +52,22 @@ public class Cache
         init( numberOfBuffers, size, CacheService.DEFAULT_INITIAL_CAPACITY, CacheService.DEFAULT_CONCURRENCY_LEVEL );
     }
 
-    public static Pointer putByteArray( String key, byte[] payload, int expiresIn )
+    public static Pointer<Object> putByteArray( String key, byte[] payload, int expiresIn )
     {
         return cacheService.putByteArray( key, payload, expiresIn );
     }
 
-    public static Pointer putByteArray( String key, byte[] payload )
+    public static Pointer<Object> putByteArray( String key, byte[] payload )
     {
         return cacheService.putByteArray( key, payload );
     }
 
-    public static Pointer put( String key, Object object )
+    public static Pointer<Object> put( String key, Object object )
     {
         return cacheService.put( key, object );
     }
 
-    public static Pointer put( String key, Object object, int expiresIn )
+    public static Pointer<Object> put( String key, Object object, int expiresIn )
     {
         return cacheService.put( key, object, expiresIn );
     }
@@ -82,7 +82,7 @@ public class Cache
         return cacheService.retrieve( key );
     }
 
-    public static Pointer getPointer( String key )
+    public static Pointer<Object> getPointer( String key )
     {
         return cacheService.getPointer( key );
     }
@@ -92,7 +92,7 @@ public class Cache
         cacheService.free( key );
     }
 
-    public static void free( Pointer pointer )
+    public static void free( Pointer<Object> pointer )
     {
         cacheService.free( pointer );
     }
@@ -123,7 +123,7 @@ public class Cache
         return cacheService.entries();
     }
 
-    public static void dump( OffHeapMemoryBuffer mem )
+    public static void dump( OffHeapMemoryBuffer<Object> mem )
     {
         cacheService.dump( mem );
     }
@@ -138,14 +138,14 @@ public class Cache
         return cacheService.getSerializer();
     }
 
-    public static MemoryManagerService getMemoryManager()
+    public static MemoryManagerService<Object> getMemoryManager()
     {
         return cacheService.getMemoryManager();
     }
 
-    public static Pointer allocate( String key, int size )
+    public static Pointer<Object> allocate( String key, int size )
     {
-        return cacheService.allocate( key, size );
+        return cacheService.allocate( key, Object.class, size );
     }
 
 }

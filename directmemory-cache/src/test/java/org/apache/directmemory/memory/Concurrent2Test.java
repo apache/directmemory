@@ -63,7 +63,7 @@ public class Concurrent2Test
 
     private static AtomicInteger read = new AtomicInteger();
 
-    public static ConcurrentMap<String, Pointer> map =
+    public static ConcurrentMap<String, Pointer<Object>> map =
         new MapMaker().concurrencyLevel( 4 ).initialCapacity( 100000 ).makeMap();
 
 
@@ -80,7 +80,7 @@ public class Concurrent2Test
     public void retrieveCatchThemAll()
     {
         String key = "test-" + ( rndGen.nextInt( entries ) + 1 );
-        Pointer p = map.get( key );
+        Pointer<Object> p = map.get( key );
         read.incrementAndGet();
         if ( p != null )
         {
@@ -107,7 +107,7 @@ public class Concurrent2Test
     public void retrieveCatchHalfOfThem()
     {
         String key = "test-" + ( rndGen.nextInt( entries * 2 ) + 1 );
-        Pointer p = map.get( key );
+        Pointer<Object> p = map.get( key );
         read.incrementAndGet();
         if ( p != null )
         {
@@ -179,7 +179,7 @@ public class Concurrent2Test
 
     private void get( String key )
     {
-        Pointer p = map.get( key );
+        Pointer<Object> p = map.get( key );
         read.incrementAndGet();
         if ( p != null )
         {
@@ -204,7 +204,7 @@ public class Concurrent2Test
 
     private static Logger logger = LoggerFactory.getLogger( Concurrent2Test.class );
 
-    private static void dump( OffHeapMemoryBuffer mem )
+    private static void dump( OffHeapMemoryBuffer<Object> mem )
     {
         logger.info( "off-heap - buffer: " + mem.getBufferNumber() );
         logger.info( "off-heap - allocated: " + Ram.inMb( mem.capacity() ) );
@@ -225,7 +225,7 @@ public class Concurrent2Test
     public static void dump()
     {
 
-        for ( OffHeapMemoryBuffer mem : MemoryManager.getBuffers() )
+        for ( OffHeapMemoryBuffer<Object> mem : MemoryManager.getBuffers() )
         {
             dump( mem );
         }
@@ -243,6 +243,3 @@ public class Concurrent2Test
     }
 
 }
-	
-	
-

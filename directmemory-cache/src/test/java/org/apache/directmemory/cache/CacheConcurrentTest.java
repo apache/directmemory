@@ -98,7 +98,7 @@ public class CacheConcurrentTest
 
     private void get( String key )
     {
-        Pointer p = Cache.getPointer( key );
+        Pointer<Object> p = Cache.getPointer( key );
         @SuppressWarnings( "unused" ) byte[] check = Cache.retrieveByteArray( key );
         read.incrementAndGet();
         if ( p != null )
@@ -252,6 +252,6 @@ public class CacheConcurrentTest
     }
 
 }
-	
-	
+
+
 

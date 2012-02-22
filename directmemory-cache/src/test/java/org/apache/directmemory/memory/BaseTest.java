@@ -50,7 +50,7 @@ public class BaseTest
     @Test
     public void smokeTest()
     {
-        OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( 1 * 1024 * 1024 );
+        OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 1 * 1024 * 1024 );
         logger.info( "buffer size=" + mem.capacity() );
         assertNotNull( mem );
 
@@ -60,7 +60,7 @@ public class BaseTest
 
         logger.info( "size=" + size );
 
-        Pointer p = mem.store( new byte[size] );
+        Pointer<Object> p = mem.store( new byte[size] );
         assertNotNull( p );
         assertEquals( size, p.end );
         assertEquals( size, mem.used() );
@@ -117,7 +117,7 @@ public class BaseTest
     @Test
     public void aFewEntriesWithRead()
     {
-        OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( 100 * 1024 * 1024 );
+        OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 100 * 1024 * 1024 );
         logger.info( "total capacity=" + Ram.inMb( mem.capacity() ) );
         assertNotNull( mem );
         int howMany = 10000;
@@ -127,7 +127,7 @@ public class BaseTest
         for ( int i = 0; i < howMany; i++ )
         {
             final byte[] payload = ( test + " - " + i ).getBytes();
-            Pointer p = mem.store( payload );
+            Pointer<Object> p = mem.store( payload );
             final byte[] check = mem.retrieve( p );
             assertNotNull( check );
             assertEquals( test + " - " + i, new String( check ) );
@@ -149,18 +149,18 @@ public class BaseTest
     @Test
     public void aFewEntriesWithCheck()
     {
-        OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( 10 * 1024 * 1024 );
+        OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 10 * 1024 * 1024 );
         logger.info( "total capacity=" + Ram.inMb( mem.capacity() ) );
         assertNotNull( mem );
         int howMany = 10;
         logger.info( "payload size is variable" );
         logger.info( "entries=" + howMany );
         String test = "this is a nicely crafted test";
-        Pointer lastP = null;
+        Pointer<Object> lastP = null;
         for ( int i = 0; i < howMany; i++ )
         {
             byte[] payload = ( test + " - " + i ).getBytes();
-            Pointer p = mem.store( payload );
+            Pointer<Object> p = mem.store( payload );
             logger.info( "p.start=" + p.start );
             logger.info( "p.end=" + p.end );
             if ( lastP != null )
@@ -179,7 +179,7 @@ public class BaseTest
     public void checkExpiration()
         throws InterruptedException
     {
-        OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( 10 * 1024 * 1024 );
+        OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 10 * 1024 * 1024 );
         assertNotNull( mem );
         int size = 400;
         int howMany = 5000;
