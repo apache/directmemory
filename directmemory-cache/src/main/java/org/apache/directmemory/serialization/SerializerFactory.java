@@ -28,7 +28,12 @@ public final class SerializerFactory
 
     public static Serializer createNewSerializer()
     {
-        Iterator<Serializer> serializers = load( Serializer.class ).iterator();
+        return createNewSerializer( SerializerFactory.class.getClassLoader() );
+    }
+
+    public static Serializer createNewSerializer( ClassLoader classLoader )
+    {
+        Iterator<Serializer> serializers = load( Serializer.class, classLoader ).iterator();
 
         // iterate over all found services
         while ( serializers.hasNext() )
