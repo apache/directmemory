@@ -19,10 +19,12 @@ package org.apache.directmemory.examples.solr;
  * under the License.
  */
 
-import org.apache.directmemory.cache.Cache;
 import org.apache.directmemory.cache.CacheService;
+import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.measures.Monitor;
 import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.serialization.Serializer;
+import org.apache.directmemory.serialization.SerializerFactory;
 import org.apache.solr.common.util.NamedList;
 import org.apache.solr.common.util.SimpleOrderedMap;
 import org.apache.solr.core.SolrCore;
@@ -75,22 +77,45 @@ public class SolrOffHeapCache<K, V>
 
     private String description = "DM Cache";
 
+    private static CacheService cacheService = new CacheServiceImpl();
+
+    public static CacheService getCacheService()
+    {
+        return cacheService;
+    }
+
     @Override
     public Object init( Map args, Object persistence, CacheRegenerator regenerator )
     {
         Object buffers = args.get( "buffers" );
-        String size = String.valueOf( args.get( "size" ) );
+        String sizeStr = String.valueOf( args.get( "size" ) );
         Integer capacity = Integer.parseInt( String.valueOf( args.get( "initialSize" ) ) );
-        Cache.init( buffers != null ? Integer.valueOf( String.valueOf( buffers ) ) : 1,
-                    Ram.Mb( Double.valueOf( size ) / 512 ), Ram.Mb( Double.valueOf( capacity ) / 512 ),
-                    CacheService.DEFAULT_CONCURRENCY_LEVEL );
+
+        int numberOfBuffers = buffers != null ? Integer.valueOf( String.valueOf( buffers ) ) : 1,
+            size = Ram.Mb( Double.valueOf( sizeStr ) / 512 ),
+            initialCapacity = Ram.Mb( Double.valueOf( capacity ) / 512 ),
+            concurrencyLevel = CacheService.DEFAULT_CONCURRENCY_LEVEL;
+
+        cacheService = new CacheServiceImpl();
+        //Cache.init( numberOfBuffers, size, initialCapacity, concurrencyLevel );
+        cacheService.init( numberOfBuffers, size, initialCapacity, concurrencyLevel );
+
+        String serializerClassName = (String) args.get( "serializerClassName" );
+        if ( serializerClassName != null )
+        {
+            Serializer serializer = SerializerFactory.createNewSerializer( serializerClassName );
+            if ( serializer == null )
+            {
+                serializer = SerializerFactory.createNewSerializer();
+            }
+            cacheService.setSerializer( serializer );
+        }
 
         state = State.CREATED;
         this.regenerator = regenerator;
         name = (String) args.get( "name" );
-        String str = size;
-        final int limit = str == null ? 1024 : Integer.parseInt( str );
-        str = (String) args.get( "initialSize" );
+        final int limit = sizeStr == null ? 1024 : Integer.parseInt( sizeStr );
+        String str = (String) args.get( "initialSize" );
         final int initialSize = Math.min( str == null ? 1024 : Integer.parseInt( str ), limit );
         str = (String) args.get( "autowarmCount" );
         autowarmCount = str == null ? 0 : Integer.parseInt( str );
@@ -122,7 +147,7 @@ public class SolrOffHeapCache<K, V>
     @Override
     public int size()
     {
-        return Long.valueOf( Cache.entries() ).intValue();
+        return Long.valueOf( cacheService.entries() ).intValue();
     }
 
     @Override
@@ -136,7 +161,7 @@ public class SolrOffHeapCache<K, V>
             }
 
             inserts++;
-            return (V) Cache.put( String.valueOf( key ), value );
+            return (V) cacheService.put( String.valueOf( key ), value );
         }
     }
 
@@ -145,7 +170,7 @@ public class SolrOffHeapCache<K, V>
     {
         synchronized ( this )
         {
-            V val = (V) Cache.retrieve( String.valueOf( key ) );
+            V val = (V) cacheService.retrieve( String.valueOf( key ) );
             if ( state == State.LIVE )
             {
                 // only increment lookups and hits if we are live.
@@ -166,7 +191,7 @@ public class SolrOffHeapCache<K, V>
     {
         synchronized ( this )
         {
-            Cache.clear();
+            cacheService.clear();
         }
     }
 
@@ -192,7 +217,7 @@ public class SolrOffHeapCache<K, V>
     @Override
     public void close()
     {
-        Cache.dump();
+        cacheService.dump();
         Monitor.dump();
     }
 
@@ -246,7 +271,7 @@ public class SolrOffHeapCache<K, V>
             lst.add( "hitratio", calcHitRatio( lookups, hits ) );
             lst.add( "inserts", inserts );
             lst.add( "evictions", evictions );
-            lst.add( "size", Cache.entries() );
+            lst.add( "size", cacheService.entries() );
         }
 
         lst.add( "warmupTime", warmupTime );

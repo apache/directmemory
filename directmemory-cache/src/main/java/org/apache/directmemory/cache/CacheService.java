@@ -82,6 +82,8 @@ public interface CacheService
 
     void setMemoryManager( MemoryManagerService memoryManager );
 
+    void setSerializer( Serializer serializer );
+
     Pointer allocate( String key, int size );
 
 }

@@ -361,7 +361,8 @@
       transient, this cache will not be autowarmed.
     -->
     <queryResultCache class="org.apache.directmemory.examples.solr.SolrOffHeapCache" size="10000"
-                      initialSize="1000" autowarmCount="0" buffers="2"/>
+                      initialSize="1000" autowarmCount="0" buffers="2"
+                      serializerClassName="org.apache.directmemory.serialization.protostuff.ProtoStuffWithLinkedBufferSerializer"/>
 
     <!--
       If true, stored fields that are not requested will be loaded

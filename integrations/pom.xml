@@ -29,7 +29,6 @@
     <relativePath>../</relativePath>
   </parent>
 
-  <groupId>org.apache.directmemory</groupId>
   <artifactId>directmemory-platforms</artifactId>
   <packaging>pom</packaging>
   <name>Apache DirectMemory :: Integrations</name>
@@ -39,12 +38,14 @@
     <module>solr</module>
   </modules>
 
-  <dependencies>
-    <dependency>
-      <groupId>${project.parent.groupId}</groupId>
-      <artifactId>directmemory-cache</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
-  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>${project.parent.groupId}</groupId>
+        <artifactId>directmemory-cache</artifactId>
+        <version>${project.parent.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
 </project>

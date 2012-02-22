@@ -24,7 +24,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  */
@@ -44,30 +43,26 @@ public class SolrOffHeapIntegrationTest
     @AfterClass
     public static void tearDown()
     {
-        Cache.clear();
+        SolrOffHeapCache.getCacheService().clear();
     }
 
     @Test
     public void testSimpleQuery()
+        throws Exception
     {
-        try
-        {
-            // add a doc to Solr
-            h.validateAddDoc( "id", "1", "text", "something is happening here" );
 
-            // make the query
-            LocalSolrQueryRequest request = h.getRequestFactory( "standard", 0, 10 ).makeRequest( "q", "something" );
-            String response = h.query( "standard", request );
-            assertTrue( response != null );
-            assertTrue( !response.contains( "error" ) );
+        // add a doc to Solr
+        h.validateAddDoc( "id", "1", "text", "something is happening here" );
 
-            // check the cache has been hit
-            assertTrue( Cache.entries() > 0 );
+        // make the query
+        LocalSolrQueryRequest request = h.getRequestFactory( "standard", 0, 10 ).makeRequest( "q", "something" );
+        String response = h.query( "standard", request );
+        assertTrue( response != null );
+        assertTrue( !response.contains( "error" ) );
 
-        }
-        catch ( Throwable e )
-        {
-            fail( e.getLocalizedMessage() );
-        }
+        // check the cache has been hit
+        assertTrue( SolrOffHeapCache.getCacheService().entries() > 0 );
+
+
     }
 }

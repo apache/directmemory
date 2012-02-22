@@ -16,6 +16,7 @@
  */
 package org.apache.directmemory.examples.solr;
 
+import org.apache.directmemory.serialization.StandardSerializer;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
@@ -25,18 +26,23 @@ import org.apache.solr.search.function.DocValues;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Testcase for {@link SolrOffHeapCache}
  */
 public class SolrOffHeapCacheTest
 {
+
+    private Logger log = LoggerFactory.getLogger( getClass() );
 
     private SolrOffHeapCache solrOffHeapCache;
 
@@ -47,7 +53,16 @@ public class SolrOffHeapCacheTest
         Map<String, String> args = new HashMap<String, String>();
         args.put( "size", "10000" );
         args.put( "initialSize", "1000" );
-        solrOffHeapCache.init( args, null, null );
+        args.put( "serializerClassName", StandardSerializer.class.getName() );
+        try
+        {
+            solrOffHeapCache.init( args, null, null );
+        }
+        catch ( NoClassDefFoundError e )
+        {
+            log.error( e.getMessage(), e );
+            throw e;
+        }
     }
 
     @After
@@ -59,43 +74,34 @@ public class SolrOffHeapCacheTest
 
     @Test
     public void testStatisticsWhenCacheNotUsedYet()
+        throws Exception
     {
-        try
-        {
-            NamedList stats = solrOffHeapCache.getStatistics();
-            assertNotNull( stats );
-            assertEquals( 0l, stats.get( "lookups" ) );
-            assertEquals( 0l, stats.get( "evictions" ) );
-            assertEquals( 0l, stats.get( "hits" ) );
-            assertEquals( 0l, stats.get( "inserts" ) );
-        }
-        catch ( Exception e )
-        {
-            fail( e.getLocalizedMessage() );
-        }
+
+        NamedList stats = solrOffHeapCache.getStatistics();
+        assertNotNull( stats );
+        assertEquals( 0l, stats.get( "lookups" ) );
+        assertEquals( 0l, stats.get( "evictions" ) );
+        assertEquals( 0l, stats.get( "hits" ) );
+        assertEquals( 0l, stats.get( "inserts" ) );
     }
 
     @Test
     public void testPut()
+        throws Exception
     {
-        try
+
+        QueryResultKey queryResultKey =
+            new QueryResultKey( new MatchAllDocsQuery(), new ArrayList<Query>(), new Sort(), 1 );
+        DocValues docValues = new DocValues()
         {
-            QueryResultKey queryResultKey =
-                new QueryResultKey( new MatchAllDocsQuery(), new ArrayList<Query>(), new Sort(), 1 );
-            DocValues docValues = new DocValues()
+            @Override
+            public String toString( int doc )
             {
-                @Override
-                public String toString( int doc )
-                {
-                    return doc + "asd";
-                }
-            };
-            solrOffHeapCache.put( queryResultKey, docValues );
-        }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
-            fail( e.getLocalizedMessage() );
-        }
+                return doc + "asd";
+            }
+        };
+
+        solrOffHeapCache.put( queryResultKey, docValues );
+
     }
 }

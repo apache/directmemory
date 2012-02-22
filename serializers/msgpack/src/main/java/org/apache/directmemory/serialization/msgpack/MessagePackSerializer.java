@@ -26,7 +26,8 @@ import org.kohsuke.MetaInfServices;
 import org.msgpack.MessagePack;
 import org.msgpack.annotation.Message;
 
-@MetaInfServices
+// olamy currently this doesn't work so use manual file
+//@MetaInfServices
 public final class MessagePackSerializer
     implements Serializer
 {

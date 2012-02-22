@@ -31,7 +31,8 @@ import org.kohsuke.MetaInfServices;
 import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.Message;
 
-@MetaInfServices
+// olamy currently this doesn't work so use manual file
+//@MetaInfServices
 public final class ProtobufSerializer
     implements Serializer
 {

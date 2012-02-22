@@ -140,7 +140,15 @@ public class CacheServiceImpl
         }
         catch ( IOException e )
         {
-            logger.error( e.getMessage() );
+
+            if ( logger.isDebugEnabled() )
+            {
+                logger.debug( "IOException put object in cache:{}", e.getMessage(), e );
+            }
+            else
+            {
+                logger.error( "IOException put object in cache:{}", e.getMessage() );
+            }
             return null;
         }
     }

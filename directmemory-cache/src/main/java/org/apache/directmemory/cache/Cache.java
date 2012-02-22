@@ -27,7 +27,10 @@ import org.apache.directmemory.serialization.Serializer;
 public class Cache
 {
 
-    private static CacheService cacheService = new CacheServiceImpl( getMemoryManager() );
+    private static CacheService cacheService = new CacheServiceImpl();
+
+    // olamy chicken and eggs isssue
+    // private static CacheService cacheService = new CacheServiceImpl( getMemoryManager());
 
     private Cache()
     {
