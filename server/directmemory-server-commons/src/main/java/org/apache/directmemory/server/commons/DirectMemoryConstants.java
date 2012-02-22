@@ -21,16 +21,25 @@ package org.apache.directmemory.server.commons;
 /**
  * @author Olivier Lamy
  */
-public class DirectMemoryCacheException
-    extends Exception
+public class DirectMemoryConstants
 {
-    public DirectMemoryCacheException( String message )
-    {
-        super( message );
-    }
 
-    public DirectMemoryCacheException( String message, Throwable throwable )
+    public static final String CACHE_CONTENT_FIELD_NAME = "cacheContent";
+
+    public static final String PUT_FIELD_NAME = "put";
+
+    public static final String KEY_FIELD_NAME = "key";
+
+    public static final String EXPIRES_IN_FIELD_NAME = "expiresIn";
+
+    public static final String UPDATED_FIELD_NAME = "updated";
+
+    public static final String FOUND_FIELD_NAME = "found";
+
+    public static final String SERIALIZER_FIELD_NAME = "serializer";
+
+    private DirectMemoryConstants()
     {
-        super( message, throwable );
+        // no op
     }
 }

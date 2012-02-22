@@ -30,26 +30,26 @@ import java.io.StringWriter;
 /**
  * @author Olivier Lamy
  */
-public class DirectMemoryCacheWriter
+public class DirectMemoryWriter
 {
     private JsonFactory jsonFactory;
 
-    private static final DirectMemoryCacheWriter INSTANCE = new DirectMemoryCacheWriter();
+    private static final DirectMemoryWriter INSTANCE = new DirectMemoryWriter();
 
     private Logger log = LoggerFactory.getLogger( getClass() );
 
-    public static DirectMemoryCacheWriter instance()
+    public static DirectMemoryWriter instance()
     {
         return INSTANCE;
     }
 
-    private DirectMemoryCacheWriter()
+    private DirectMemoryWriter()
     {
         this.jsonFactory = new JsonFactory();
     }
 
-    public String generateJsonRequest( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException
+    public String generateJsonRequest( DirectMemoryRequest request )
+        throws DirectMemoryException
     {
         // TODO configure a minimum size for the writer
         StringWriter stringWriter = new StringWriter();
@@ -60,11 +60,11 @@ public class DirectMemoryCacheWriter
 
             g.writeStartObject();
 
-            g.writeStringField( DirectMemoryCacheConstants.KEY_FIELD_NAME, request.getKey() );
+            g.writeStringField( DirectMemoryConstants.KEY_FIELD_NAME, request.getKey() );
 
-            g.writeBooleanField( DirectMemoryCacheConstants.PUT_FIELD_NAME, request.isUpdate() );
+            g.writeBooleanField( DirectMemoryConstants.PUT_FIELD_NAME, request.isUpdate() );
 
-            g.writeNumberField( DirectMemoryCacheConstants.EXPIRES_IN_FIELD_NAME, request.getExpiresIn() );
+            g.writeNumberField( DirectMemoryConstants.EXPIRES_IN_FIELD_NAME, request.getExpiresIn() );
 
             // FIXME take care of NPE
             // cache content generation
@@ -74,12 +74,12 @@ public class DirectMemoryCacheWriter
                 ? request.getSerializer().serialize( request.getObject() )
                 : request.getCacheContent();
 
-            g.writeFieldName( DirectMemoryCacheConstants.CACHE_CONTENT_FIELD_NAME );
+            g.writeFieldName( DirectMemoryConstants.CACHE_CONTENT_FIELD_NAME );
             g.writeBinary( bytes );
 
             if ( serializer != null )
             {
-                g.writeStringField( DirectMemoryCacheConstants.SERIALIZER_FIELD_NAME, serializer.getClass().getName() );
+                g.writeStringField( DirectMemoryConstants.SERIALIZER_FIELD_NAME, serializer.getClass().getName() );
             }
 
             g.writeEndObject();
@@ -87,14 +87,14 @@ public class DirectMemoryCacheWriter
         }
         catch ( IOException e )
         {
-            throw new DirectMemoryCacheException( e.getMessage(), e );
+            throw new DirectMemoryException( e.getMessage(), e );
         }
 
         return stringWriter.toString();
     }
 
-    public String generateJsonResponse( DirectMemoryCacheResponse response )
-        throws DirectMemoryCacheException
+    public String generateJsonResponse( DirectMemoryResponse response )
+        throws DirectMemoryException
     {
 
         // TODO configure a minimum size for the writer
@@ -107,15 +107,15 @@ public class DirectMemoryCacheWriter
 
             g.writeStartObject();
 
-            g.writeBooleanField( DirectMemoryCacheConstants.FOUND_FIELD_NAME, response.isFound() );
+            g.writeBooleanField( DirectMemoryConstants.FOUND_FIELD_NAME, response.isFound() );
 
-            g.writeBooleanField( DirectMemoryCacheConstants.UPDATED_FIELD_NAME, response.isUpdated() );
+            g.writeBooleanField( DirectMemoryConstants.UPDATED_FIELD_NAME, response.isUpdated() );
 
-            g.writeStringField( DirectMemoryCacheConstants.KEY_FIELD_NAME, response.getKey() );
+            g.writeStringField( DirectMemoryConstants.KEY_FIELD_NAME, response.getKey() );
 
             if ( response.getCacheContent() != null && response.getCacheContent().length > 0 )
             {
-                g.writeFieldName( DirectMemoryCacheConstants.CACHE_CONTENT_FIELD_NAME );
+                g.writeFieldName( DirectMemoryConstants.CACHE_CONTENT_FIELD_NAME );
                 g.writeBinary( response.getCacheContent() );
             }
 
@@ -125,7 +125,7 @@ public class DirectMemoryCacheWriter
         }
         catch ( IOException e )
         {
-            throw new DirectMemoryCacheException( e.getMessage(), e );
+            throw new DirectMemoryException( e.getMessage(), e );
         }
 
         return stringWriter.toString();

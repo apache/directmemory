@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 /**
  * @author Olivier Lamy
  */
-public class DirectMemoryCacheParserTest
+public class DirectMemoryParserTest
 {
     @Test
     public void parseRequest()
@@ -36,7 +36,7 @@ public class DirectMemoryCacheParserTest
     {
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream( "cache-rq.json" );
         assertNotNull( is );
-        DirectMemoryCacheRequest dmRq = DirectMemoryCacheParser.instance().buildRequest( is );
+        DirectMemoryRequest dmRq = DirectMemoryParser.instance().buildRequest( is );
         assertNotNull( dmRq );
 
         assertEquals( "101", dmRq.getKey() );
@@ -50,7 +50,7 @@ public class DirectMemoryCacheParserTest
     {
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream( "cache-rs.json" );
         assertNotNull( is );
-        DirectMemoryCacheResponse dmRs = DirectMemoryCacheParser.instance().buildResponse( is );
+        DirectMemoryResponse dmRs = DirectMemoryParser.instance().buildResponse( is );
         assertNotNull( dmRs );
 
         assertEquals( "foo", dmRs.getKey() );
@@ -64,7 +64,7 @@ public class DirectMemoryCacheParserTest
         throws Exception
     {
         InputStream is = new ByteArrayInputStream( new byte[0] );
-        DirectMemoryCacheRequest dmRq = DirectMemoryCacheParser.instance().buildRequest( is );
+        DirectMemoryRequest dmRq = DirectMemoryParser.instance().buildRequest( is );
         assertNotNull( dmRq );
         assertNull( dmRq.getCacheContent() );
 

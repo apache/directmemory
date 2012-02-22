@@ -19,9 +19,9 @@ package org.apache.directmemory.server.client;
  */
 
 import org.apache.directmemory.serialization.Serializer;
-import org.apache.directmemory.server.commons.DirectMemoryCacheException;
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
-import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
+import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
+import org.apache.directmemory.server.commons.DirectMemoryResponse;
 
 import java.io.IOException;
 import java.util.concurrent.Future;
@@ -34,7 +34,7 @@ public class DefaultDirectMemoryClient
 {
 
     public static DirectMemoryClient instance( DirectMemoryClientConfiguration configuration )
-        throws DirectMemoryCacheException
+        throws DirectMemoryException
     {
         return new DefaultDirectMemoryClient( configuration );
     }
@@ -44,7 +44,7 @@ public class DefaultDirectMemoryClient
     private DirectMemoryHttpClient directMemoryHttpClient;
 
     private DefaultDirectMemoryClient( DirectMemoryClientConfiguration configuration )
-        throws DirectMemoryCacheException
+        throws DirectMemoryException
     {
         this.directMemoryHttpClient = configuration.getDirectMemoryHttpClient();
         this.clientConfiguration = configuration;
@@ -52,66 +52,66 @@ public class DefaultDirectMemoryClient
 
 
     @Override
-    public DirectMemoryCacheResponse retrieve( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException, IOException, ClassNotFoundException, InstantiationException,
+    public DirectMemoryResponse retrieve( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException, IOException, ClassNotFoundException, InstantiationException,
         IllegalAccessException
     {
-        verifyPerRequestParameters( directMemoryCacheRequest );
-        DirectMemoryCacheResponse response = this.directMemoryHttpClient.get( directMemoryCacheRequest );
+        verifyPerRequestParameters( directMemoryRequest );
+        DirectMemoryResponse response = this.directMemoryHttpClient.get( directMemoryRequest );
         if ( response.isFound() && response.getCacheContent() != null && response.getCacheContent().length > 0 )
         {
-            Serializer serializer = directMemoryCacheRequest.getSerializer();
+            Serializer serializer = directMemoryRequest.getSerializer();
             if ( serializer == null )
             {
                 serializer = clientConfiguration.getSerializer();
             }
             response.setResponse(
-                serializer.deserialize( response.getCacheContent(), directMemoryCacheRequest.getObjectClass() ) );
+                serializer.deserialize( response.getCacheContent(), directMemoryRequest.getObjectClass() ) );
         }
         return response;
     }
 
     @Override
-    public Future<DirectMemoryCacheResponse> asyncRetrieve( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException
+    public Future<DirectMemoryResponse> asyncRetrieve( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException
     {
-        verifyPerRequestParameters( directMemoryCacheRequest );
-        return this.directMemoryHttpClient.asyncGet( directMemoryCacheRequest );
+        verifyPerRequestParameters( directMemoryRequest );
+        return this.directMemoryHttpClient.asyncGet( directMemoryRequest );
     }
 
     @Override
-    public void put( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException
+    public void put( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException
     {
-        verifyPerRequestParameters( directMemoryCacheRequest );
-        this.directMemoryHttpClient.put( directMemoryCacheRequest );
+        verifyPerRequestParameters( directMemoryRequest );
+        this.directMemoryHttpClient.put( directMemoryRequest );
     }
 
     @Override
-    public Future<Void> asyncPut( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException
+    public Future<Void> asyncPut( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException
     {
-        verifyPerRequestParameters( directMemoryCacheRequest );
-        return this.directMemoryHttpClient.asyncPut( directMemoryCacheRequest );
+        verifyPerRequestParameters( directMemoryRequest );
+        return this.directMemoryHttpClient.asyncPut( directMemoryRequest );
     }
 
     @Override
-    public DirectMemoryCacheResponse delete( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException
+    public DirectMemoryResponse delete( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException
     {
-        verifyPerRequestParameters( directMemoryCacheRequest );
-        return this.directMemoryHttpClient.delete( directMemoryCacheRequest.setDeleteRequest( true ) );
+        verifyPerRequestParameters( directMemoryRequest );
+        return this.directMemoryHttpClient.delete( directMemoryRequest.setDeleteRequest( true ) );
     }
 
     @Override
-    public Future<DirectMemoryCacheResponse> asyncDelete( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException
+    public Future<DirectMemoryResponse> asyncDelete( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException
     {
-        verifyPerRequestParameters( directMemoryCacheRequest );
-        return this.directMemoryHttpClient.asyncDelete( directMemoryCacheRequest.setDeleteRequest( true ) );
+        verifyPerRequestParameters( directMemoryRequest );
+        return this.directMemoryHttpClient.asyncDelete( directMemoryRequest.setDeleteRequest( true ) );
     }
 
-    private void verifyPerRequestParameters(DirectMemoryCacheRequest request)
+    private void verifyPerRequestParameters(DirectMemoryRequest request)
     {
         if ( request.getSerializer() == null )
         {

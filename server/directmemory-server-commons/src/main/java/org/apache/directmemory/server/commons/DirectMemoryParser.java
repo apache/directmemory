@@ -29,48 +29,48 @@ import java.io.InputStream;
 /**
  * @author Olivier Lamy
  */
-public class DirectMemoryCacheParser
+public class DirectMemoryParser
 {
 
     private JsonFactory jsonFactory;
 
-    private static DirectMemoryCacheParser INSTANCE = new DirectMemoryCacheParser();
+    private static DirectMemoryParser INSTANCE = new DirectMemoryParser();
 
 
-    private DirectMemoryCacheParser()
+    private DirectMemoryParser()
     {
         this.jsonFactory = new JsonFactory();
     }
 
-    public static DirectMemoryCacheParser instance()
+    public static DirectMemoryParser instance()
     {
         return INSTANCE;
     }
 
-    public DirectMemoryCacheRequest buildRequest( InputStream inputStream )
-        throws DirectMemoryCacheException
+    public DirectMemoryRequest buildRequest( InputStream inputStream )
+        throws DirectMemoryException
     {
         try
         {
             JsonParser jp = this.jsonFactory.createJsonParser( inputStream );
-            DirectMemoryCacheRequest rq = new DirectMemoryCacheRequest();
+            DirectMemoryRequest rq = new DirectMemoryRequest();
             JsonToken jsonToken = jp.nextToken();
             while ( jsonToken != JsonToken.END_OBJECT && jsonToken != null )
             {
                 String fieldName = jp.getCurrentName();
-                if ( DirectMemoryCacheConstants.KEY_FIELD_NAME.equals( fieldName ) )
+                if ( DirectMemoryConstants.KEY_FIELD_NAME.equals( fieldName ) )
                 {
                     rq.setKey( jp.getText() );
                 }
-                if ( DirectMemoryCacheConstants.PUT_FIELD_NAME.equals( fieldName ) )
+                if ( DirectMemoryConstants.PUT_FIELD_NAME.equals( fieldName ) )
                 {
                     rq.setUpdate( jp.getValueAsBoolean() );
                 }
-                if ( DirectMemoryCacheConstants.EXPIRES_IN_FIELD_NAME.equals( fieldName ) )
+                if ( DirectMemoryConstants.EXPIRES_IN_FIELD_NAME.equals( fieldName ) )
                 {
                     rq.setExpiresIn( jp.getValueAsInt() );
                 }
-                if ( DirectMemoryCacheConstants.CACHE_CONTENT_FIELD_NAME.equals( fieldName ) )
+                if ( DirectMemoryConstants.CACHE_CONTENT_FIELD_NAME.equals( fieldName ) )
                 {
                     // binaryValue need to go to nextToken
                     jp.nextToken();
@@ -85,41 +85,41 @@ public class DirectMemoryCacheParser
         }
         catch ( JsonParseException e )
         {
-            throw new DirectMemoryCacheException( e.getMessage(), e );
+            throw new DirectMemoryException( e.getMessage(), e );
 
         }
         catch ( IOException e )
         {
-            throw new DirectMemoryCacheException( e.getMessage(), e );
+            throw new DirectMemoryException( e.getMessage(), e );
         }
     }
 
-    public DirectMemoryCacheResponse buildResponse( InputStream inputStream )
-        throws DirectMemoryCacheException
+    public DirectMemoryResponse buildResponse( InputStream inputStream )
+        throws DirectMemoryException
     {
         try
         {
             JsonParser jp = this.jsonFactory.createJsonParser( inputStream );
-            DirectMemoryCacheResponse rs = new DirectMemoryCacheResponse();
+            DirectMemoryResponse rs = new DirectMemoryResponse();
 
             JsonToken jsonToken = jp.nextToken();
 
             while ( jsonToken != JsonToken.END_OBJECT && jsonToken != null)
             {
                 String fieldName = jp.getCurrentName();
-                if ( DirectMemoryCacheConstants.FOUND_FIELD_NAME.equals( fieldName ) )
+                if ( DirectMemoryConstants.FOUND_FIELD_NAME.equals( fieldName ) )
                 {
                     rs.setFound( jp.getValueAsBoolean() );
                 }
-                if ( DirectMemoryCacheConstants.UPDATED_FIELD_NAME.equals( fieldName ) )
+                if ( DirectMemoryConstants.UPDATED_FIELD_NAME.equals( fieldName ) )
                 {
                     rs.setUpdated( jp.getValueAsBoolean() );
                 }
-                if ( DirectMemoryCacheConstants.KEY_FIELD_NAME.equals( fieldName ) )
+                if ( DirectMemoryConstants.KEY_FIELD_NAME.equals( fieldName ) )
                 {
                     rs.setKey( jp.getText() );
                 }
-                if ( DirectMemoryCacheConstants.CACHE_CONTENT_FIELD_NAME.equals( fieldName ) )
+                if ( DirectMemoryConstants.CACHE_CONTENT_FIELD_NAME.equals( fieldName ) )
                 {
                     // binaryValue need to go to nextToken
                     jp.nextToken();
@@ -133,12 +133,12 @@ public class DirectMemoryCacheParser
         }
         catch ( JsonParseException e )
         {
-            throw new DirectMemoryCacheException( e.getMessage(), e );
+            throw new DirectMemoryException( e.getMessage(), e );
 
         }
         catch ( IOException e )
         {
-            throw new DirectMemoryCacheException( e.getMessage(), e );
+            throw new DirectMemoryException( e.getMessage(), e );
         }
     }
 

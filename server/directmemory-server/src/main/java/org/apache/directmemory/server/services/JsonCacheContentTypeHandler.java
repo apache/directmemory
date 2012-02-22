@@ -18,11 +18,11 @@ package org.apache.directmemory.server.services;
  * under the License.
  */
 
-import org.apache.directmemory.server.commons.DirectMemoryCacheException;
-import org.apache.directmemory.server.commons.DirectMemoryCacheParser;
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
-import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
-import org.apache.directmemory.server.commons.DirectMemoryCacheWriter;
+import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.DirectMemoryParser;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
+import org.apache.directmemory.server.commons.DirectMemoryResponse;
+import org.apache.directmemory.server.commons.DirectMemoryWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,29 +36,29 @@ public class JsonCacheContentTypeHandler
     implements CacheContentTypeHandler
 {
 
-    private DirectMemoryCacheParser parser = DirectMemoryCacheParser.instance();
+    private DirectMemoryParser parser = DirectMemoryParser.instance();
 
-    private DirectMemoryCacheWriter writer = DirectMemoryCacheWriter.instance();
+    private DirectMemoryWriter writer = DirectMemoryWriter.instance();
 
     @Override
-    public byte[] handleGet( DirectMemoryCacheRequest request, byte[] cacheResponseContent, HttpServletResponse resp )
-        throws DirectMemoryCacheException, IOException
+    public byte[] handleGet( DirectMemoryRequest request, byte[] cacheResponseContent, HttpServletResponse resp )
+        throws DirectMemoryException, IOException
     {
-        DirectMemoryCacheResponse response =
-            new DirectMemoryCacheResponse().setKey( request.getKey() ).setCacheContent( cacheResponseContent );
+        DirectMemoryResponse response =
+            new DirectMemoryResponse().setKey( request.getKey() ).setCacheContent( cacheResponseContent );
         String json = writer.generateJsonResponse( response );
         resp.setContentType( MediaType.APPLICATION_JSON );
         return json.getBytes();
     }
 
     @Override
-    public DirectMemoryCacheRequest handlePut( HttpServletRequest req, HttpServletResponse resp )
-        throws DirectMemoryCacheException, IOException
+    public DirectMemoryRequest handlePut( HttpServletRequest req, HttpServletResponse resp )
+        throws DirectMemoryException, IOException
     {
         // 	application/json
 
-        DirectMemoryCacheRequest cacheRequest = parser.buildRequest( req.getInputStream() );
-        return cacheRequest;
+        DirectMemoryRequest request = parser.buildRequest( req.getInputStream() );
+        return request;
 
     }
 }

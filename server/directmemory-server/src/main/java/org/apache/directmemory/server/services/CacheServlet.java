@@ -22,9 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.directmemory.cache.CacheService;
 import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.memory.Pointer;
+import org.apache.directmemory.server.commons.DirectMemoryException;
 import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
-import org.apache.directmemory.server.commons.DirectMemoryCacheException;
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,7 +101,7 @@ public class CacheServlet
         String servletPath = req.getServletPath();
         String key = retrieveKeyFromPath( path );
 
-        DirectMemoryCacheRequest cacheRequest = null;
+        DirectMemoryRequest request = null;
 
         CacheContentTypeHandler contentTypeHandler = findPutCacheContentTypeHandler( req, resp );
 
@@ -115,9 +115,9 @@ public class CacheServlet
         }
         try
         {
-            cacheRequest = contentTypeHandler.handlePut( req, resp );
+            request = contentTypeHandler.handlePut( req, resp );
         }
-        catch ( DirectMemoryCacheException e )
+        catch ( DirectMemoryException e )
         {
             resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() );
             return;
@@ -125,7 +125,7 @@ public class CacheServlet
 
         //if exists free first ?
         //if ( cacheService.retrieveByteArray( key ) == null )
-        cacheService.putByteArray( key, cacheRequest.getCacheContent(), cacheRequest.getExpiresIn() );
+        cacheService.putByteArray( key, request.getCacheContent(), request.getExpiresIn() );
     }
 
     protected CacheContentTypeHandler findPutCacheContentTypeHandler( HttpServletRequest req,
@@ -207,10 +207,10 @@ public class CacheServlet
         try
         {
             byte[] respBytes =
-                contentTypeHandler.handleGet( new DirectMemoryCacheRequest().setKey( key ), bytes, resp );
+                contentTypeHandler.handleGet( new DirectMemoryRequest().setKey( key ), bytes, resp );
             resp.getOutputStream().write( respBytes );
         }
-        catch ( DirectMemoryCacheException e )
+        catch ( DirectMemoryException e )
         {
             resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() );
         }

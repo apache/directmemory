@@ -26,8 +26,8 @@ import org.apache.directmemory.server.client.DirectMemoryClientConfiguration;
 import org.apache.directmemory.server.client.DirectMemoryHttpClient;
 import org.apache.directmemory.server.client.DirectMemoryClient;
 import org.apache.directmemory.server.client.HttpClientDirectMemoryHttpClient;
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
-import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
+import org.apache.directmemory.server.commons.DirectMemoryResponse;
 import org.apache.directmemory.server.commons.ExchangeType;
 import org.apache.directmemory.test.Wine;
 import org.junit.Before;
@@ -100,14 +100,14 @@ public abstract class AbstractServletWithClientTest
         // START SNIPPET: client-put
 
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
-        client.put( new DirectMemoryCacheRequest<Wine>( "bordeaux", bordeaux ) );
+        client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ) );
 
         // END SNIPPET: client-put
 
         // START SNIPPET: client-get
-        DirectMemoryCacheRequest rq = new DirectMemoryCacheRequest( "bordeaux", Wine.class );
+        DirectMemoryRequest rq = new DirectMemoryRequest( "bordeaux", Wine.class );
 
-        DirectMemoryCacheResponse<Wine> response = client.retrieve( rq );
+        DirectMemoryResponse<Wine> response = client.retrieve( rq );
 
         assertTrue( response.isFound() );
         Wine wine = response.getResponse();
@@ -121,8 +121,8 @@ public abstract class AbstractServletWithClientTest
         throws Exception
     {
 
-        DirectMemoryCacheResponse<Wine> response =
-            client.retrieve( new DirectMemoryCacheRequest( "Italian wine better than French", Wine.class ) );
+        DirectMemoryResponse<Wine> response =
+            client.retrieve( new DirectMemoryRequest( "Italian wine better than French", Wine.class ) );
 
         // due to the key used the server should response BAD Request but it says not found
         assertFalse( response.isFound() );
@@ -135,10 +135,10 @@ public abstract class AbstractServletWithClientTest
     {
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
 
-        client.put( new DirectMemoryCacheRequest<Wine>( "bordeaux", bordeaux ) );
+        client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ) );
 
-        DirectMemoryCacheResponse<Wine> response =
-            client.retrieve( new DirectMemoryCacheRequest( "bordeaux", Wine.class ) );
+        DirectMemoryResponse<Wine> response =
+            client.retrieve( new DirectMemoryRequest( "bordeaux", Wine.class ) );
 
         assertTrue( response.isFound() );
         Wine wine = response.getResponse();
@@ -147,12 +147,12 @@ public abstract class AbstractServletWithClientTest
 
         // START SNIPPET: client-delete
 
-        DirectMemoryCacheResponse deleteResponse = client.delete( new DirectMemoryCacheRequest<Wine>( "bordeaux" ) );
+        DirectMemoryResponse deleteResponse = client.delete( new DirectMemoryRequest<Wine>( "bordeaux" ) );
         assertTrue( deleteResponse.isDeleted() );
 
         // END SNIPPET: client-delete
 
-        response = client.retrieve( new DirectMemoryCacheRequest( "bordeaux", Wine.class ) );
+        response = client.retrieve( new DirectMemoryRequest( "bordeaux", Wine.class ) );
 
         assertFalse( response.isFound() );
         wine = response.getResponse();
@@ -163,7 +163,7 @@ public abstract class AbstractServletWithClientTest
     public void deleteNotFound()
         throws Exception
     {
-        DirectMemoryCacheResponse deleteResponse = client.delete( new DirectMemoryCacheRequest<Wine>( "fofoofofof" ) );
+        DirectMemoryResponse deleteResponse = client.delete( new DirectMemoryRequest<Wine>( "fofoofofof" ) );
         assertFalse( deleteResponse.isDeleted() );
     }
 
@@ -172,13 +172,13 @@ public abstract class AbstractServletWithClientTest
         throws Exception
     {
 
-        DirectMemoryCacheResponse deleteResponse = client.delete( new DirectMemoryCacheRequest<Wine>( "bordeaux" ) );
+        DirectMemoryResponse deleteResponse = client.delete( new DirectMemoryRequest<Wine>( "bordeaux" ) );
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
-        client.put( new DirectMemoryCacheRequest<Wine>( "bordeaux", bordeaux ).setExpiresIn( 1000 ) );
+        client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ).setExpiresIn( 1000 ) );
 
-        DirectMemoryCacheRequest rq = new DirectMemoryCacheRequest( "bordeaux", Wine.class );
+        DirectMemoryRequest rq = new DirectMemoryRequest( "bordeaux", Wine.class );
 
-        DirectMemoryCacheResponse<Wine> response = client.retrieve( rq );
+        DirectMemoryResponse<Wine> response = client.retrieve( rq );
 
         assertTrue( response.isFound() );
         Wine wine = response.getResponse();
@@ -188,7 +188,7 @@ public abstract class AbstractServletWithClientTest
 
         Thread.sleep( 10001 );
 
-        rq = new DirectMemoryCacheRequest( "bordeaux", Wine.class );
+        rq = new DirectMemoryRequest( "bordeaux", Wine.class );
 
         response = client.retrieve( rq );
 

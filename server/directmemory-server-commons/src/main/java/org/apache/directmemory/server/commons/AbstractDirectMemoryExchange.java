@@ -23,7 +23,7 @@ import org.apache.directmemory.serialization.Serializer;
 /**
  * @author Olivier Lamy
  */
-public abstract class AbstractDirectMemoryCacheExchange<V>
+public abstract class AbstractDirectMemoryExchange<V>
 {
     private String key;
 
@@ -38,7 +38,7 @@ public abstract class AbstractDirectMemoryCacheExchange<V>
         return key;
     }
 
-    public AbstractDirectMemoryCacheExchange setKey( String key )
+    public AbstractDirectMemoryExchange setKey( String key )
     {
         this.key = key;
         return this;
@@ -49,7 +49,7 @@ public abstract class AbstractDirectMemoryCacheExchange<V>
         return object;
     }
 
-    public AbstractDirectMemoryCacheExchange setObject( V object )
+    public AbstractDirectMemoryExchange setObject( V object )
     {
         this.object = object;
         return this;
@@ -60,7 +60,7 @@ public abstract class AbstractDirectMemoryCacheExchange<V>
         return serializer;
     }
 
-    public AbstractDirectMemoryCacheExchange setSerializer( Serializer serializer )
+    public AbstractDirectMemoryExchange setSerializer( Serializer serializer )
     {
         this.serializer = serializer;
         return this;
@@ -71,7 +71,7 @@ public abstract class AbstractDirectMemoryCacheExchange<V>
         return cacheContent;
     }
 
-    public AbstractDirectMemoryCacheExchange setCacheContent( byte[] cacheContent )
+    public AbstractDirectMemoryExchange setCacheContent( byte[] cacheContent )
     {
         this.cacheContent = cacheContent;
         return this;

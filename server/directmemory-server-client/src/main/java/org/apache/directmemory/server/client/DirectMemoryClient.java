@@ -18,9 +18,9 @@ package org.apache.directmemory.server.client;
  * under the License.
  */
 
-import org.apache.directmemory.server.commons.DirectMemoryCacheException;
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
-import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
+import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
+import org.apache.directmemory.server.commons.DirectMemoryResponse;
 
 import java.io.IOException;
 import java.util.concurrent.Future;
@@ -31,22 +31,22 @@ import java.util.concurrent.Future;
 public interface DirectMemoryClient
 {
 
-    DirectMemoryCacheResponse retrieve( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException, IOException, ClassNotFoundException, InstantiationException,
+    DirectMemoryResponse retrieve( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException, IOException, ClassNotFoundException, InstantiationException,
         IllegalAccessException;
 
-    Future<DirectMemoryCacheResponse> asyncRetrieve( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException;
+    Future<DirectMemoryResponse> asyncRetrieve( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException;
 
-    void put( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException;
+    void put( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException;
 
-    Future<Void> asyncPut( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException;
+    Future<Void> asyncPut( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException;
 
-    DirectMemoryCacheResponse delete( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException;
+    DirectMemoryResponse delete( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException;
 
-    Future<DirectMemoryCacheResponse> asyncDelete( DirectMemoryCacheRequest directMemoryCacheRequest )
-        throws DirectMemoryCacheException;
+    Future<DirectMemoryResponse> asyncDelete( DirectMemoryRequest directMemoryRequest )
+        throws DirectMemoryException;
 }

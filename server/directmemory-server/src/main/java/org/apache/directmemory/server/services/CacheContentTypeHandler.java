@@ -18,8 +18,8 @@ package org.apache.directmemory.server.services;
  * under the License.
  */
 
-import org.apache.directmemory.server.commons.DirectMemoryCacheException;
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
+import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,9 +30,9 @@ import java.io.IOException;
  */
 public interface CacheContentTypeHandler
 {
-    byte[] handleGet( DirectMemoryCacheRequest request, byte[] cacheResponseContent, HttpServletResponse response )
-        throws DirectMemoryCacheException, IOException;
+    byte[] handleGet( DirectMemoryRequest request, byte[] cacheResponseContent, HttpServletResponse response )
+        throws DirectMemoryException, IOException;
 
-    DirectMemoryCacheRequest handlePut( HttpServletRequest request, HttpServletResponse response )
-        throws DirectMemoryCacheException, IOException;
+    DirectMemoryRequest handlePut( HttpServletRequest request, HttpServletResponse response )
+        throws DirectMemoryException, IOException;
 }

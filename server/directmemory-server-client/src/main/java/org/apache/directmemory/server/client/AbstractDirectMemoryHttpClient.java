@@ -19,11 +19,11 @@ package org.apache.directmemory.server.client;
  */
 
 import org.apache.commons.io.IOUtils;
-import org.apache.directmemory.server.commons.DirectMemoryCacheException;
-import org.apache.directmemory.server.commons.DirectMemoryCacheParser;
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
-import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
-import org.apache.directmemory.server.commons.DirectMemoryCacheWriter;
+import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.DirectMemoryParser;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
+import org.apache.directmemory.server.commons.DirectMemoryResponse;
+import org.apache.directmemory.server.commons.DirectMemoryWriter;
 import org.apache.directmemory.server.commons.ExchangeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,9 +41,9 @@ public abstract class AbstractDirectMemoryHttpClient
 
     protected Logger log = LoggerFactory.getLogger( getClass() );
 
-    private DirectMemoryCacheWriter writer = DirectMemoryCacheWriter.instance();
+    private DirectMemoryWriter writer = DirectMemoryWriter.instance();
 
-    private DirectMemoryCacheParser parser = DirectMemoryCacheParser.instance();
+    private DirectMemoryParser parser = DirectMemoryParser.instance();
 
     protected DirectMemoryClientConfiguration configuration;
 
@@ -52,8 +52,8 @@ public abstract class AbstractDirectMemoryHttpClient
         this.configuration = configuration;
     }
 
-    protected byte[] getPutContent( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException
+    protected byte[] getPutContent( DirectMemoryRequest request )
+        throws DirectMemoryException
     {
 
         switch ( request.getExchangeType() )
@@ -67,19 +67,19 @@ public abstract class AbstractDirectMemoryHttpClient
                 }
                 catch ( IOException e )
                 {
-                    throw new DirectMemoryCacheException( e.getMessage(), e );
+                    throw new DirectMemoryException( e.getMessage(), e );
                 }
             case TEXT_PLAIN:
                 log.error( "{} not implemented yet", ExchangeType.TEXT_PLAIN.getContentType() );
                 throw new NotImplementedException();
             default:
                 log.error( "exchange type unknown {}", request.getExchangeType() );
-                throw new DirectMemoryCacheException( "exchange type unknown " + request.getExchangeType() );
+                throw new DirectMemoryException( "exchange type unknown " + request.getExchangeType() );
         }
     }
 
-    protected DirectMemoryCacheResponse buildResponse( InputStream inputStream, DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException
+    protected DirectMemoryResponse buildResponse( InputStream inputStream, DirectMemoryRequest request )
+        throws DirectMemoryException
     {
 
         switch ( request.getExchangeType() )
@@ -89,7 +89,7 @@ public abstract class AbstractDirectMemoryHttpClient
             case JAVA_SERIALIZED_OBJECT:
                 try
                 {
-                    DirectMemoryCacheResponse response = new DirectMemoryCacheResponse();
+                    DirectMemoryResponse response = new DirectMemoryResponse();
                     response.setResponse( request.getSerializer().deserialize( IOUtils.toByteArray( inputStream ),
                                                                                request.getObjectClass() ) );
                     return response;
@@ -97,32 +97,32 @@ public abstract class AbstractDirectMemoryHttpClient
                 }
                 catch ( IOException e )
                 {
-                    throw new DirectMemoryCacheException( e.getMessage(), e );
+                    throw new DirectMemoryException( e.getMessage(), e );
                 }
                 catch ( ClassNotFoundException e )
                 {
-                    throw new DirectMemoryCacheException( e.getMessage(), e );
+                    throw new DirectMemoryException( e.getMessage(), e );
                 }
                 catch ( IllegalAccessException e )
                 {
-                    throw new DirectMemoryCacheException( e.getMessage(), e );
+                    throw new DirectMemoryException( e.getMessage(), e );
                 }
                 catch ( InstantiationException e )
                 {
-                    throw new DirectMemoryCacheException( e.getMessage(), e );
+                    throw new DirectMemoryException( e.getMessage(), e );
                 }
             case TEXT_PLAIN:
                 log.error( "{} not implemented yet", ExchangeType.TEXT_PLAIN.getContentType() );
                 throw new NotImplementedException();
             default:
                 log.error( "exchange type unknown {}", request.getExchangeType() );
-                throw new DirectMemoryCacheException( "exchange type unknown " + request.getExchangeType() );
+                throw new DirectMemoryException( "exchange type unknown " + request.getExchangeType() );
         }
 
 
     }
 
-    protected String buildRequestWithKey( DirectMemoryCacheRequest request )
+    protected String buildRequestWithKey( DirectMemoryRequest request )
     {
         StringBuilder uri = new StringBuilder( this.configuration.getProtocol() );
         uri.append( "://" ).append( this.configuration.getHost() );
@@ -134,14 +134,14 @@ public abstract class AbstractDirectMemoryHttpClient
         return uri.toString().replace( ' ', '+' );
     }
 
-    protected String getRequestContentType( DirectMemoryCacheRequest request )
+    protected String getRequestContentType( DirectMemoryRequest request )
     {
         return request.getExchangeType() == null
             ? this.configuration.getExchangeType().getContentType()
             : request.getExchangeType().getContentType();
     }
 
-    protected String getAcceptContentType( DirectMemoryCacheRequest request )
+    protected String getAcceptContentType( DirectMemoryRequest request )
     {
         return request.getExchangeType() == null
             ? this.configuration.getExchangeType().getContentType()

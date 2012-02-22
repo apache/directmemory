@@ -19,7 +19,7 @@ package org.apache.directmemory.server.client;
  */
 
 import org.apache.directmemory.serialization.Serializer;
-import org.apache.directmemory.server.commons.DirectMemoryCacheException;
+import org.apache.directmemory.server.commons.DirectMemoryException;
 import org.apache.directmemory.server.commons.ExchangeType;
 
 /**
@@ -100,7 +100,7 @@ public class DirectMemoryClientConfiguration
 
     public DirectMemoryClientConfiguration setDirectMemoryHttpClient(
         DirectMemoryHttpClient directMemoryHttpClient )
-        throws DirectMemoryCacheException
+        throws DirectMemoryException
     {
         this.directMemoryHttpClient = directMemoryHttpClient;
         this.directMemoryHttpClient.configure( this );

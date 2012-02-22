@@ -18,9 +18,9 @@ package org.apache.directmemory.server.client;
  * under the License.
  */
 
-import org.apache.directmemory.server.commons.DirectMemoryCacheException;
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
-import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
+import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
+import org.apache.directmemory.server.commons.DirectMemoryResponse;
 import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.ExchangeType;
 import org.apache.http.HttpResponse;
@@ -64,7 +64,7 @@ public class HttpClientDirectMemoryHttpClient
 
     @Override
     public void configure( DirectMemoryClientConfiguration configuration )
-        throws DirectMemoryCacheException
+        throws DirectMemoryException
     {
         this.configuration = configuration;
         ThreadSafeClientConnManager threadSafeClientConnManager = new ThreadSafeClientConnManager();
@@ -73,8 +73,8 @@ public class HttpClientDirectMemoryHttpClient
     }
 
     @Override
-    public void put( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException
+    public void put( DirectMemoryRequest request )
+        throws DirectMemoryException
     {
         String uri = buildRequestWithKey( request );
         log.debug( "put request to: {}", uri );
@@ -96,20 +96,20 @@ public class HttpClientDirectMemoryHttpClient
             StatusLine statusLine = response.getStatusLine();
             if ( statusLine.getStatusCode() != 200 )
             {
-                throw new DirectMemoryCacheException(
+                throw new DirectMemoryException(
                     "put cache content return http code:'" + statusLine.getStatusCode() + "', reasonPhrase:"
                         + statusLine.getReasonPhrase() );
             }
         }
         catch ( IOException e )
         {
-            throw new DirectMemoryCacheException( e.getMessage(), e );
+            throw new DirectMemoryException( e.getMessage(), e );
         }
     }
 
     @Override
-    public Future<Void> asyncPut( final DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException
+    public Future<Void> asyncPut( final DirectMemoryRequest request )
+        throws DirectMemoryException
     {
         return Executors.newSingleThreadExecutor().submit( new Callable<Void>()
         {
@@ -124,8 +124,8 @@ public class HttpClientDirectMemoryHttpClient
     }
 
     @Override
-    public DirectMemoryCacheResponse get( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException
+    public DirectMemoryResponse get( DirectMemoryRequest request )
+        throws DirectMemoryException
     {
         String uri = buildRequestWithKey( request );
 
@@ -143,30 +143,30 @@ public class HttpClientDirectMemoryHttpClient
             StatusLine statusLine = httpResponse.getStatusLine();
             if ( statusLine.getStatusCode() == 204 )
             {
-                return new DirectMemoryCacheResponse().setFound( false );
+                return new DirectMemoryResponse().setFound( false );
             }
 
             if ( request.isDeleteRequest() )
             {
-                return new DirectMemoryCacheResponse().setFound( true ).setDeleted( true );
+                return new DirectMemoryResponse().setFound( true ).setDeleted( true );
             }
 
             return buildResponse( httpResponse.getEntity().getContent(), request ).setFound( true );
         }
         catch ( IOException e )
         {
-            throw new DirectMemoryCacheException( e.getMessage(), e );
+            throw new DirectMemoryException( e.getMessage(), e );
         }
     }
 
     @Override
-    public Future<DirectMemoryCacheResponse> asyncGet( final DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException
+    public Future<DirectMemoryResponse> asyncGet( final DirectMemoryRequest request )
+        throws DirectMemoryException
     {
-        return Executors.newSingleThreadExecutor().submit( new Callable<DirectMemoryCacheResponse>()
+        return Executors.newSingleThreadExecutor().submit( new Callable<DirectMemoryResponse>()
         {
             @Override
-            public DirectMemoryCacheResponse call()
+            public DirectMemoryResponse call()
                 throws Exception
             {
                 return get( request );
@@ -175,8 +175,8 @@ public class HttpClientDirectMemoryHttpClient
     }
 
     @Override
-    public DirectMemoryCacheResponse delete( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException
+    public DirectMemoryResponse delete( DirectMemoryRequest request )
+        throws DirectMemoryException
     {
         String uri = buildRequestWithKey( request );
 
@@ -192,26 +192,26 @@ public class HttpClientDirectMemoryHttpClient
             StatusLine statusLine = httpResponse.getStatusLine();
             if ( statusLine.getStatusCode() == 204 )
             {
-                return new DirectMemoryCacheResponse().setFound( false ).setDeleted( false );
+                return new DirectMemoryResponse().setFound( false ).setDeleted( false );
             }
 
-            return new DirectMemoryCacheResponse().setFound( true ).setDeleted( true );
+            return new DirectMemoryResponse().setFound( true ).setDeleted( true );
 
         }
         catch ( IOException e )
         {
-            throw new DirectMemoryCacheException( e.getMessage(), e );
+            throw new DirectMemoryException( e.getMessage(), e );
         }
     }
 
     @Override
-    public Future<DirectMemoryCacheResponse> asyncDelete( final DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException
+    public Future<DirectMemoryResponse> asyncDelete( final DirectMemoryRequest request )
+        throws DirectMemoryException
     {
-        return Executors.newSingleThreadExecutor().submit( new Callable<DirectMemoryCacheResponse>()
+        return Executors.newSingleThreadExecutor().submit( new Callable<DirectMemoryResponse>()
         {
             @Override
-            public DirectMemoryCacheResponse call()
+            public DirectMemoryResponse call()
                 throws Exception
             {
                 return delete( request );

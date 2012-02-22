@@ -26,8 +26,8 @@ package org.apache.directmemory.server.commons;
  *
  * @author Olivier Lamy
  */
-public class DirectMemoryCacheResponse<V>
-    extends AbstractDirectMemoryCacheExchange
+public class DirectMemoryResponse<V>
+    extends AbstractDirectMemoryExchange
 {
     private boolean found;
 
@@ -42,7 +42,7 @@ public class DirectMemoryCacheResponse<V>
         return found;
     }
 
-    public DirectMemoryCacheResponse setFound( boolean found )
+    public DirectMemoryResponse setFound( boolean found )
     {
         this.found = found;
         return this;
@@ -53,19 +53,19 @@ public class DirectMemoryCacheResponse<V>
         return updated;
     }
 
-    public DirectMemoryCacheResponse setUpdated( boolean updated )
+    public DirectMemoryResponse setUpdated( boolean updated )
     {
         this.updated = updated;
         return this;
     }
 
-    public DirectMemoryCacheResponse setCacheContent( byte[] cacheContent )
+    public DirectMemoryResponse setCacheContent( byte[] cacheContent )
     {
         super.setCacheContent( cacheContent );
         return this;
     }
 
-    public DirectMemoryCacheResponse setKey( String key )
+    public DirectMemoryResponse setKey( String key )
     {
         super.setKey( key );
         return this;
@@ -76,7 +76,7 @@ public class DirectMemoryCacheResponse<V>
         return deleted;
     }
 
-    public DirectMemoryCacheResponse setDeleted( boolean deleted )
+    public DirectMemoryResponse setDeleted( boolean deleted )
     {
         this.deleted = deleted;
         return this;

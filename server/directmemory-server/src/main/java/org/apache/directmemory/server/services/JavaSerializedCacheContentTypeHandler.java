@@ -21,8 +21,8 @@ package org.apache.directmemory.server.services;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
-import org.apache.directmemory.server.commons.DirectMemoryCacheException;
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
+import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,21 +39,21 @@ public class JavaSerializedCacheContentTypeHandler
     private Logger log = LoggerFactory.getLogger( getClass() );
 
     @Override
-    public byte[] handleGet( DirectMemoryCacheRequest request, byte[] cacheResponseContent, HttpServletResponse resp )
-        throws DirectMemoryCacheException, IOException
+    public byte[] handleGet( DirectMemoryRequest request, byte[] cacheResponseContent, HttpServletResponse resp )
+        throws DirectMemoryException, IOException
     {
         resp.setContentType( DirectMemoryHttpConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER );
         return cacheResponseContent;
     }
 
     @Override
-    public DirectMemoryCacheRequest handlePut( HttpServletRequest request, HttpServletResponse response )
-        throws DirectMemoryCacheException, IOException
+    public DirectMemoryRequest handlePut( HttpServletRequest request, HttpServletResponse response )
+        throws DirectMemoryException, IOException
     {
         String expiresInHeader = request.getHeader( DirectMemoryHttpConstants.EXPIRES_IN_HTTP_HEADER );
         int expiresIn = StringUtils.isEmpty( expiresInHeader ) ? 0 : Integer.valueOf( expiresInHeader );
         log.debug( "expiresIn: {} for header value: {}", expiresIn, expiresInHeader );
-        return new DirectMemoryCacheRequest().setExpiresIn( expiresIn ).setCacheContent(
+        return new DirectMemoryRequest().setExpiresIn( expiresIn ).setCacheContent(
             IOUtils.toByteArray( request.getInputStream() ) );
     }
 }

@@ -20,10 +20,10 @@ package org.apache.directmemory.server.services;
 
 import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.serialization.SerializerFactory;
-import org.apache.directmemory.server.commons.DirectMemoryCacheParser;
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
-import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
-import org.apache.directmemory.server.commons.DirectMemoryCacheWriter;
+import org.apache.directmemory.server.commons.DirectMemoryParser;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
+import org.apache.directmemory.server.commons.DirectMemoryResponse;
+import org.apache.directmemory.server.commons.DirectMemoryWriter;
 import org.apache.directmemory.test.Wine;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,9 +49,9 @@ public class CacheServletTest
 
     CacheServlet cacheServlet = new CacheServlet();
 
-    DirectMemoryCacheWriter writer = DirectMemoryCacheWriter.instance();
+    DirectMemoryWriter writer = DirectMemoryWriter.instance();
 
-    DirectMemoryCacheParser parser = DirectMemoryCacheParser.instance();
+    DirectMemoryParser parser = DirectMemoryParser.instance();
 
     @Before
     public void init()
@@ -112,10 +112,10 @@ public class CacheServletTest
 
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
 
-        DirectMemoryCacheRequest directMemoryCacheRequest =
-            new DirectMemoryCacheRequest().setKey( "bordeaux" ).setCacheContent( serializer.serialize( bordeaux ) );
+        DirectMemoryRequest directMemoryRequest =
+            new DirectMemoryRequest().setKey( "bordeaux" ).setCacheContent( serializer.serialize( bordeaux ) );
 
-        String rq = writer.generateJsonRequest( directMemoryCacheRequest );
+        String rq = writer.generateJsonRequest( directMemoryRequest );
 
         MockHttpServletRequest putRequest = new MockHttpServletRequest();
 
@@ -149,7 +149,7 @@ public class CacheServletTest
 
         assertEquals( MediaType.APPLICATION_JSON, getResponse.getContentType() );
 
-        DirectMemoryCacheResponse response =
+        DirectMemoryResponse response =
             parser.buildResponse( new ByteArrayInputStream( getResponse.getContentAsByteArray() ) );
 
         Wine wineFromCache = serializer.deserialize( response.getCacheContent(), Wine.class );
@@ -168,11 +168,11 @@ public class CacheServletTest
 
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
 
-        DirectMemoryCacheRequest directMemoryCacheRequest =
-            new DirectMemoryCacheRequest().setKey( "bordeaux" ).setCacheContent(
+        DirectMemoryRequest directMemoryRequest =
+            new DirectMemoryRequest().setKey( "bordeaux" ).setCacheContent(
                 serializer.serialize( bordeaux ) ).setExpiresIn( 3 );
 
-        String rq = writer.generateJsonRequest( directMemoryCacheRequest );
+        String rq = writer.generateJsonRequest( directMemoryRequest );
 
         MockHttpServletRequest putRequest = new MockHttpServletRequest();
 
@@ -219,10 +219,10 @@ public class CacheServletTest
 
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
 
-        DirectMemoryCacheRequest directMemoryCacheRequest =
-            new DirectMemoryCacheRequest().setKey( "bordeaux" ).setCacheContent( serializer.serialize( bordeaux ) );
+        DirectMemoryRequest directMemoryRequest =
+            new DirectMemoryRequest().setKey( "bordeaux" ).setCacheContent( serializer.serialize( bordeaux ) );
 
-        String rq = writer.generateJsonRequest( directMemoryCacheRequest );
+        String rq = writer.generateJsonRequest( directMemoryRequest );
 
         MockHttpServletRequest putRequest = new MockHttpServletRequest();
 
@@ -256,7 +256,7 @@ public class CacheServletTest
 
         assertEquals( MediaType.APPLICATION_JSON, getResponse.getContentType() );
 
-        DirectMemoryCacheResponse response =
+        DirectMemoryResponse response =
             parser.buildResponse( new ByteArrayInputStream( getResponse.getContentAsByteArray() ) );
 
         Wine wineFromCache = serializer.deserialize( response.getCacheContent(), Wine.class );

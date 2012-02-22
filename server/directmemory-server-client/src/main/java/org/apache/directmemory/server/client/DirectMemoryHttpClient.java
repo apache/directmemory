@@ -18,9 +18,9 @@ package org.apache.directmemory.server.client;
  * under the License.
  */
 
-import org.apache.directmemory.server.commons.DirectMemoryCacheException;
-import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
-import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
+import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
+import org.apache.directmemory.server.commons.DirectMemoryResponse;
 
 import java.util.concurrent.Future;
 
@@ -30,26 +30,26 @@ import java.util.concurrent.Future;
 public interface DirectMemoryHttpClient
 {
     void configure( DirectMemoryClientConfiguration configuration )
-        throws DirectMemoryCacheException;
+        throws DirectMemoryException;
 
-    void put( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException;
+    void put( DirectMemoryRequest request )
+        throws DirectMemoryException;
 
-    Future<Void> asyncPut( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException;
+    Future<Void> asyncPut( DirectMemoryRequest request )
+        throws DirectMemoryException;
 
-    DirectMemoryCacheResponse get( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException;
+    DirectMemoryResponse get( DirectMemoryRequest request )
+        throws DirectMemoryException;
 
-    Future<DirectMemoryCacheResponse> asyncGet( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException;
+    Future<DirectMemoryResponse> asyncGet( DirectMemoryRequest request )
+        throws DirectMemoryException;
 
 
-    DirectMemoryCacheResponse delete( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException;
+    DirectMemoryResponse delete( DirectMemoryRequest request )
+        throws DirectMemoryException;
 
-    Future<DirectMemoryCacheResponse> asyncDelete( DirectMemoryCacheRequest request )
-        throws DirectMemoryCacheException;
+    Future<DirectMemoryResponse> asyncDelete( DirectMemoryRequest request )
+        throws DirectMemoryException;
 
 
 }

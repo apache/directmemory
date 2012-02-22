@@ -29,8 +29,8 @@ import org.apache.directmemory.serialization.Serializer;
  *
  * @author Olivier Lamy
  */
-public class DirectMemoryCacheRequest<V>
-    extends AbstractDirectMemoryCacheExchange<V>
+public class DirectMemoryRequest<V>
+    extends AbstractDirectMemoryExchange<V>
 {
     /**
      * to update/put content in the server
@@ -48,23 +48,23 @@ public class DirectMemoryCacheRequest<V>
      */
     private boolean deleteRequest = false;
 
-    public DirectMemoryCacheRequest( )
+    public DirectMemoryRequest()
     {
         // no op
     }
 
-    public DirectMemoryCacheRequest( String key )
+    public DirectMemoryRequest( String key )
     {
         this.setKey( key );
     }
 
-    public DirectMemoryCacheRequest( String key, Class<V> objectClass )
+    public DirectMemoryRequest( String key, Class<V> objectClass )
     {
         this.setKey( key );
         this.setObjectClass( objectClass );
     }
 
-    public DirectMemoryCacheRequest( String key, V object )
+    public DirectMemoryRequest( String key, V object )
     {
         this.setKey( key );
         this.setObject( object );
@@ -75,7 +75,7 @@ public class DirectMemoryCacheRequest<V>
         return update;
     }
 
-    public DirectMemoryCacheRequest setUpdate( boolean update )
+    public DirectMemoryRequest setUpdate( boolean update )
     {
         this.update = update;
         return this;
@@ -86,34 +86,34 @@ public class DirectMemoryCacheRequest<V>
         return expiresIn;
     }
 
-    public DirectMemoryCacheRequest setExpiresIn( int expiresIn )
+    public DirectMemoryRequest setExpiresIn( int expiresIn )
     {
         this.expiresIn = expiresIn;
         return this;
     }
 
-    public DirectMemoryCacheRequest setKey( String key )
+    public DirectMemoryRequest setKey( String key )
     {
         super.setKey( key );
         return this;
     }
 
 
-    public DirectMemoryCacheRequest setObject( V object )
+    public DirectMemoryRequest setObject( V object )
     {
         super.setObject( object );
         return this;
     }
 
 
-    public DirectMemoryCacheRequest setSerializer( Serializer serializer )
+    public DirectMemoryRequest setSerializer( Serializer serializer )
     {
         super.setSerializer( serializer );
         return this;
     }
 
 
-    public DirectMemoryCacheRequest setCacheContent( byte[] cacheContent )
+    public DirectMemoryRequest setCacheContent( byte[] cacheContent )
     {
         super.setCacheContent( cacheContent );
         return this;
@@ -124,7 +124,7 @@ public class DirectMemoryCacheRequest<V>
         return deleteRequest;
     }
 
-    public DirectMemoryCacheRequest setDeleteRequest( boolean deleteRequest )
+    public DirectMemoryRequest setDeleteRequest( boolean deleteRequest )
     {
         this.deleteRequest = deleteRequest;
         return this;
@@ -135,7 +135,7 @@ public class DirectMemoryCacheRequest<V>
         return exchangeType;
     }
 
-    public DirectMemoryCacheRequest setExchangeType( ExchangeType exchangeType )
+    public DirectMemoryRequest setExchangeType( ExchangeType exchangeType )
     {
         this.exchangeType = exchangeType;
         return this;
@@ -146,7 +146,7 @@ public class DirectMemoryCacheRequest<V>
         return objectClass;
     }
 
-    public DirectMemoryCacheRequest setObjectClass( Class<V> objectClass )
+    public DirectMemoryRequest setObjectClass( Class<V> objectClass )
     {
         this.objectClass = objectClass;
         return this;
