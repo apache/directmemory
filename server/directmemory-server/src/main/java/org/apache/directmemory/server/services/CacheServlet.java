@@ -48,8 +48,6 @@ public class CacheServlet
 
     private Logger log = LoggerFactory.getLogger( getClass() );
 
-    public static final String JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER = "application/x-java-serialized-object";
-
     private CacheService cacheService = new CacheServiceImpl();
 
     private Map<String, CacheContentTypeHandler> contentTypeHandlers;
@@ -72,8 +70,10 @@ public class CacheServlet
 
         //
 
-        contentTypeHandlers = new HashMap<String, CacheContentTypeHandler>( 1 );
+        contentTypeHandlers = new HashMap<String, CacheContentTypeHandler>( 2 );
         contentTypeHandlers.put( MediaType.APPLICATION_JSON, new JsonCacheContentTypeHandler() );
+        contentTypeHandlers.put( CacheServletConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER,
+                                 new JavaSerializedCacheContentTypeHandler() );
     }
 
     @Override
@@ -106,8 +106,10 @@ public class CacheServlet
 
         if ( contentTypeHandler == null )
         {
+            String contentType = req.getContentType();
+            log.error( "No content type handler for content type {}", contentType );
             resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                            "Content-Type '" + req.getContentType() + "' not supported" );
+                            "Content-Type '" + contentType + "' not supported" );
             return;
         }
         try
@@ -135,7 +137,7 @@ public class CacheServlet
             // 	application/json
             return contentTypeHandlers.get( MediaType.APPLICATION_JSON );
         }
-        return null;
+        return contentTypeHandlers.get( contentType );
     }
 
     @Override
@@ -171,16 +173,6 @@ public class CacheServlet
             return;
         }
 
-        byte[] bytes = cacheService.retrieveByteArray( key );
-
-        log.debug( "content size {} for key {}", ( bytes == null ? "null" : bytes.length ), key );
-
-        if ( bytes == null || bytes.length == 0 )
-        {
-            resp.sendError( HttpServletResponse.SC_NO_CONTENT, "No content for key: " + key );
-            return;
-        }
-
         String acceptContentType = req.getHeader( "Accept" );
 
         if ( StringUtils.isEmpty( acceptContentType ) )
@@ -194,8 +186,20 @@ public class CacheServlet
 
         if ( contentTypeHandler == null )
         {
+            String contentType = req.getContentType();
+            log.error( "No content type handler for content type {}", acceptContentType );
             resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                             "Content-Type: " + acceptContentType + " not supported" );
+            return;
+        }
+
+        byte[] bytes = cacheService.retrieveByteArray( key );
+
+        log.debug( "content size {} for key {}", ( bytes == null ? "null" : bytes.length ), key );
+
+        if ( bytes == null || bytes.length == 0 )
+        {
+            resp.sendError( HttpServletResponse.SC_NO_CONTENT, "No content for key: " + key );
             return;
         }
 
@@ -223,7 +227,7 @@ public class CacheServlet
             // 	application/json
             return contentTypeHandlers.get( MediaType.APPLICATION_JSON );
         }
-        return null;
+        return contentTypeHandlers.get( acceptContentType );
     }
 
     /**

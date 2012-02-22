@@ -56,6 +56,7 @@ public class DefaultDirectMemoryServerClient
         throws DirectMemoryCacheException, IOException, ClassNotFoundException, InstantiationException,
         IllegalAccessException
     {
+        verifyPerRequestParameters( directMemoryCacheRequest );
         DirectMemoryCacheResponse response = this.directMemoryHttpClient.get( directMemoryCacheRequest );
         if ( response.isFound() && response.getCacheContent() != null && response.getCacheContent().length > 0 )
         {
@@ -74,6 +75,7 @@ public class DefaultDirectMemoryServerClient
     public Future<DirectMemoryCacheResponse> asyncRetrieve( DirectMemoryCacheRequest directMemoryCacheRequest )
         throws DirectMemoryCacheException
     {
+        verifyPerRequestParameters( directMemoryCacheRequest );
         return this.directMemoryHttpClient.asyncGet( directMemoryCacheRequest );
     }
 
@@ -81,6 +83,7 @@ public class DefaultDirectMemoryServerClient
     public void put( DirectMemoryCacheRequest directMemoryCacheRequest )
         throws DirectMemoryCacheException
     {
+        verifyPerRequestParameters( directMemoryCacheRequest );
         this.directMemoryHttpClient.put( directMemoryCacheRequest );
     }
 
@@ -88,6 +91,7 @@ public class DefaultDirectMemoryServerClient
     public Future<Void> asyncPut( DirectMemoryCacheRequest directMemoryCacheRequest )
         throws DirectMemoryCacheException
     {
+        verifyPerRequestParameters( directMemoryCacheRequest );
         return this.directMemoryHttpClient.asyncPut( directMemoryCacheRequest );
     }
 
@@ -95,6 +99,7 @@ public class DefaultDirectMemoryServerClient
     public DirectMemoryCacheResponse delete( DirectMemoryCacheRequest directMemoryCacheRequest )
         throws DirectMemoryCacheException
     {
+        verifyPerRequestParameters( directMemoryCacheRequest );
         return this.directMemoryHttpClient.delete( directMemoryCacheRequest.setDeleteRequest( true ) );
     }
 
@@ -102,6 +107,19 @@ public class DefaultDirectMemoryServerClient
     public Future<DirectMemoryCacheResponse> asyncDelete( DirectMemoryCacheRequest directMemoryCacheRequest )
         throws DirectMemoryCacheException
     {
+        verifyPerRequestParameters( directMemoryCacheRequest );
         return this.directMemoryHttpClient.asyncDelete( directMemoryCacheRequest.setDeleteRequest( true ) );
+    }
+
+    private void verifyPerRequestParameters(DirectMemoryCacheRequest request)
+    {
+        if ( request.getSerializer() == null )
+        {
+            request.setSerializer( this.clientConfiguration.getSerializer() );
+        }
+        if ( request.getExchangeType() == null )
+        {
+            request.setExchangeType( this.clientConfiguration.getExchangeType() );
+        }
     }
 }

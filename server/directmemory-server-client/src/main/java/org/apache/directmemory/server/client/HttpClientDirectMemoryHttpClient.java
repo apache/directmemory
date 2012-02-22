@@ -21,6 +21,7 @@ package org.apache.directmemory.server.client;
 import org.apache.directmemory.server.commons.DirectMemoryCacheException;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
+import org.apache.directmemory.server.commons.ExchangeType;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
@@ -75,12 +76,16 @@ public class HttpClientDirectMemoryHttpClient
         throws DirectMemoryCacheException
     {
         String uri = buildRequestWithKey( request );
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( "put request to: {}", uri.toString() );
-        }
-        HttpPut httpPut = new HttpPut( uri.toString() );
+        log.debug( "put request to: {}", uri );
+
+        HttpPut httpPut = new HttpPut( uri );
         httpPut.addHeader( "Content-Type", getRequestContentType( request ) );
+
+        if ( request.getExchangeType() == ExchangeType.JAVA_SERIALIZED_OBJECT && request.getExpiresIn() > 0 )
+        {
+            httpPut.addHeader( "X-DirectMemory-ExpiresIn", Integer.toString( request.getExpiresIn() ) );
+        }
+
         httpPut.setEntity( new ByteArrayEntity( getPutContent( request ) ) );
 
         try
@@ -121,10 +126,8 @@ public class HttpClientDirectMemoryHttpClient
         throws DirectMemoryCacheException
     {
         String uri = buildRequestWithKey( request );
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( "get request to: {}", uri.toString() );
-        }
+
+        log.debug( "get request to: {}", uri );
 
         HttpGet httpGet = new HttpGet( uri );
 
@@ -146,7 +149,7 @@ public class HttpClientDirectMemoryHttpClient
                 return new DirectMemoryCacheResponse().setFound( true ).setDeleted( true );
             }
 
-            return buildResponse( httpResponse.getEntity().getContent() ).setFound( true );
+            return buildResponse( httpResponse.getEntity().getContent(), request ).setFound( true );
         }
         catch ( IOException e )
         {
@@ -174,10 +177,8 @@ public class HttpClientDirectMemoryHttpClient
         throws DirectMemoryCacheException
     {
         String uri = buildRequestWithKey( request );
-        if ( log.isDebugEnabled() )
-        {
-            log.debug( "get request to: {}", uri.toString() );
-        }
+
+        log.debug( "get request to: {}", uri );
 
         HttpDelete httpDelete = new HttpDelete( uri );
 

@@ -18,12 +18,18 @@ package org.apache.directmemory.server.client;
  * under the License.
  */
 
+import org.apache.commons.io.IOUtils;
 import org.apache.directmemory.server.commons.DirectMemoryCacheException;
 import org.apache.directmemory.server.commons.DirectMemoryCacheParser;
 import org.apache.directmemory.server.commons.DirectMemoryCacheRequest;
 import org.apache.directmemory.server.commons.DirectMemoryCacheResponse;
 import org.apache.directmemory.server.commons.DirectMemoryCacheWriter;
+import org.apache.directmemory.server.commons.ExchangeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -32,6 +38,8 @@ import java.io.InputStream;
 public abstract class AbstractDirectMemoryHttpClient
     implements DirectMemoryHttpClient
 {
+
+    protected Logger log = LoggerFactory.getLogger( getClass() );
 
     private DirectMemoryCacheWriter writer = DirectMemoryCacheWriter.instance();
 
@@ -49,17 +57,80 @@ public abstract class AbstractDirectMemoryHttpClient
     {
         // TODO handle various exchange model json raw etc..
 
-        if ( request.getSerializer() == null )
+        if ( request.getExchangeType() == ExchangeType.JSON )
         {
-            request.setSerializer( this.configuration.getSerializer() );
+            return writer.generateJsonRequest( request ).getBytes();
         }
-        return writer.generateJsonRequest( request ).getBytes();
+        else if ( request.getExchangeType() == ExchangeType.JAVA_SERIALIZED_OBJECT )
+        {
+            try
+            {
+                return request.getSerializer().serialize( request.getObject() );
+            }
+            catch ( IOException e )
+            {
+                throw new DirectMemoryCacheException( e.getMessage(), e );
+            }
+        }
+        else if ( request.getExchangeType() == ExchangeType.TEXT_PLAIN )
+        {
+            log.error( "{} not implemented yet", ExchangeType.TEXT_PLAIN.getContentType() );
+            throw new NotImplementedException();//  );
+        }
+        else
+        {
+            log.error( "exchange type unknown {}", request.getExchangeType() );
+            throw new DirectMemoryCacheException( "exchange type unknown " + request.getExchangeType() );
+        }
     }
 
-    protected DirectMemoryCacheResponse buildResponse( InputStream inputStream )
+    protected DirectMemoryCacheResponse buildResponse( InputStream inputStream, DirectMemoryCacheRequest request )
         throws DirectMemoryCacheException
     {
-        return parser.buildResponse( inputStream );
+
+        if ( request.getExchangeType() == ExchangeType.JSON )
+        {
+            return parser.buildResponse( inputStream );
+        }
+        else if ( request.getExchangeType() == ExchangeType.JAVA_SERIALIZED_OBJECT )
+        {
+            try
+            {
+                DirectMemoryCacheResponse response = new DirectMemoryCacheResponse();
+                response.setResponse( request.getSerializer().deserialize( IOUtils.toByteArray( inputStream ),
+                                                                         request.getObjectClass() ) );
+                return response;
+
+            }
+            catch ( IOException e )
+            {
+                throw new DirectMemoryCacheException( e.getMessage(), e );
+            }
+            catch ( ClassNotFoundException e )
+            {
+                throw new DirectMemoryCacheException( e.getMessage(), e );
+            }
+            catch ( IllegalAccessException e )
+            {
+                throw new DirectMemoryCacheException( e.getMessage(), e );
+            }
+            catch ( InstantiationException e )
+            {
+                throw new DirectMemoryCacheException( e.getMessage(), e );
+            }
+        }
+        else if ( request.getExchangeType() == ExchangeType.TEXT_PLAIN )
+        {
+            log.error( "{} not implemented yet", ExchangeType.TEXT_PLAIN.getContentType() );
+            throw new NotImplementedException();//  );
+        }
+        else
+        {
+            log.error( "exchange type unknown {}", request.getExchangeType() );
+            throw new DirectMemoryCacheException( "exchange type unknown " + request.getExchangeType() );
+        }
+
+
     }
 
     protected String buildRequestWithKey( DirectMemoryCacheRequest request )

@@ -166,4 +166,34 @@ public abstract class AbstractServletWithClientTest
         DirectMemoryCacheResponse deleteResponse = client.delete( new DirectMemoryCacheRequest<Wine>( "fofoofofof" ) );
         assertFalse( deleteResponse.isDeleted() );
     }
+
+    @Test
+    public void putSmallExpiresAndGetNotFound()
+        throws Exception
+    {
+
+        DirectMemoryCacheResponse deleteResponse = client.delete( new DirectMemoryCacheRequest<Wine>( "bordeaux" ) );
+        Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
+        client.put( new DirectMemoryCacheRequest<Wine>( "bordeaux", bordeaux ).setExpiresIn( 1000 ) );
+
+        DirectMemoryCacheRequest rq = new DirectMemoryCacheRequest( "bordeaux", Wine.class );
+
+        DirectMemoryCacheResponse<Wine> response = client.retrieve( rq );
+
+        assertTrue( response.isFound() );
+        Wine wine = response.getResponse();
+
+        assertEquals( "Bordeaux", wine.getName() );
+        assertEquals( "very great wine", wine.getDescription() );
+
+        Thread.sleep( 10001 );
+
+        rq = new DirectMemoryCacheRequest( "bordeaux", Wine.class );
+
+        response = client.retrieve( rq );
+
+        assertFalse( response.isFound() );
+
+        assertNull( response.getResponse() );
+    }
 }

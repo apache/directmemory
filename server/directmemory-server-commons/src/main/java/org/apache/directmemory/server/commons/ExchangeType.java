@@ -23,17 +23,37 @@ package org.apache.directmemory.server.commons;
  */
 public enum ExchangeType
 {
-    JSON( "application/json" );
+    JSON( "application/json", 1 ), JAVA_SERIALIZED_OBJECT( "application/x-java-serialized-object", 2 ), TEXT_PLAIN(
+    "text/plain", 3 );
 
     private String contentType;
 
-    private ExchangeType( String contentType )
+    private int type;
+
+    private ExchangeType( String contentType, int type )
     {
         this.contentType = contentType;
+        this.type = type;
     }
 
     public String getContentType()
     {
         return contentType;
+    }
+
+    public int getType()
+    {
+        return type;
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder sb = new StringBuilder();
+        sb.append( "ExchangeType" );
+        sb.append( "{contentType='" ).append( contentType ).append( '\'' );
+        sb.append( ", type=" ).append( type );
+        sb.append( '}' );
+        return sb.toString();
     }
 }
