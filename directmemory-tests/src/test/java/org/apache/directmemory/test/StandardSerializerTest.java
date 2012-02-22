@@ -1,5 +1,4 @@
 package org.apache.directmemory.test;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,39 +18,16 @@ package org.apache.directmemory.test;
  * under the License.
  */
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.apache.directmemory.serialization.StandardSerializer;
 
 /**
- * Unit test for simple App.
+ * @author Olivier Lamy
  */
-public class AppTest 
-    extends TestCase
+public class StandardSerializerTest    extends AbstractSerializerTest
 {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
+    @Override
+    public String getSerializerClassName()
     {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+        return StandardSerializer.class.getName();
     }
 }

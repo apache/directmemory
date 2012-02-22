@@ -193,8 +193,8 @@ under the License.
   <modules>
     <module>directmemory-cache</module>
     <module>directmemory-tests</module>
-    <module>platforms</module>
     <module>server</module>
+    <module>platforms</module>
     <module>integrations</module>
     <module>serializers</module>
     <module>itests</module>
