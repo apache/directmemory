@@ -24,7 +24,7 @@ import static java.lang.String.format;
 
 import java.nio.ByteBuffer;
 
-public class Pointer
+public class Pointer<T>
 {
     public int start;
 
@@ -44,7 +44,7 @@ public class Pointer
 
     public int bufferNumber;
 
-    public Class<? extends Object> clazz;
+    public Class<? extends T> clazz;
 
     public ByteBuffer directBuffer = null;
 

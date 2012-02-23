@@ -27,7 +27,7 @@ import org.apache.directmemory.serialization.Serializer;
 
 import java.util.concurrent.ConcurrentMap;
 
-public interface CacheService
+public interface CacheService<K, V>
 {
 
     public static int DEFAULT_CONCURRENCY_LEVEL = 4;
@@ -39,23 +39,23 @@ public interface CacheService
 
     void scheduleDisposalEvery( long l );
 
-    Pointer putByteArray( String key, byte[] payload, int expiresIn );
+    Pointer<V> putByteArray( K key, byte[] payload, int expiresIn );
 
-    Pointer putByteArray( String key, byte[] payload );
+    Pointer<V> putByteArray( K key, byte[] payload );
 
-    Pointer put( String key, Object object );
+    Pointer<V> put( K key, V value );
 
-    Pointer put( String key, Object object, int expiresIn );
+    Pointer<V> put( K key, V value, int expiresIn );
 
-    byte[] retrieveByteArray( String key );
+    byte[] retrieveByteArray( K key );
 
-    Object retrieve( String key );
+    Object retrieve( K key );
 
-    Pointer getPointer( String key );
+    Pointer<V> getPointer( K key );
 
-    void free( String key );
+    void free( K key );
 
-    void free( Pointer pointer );
+    void free( Pointer<V> pointer );
 
     void collectExpired();
 
@@ -68,22 +68,22 @@ public interface CacheService
 
     long entries();
 
-    void dump( OffHeapMemoryBuffer mem );
+    void dump( OffHeapMemoryBuffer<V> mem );
 
     void dump();
 
-    ConcurrentMap<String, Pointer> getMap();
+    ConcurrentMap<K, Pointer<V>> getMap();
 
-    void setMap( ConcurrentMap<String, Pointer> map );
+    void setMap( ConcurrentMap<K, Pointer<V>> map );
 
     Serializer getSerializer();
 
-    MemoryManagerService getMemoryManager();
+    MemoryManagerService<V> getMemoryManager();
 
-    void setMemoryManager( MemoryManagerService memoryManager );
+    void setMemoryManager( MemoryManagerService<V> memoryManager );
 
     void setSerializer( Serializer serializer );
 
-    Pointer allocate( String key, int size );
+    <T extends V> Pointer<V> allocate( K key, Class<T> type, int size );
 
 }

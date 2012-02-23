@@ -37,19 +37,19 @@ public class MemoryManagerServiceImplWithMerginOHMBAndAllocationPolicyTest
 {
 
     @Override
-    protected MemoryManagerService getMemoryManagerService()
+    protected MemoryManagerService<Object> getMemoryManagerService()
     {
         // Initialize MemoryManagerService with OffHeapMergingMemoryBufferImpl and AllocationPolicy
-        final MemoryManagerServiceWithAllocationPolicyImpl mms = new MemoryManagerServiceWithAllocationPolicyImpl()
+        final MemoryManagerServiceWithAllocationPolicyImpl<Object> mms = new MemoryManagerServiceWithAllocationPolicyImpl<Object>()
         {
             @Override
-            protected OffHeapMemoryBuffer instanciateOffHeapMemoryBuffer( int size, int bufferNumber )
+            protected OffHeapMemoryBuffer<Object> instanciateOffHeapMemoryBuffer( int size, int bufferNumber )
             {
                 return OffHeapMergingMemoryBufferImpl.createNew( size, bufferNumber );
             }
         };
-        
-        mms.setAllocationPolicy( new RoundRobinAllocationPolicy() );
+
+        mms.setAllocationPolicy( new RoundRobinAllocationPolicy<Object>() );
         return mms;
     }
 
@@ -60,28 +60,28 @@ public class MemoryManagerServiceImplWithMerginOHMBAndAllocationPolicyTest
         final int NUMBER_OF_OBJECTS = 10;
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD.length;
 
-        final MemoryManagerService memoryManagerService = getMemoryManagerService();
+        final MemoryManagerService<Object> memoryManagerService = getMemoryManagerService();
 
         memoryManagerService.init( 1, BUFFER_SIZE );
 
-        Pointer pointerFull = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( BUFFER_SIZE ) );
+        Pointer<Object> pointerFull = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( BUFFER_SIZE ) );
         Assert.assertNotNull( pointerFull );
         memoryManagerService.free( pointerFull );
 
         final int size1 = R.nextInt( BUFFER_SIZE / 2 ) + 1;
-        Pointer pointer1 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( size1 ) );
+        Pointer<Object> pointer1 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( size1 ) );
         Assert.assertNotNull( "Cannot store " + size1 + " bytes", pointer1 );
 
         final int size2 = R.nextInt( ( BUFFER_SIZE - size1 ) / 2 ) + 1;
-        Pointer pointer2 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( size2 ) );
+        Pointer<Object> pointer2 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( size2 ) );
         Assert.assertNotNull( "Cannot store " + size2 + " bytes", pointer2 );
 
         final int size3 = R.nextInt( ( BUFFER_SIZE - size1 - size2 ) / 2 ) + 1;
-        Pointer pointer3 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( size3 ) );
+        Pointer<Object> pointer3 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( size3 ) );
         Assert.assertNotNull( "Cannot store " + size3 + " bytes", pointer3 );
 
         final int size4 = BUFFER_SIZE - size1 - size2 - size3;
-        Pointer pointer4 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( size4 ) );
+        Pointer<Object> pointer4 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( size4 ) );
         Assert.assertNotNull( "Cannot store " + size4 + " bytes", pointer4 );
 
         memoryManagerService.free( pointer1 );
@@ -96,14 +96,14 @@ public class MemoryManagerServiceImplWithMerginOHMBAndAllocationPolicyTest
 
         // As all pointers have been freeed, we should be able to reallocate the
         // whole buffer
-        Pointer pointer6 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( BUFFER_SIZE ) );
+        Pointer<Object> pointer6 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( BUFFER_SIZE ) );
         Assert.assertNotNull( "Cannot store " + BUFFER_SIZE + " bytes", pointer6 );
 
         memoryManagerService.clear();
 
         // As all pointers have been cleared, we should be able to reallocate
         // the whole buffer
-        Pointer pointer7 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( BUFFER_SIZE ) );
+        Pointer<Object> pointer7 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( BUFFER_SIZE ) );
         Assert.assertNotNull( "Cannot store " + BUFFER_SIZE + " bytes", pointer7 );
 
         memoryManagerService.clear();
@@ -112,7 +112,7 @@ public class MemoryManagerServiceImplWithMerginOHMBAndAllocationPolicyTest
         // the whole buffer
         for ( int i = 0; i < NUMBER_OF_OBJECTS; i++ )
         {
-            Pointer pointer = memoryManagerService.store( SMALL_PAYLOAD );
+            Pointer<Object> pointer = memoryManagerService.store( SMALL_PAYLOAD );
             Assert.assertNotNull( pointer );
         }
 
@@ -120,7 +120,7 @@ public class MemoryManagerServiceImplWithMerginOHMBAndAllocationPolicyTest
 
         // As all pointers have been cleared, we should be able to reallocate
         // the whole buffer
-        Pointer pointer8 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( BUFFER_SIZE ) );
+        Pointer<Object> pointer8 = memoryManagerService.store( MemoryTestUtils.generateRandomPayload( BUFFER_SIZE ) );
         Assert.assertNotNull( "Cannot store " + BUFFER_SIZE + " bytes", pointer8 );
 
         memoryManagerService.free( pointer8 );
@@ -129,7 +129,7 @@ public class MemoryManagerServiceImplWithMerginOHMBAndAllocationPolicyTest
         // the whole buffer
         for ( int i = 0; i < NUMBER_OF_OBJECTS * 10; i++ )
         {
-            Pointer pointer = memoryManagerService.store( SMALL_PAYLOAD );
+            Pointer<Object> pointer = memoryManagerService.store( SMALL_PAYLOAD );
             Assert.assertNotNull( pointer );
             memoryManagerService.free( pointer );
         }
@@ -143,15 +143,15 @@ public class MemoryManagerServiceImplWithMerginOHMBAndAllocationPolicyTest
         final int NUMBER_OF_OBJECTS = 100;
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD.length;
 
-        final MemoryManagerService memoryManagerService = getMemoryManagerService();
+        final MemoryManagerService<Object> memoryManagerService = getMemoryManagerService();
 
         memoryManagerService.init( 1, BUFFER_SIZE );
 
-        List<Pointer> pointers = new ArrayList<Pointer>( NUMBER_OF_OBJECTS );
+        List<Pointer<Object>> pointers = new ArrayList<Pointer<Object>>( NUMBER_OF_OBJECTS );
         for ( int i = 0; i < NUMBER_OF_OBJECTS; i++ )
         {
             byte[] payload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD.length );
-            Pointer pointer = memoryManagerService.store( payload );
+            Pointer<Object> pointer = memoryManagerService.store( payload );
             Assert.assertNotNull( pointer );
             pointers.add( pointer );
             byte[] fetchedPayload = memoryManagerService.retrieve( pointer );
@@ -161,13 +161,13 @@ public class MemoryManagerServiceImplWithMerginOHMBAndAllocationPolicyTest
         // Free 1/4 of the pointers, from 1/4 of the address space to 1/2
         for ( int i = NUMBER_OF_OBJECTS / 4; i < NUMBER_OF_OBJECTS / 2; i++ )
         {
-            Pointer pointer = pointers.get( i );
+            Pointer<Object> pointer = pointers.get( i );
             memoryManagerService.free( pointer );
         }
 
         // Should be able to allocate NUMBER_OF_OBJECTS / 4 *
         // SMALL_PAYLOAD.length bytes
-        Pointer pointer1 = memoryManagerService.allocate( NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD.length, 0, 0 );
+        Pointer<Object> pointer1 = memoryManagerService.allocate( Object.class, NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD.length, 0, 0 );
         Assert.assertNotNull( "Cannot store " + ( NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD.length ) + " bytes", pointer1 );
 
         int pointerToSkip = NUMBER_OF_OBJECTS / 2 + NUMBER_OF_OBJECTS / 10;
@@ -178,13 +178,13 @@ public class MemoryManagerServiceImplWithMerginOHMBAndAllocationPolicyTest
             {
                 continue;
             }
-            Pointer pointer = pointers.get( i );
+            Pointer<Object> pointer = pointers.get( i );
             memoryManagerService.free( pointer );
         }
 
         // Should NOT be able to allocate NUMBER_OF_OBJECTS / 4 *
         // SMALL_PAYLOAD.length bytes
-        Pointer pointer2 = memoryManagerService.allocate( NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD.length, 0, 0 );
+        Pointer<Object> pointer2 = memoryManagerService.allocate( Object.class, NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD.length, 0, 0 );
         Assert.assertNull( pointer2 );
 
         // Freeing the previously skipped pointer should then merge the whole
@@ -193,7 +193,7 @@ public class MemoryManagerServiceImplWithMerginOHMBAndAllocationPolicyTest
 
         // Should be able to allocate NUMBER_OF_OBJECTS / 4 *
         // SMALL_PAYLOAD.length bytes
-        Pointer pointer3 = memoryManagerService.allocate( NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD.length, 0, 0 );
+        Pointer<Object> pointer3 = memoryManagerService.allocate( Object.class, NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD.length, 0, 0 );
         Assert.assertNotNull( pointer3 );
 
         byte[] payload3 = MemoryTestUtils.generateRandomPayload( NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD.length );

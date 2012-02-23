@@ -63,7 +63,7 @@ public class Concurrent3Test
 
     private static AtomicInteger disposals = new AtomicInteger();
 
-    public static ConcurrentMap<String, Pointer> map =
+    public static ConcurrentMap<String, Pointer<Object>> map =
         new MapMaker().concurrencyLevel( 4 ).initialCapacity( 100000 ).makeMap();
 
 
@@ -101,7 +101,7 @@ public class Concurrent3Test
 
     private void get( String key )
     {
-        Pointer p = map.get( key );
+        Pointer<Object> p = map.get( key );
         read.incrementAndGet();
         if ( p != null )
         {
@@ -226,7 +226,7 @@ public class Concurrent3Test
 
     private static Logger logger = LoggerFactory.getLogger( Concurrent3Test.class );
 
-    private static void dump( OffHeapMemoryBuffer mem )
+    private static void dump( OffHeapMemoryBuffer<Object> mem )
     {
         logger.info( "off-heap - buffer: " + mem.getBufferNumber() );
         logger.info( "off-heap - allocated: " + Ram.inMb( mem.capacity() ) );
@@ -247,7 +247,7 @@ public class Concurrent3Test
     public static void dump()
     {
 
-        for ( OffHeapMemoryBuffer mem : MemoryManager.getBuffers() )
+        for ( OffHeapMemoryBuffer<Object> mem : MemoryManager.getBuffers() )
         {
             dump( mem );
         }
@@ -266,6 +266,6 @@ public class Concurrent3Test
     }
 
 }
-	
-	
+
+
 

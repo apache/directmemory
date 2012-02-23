@@ -61,8 +61,8 @@ import org.slf4j.LoggerFactory;
  * @author bperroud
  *
  */
-public class OffHeapMergingMemoryBufferImpl
-    extends AbstractOffHeapMemoryBuffer
+public class OffHeapMergingMemoryBufferImpl<V>
+    extends AbstractOffHeapMemoryBuffer<V>
 {
 
     protected static Logger logger = LoggerFactory.getLogger( OffHeapMemoryBufferImpl.class );
@@ -71,15 +71,15 @@ public class OffHeapMergingMemoryBufferImpl
     private final static Boolean DEFAULT_VALUE = Boolean.TRUE;
 
     // List of free pointers sorted by size
-    private final TreeMap<Pointer, Boolean> freePointersBySizeDesc = new TreeMap<Pointer, Boolean>(
-                                                                                                    new PointerBySizeDesc() );
+    private final TreeMap<Pointer<V>, Boolean> freePointersBySizeDesc = new TreeMap<Pointer<V>, Boolean>(
+                                                                                                    new PointerBySizeDesc<V>() );
 
     // List of free pointers sorted by memory offset
-    private final TreeMap<Pointer, Boolean> freePointersByMemoryOffsetAsc = new TreeMap<Pointer, Boolean>(
-                                                                                                           new PointerByMemoryOffsetAsc() );
+    private final TreeMap<Pointer<V>, Boolean> freePointersByMemoryOffsetAsc = new TreeMap<Pointer<V>, Boolean>(
+                                                                                                           new PointerByMemoryOffsetAsc<V>() );
 
     // Set of used pointers
-    private final Set<Pointer> usedPointers = Collections.newSetFromMap( new ConcurrentHashMap<Pointer, Boolean>() );
+    private final Set<Pointer<V>> usedPointers = Collections.newSetFromMap( new ConcurrentHashMap<Pointer<V>, Boolean>() );
 
     // Lock used instead of synchronized block to guarantee consistency when manipulating list of pointers.
     private final Lock pointerManipulationLock = new ReentrantLock();
@@ -95,11 +95,11 @@ public class OffHeapMergingMemoryBufferImpl
      * @param bufferNumber : arbitrary number of the buffer.
      * @return an OffHeapMemoryBuffer with internal buffer allocated.
      */
-    public static OffHeapMergingMemoryBufferImpl createNew( int capacity, int bufferNumber )
+    public static <V> OffHeapMergingMemoryBufferImpl<V> createNew( int capacity, int bufferNumber )
     {
         logger.info( format( "Creating OffHeapLinkedMemoryBuffer %d with a capacity of %s",
                              bufferNumber, Ram.inMb( capacity ) ) );
-        return new OffHeapMergingMemoryBufferImpl( ByteBuffer.allocateDirect( capacity ), bufferNumber );
+        return new OffHeapMergingMemoryBufferImpl<V>( ByteBuffer.allocateDirect( capacity ), bufferNumber );
     }
 
     /**
@@ -107,9 +107,9 @@ public class OffHeapMergingMemoryBufferImpl
      * @param capacity : size in byte of the internal buffer
      * @return an OffHeapMemoryBuffer with internal buffer allocated.
      */
-    public static OffHeapMergingMemoryBufferImpl createNew( int capacity )
+    public static <V> OffHeapMergingMemoryBufferImpl<V> createNew( int capacity )
     {
-        return new OffHeapMergingMemoryBufferImpl( ByteBuffer.allocateDirect( capacity ), -1 );
+        return new OffHeapMergingMemoryBufferImpl<V>( ByteBuffer.allocateDirect( capacity ), -1 );
     }
 
     /**
@@ -126,9 +126,9 @@ public class OffHeapMergingMemoryBufferImpl
     /**
      * Initialization function. Create an initial free {@link Pointer} mapping the whole buffer.
      */
-    protected Pointer createAndAddFirstPointer()
+    protected Pointer<V> createAndAddFirstPointer()
     {
-        Pointer first = new Pointer( 0, buffer.capacity() - 1 );
+        Pointer<V> first = new Pointer<V>( 0, buffer.capacity() - 1 );
         first.bufferNumber = bufferNumber;
         first.free = true;
         freePointersBySizeDesc.put( first, DEFAULT_VALUE );
@@ -136,7 +136,7 @@ public class OffHeapMergingMemoryBufferImpl
         return first;
     }
 
-    protected Pointer firstMatch( int capacity )
+    protected Pointer<V> firstMatch( int capacity )
     {
         // check for empty instead of throwing an exception.
         if ( freePointersBySizeDesc.isEmpty() )
@@ -145,7 +145,7 @@ public class OffHeapMergingMemoryBufferImpl
         }
         try
         {
-            Pointer ptr = freePointersBySizeDesc.firstKey();
+            Pointer<V> ptr = freePointersBySizeDesc.firstKey();
 
             if ( ptr.getCapacity() >= capacity )
             { // 0 indexed
@@ -160,7 +160,7 @@ public class OffHeapMergingMemoryBufferImpl
     }
 
     @Override
-    public byte[] retrieve( Pointer pointer )
+    public byte[] retrieve( Pointer<V> pointer )
     {
         pointer.lastHit = System.currentTimeMillis();
         pointer.hits++;
@@ -174,7 +174,7 @@ public class OffHeapMergingMemoryBufferImpl
     }
 
     @Override
-    public int free( Pointer pointer2free )
+    public int free( Pointer<V> pointer2free )
     {
 
         // Avoid freeing twice the same pointer. Maybe atomic boolean is required here.
@@ -190,10 +190,10 @@ public class OffHeapMergingMemoryBufferImpl
                     return 0;
                 }
 
-                Pointer lowerPointerToMerge = pointer2free;
+                Pointer<V> lowerPointerToMerge = pointer2free;
 
                 // search for adjacent pointers lower than the current one
-                for ( Pointer adjacentPointer : freePointersByMemoryOffsetAsc.headMap( pointer2free, false )
+                for ( Pointer<V> adjacentPointer : freePointersByMemoryOffsetAsc.headMap( pointer2free, false )
                     .descendingKeySet() )
                 {
 
@@ -205,10 +205,10 @@ public class OffHeapMergingMemoryBufferImpl
                     lowerPointerToMerge = adjacentPointer;
                 }
 
-                Pointer higherPointerToMerge = pointer2free;
+                Pointer<V> higherPointerToMerge = pointer2free;
 
                 // search for adjacent pointers higher than the current one
-                for ( Pointer adjacentPointer : freePointersByMemoryOffsetAsc.tailMap( pointer2free, false )
+                for ( Pointer<V> adjacentPointer : freePointersByMemoryOffsetAsc.tailMap( pointer2free, false )
                     .navigableKeySet() )
                 {
 
@@ -224,14 +224,14 @@ public class OffHeapMergingMemoryBufferImpl
                 if ( lowerPointerToMerge != higherPointerToMerge )
                 {
 
-                    final Pointer mergedPointer = new Pointer( lowerPointerToMerge.start, higherPointerToMerge.end );
+                    final Pointer<V> mergedPointer = new Pointer<V>( lowerPointerToMerge.start, higherPointerToMerge.end );
                     mergedPointer.free = true;
 
-                    final Iterator<Pointer> adjacentPointersIterator = freePointersByMemoryOffsetAsc
+                    final Iterator<Pointer<V>> adjacentPointersIterator = freePointersByMemoryOffsetAsc
                         .subMap( lowerPointerToMerge, true, higherPointerToMerge, true ).navigableKeySet().iterator();
                     while ( adjacentPointersIterator.hasNext() )
                     {
-                        Pointer adjacentPointer = adjacentPointersIterator.next();
+                        Pointer<V> adjacentPointer = adjacentPointersIterator.next();
                         adjacentPointer.free = true; // if a reference to the pointer is kept, we must not use it.
                         freePointersBySizeDesc.remove( adjacentPointer );
                         adjacentPointersIterator.remove();
@@ -273,7 +273,7 @@ public class OffHeapMergingMemoryBufferImpl
     {
         allocationErrors = 0;
 
-        for ( Pointer pointer : usedPointers )
+        for ( Pointer<V> pointer : usedPointers )
         {
             pointer.free = true;
             //            free( pointer ); // too costly to merge every pointers while the will be cleared in a row
@@ -288,11 +288,11 @@ public class OffHeapMergingMemoryBufferImpl
     }
 
     @Override
-    protected Pointer store( byte[] payload, long expiresIn, long expires )
+    protected Pointer<V> store( byte[] payload, long expiresIn, long expires )
     {
         final int size = payload.length;
 
-        final Pointer allocatedPointer = allocatePointer( size );
+        final Pointer<V> allocatedPointer = allocatePointer( size );
 
         if ( allocatedPointer != null )
         {
@@ -314,10 +314,9 @@ public class OffHeapMergingMemoryBufferImpl
         return allocatedPointer;
     }
 
-    private Pointer allocatePointer( int size )
+    private Pointer<V> allocatePointer( int size )
     {
-
-        Pointer goodOne, fresh = null;
+        Pointer<V> goodOne, fresh = null;
 
         try
         {
@@ -342,13 +341,13 @@ public class OffHeapMergingMemoryBufferImpl
             if ( goodOne.getCapacity() != size )
             {
 
-                fresh = new Pointer( goodOne.start, goodOne.start + size - 1 );
+                fresh = new Pointer<V>( goodOne.start, goodOne.start + size - 1 );
                 fresh.bufferNumber = getBufferNumber();
                 fresh.free = true;
                 fresh.created = System.currentTimeMillis();
 
                 // create a new pointer for the remaining space
-                final Pointer newGoodOne = new Pointer( fresh.end + 1, goodOne.end );
+                final Pointer<V> newGoodOne = new Pointer<V>( fresh.end + 1, goodOne.end );
                 newGoodOne.free = true;
 
                 // and add it to the free lists
@@ -369,10 +368,10 @@ public class OffHeapMergingMemoryBufferImpl
     }
 
     @Override
-    public Pointer allocate( int size, long expiresIn, long expires )
+    public <T extends V> Pointer<V> allocate( Class<T> type, int size, long expiresIn, long expires )
     {
 
-        final Pointer allocatedPointer = allocatePointer( size );
+        final Pointer<V> allocatedPointer = allocatePointer( size );
 
         if ( allocatedPointer != null )
         {
@@ -394,12 +393,12 @@ public class OffHeapMergingMemoryBufferImpl
     /**
      * Sort {@link Pointer}s by size desc.
      */
-    private static class PointerBySizeDesc
-        implements Comparator<Pointer>
+    private static class PointerBySizeDesc<V>
+        implements Comparator<Pointer<V>>
     {
 
         @Override
-        public int compare( final Pointer pointer0, final Pointer pointer1 )
+        public int compare( final Pointer<V> pointer0, final Pointer<V> pointer1 )
         {
             final int size0 = pointer0.getCapacity();
             final int size1 = pointer1.getCapacity();
@@ -425,12 +424,12 @@ public class OffHeapMergingMemoryBufferImpl
     /**
      * Sort {@link Pointer}s by memory offset asc.
      */
-    private static class PointerByMemoryOffsetAsc
-        implements Comparator<Pointer>
+    private static class PointerByMemoryOffsetAsc<V>
+        implements Comparator<Pointer<V>>
     {
 
         @Override
-        public int compare( final Pointer pointer0, final Pointer pointer1 )
+        public int compare( final Pointer<V> pointer0, final Pointer<V> pointer1 )
         {
             final int offset0 = pointer0.start;
             final int offset1 = pointer1.start;
@@ -454,13 +453,13 @@ public class OffHeapMergingMemoryBufferImpl
     }
 
     @Override
-    protected List<Pointer> getUsedPointers()
+    protected List<Pointer<V>> getUsedPointers()
     {
-        return new ArrayList<Pointer>( usedPointers );
+        return new ArrayList<Pointer<V>>( usedPointers );
     }
 
     @Override
-    public Pointer update( Pointer pointer, byte[] payload )
+    public Pointer<V> update( Pointer<V> pointer, byte[] payload )
     {
         if ( payload.length > pointer.getCapacity() )
         {
@@ -476,9 +475,9 @@ public class OffHeapMergingMemoryBufferImpl
         return pointer;
     }
 
-    public List<Pointer> getPointers()
+    public List<Pointer<V>> getPointers()
     {
         // TODO : remove this conversion from Set to List ...
-        return new ArrayList<Pointer>( usedPointers );
+        return new ArrayList<Pointer<V>>( usedPointers );
     }
 }

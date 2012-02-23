@@ -64,9 +64,9 @@ public class ConcurrentTest
 
     private static AtomicInteger read = new AtomicInteger();
 
-    public static OffHeapMemoryBuffer mem = OffHeapMemoryBufferImpl.createNew( 512 * 1024 * 1024 );
+    public static OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 512 * 1024 * 1024 );
 
-    public static ConcurrentMap<String, Pointer> map =
+    public static ConcurrentMap<String, Pointer<Object>> map =
         new MapMaker().concurrencyLevel( 4 ).initialCapacity( 100000 ).makeMap();
 
 
@@ -83,7 +83,7 @@ public class ConcurrentTest
     public void retrieveCatchThemAll()
     {
         String key = "test-" + ( rndGen.nextInt( entries ) + 1 );
-        Pointer p = map.get( key );
+        Pointer<Object> p = map.get( key );
         read.incrementAndGet();
         if ( p != null )
         {
@@ -110,7 +110,7 @@ public class ConcurrentTest
     public void retrieveCatchHalfOfThem()
     {
         String key = "test-" + ( rndGen.nextInt( entries * 2 ) + 1 );
-        Pointer p = map.get( key );
+        Pointer<Object> p = map.get( key );
         read.incrementAndGet();
         if ( p != null )
         {
@@ -182,7 +182,7 @@ public class ConcurrentTest
 
     private void get( String key )
     {
-        Pointer p = map.get( key );
+        Pointer<Object> p = map.get( key );
         read.incrementAndGet();
         if ( p != null )
         {
@@ -229,6 +229,6 @@ public class ConcurrentTest
     }
 
 }
-	
-	
+
+
 

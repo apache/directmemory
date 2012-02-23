@@ -22,13 +22,13 @@ package org.apache.directmemory.memory;
 
 import java.util.List;
 
-public interface MemoryManagerService
+public interface MemoryManagerService<V>
 {
 
 	/**
 	 * Initialize the internal structure. Need to be called before the service
 	 * can be used.
-	 * 
+	 *
 	 * @param numberOfBuffers
 	 *            : number of internal bucket
 	 * @param size
@@ -36,23 +36,23 @@ public interface MemoryManagerService
 	 */
     void init( int numberOfBuffers, int size );
 
-	
+
 	/**
 	 * Store function family. Store the given payload at a certain offset in a MemoryBuffer, returning the pointer to the value.
-	 * 
+	 *
 	 * @param payload : the data to store
 	 * @return the pointer to the value, or null if not enough space has been found.
 	 */
-    Pointer store( byte[] payload, int expiresIn );
+    Pointer<V> store( byte[] payload, int expiresIn );
 
 	/**
 	 * Same function as {@link #store(byte[])}, but add an relative expiration delta in milliseconds
-	 * 
+	 *
 	 * @param payload : the data to store
 	 * @param expiresIn : relative amount of milliseconds the data will expire
 	 * @return the pointer to the value, or null if not enough space has been found.
 	 */
-    Pointer store( byte[] payload );
+    Pointer<V> store( byte[] payload );
 
 	/**
 	 * Same function as {@link #store(byte[])}, but add an absolute expiration date
@@ -61,22 +61,22 @@ public interface MemoryManagerService
 	 * @return the pointer to the value, or null if not enough space has been found.
 	 */
 	//public Pointer store(byte[] payload, Date expires);
-	
+
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * Update value of a {@link Pointer
 	 * @param pointer
 	 * @param payload
 	 * @return
 	 * @throw BufferOverflowException if the size of the payload id bigger than the pointer capacity
 	 */
-    Pointer update(Pointer pointer, byte[] payload);
+    Pointer<V> update(Pointer<V> pointer, byte[] payload);
 
-    byte[] retrieve( Pointer pointer );
+    byte[] retrieve( Pointer<V> pointer );
 
-    void free( Pointer pointer );
+    void free( Pointer<V> pointer );
 
     void clear();
 
@@ -86,10 +86,10 @@ public interface MemoryManagerService
 
     void collectLFU();
 
-    List<OffHeapMemoryBuffer> getBuffers();
+    List<OffHeapMemoryBuffer<V>> getBuffers();
 
-    OffHeapMemoryBuffer getActiveBuffer();
+    OffHeapMemoryBuffer<V> getActiveBuffer();
 
-    Pointer allocate( int size, long expiresIn, long expires );
+    <T extends V> Pointer<V> allocate( Class<T> type, int size, long expiresIn, long expires );
 
 }

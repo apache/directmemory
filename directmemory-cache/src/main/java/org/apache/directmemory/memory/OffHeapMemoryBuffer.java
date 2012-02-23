@@ -21,7 +21,7 @@ package org.apache.directmemory.memory;
 
 import java.util.Date;
 
-public interface OffHeapMemoryBuffer
+public interface OffHeapMemoryBuffer<T>
 {
 
     /**
@@ -44,7 +44,7 @@ public interface OffHeapMemoryBuffer
      * @param payload : the data to store
      * @return the pointer where the data is stored, null in case of failure
      */
-    public Pointer store( byte[] payload );
+    public Pointer<T> store( byte[] payload );
 
     /**
      * Same as {@link #store(byte[])}, with an absolute expiration date
@@ -52,7 +52,7 @@ public interface OffHeapMemoryBuffer
      * @param expires : an absolute expiration date
      * @return the pointer where the data is stored, null in case of failure
      */
-    public Pointer store( byte[] payload, Date expires );
+    public Pointer<T> store( byte[] payload, Date expires );
 
     /**
      * Same as {@link #store(byte[])}, with an relative expiration delta
@@ -60,21 +60,21 @@ public interface OffHeapMemoryBuffer
      * @param expiresIn : a relative expiration delta
      * @return the pointer where the data is stored, null in case of failure
      */
-    public Pointer store( byte[] payload, long expiresIn );
+    public Pointer<T> store( byte[] payload, long expiresIn );
 
     /**
      * Return previously stored data associated to the given pointer
      * @param pointer : presiously allocated pointer
      * @return previously stored data
      */
-    public byte[] retrieve( Pointer pointer );
+    public byte[] retrieve( Pointer<T> pointer );
 
     /**
      * Release previously allocated memory
      * @param pointer2free : the pointer to free
      * @return the newly freed space
      */
-    public int free( Pointer pointer2free );
+    public int free( Pointer<T> pointer2free );
 
     /**
      * Completely empty the buffer
@@ -110,15 +110,15 @@ public interface OffHeapMemoryBuffer
      * @param payload : the data to update
      * @return the update pointer. It may be a new pointer.
      */
-    public Pointer update( Pointer pointer, byte[] payload );
+    public Pointer<T> update( Pointer<T> pointer, byte[] payload );
 
     /**
      * Allocate requested size and return a pointer and a ByteBuffer
-     * 
+     *
      * @param size
      * @param expiresIn
      * @param expires
      * @return
      */
-    public Pointer allocate( int size, long expiresIn, long expires );
+    public <V extends T> Pointer<T> allocate( Class<V> type, int size, long expiresIn, long expires );
 }

@@ -26,7 +26,7 @@ import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 public class OffHeapMergingMemoryBufferTest extends AbstractOffHeapMemoryBufferTest
 {
 
-    protected OffHeapMemoryBuffer instanciateOffHeapMemoryBuffer( int bufferSize ) 
+    protected OffHeapMemoryBuffer<Object> instanciateOffHeapMemoryBuffer( int bufferSize )
     {
         return OffHeapMergingMemoryBufferImpl.createNew( bufferSize );
     }

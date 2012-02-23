@@ -53,7 +53,7 @@ public class NIOTest
 
         for ( int i = 0; i < howMany; i++ )
         {
-            Pointer p = MemoryManager.store( payload );
+            Pointer<Object> p = MemoryManager.store( payload );
             assertNotNull( p );
         }
 
@@ -61,12 +61,12 @@ public class NIOTest
     }
 
     @Test
-    public void NIOTest()
+    public void nioTest()
     {
         Random rnd = new Random();
         int size = rnd.nextInt( 10 ) * (int) MemoryManager.capacity() / 100;
         logger.info( "payload size=" + Ram.inKb( size ) );
-        Pointer p = MemoryManager.allocate( size );
+        Pointer<Object> p = MemoryManager.allocate( size );
         ByteBuffer b = p.directBuffer;
         logger.info( "allocated" );
         assertNotNull( p );

@@ -27,7 +27,7 @@ import org.junit.Test;
 public class OffHeapMemoryBufferTest extends AbstractOffHeapMemoryBufferTest
 {
 
-    protected OffHeapMemoryBuffer instanciateOffHeapMemoryBuffer( int bufferSize ) 
+    protected OffHeapMemoryBuffer<Object> instanciateOffHeapMemoryBuffer( int bufferSize )
     {
         return OffHeapMemoryBufferImpl.createNew( bufferSize );
     }
@@ -37,13 +37,13 @@ public class OffHeapMemoryBufferTest extends AbstractOffHeapMemoryBufferTest
     {
         // DIRECTMEMORY-40 : Pointers merging with adjacent free pointers when freeing.
     }
-    
+
     @Test
     public void testStoreAllocAndFree()
     {
         // DIRECTMEMORY-40 : Pointers merging with adjacent free pointers when freeing.
     }
-    
+
     @Test
     public void testUpdate()
     {

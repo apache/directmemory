@@ -41,22 +41,22 @@ public class RoundRobinAllocationPolicyTest
 
     private static final int NUMBER_OF_BUFFERS = 4;
 
-    List<OffHeapMemoryBuffer> buffers;
+    List<OffHeapMemoryBuffer<Object>> buffers;
 
-    RoundRobinAllocationPolicy allocationPolicy;
+    RoundRobinAllocationPolicy<Object> allocationPolicy;
 
     @Before
     public void initAllocationPolicy()
     {
 
-        buffers = new ArrayList<OffHeapMemoryBuffer>();
+        buffers = new ArrayList<OffHeapMemoryBuffer<Object>>();
 
         for ( int i = 0; i < NUMBER_OF_BUFFERS; i++ )
         {
             buffers.add( new DummyOffHeapMemoryBufferImpl() );
         }
 
-        allocationPolicy = new RoundRobinAllocationPolicy();
+        allocationPolicy = new RoundRobinAllocationPolicy<Object>();
         allocationPolicy.init( buffers );
     }
 
@@ -108,7 +108,7 @@ public class RoundRobinAllocationPolicyTest
      * Dummy {@link OffHeapMemoryBuffer} that do nothing.
      */
     private static class DummyOffHeapMemoryBufferImpl
-        implements OffHeapMemoryBuffer
+        implements OffHeapMemoryBuffer<Object>
     {
 
         @Override
@@ -130,31 +130,31 @@ public class RoundRobinAllocationPolicyTest
         }
 
         @Override
-        public Pointer store( byte[] payload )
+        public Pointer<Object> store( byte[] payload )
         {
             return null;
         }
 
         @Override
-        public Pointer store( byte[] payload, Date expires )
+        public Pointer<Object> store( byte[] payload, Date expires )
         {
             return null;
         }
 
         @Override
-        public Pointer store( byte[] payload, long expiresIn )
+        public Pointer<Object> store( byte[] payload, long expiresIn )
         {
             return null;
         }
 
         @Override
-        public byte[] retrieve( Pointer pointer )
+        public byte[] retrieve( Pointer<Object> pointer )
         {
             return null;
         }
 
         @Override
-        public int free( Pointer pointer2free )
+        public int free( Pointer<Object> pointer2free )
         {
             return 0;
         }
@@ -187,14 +187,15 @@ public class RoundRobinAllocationPolicyTest
         }
 
         @Override
-        public Pointer update( Pointer pointer, byte[] payload )
+        public Pointer<Object> update( Pointer<Object> pointer, byte[] payload )
         {
             return null;
         }
 
         @Override
-        public Pointer allocate( int size, long expiresIn, long expires )
+        public <V> Pointer<Object> allocate( Class<V> type, int size, long expiresIn, long expires )
         {
+            // TODO Auto-generated method stub
             return null;
         }
     }

@@ -29,15 +29,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author bperroud
  */
-public class RoundRobinAllocationPolicy
-    implements AllocationPolicy
+public class RoundRobinAllocationPolicy<T>
+    implements AllocationPolicy<T>
 {
 
     // Increment the counter and get the value. Need to start at -1 to have 0'index at first call.
     private static final int BUFFERS_INDEX_INITIAL_VALUE = -1;
 
     // All the buffers to allocate
-    private List<OffHeapMemoryBuffer> buffers;
+    private List<OffHeapMemoryBuffer<T>> buffers;
 
     // Cyclic counter
     private AtomicInteger buffersIndexCounter = new AtomicInteger( BUFFERS_INDEX_INITIAL_VALUE );
@@ -54,13 +54,13 @@ public class RoundRobinAllocationPolicy
     }
 
     @Override
-    public void init( List<OffHeapMemoryBuffer> buffers )
+    public void init( List<OffHeapMemoryBuffer<T>> buffers )
     {
         this.buffers = buffers;
     }
 
     @Override
-    public OffHeapMemoryBuffer getActiveBuffer( OffHeapMemoryBuffer previouslyAllocatedBuffer, int allocationNumber )
+    public OffHeapMemoryBuffer<T> getActiveBuffer( OffHeapMemoryBuffer<T> previouslyAllocatedBuffer, int allocationNumber )
     {
         // If current allocation is more than the limit, return a null buffer.
         if ( allocationNumber > maxAllocations )
@@ -71,7 +71,7 @@ public class RoundRobinAllocationPolicy
         // Thread safely increment and get the next buffer's index
         int i = incrementAndGetBufferIndex();
 
-        final OffHeapMemoryBuffer buffer = buffers.get( i );
+        final OffHeapMemoryBuffer<T> buffer = buffers.get( i );
 
         return buffer;
     }

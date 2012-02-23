@@ -55,7 +55,7 @@ public class MemoryManagerTest
         Random rnd = new Random();
         int size = rnd.nextInt( 10 ) * (int) MemoryManager.capacity() / 100;
         logger.info( "payload size=" + Ram.inKb( size ) );
-        Pointer p = MemoryManager.store( new byte[size] );
+        Pointer<Object> p = MemoryManager.store( new byte[size] );
         logger.info( "stored" );
         assertNotNull( p );
         //assertEquals(size,p.end);
@@ -78,7 +78,7 @@ public class MemoryManagerTest
 
         for ( int i = 0; i < howMany; i++ )
         {
-            Pointer p = MemoryManager.store( payload );
+            Pointer<Object> p = MemoryManager.store( payload );
             assertNotNull( p );
         }
 
@@ -89,9 +89,9 @@ public class MemoryManagerTest
     @Test
     public void readTest()
     {
-        for ( OffHeapMemoryBuffer buffer : MemoryManager.getBuffers() )
+        for ( OffHeapMemoryBuffer<Object> buffer : MemoryManager.getBuffers() )
         {
-            for ( Pointer ptr : ((OffHeapMemoryBufferImpl)buffer).getPointers() )
+            for ( Pointer<Object> ptr : ((OffHeapMemoryBufferImpl<Object>) buffer).getPointers() )
             {
                 if ( !ptr.free )
                 {

@@ -30,7 +30,7 @@ import java.util.List;
  * @author bperroud
  *
  */
-public interface AllocationPolicy
+public interface AllocationPolicy<T>
 {
 
     /**
@@ -38,7 +38,7 @@ public interface AllocationPolicy
      *
      * @param buffers
      */
-    void init( List<OffHeapMemoryBuffer> buffers );
+    void init( List<OffHeapMemoryBuffer<T>> buffers );
 
     /**
      * Returns the active buffer in which to allocate.
@@ -47,7 +47,7 @@ public interface AllocationPolicy
      * @param allocationNumber : the number of time the allocation has already failed.
      * @return the buffer to allocate, or null if allocation has failed.
      */
-    OffHeapMemoryBuffer getActiveBuffer( OffHeapMemoryBuffer previouslyAllocatedBuffer, int allocationNumber );
+    OffHeapMemoryBuffer<T> getActiveBuffer( OffHeapMemoryBuffer<T> previouslyAllocatedBuffer, int allocationNumber );
 
     /**
      * Reset internal state

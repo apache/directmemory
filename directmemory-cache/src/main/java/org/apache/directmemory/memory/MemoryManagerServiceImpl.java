@@ -28,13 +28,13 @@ import org.apache.directmemory.measures.Ram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MemoryManagerServiceImpl
-    implements MemoryManagerService
+public class MemoryManagerServiceImpl<V>
+    implements MemoryManagerService<V>
 {
 
     protected static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
 
-    protected List<OffHeapMemoryBuffer> buffers = new ArrayList<OffHeapMemoryBuffer>();
+    protected List<OffHeapMemoryBuffer<V>> buffers = new ArrayList<OffHeapMemoryBuffer<V>>();
 
     protected int activeBufferIndex = 0;
 
@@ -44,30 +44,30 @@ public class MemoryManagerServiceImpl
 
     public void init( int numberOfBuffers, int size )
     {
-        buffers = new ArrayList<OffHeapMemoryBuffer>( numberOfBuffers );
+        buffers = new ArrayList<OffHeapMemoryBuffer<V>>( numberOfBuffers );
 
         for ( int i = 0; i < numberOfBuffers; i++ )
         {
-            final OffHeapMemoryBuffer offHeapMemoryBuffer = instanciateOffHeapMemoryBuffer( size, i );
+            final OffHeapMemoryBuffer<V> offHeapMemoryBuffer = instanciateOffHeapMemoryBuffer( size, i );
             buffers.add( offHeapMemoryBuffer );
         }
 
         logger.info( format( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
     }
 
-    protected OffHeapMemoryBuffer instanciateOffHeapMemoryBuffer( int size, int bufferNumber )
+    protected OffHeapMemoryBuffer<V> instanciateOffHeapMemoryBuffer( int size, int bufferNumber )
     {
         return OffHeapMemoryBufferImpl.createNew( size, bufferNumber );
     }
 
-    public OffHeapMemoryBuffer getActiveBuffer()
+    public OffHeapMemoryBuffer<V> getActiveBuffer()
     {
         return buffers.get( activeBufferIndex );
     }
 
-    public Pointer store( byte[] payload, int expiresIn )
+    public Pointer<V> store( byte[] payload, int expiresIn )
     {
-        Pointer p = getActiveBuffer().store( payload, expiresIn );
+        Pointer<V> p = getActiveBuffer().store( payload, expiresIn );
         if ( p == null )
         {
             nextBuffer();
@@ -76,29 +76,29 @@ public class MemoryManagerServiceImpl
         return p;
     }
 
-    public Pointer store( byte[] payload )
+    public Pointer<V> store( byte[] payload )
     {
         return store( payload, 0 );
     }
 
-    public Pointer update( Pointer pointer, byte[] payload )
+    public Pointer<V> update( Pointer<V> pointer, byte[] payload )
     {
         return buffers.get( pointer.bufferNumber ).update( pointer, payload );
     }
 
-    public byte[] retrieve( Pointer pointer )
+    public byte[] retrieve( Pointer<V> pointer )
     {
         return buffers.get( pointer.bufferNumber ).retrieve( pointer );
     }
 
-    public void free( Pointer pointer )
+    public void free( Pointer<V> pointer )
     {
         buffers.get( pointer.bufferNumber ).free( pointer );
     }
 
     public void clear()
     {
-        for ( OffHeapMemoryBuffer buffer : buffers )
+        for ( OffHeapMemoryBuffer<V> buffer : buffers )
         {
             buffer.clear();
         }
@@ -108,7 +108,7 @@ public class MemoryManagerServiceImpl
     public long capacity()
     {
         long totalCapacity = 0;
-        for ( OffHeapMemoryBuffer buffer : buffers )
+        for ( OffHeapMemoryBuffer<V> buffer : buffers )
         {
             totalCapacity += buffer.capacity();
         }
@@ -118,7 +118,7 @@ public class MemoryManagerServiceImpl
     public long collectExpired()
     {
         long disposed = 0;
-        for ( OffHeapMemoryBuffer buffer : buffers )
+        for ( OffHeapMemoryBuffer<V> buffer : buffers )
         {
             disposed += buffer.collectExpired();
         }
@@ -127,30 +127,29 @@ public class MemoryManagerServiceImpl
 
     public void collectLFU()
     {
-        for ( OffHeapMemoryBuffer buf : buffers )
+        for ( OffHeapMemoryBuffer<V> buf : buffers )
         {
             buf.collectLFU( -1 );
         }
     }
 
-    public List<OffHeapMemoryBuffer> getBuffers()
+    public List<OffHeapMemoryBuffer<V>> getBuffers()
     {
         return buffers;
     }
 
-    public void setBuffers( List<OffHeapMemoryBuffer> buffers )
+    public void setBuffers( List<OffHeapMemoryBuffer<V>> buffers )
     {
         this.buffers = buffers;
     }
 
-    @Override
-    public Pointer allocate( int size, long expiresIn, long expires )
+    public <T extends V> Pointer<V> allocate( Class<T> type, int size, long expiresIn, long expires )
     {
-        Pointer p = getActiveBuffer().allocate( size, expiresIn, expires );
+        Pointer<V> p = getActiveBuffer().allocate( type, size, expiresIn, expires );
         if ( p == null )
         {
             nextBuffer();
-            p = getActiveBuffer().allocate( size, expiresIn, expires );
+            p = getActiveBuffer().allocate( type, size, expiresIn, expires );
         }
         return p;
     }

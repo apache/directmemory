@@ -19,7 +19,15 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
-import com.google.common.collect.MapMaker;
+import static java.lang.String.format;
+import static org.apache.directmemory.serialization.SerializerFactory.createNewSerializer;
+
+import java.io.EOFException;
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ConcurrentMap;
+
 import org.apache.directmemory.measures.Every;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManagerService;
@@ -30,27 +38,19 @@ import org.apache.directmemory.serialization.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ConcurrentMap;
+import com.google.common.collect.MapMaker;
 
-import static java.lang.String.format;
-import static org.apache.directmemory.serialization.SerializerFactory.createNewSerializer;
-
-public class CacheServiceImpl
-    implements CacheService
+public class CacheServiceImpl<K, V>
+    implements CacheService<K, V>
 {
 
     private static Logger logger = LoggerFactory.getLogger( CacheServiceImpl.class );
 
-    private ConcurrentMap<String, Pointer> map;
+    private ConcurrentMap<K, Pointer<V>> map;
 
     private Serializer serializer = createNewSerializer();
 
-    private MemoryManagerService memoryManager = new MemoryManagerServiceImpl();
+    private MemoryManagerService<V> memoryManager = new MemoryManagerServiceImpl<V>();
 
     private final Timer timer = new Timer();
 
@@ -67,11 +67,12 @@ public class CacheServiceImpl
      *
      * @param memoryManager
      */
-    public CacheServiceImpl( MemoryManagerService memoryManager )
+    public CacheServiceImpl( MemoryManagerService<V> memoryManager )
     {
         this.memoryManager = memoryManager;
     }
 
+    @Override
     public void scheduleDisposalEvery( long l )
     {
         timer.schedule( new TimerTask()
@@ -87,6 +88,7 @@ public class CacheServiceImpl
         logger.info( "disposal scheduled every " + l + " milliseconds" );
     }
 
+    @Override
     public void init( int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel )
     {
         map = new MapMaker().concurrencyLevel( concurrencyLevel ).initialCapacity( initialCapacity ).makeMap();
@@ -109,33 +111,42 @@ public class CacheServiceImpl
         scheduleDisposalEvery( Every.seconds( 10 ) );
     }
 
+    @Override
     public void init( int numberOfBuffers, int size )
     {
         init( numberOfBuffers, size, DEFAULT_INITIAL_CAPACITY, DEFAULT_CONCURRENCY_LEVEL );
     }
 
-    public Pointer putByteArray( String key, byte[] payload )
+    @Override
+    public Pointer<V> putByteArray( K key, byte[] payload )
     {
         return store( key, payload, 0 );
     }
 
-    public Pointer putByteArray( String key, byte[] payload, int expiresIn )
+    @Override
+    public Pointer<V> putByteArray( K key, byte[] payload, int expiresIn )
     {
         return store( key, payload, expiresIn );
     }
 
-    public Pointer put( String key, Object object )
+    @Override
+    public Pointer<V> put( K key, V value )
     {
-        return put( key, object, 0 );
+        return put( key, value, 0 );
     }
 
-    public Pointer put( String key, Object object, int expiresIn )
+    @Override
+    public Pointer<V> put( K key, V value, int expiresIn )
     {
         try
         {
-            byte[] payload = serializer.serialize( object );
-            Pointer ptr = store( key, payload, expiresIn );
-            ptr.clazz = object.getClass();
+            byte[] payload = serializer.serialize( value );
+            Pointer<V> ptr = store( key, payload, expiresIn );
+
+            @SuppressWarnings( "unchecked" ) // type driven by the compiler
+            Class<? extends V> clazz = (Class<? extends V>) value.getClass();
+
+            ptr.clazz = clazz;
             return ptr;
         }
         catch ( IOException e )
@@ -153,9 +164,9 @@ public class CacheServiceImpl
         }
     }
 
-    private Pointer store( String key, byte[] payload, int expiresIn )
+    private Pointer<V> store( K key, byte[] payload, int expiresIn )
     {
-        Pointer pointer = map.get( key );
+        Pointer<V> pointer = map.get( key );
         if ( pointer != null )
         {
             return memoryManager.update( pointer, payload );
@@ -168,9 +179,10 @@ public class CacheServiceImpl
         }
     }
 
-    public byte[] retrieveByteArray( String key )
+    @Override
+    public byte[] retrieveByteArray( K key )
     {
-        Pointer ptr = getPointer( key );
+        Pointer<V> ptr = getPointer( key );
         if ( ptr == null )
         {
             return null;
@@ -190,9 +202,10 @@ public class CacheServiceImpl
         }
     }
 
-    public Object retrieve( String key )
+    @Override
+    public V retrieve( K key )
     {
-        Pointer ptr = getPointer( key );
+        Pointer<V> ptr = getPointer( key );
         if ( ptr == null )
         {
             return null;
@@ -208,11 +221,6 @@ public class CacheServiceImpl
         }
         else
         {
-            if ( ptr.clazz == ByteBuffer.class )
-            {
-                // skip serialization if it is a bytebuffer
-                return ptr.directBuffer;
-            }
             try
             {
                 return serializer.deserialize( memoryManager.retrieve( ptr ), ptr.clazz );
@@ -241,37 +249,43 @@ public class CacheServiceImpl
         return null;
     }
 
-    public Pointer getPointer( String key )
+    @Override
+    public Pointer<V> getPointer( K key )
     {
         return map.get( key );
     }
 
-    public void free( String key )
+    @Override
+    public void free( K key )
     {
-        Pointer p = map.remove( key );
+        Pointer<V> p = map.remove( key );
         if ( p != null )
         {
             memoryManager.free( p );
         }
     }
 
-    public void free( Pointer pointer )
+    @Override
+    public void free( Pointer<V> pointer )
     {
         memoryManager.free( pointer );
     }
 
+    @Override
     public void collectExpired()
     {
         memoryManager.collectExpired();
         // still have to look for orphan (storing references to freed pointers) map entries
     }
 
+    @Override
     public void collectLFU()
     {
         memoryManager.collectLFU();
         // can possibly clear one whole buffer if it's too fragmented - investigate
     }
 
+    @Override
     public void collectAll()
     {
         Thread thread = new Thread()
@@ -288,6 +302,7 @@ public class CacheServiceImpl
     }
 
 
+    @Override
     public void clear()
     {
         map.clear();
@@ -295,12 +310,14 @@ public class CacheServiceImpl
         logger.info( "Cache cleared" );
     }
 
+    @Override
     public long entries()
     {
         return map.size();
     }
 
-    public void dump( OffHeapMemoryBuffer mem )
+    @Override
+    public void dump( OffHeapMemoryBuffer<V> mem )
     {
         logger.info( format( "off-heap - buffer: \t%1d", mem.getBufferNumber() ) );
         logger.info( format( "off-heap - allocated: \t%1s", Ram.inMb( mem.capacity() ) ) );
@@ -311,6 +328,7 @@ public class CacheServiceImpl
         logger.info( "************************************************" );
     }
 
+    @Override
     public void dump()
     {
         if ( !logger.isInfoEnabled() )
@@ -320,48 +338,54 @@ public class CacheServiceImpl
 
         logger.info( "*** DirectMemory statistics ********************" );
 
-        for ( OffHeapMemoryBuffer mem : memoryManager.getBuffers() )
+        for ( OffHeapMemoryBuffer<V> mem : memoryManager.getBuffers() )
         {
             dump( mem );
         }
     }
 
-    public ConcurrentMap<String, Pointer> getMap()
+    @Override
+    public ConcurrentMap<K, Pointer<V>> getMap()
     {
         return map;
     }
 
-    public void setMap( ConcurrentMap<String, Pointer> map )
+    @Override
+    public void setMap( ConcurrentMap<K, Pointer<V>> map )
     {
         this.map = map;
     }
 
+    @Override
     public Serializer getSerializer()
     {
         return serializer;
     }
 
+    @Override
     public void setSerializer( Serializer serializer )
     {
         this.serializer = serializer;
     }
 
-    public MemoryManagerService getMemoryManager()
+    @Override
+    public MemoryManagerService<V> getMemoryManager()
     {
         return memoryManager;
     }
 
-    public void setMemoryManager( MemoryManagerService memoryManager )
+    @Override
+    public void setMemoryManager( MemoryManagerService<V> memoryManager )
     {
         this.memoryManager = memoryManager;
     }
 
     @Override
-    public Pointer allocate( String key, int size )
+    public <T extends V> Pointer<V> allocate( K key, Class<T> type, int size )
     {
-        Pointer ptr = memoryManager.allocate( size, -1, -1 );
+        Pointer<V> ptr = memoryManager.allocate( type, size, -1, -1 );
         map.put( key, ptr );
-        ptr.clazz = ByteBuffer.class;
+        ptr.clazz = type;
         return ptr;
     }
 }
