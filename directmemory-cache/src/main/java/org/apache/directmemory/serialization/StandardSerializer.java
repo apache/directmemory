@@ -53,11 +53,16 @@ public final class StandardSerializer
         throws IOException, ClassNotFoundException
     {
         ByteArrayInputStream bis = new ByteArrayInputStream( source );
-        ObjectInputStream ois = new ObjectInputStream( bis ) {
+        ObjectInputStream ois = new ObjectInputStream( bis )
+        {
+
             @Override
-            protected Class<?> resolveClass(ObjectStreamClass objectStreamClass) throws IOException, ClassNotFoundException {
-                return clazz.getClassLoader().loadClass(objectStreamClass.getName());
+            protected Class<?> resolveClass( ObjectStreamClass objectStreamClass )
+                throws IOException, ClassNotFoundException
+            {
+                return clazz.getClassLoader().loadClass( objectStreamClass.getName() );
             }
+
         };
         T obj = clazz.cast( ois.readObject() );
         ois.close();
