@@ -21,6 +21,7 @@ package org.apache.directmemory.test;
 
 import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.serialization.SerializerFactory;
+import org.apache.directmemory.serialization.SerializerNotFoundException;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -60,5 +61,13 @@ public abstract class AbstractSerializerTest
     protected Wine getWineInstance()
     {
         return new Wine( "Gevrey-Chambertin", "nice French wine from Bourgogne" );
+    }
+
+    @Test( expected = SerializerNotFoundException.class )
+    public void serialiazerNotFoundException()
+        throws Exception
+    {
+        // toto.titi means foo.bar in French :-)
+        SerializerFactory.createNewSerializer( "toto.titi" );
     }
 }

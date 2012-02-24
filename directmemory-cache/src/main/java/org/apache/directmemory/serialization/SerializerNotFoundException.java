@@ -32,7 +32,7 @@ public final class SerializerNotFoundException
 
     public SerializerNotFoundException( String serializerClassName )
     {
-        super( format( "Serializer of type '%s' has not been found in the current ClassLoader" ) );
+        super( format( "Serializer of type '%s' has not been found in the current ClassLoader", serializerClassName ) );
     }
 
     public SerializerNotFoundException( Class<?> serializerType )
