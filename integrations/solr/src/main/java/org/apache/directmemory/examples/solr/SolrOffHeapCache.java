@@ -107,15 +107,14 @@ public class SolrOffHeapCache<K, V>
             Serializer serializer = null;
             try
             {
-
                 serializer = SerializerFactory.createNewSerializer( serializerClassName );
             }
             catch ( SerializerNotFoundException e )
             {
-                // ignore and revert to default one
-                // TODO olamy log that ?
+            	log.warn("Serializer not found for class " + serializerClassName +
+            			", falling back to the default serializer");
+            	serializer = SerializerFactory.createNewSerializer();
             }
-            serializer = SerializerFactory.createNewSerializer();
 
             cacheService.setSerializer( serializer );
         }
