@@ -117,7 +117,7 @@ final class CacheConfiguratorImpl<K, V>
                 fmt.format( "%s errors", errors.size() );
             }
 
-            throw new DirectMemoryLoaderException( fmt.toString() );
+            throw new DirectMemoryConfigurationException( fmt.toString() );
         }
 
         // TODO needs to be completed

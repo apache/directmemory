@@ -19,7 +19,7 @@ package org.apache.directmemory;
  * under the License.
  */
 
-public final class DirectMemoryLoaderException
+public final class DirectMemoryConfigurationException
     extends RuntimeException
 {
 
@@ -28,7 +28,7 @@ public final class DirectMemoryLoaderException
      */
     private static final long serialVersionUID = 6380187128592445990L;
 
-    public DirectMemoryLoaderException( String message )
+    public DirectMemoryConfigurationException( String message )
     {
         super( message );
     }
