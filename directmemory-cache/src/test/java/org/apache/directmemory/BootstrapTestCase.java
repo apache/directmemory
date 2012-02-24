@@ -62,4 +62,34 @@ public final class BootstrapTestCase
         } );
     }
 
+    @Test( expected = DirectMemoryConfigurationException.class )
+    public void wrongScheduleDisposal()
+    {
+        createNewInstance( new CacheConfiguration<String, String>()
+        {
+
+            @Override
+            public void configure( CacheConfigurator<String, String> cacheConfigurator )
+            {
+                cacheConfigurator.scheduleDisposalEvery( 0 ).days();
+            }
+
+        } );
+    }
+
+    @Test( expected = DirectMemoryConfigurationException.class )
+    public void wrongScheduleDisposalViaAbstractConfiguration()
+    {
+        createNewInstance( new AbstractCacheConfiguration<String, String>()
+        {
+
+            @Override
+            public void configure()
+            {
+                scheduleDisposalEvery( 0 ).days();
+            }
+
+        } );
+    }
+
 }
