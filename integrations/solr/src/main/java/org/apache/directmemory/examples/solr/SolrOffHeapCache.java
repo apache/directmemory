@@ -25,6 +25,7 @@ import org.apache.directmemory.measures.Monitor;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.serialization.SerializerFactory;
+import org.apache.directmemory.serialization.SerializerNotFoundException;
 import org.apache.solr.common.util.NamedList;
 import org.apache.solr.common.util.SimpleOrderedMap;
 import org.apache.solr.core.SolrCore;
@@ -103,11 +104,19 @@ public class SolrOffHeapCache<K, V>
         String serializerClassName = (String) args.get( "serializerClassName" );
         if ( serializerClassName != null )
         {
-            Serializer serializer = SerializerFactory.createNewSerializer( serializerClassName );
-            if ( serializer == null )
+            Serializer serializer = null;
+            try
             {
-                serializer = SerializerFactory.createNewSerializer();
+
+                serializer = SerializerFactory.createNewSerializer( serializerClassName );
             }
+            catch ( SerializerNotFoundException e )
+            {
+                // ignore and revert to default one
+                // TODO olamy log that ?
+            }
+            serializer = SerializerFactory.createNewSerializer();
+
             cacheService.setSerializer( serializer );
         }
 
