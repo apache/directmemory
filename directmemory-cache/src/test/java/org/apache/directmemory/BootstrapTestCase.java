@@ -71,7 +71,7 @@ public final class BootstrapTestCase
             @Override
             public void configure( CacheConfigurator<String, String> cacheConfigurator )
             {
-                cacheConfigurator.scheduleDisposalEvery( 0 ).days();
+                cacheConfigurator.scheduleDisposal().every( 0 ).days();
             }
 
         } );
@@ -86,7 +86,7 @@ public final class BootstrapTestCase
             @Override
             public void configure()
             {
-                scheduleDisposalEvery( 0 ).days();
+                scheduleDisposal().every( 0 ).days();
             }
 
         } );

@@ -19,13 +19,29 @@ package org.apache.directmemory;
  * under the License.
  */
 
-public interface CacheConfigurator<K, V>
+final class DefaultScheduleDisposalBuilder
+    extends AbstractChainedBuilder
+    implements ScheduleDisposalBuilder
 {
 
-    MemoryUnitDimensionBuilder allocateMemoryOfSize( double size );
+    private static final long NEVER = 1L;
 
-    SizeBuilder numberOfBuffers();
+    public DefaultScheduleDisposalBuilder( CacheConfiguratorImpl<?, ?> cacheConfigurator )
+    {
+        super( cacheConfigurator );
+    }
 
-    ScheduleDisposalBuilder scheduleDisposal();
+    @Override
+    public void withoutExpiring()
+    {
+        cacheConfigurator.scheduleDisposal = NEVER;
+    }
+
+    @Override
+    public TimeMeasureBuilder every( long time )
+    {
+        cacheConfigurator.checkInput( time > 0, "Input value %s is not a valid value to express a time measure", time );
+        return new DefaultTimeMeasureBuilder( cacheConfigurator, time );
+    }
 
 }

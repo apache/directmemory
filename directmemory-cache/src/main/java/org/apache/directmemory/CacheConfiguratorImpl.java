@@ -75,13 +75,12 @@ final class CacheConfiguratorImpl<K, V>
     }
 
     @Override
-    public TimeMeasureBuilder scheduleDisposalEvery( long time )
+    public ScheduleDisposalBuilder scheduleDisposal()
     {
-        checkInput( time > 0, "Input value %s is not a valid value to express a time measure", time );
-        return new DefaultTimeMeasureBuilder( this, time );
+        return new DefaultScheduleDisposalBuilder( this );
     }
 
-    private void checkInput( boolean expression, String errorMessageTemplate, Object... errorMessageArgs )
+    void checkInput( boolean expression, String errorMessageTemplate, Object... errorMessageArgs )
     {
         if ( !expression )
         {
@@ -111,7 +110,7 @@ final class CacheConfiguratorImpl<K, V>
                                                   fileElement.getFileName(),
                                                   fileElement.getLineNumber() );
 
-            errors.add( new ErrorMessage( enhancedErrorMessage, errorMessageArgs ) );
+            errors.add( new ErrorMessage( errorMessageTemplate, errorMessageArgs ) );
         }
     }
 

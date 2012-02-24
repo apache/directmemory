@@ -60,9 +60,9 @@ public abstract class AbstractCacheConfiguration<K, V>
         return cacheConfigurator.numberOfBuffers();
     }
 
-    protected final TimeMeasureBuilder scheduleDisposalEvery( long time )
+    protected final ScheduleDisposalBuilder scheduleDisposal()
     {
-        return cacheConfigurator.scheduleDisposalEvery( time );
+        return cacheConfigurator.scheduleDisposal();
     }
 
 }

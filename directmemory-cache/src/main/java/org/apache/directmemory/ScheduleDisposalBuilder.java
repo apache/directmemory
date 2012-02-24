@@ -19,13 +19,11 @@ package org.apache.directmemory;
  * under the License.
  */
 
-public interface CacheConfigurator<K, V>
+public interface ScheduleDisposalBuilder
 {
 
-    MemoryUnitDimensionBuilder allocateMemoryOfSize( double size );
+    void withoutExpiring();
 
-    SizeBuilder numberOfBuffers();
-
-    ScheduleDisposalBuilder scheduleDisposal();
+    TimeMeasureBuilder every( long time );
 
 }
