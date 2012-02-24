@@ -19,6 +19,8 @@ package org.apache.directmemory.serialization;
  * under the License.
  */
 
+import static java.lang.String.format;
+
 import java.util.Iterator;
 
 import static java.util.ServiceLoader.load;
@@ -53,6 +55,7 @@ public final class SerializerFactory
     }
 
     public static <S extends Serializer> S createNewSerializer( Class<S> serializer )
+        throws SerializerNotFoundException
     {
         Iterator<Serializer> serializers = load( Serializer.class, serializer.getClassLoader() ).iterator();
 
@@ -74,15 +77,17 @@ public final class SerializerFactory
             }
         }
 
-        return null;
+        throw new SerializerNotFoundException( serializer );
     }
 
     public static Serializer createNewSerializer( String serializerClassName )
+                    throws SerializerNotFoundException
     {
         return createNewSerializer( serializerClassName, SerializerFactory.class.getClassLoader() );
     }
 
     public static Serializer createNewSerializer( String serializerClassName, ClassLoader classLoader )
+        throws SerializerNotFoundException
     {
         Class<?> anonSerializerClass;
         try
@@ -91,7 +96,7 @@ public final class SerializerFactory
         }
         catch ( ClassNotFoundException e )
         {
-            return null;
+            throw new SerializerNotFoundException( serializerClassName );
         }
 
         if ( Serializer.class.isAssignableFrom( anonSerializerClass ) )
@@ -102,7 +107,8 @@ public final class SerializerFactory
             return createNewSerializer( serializerClass );
         }
 
-        return null;
+        throw new IllegalArgumentException( format( "Class %s is not a valid Serializer type",
+                                                    anonSerializerClass.getName() ) );
     }
 
     /**
