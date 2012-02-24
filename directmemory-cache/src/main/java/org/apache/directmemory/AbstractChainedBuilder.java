@@ -19,42 +19,14 @@ package org.apache.directmemory;
  * under the License.
  */
 
-import org.apache.directmemory.measures.Sizing;
-
-final class DefaultMemoryUnitDimensionBuilder
-    extends AbstractChainedBuilder
-    implements MemoryUnitDimensionBuilder
+abstract class AbstractChainedBuilder
 {
 
-    private final double size;
+    protected final CacheConfiguratorImpl<?, ?> cacheConfigurator;
 
-    public DefaultMemoryUnitDimensionBuilder( CacheConfiguratorImpl<?, ?> cacheConfigurator, double size )
+    public AbstractChainedBuilder( CacheConfiguratorImpl<?, ?> cacheConfigurator )
     {
-        super( cacheConfigurator );
-        this.size = size;
-    }
-
-    @Override
-    public void Gb()
-    {
-        setSize( Sizing.Gb( size ) );
-    }
-
-    @Override
-    public void Mb()
-    {
-        setSize( Sizing.Mb( size ) );
-    }
-
-    @Override
-    public void Kb()
-    {
-        setSize( Sizing.Kb( size ) );
-    }
-
-    private void setSize( int size )
-    {
-        cacheConfigurator.size = Sizing.Gb( size );
+        this.cacheConfigurator = cacheConfigurator;
     }
 
 }
