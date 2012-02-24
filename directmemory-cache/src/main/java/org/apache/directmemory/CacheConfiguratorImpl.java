@@ -19,6 +19,8 @@ package org.apache.directmemory;
  * under the License.
  */
 
+import static java.lang.String.format;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Formatter;
@@ -82,7 +84,33 @@ final class CacheConfiguratorImpl<K, V>
     {
         if ( !expression )
         {
-            errors.add( new ErrorMessage( errorMessageTemplate, errorMessageArgs ) );
+            Exception exception = new Exception();
+
+            /*
+             * 0 is this method
+             * 1 is the calling method
+             * 2 is the configure() method
+             * 3 is the DirectMemory class
+             * 4 is the implementing class
+             */
+            StackTraceElement methodElement = exception.getStackTrace()[1];
+            StackTraceElement fileElement = exception.getStackTrace()[4];
+            if ( AbstractCacheConfiguration.class.getName().equals( fileElement.getClassName() ) )
+            {
+                /*
+                 * 5 is the DirectMemory class
+                 * 6 is the implementing class
+                 */
+                fileElement = exception.getStackTrace()[6];
+            }
+
+            String enhancedErrorMessage = format( "%s - [CacheConfiguration#%s() - %s:%s]",
+                                                  errorMessageTemplate,
+                                                  methodElement.getMethodName(),
+                                                  fileElement.getFileName(),
+                                                  fileElement.getLineNumber() );
+
+            errors.add( new ErrorMessage( enhancedErrorMessage, errorMessageArgs ) );
         }
     }
 
