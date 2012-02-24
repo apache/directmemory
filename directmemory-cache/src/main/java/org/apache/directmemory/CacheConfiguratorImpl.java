@@ -59,7 +59,7 @@ final class CacheConfiguratorImpl<K, V>
     @Override
     public MemoryUnitDimensionBuilder allocateMemoryOfSize( double size )
     {
-        checkState( size > 0, "Input value %s is not a valid value to express a memory space", size );
+        checkInput( size > 0, "Input value %s is not a valid value to express a memory space", size );
         return null;
     }
 
@@ -73,12 +73,12 @@ final class CacheConfiguratorImpl<K, V>
     @Override
     public TimeMeasureBuilder scheduleDisposalEvery( long time )
     {
-        checkState( time > 0, "Input value %s is not a valid value to express a time measure", time );
+        checkInput( time > 0, "Input value %s is not a valid value to express a time measure", time );
         // TODO
         return null;
     }
 
-    private void checkState( boolean expression, String errorMessageTemplate, Object... errorMessageArgs )
+    private void checkInput( boolean expression, String errorMessageTemplate, Object... errorMessageArgs )
     {
         if ( !expression )
         {
