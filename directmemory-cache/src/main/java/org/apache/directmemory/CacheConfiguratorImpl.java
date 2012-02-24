@@ -52,6 +52,8 @@ final class CacheConfiguratorImpl<K, V>
 
     int size;
 
+    long scheduleDisposal;
+
     MemoryManagerService<V> memoryManager;
 
     ConcurrentMap<String, Pointer<V>> map;
@@ -76,8 +78,7 @@ final class CacheConfiguratorImpl<K, V>
     public TimeMeasureBuilder scheduleDisposalEvery( long time )
     {
         checkInput( time > 0, "Input value %s is not a valid value to express a time measure", time );
-        // TODO
-        return null;
+        return new DefaultTimeMeasureBuilder( this, time );
     }
 
     private void checkInput( boolean expression, String errorMessageTemplate, Object... errorMessageArgs )
