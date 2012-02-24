@@ -19,7 +19,7 @@ package org.apache.directmemory;
  * under the License.
  */
 
-import static org.apache.directmemory.utils.Assertions.checkArgument;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import org.apache.directmemory.cache.CacheService;
 
