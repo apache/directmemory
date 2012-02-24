@@ -111,9 +111,9 @@ public class SolrOffHeapCache<K, V>
             }
             catch ( SerializerNotFoundException e )
             {
-            	log.warn("Serializer not found for class " + serializerClassName +
-            			", falling back to the default serializer");
-            	serializer = SerializerFactory.createNewSerializer();
+                log.warn( "Serializer not found for class " + serializerClassName +
+            			", falling back to the default serializer", e);
+                serializer = SerializerFactory.createNewSerializer();
             }
 
             cacheService.setSerializer( serializer );
