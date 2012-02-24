@@ -40,7 +40,7 @@ final class DefaultScheduleDisposalBuilder
     @Override
     public TimeMeasureBuilder every( long time )
     {
-        cacheConfigurator.checkInput( time > 0, "Input value %s is not a valid value to express a time measure", time );
+        cacheConfigurator.checkInput( time > 0, "{ scheduleDisposal().every( %s ) } takes a not valid input to express a time measure", time );
         return new DefaultTimeMeasureBuilder( cacheConfigurator, time );
     }
 
