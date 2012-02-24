@@ -46,15 +46,15 @@ final class CacheConfiguratorImpl<K, V>
 
     private final List<ErrorMessage> errors = new LinkedList<ErrorMessage>();
 
-    private int numberOfBuffers;
+    int numberOfBuffers;
 
-    private int size;
+    int size;
 
-    private MemoryManagerService<V> memoryManager;
+    MemoryManagerService<V> memoryManager;
 
-    private ConcurrentMap<String, Pointer<V>> map;
+    ConcurrentMap<String, Pointer<V>> map;
 
-    private Serializer serializer;
+    Serializer serializer;
 
     @Override
     public MemoryUnitDimensionBuilder allocateMemoryOfSize( double size )
