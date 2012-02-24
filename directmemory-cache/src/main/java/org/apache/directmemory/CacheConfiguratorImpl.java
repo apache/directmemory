@@ -60,7 +60,7 @@ final class CacheConfiguratorImpl<K, V>
     public MemoryUnitDimensionBuilder allocateMemoryOfSize( double size )
     {
         checkInput( size > 0, "Input value %s is not a valid value to express a memory space", size );
-        return null;
+        return new DefaultMemoryUnitDimensionBuilder( this, size );
     }
 
     @Override
