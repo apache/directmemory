@@ -1,5 +1,7 @@
 package org.apache.directmemory.memory;
 
+import java.nio.BufferOverflowException;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -28,6 +30,8 @@ public class MemoryManagerServiceWithAllocationPolicyImpl<V>
     extends MemoryManagerServiceImpl<V>
 {
 
+    protected boolean returnNullWhenFull = true;
+    
     protected AllocationPolicy<V> allocationPolicy;
 
     @Override
@@ -59,7 +63,14 @@ public class MemoryManagerServiceWithAllocationPolicyImpl<V>
             buffer = allocationPolicy.getActiveBuffer( buffer, allocationNumber );
             if ( buffer == null )
             {
-                return null;
+                if (returnNullWhenFull)
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new BufferOverflowException();
+                }
             }
             p = buffer.store( payload, expiresIn );
             allocationNumber++;
@@ -86,7 +97,14 @@ public class MemoryManagerServiceWithAllocationPolicyImpl<V>
             buffer = allocationPolicy.getActiveBuffer( buffer, allocationNumber );
             if ( buffer == null )
             {
-                return null;
+                if (returnNullWhenFull)
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new BufferOverflowException();
+                }
             }
             p = buffer.allocate( type, size, expiresIn, expires );
             allocationNumber++;
