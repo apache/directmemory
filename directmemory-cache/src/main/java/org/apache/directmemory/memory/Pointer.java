@@ -1,90 +1,67 @@
 package org.apache.directmemory.memory;
 
+import java.nio.ByteBuffer;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
+ * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
+ * regarding copyright ownership. The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
+ * with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
+ * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations
  * under the License.
  */
 
-import static java.lang.System.currentTimeMillis;
-import static java.lang.String.format;
-
-import java.nio.ByteBuffer;
-
-public class Pointer<T>
+public interface Pointer<T>
 {
-    public int start;
 
-    public int end;
+    byte[] content();
 
-    public long created;
+    boolean isFree();
 
-    public long expires;
+    void setFree( boolean free );
 
-    public long expiresIn;
+    boolean isExpired();
 
-    public long hits;
+    float getFrequency();
 
-    public boolean free;
+    int getCapacity();
 
-    public long lastHit;
+    void reset();
 
-    public int bufferNumber;
+    int getBufferNumber();
 
-    public Class<? extends T> clazz;
+    void setBufferNumber( int bufferNumber );
 
-    public ByteBuffer directBuffer = null;
+    int getStart();
 
-    public Pointer()
-    {
-    }
+    void setStart( int start );
 
-    public Pointer( int start, int end )
-    {
-        this.start = start;
-        this.end = end;
-    }
+    int getEnd();
 
-    public byte[] content()
-    {
-        return null;
-    }
+    void setEnd( int end );
 
-    public boolean expired()
-    {
-        if ( expires > 0 || expiresIn > 0 )
-        {
-            return ( expiresIn + created < currentTimeMillis() );
-        }
-        return false;
-    }
+    void hit();
 
-    public float getFrequency()
-    {
-        return (float) ( currentTimeMillis() - created ) / hits;
-    }
+    Class<? extends T> getClazz();
 
-    public int getCapacity()
-    {
-        return end - start + 1;
-    }
+    void setClazz( Class<? extends T> clazz );
 
-    @Override
-    public String toString()
-    {
-        return format( "%s[%s, %s] %s free", getClass().getSimpleName(), start, end,( free ? "" : "not" ) );
-    }
+    ByteBuffer getDirectBuffer();
+
+    void setDirectBuffer( ByteBuffer directBuffer );
+
+    void createdNow();
+    
+    void setExpiration( long expires, long expiresIn );
+
 }

@@ -93,7 +93,7 @@ public class MemoryManagerTest
         {
             for ( Pointer<Object> ptr : ((OffHeapMemoryBufferImpl<Object>) buffer).getPointers() )
             {
-                if ( !ptr.free )
+                if ( !ptr.isFree() )
                 {
                     byte[] res = MemoryManager.retrieve( ptr );
                     assertNotNull( res );

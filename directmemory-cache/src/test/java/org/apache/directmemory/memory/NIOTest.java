@@ -67,7 +67,7 @@ public class NIOTest
         int size = rnd.nextInt( 10 ) * (int) MemoryManager.capacity() / 100;
         logger.info( "payload size=" + Ram.inKb( size ) );
         Pointer<Object> p = MemoryManager.allocate( size );
-        ByteBuffer b = p.directBuffer;
+        ByteBuffer b = p.getDirectBuffer();
         logger.info( "allocated" );
         assertNotNull( p );
         assertNotNull( b );

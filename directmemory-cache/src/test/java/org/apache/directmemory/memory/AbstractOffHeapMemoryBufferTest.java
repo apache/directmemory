@@ -59,8 +59,8 @@ public abstract class AbstractOffHeapMemoryBufferTest
 
         Pointer<Object> pointer1 = offHeapMemoryBuffer.store( SMALL_PAYLOAD );
         Assert.assertNotNull( pointer1 );
-        Assert.assertFalse( pointer1.free );
-        Assert.assertNull( pointer1.directBuffer );
+        Assert.assertFalse( pointer1.isFree() );
+        Assert.assertNull( pointer1.getDirectBuffer() );
 
         Pointer<Object> pointer2 = offHeapMemoryBuffer.store( SMALL_PAYLOAD );
         Assert.assertNull( pointer2 );
@@ -161,7 +161,7 @@ public abstract class AbstractOffHeapMemoryBufferTest
         Assert.assertNotNull( "Cannot store " + size4 + " bytes", pointer4 );
 
         offHeapMemoryBuffer.free( pointer1 );
-        Assert.assertTrue( pointer1.free );
+        Assert.assertTrue( pointer1.isFree() );
 
         offHeapMemoryBuffer.free( pointer3 );
 
@@ -207,8 +207,8 @@ public abstract class AbstractOffHeapMemoryBufferTest
         }
 
         // After a clear occurs, pointers allocated before the clear should be set as "free"
-        Assert.assertTrue( pointer6.free );
-        Assert.assertTrue( pointer7.free );
+        Assert.assertTrue( pointer6.isFree() );
+        Assert.assertTrue( pointer7.isFree() );
 
     }
 
@@ -307,7 +307,7 @@ public abstract class AbstractOffHeapMemoryBufferTest
         Assert.assertNotNull( pointer3 );
 
         byte[] payload3 = MemoryTestUtils.generateRandomPayload( NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD_LENGTH );
-        pointer3.directBuffer.put( payload3 );
+        pointer3.getDirectBuffer().put( payload3 );
         byte[] retrievePayload3 = offHeapMemoryBuffer.retrieve( pointer3 );
         Assert.assertEquals( new String( payload3 ), new String( retrievePayload3 ) );
 
@@ -368,15 +368,15 @@ public abstract class AbstractOffHeapMemoryBufferTest
         final byte[] otherPayload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH );
         final Pointer<Object> otherPointer = offHeapMemoryBuffer.update( pointer, otherPayload );
         Assert.assertNotNull( otherPointer );
-        Assert.assertEquals( pointer.start, otherPointer.start );
-        Assert.assertEquals( pointer.end, otherPointer.end );
+        Assert.assertEquals( pointer.getStart(), otherPointer.getStart() );
+        Assert.assertEquals( pointer.getEnd(), otherPointer.getEnd() );
         Assert.assertEquals( new String( otherPayload ), new String( offHeapMemoryBuffer.retrieve( otherPointer ) ) );
 
         final byte[] evenAnotherPayload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH / 2 );
         final Pointer<Object> evenAnotherPointer = offHeapMemoryBuffer.update( pointer, evenAnotherPayload );
         Assert.assertNotNull( evenAnotherPointer );
-        Assert.assertEquals( pointer.start, evenAnotherPointer.start );
-        Assert.assertEquals( pointer.end, evenAnotherPointer.end );
+        Assert.assertEquals( pointer.getStart(), evenAnotherPointer.getStart() );
+        Assert.assertEquals( pointer.getEnd(), evenAnotherPointer.getEnd() );
         Assert.assertEquals( 4, new String( offHeapMemoryBuffer.retrieve( evenAnotherPointer ) ).length() );
         Assert.assertTrue( new String( offHeapMemoryBuffer.retrieve( evenAnotherPointer ) )
             .startsWith( new String( evenAnotherPayload ) ) );
@@ -414,7 +414,7 @@ public abstract class AbstractOffHeapMemoryBufferTest
         final byte[] allocatedPayload1 = MemoryTestUtils.generateRandomPayload( size1 );
         final Pointer<Object> allocatedPointer1 = offHeapMemoryBuffer.allocate( Object.class, allocatedPayload1.length, -1, -1 );
         Assert.assertNotNull( allocatedPointer1 );
-        final ByteBuffer buffer1 = allocatedPointer1.directBuffer;
+        final ByteBuffer buffer1 = allocatedPointer1.getDirectBuffer();
         Assert.assertNotNull( buffer1 );
         Assert.assertEquals( 0, buffer1.position() );
         Assert.assertEquals( size1, buffer1.limit() );
@@ -426,7 +426,7 @@ public abstract class AbstractOffHeapMemoryBufferTest
         final byte[] allocatedPayload2 = MemoryTestUtils.generateRandomPayload( size2 );
         final Pointer<Object> allocatedPointer2 = offHeapMemoryBuffer.allocate( Object.class, allocatedPayload2.length, -1, -1 );
         Assert.assertNotNull( allocatedPointer2 );
-        final ByteBuffer buffer2 = allocatedPointer2.directBuffer;
+        final ByteBuffer buffer2 = allocatedPointer2.getDirectBuffer();
         Assert.assertNotNull( buffer2 );
         Assert.assertEquals( size2, buffer2.limit() );
         Assert.assertEquals( size2, buffer2.capacity() );

@@ -83,17 +83,17 @@ public class MemoryManagerServiceImpl<V>
 
     public Pointer<V> update( Pointer<V> pointer, byte[] payload )
     {
-        return buffers.get( pointer.bufferNumber ).update( pointer, payload );
+        return buffers.get( pointer.getBufferNumber() ).update( pointer, payload );
     }
 
     public byte[] retrieve( Pointer<V> pointer )
     {
-        return buffers.get( pointer.bufferNumber ).retrieve( pointer );
+        return buffers.get( pointer.getBufferNumber() ).retrieve( pointer );
     }
 
     public void free( Pointer<V> pointer )
     {
-        buffers.get( pointer.bufferNumber ).free( pointer );
+        buffers.get( pointer.getBufferNumber() ).free( pointer );
     }
 
     public void clear()

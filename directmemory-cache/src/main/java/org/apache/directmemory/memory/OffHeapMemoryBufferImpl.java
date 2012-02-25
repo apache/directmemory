@@ -76,7 +76,7 @@ public class OffHeapMemoryBufferImpl<T>
 
     protected Pointer<T> createAndAddFirstPointer()
     {
-        Pointer<T> first = new Pointer<T>();
+        PointerImpl<T> first = new PointerImpl<T>();
         first.bufferNumber = bufferNumber;
         first.start = 0;
         first.free = true;
@@ -87,12 +87,12 @@ public class OffHeapMemoryBufferImpl<T>
 
     protected Pointer<T> slice( Pointer<T> existing, int capacity )
     {
-        Pointer<T> fresh = new Pointer<T>();
-        fresh.bufferNumber = existing.bufferNumber;
-        fresh.start = existing.start;
+        PointerImpl<T> fresh = new PointerImpl<T>();
+        fresh.bufferNumber = existing.getBufferNumber();
+        fresh.start = existing.getStart();
         fresh.end = fresh.start + capacity - 1; // 0 indexed
         fresh.free = true;
-        existing.start = fresh.end + 1; // more readable
+        existing.setStart( fresh.end + 1 ); // more readable
         return fresh;
     }
 
@@ -100,7 +100,7 @@ public class OffHeapMemoryBufferImpl<T>
     {
         for ( Pointer<T> ptr : pointers )
         {
-            if ( ptr.free && ptr.getCapacity() >= capacity )
+            if ( ptr.isFree() && ptr.getCapacity() >= capacity )
             {
                 return ptr;
             }
@@ -115,13 +115,12 @@ public class OffHeapMemoryBufferImpl<T>
 
     public byte[] retrieve( Pointer<T> pointer )
     {
-        pointer.lastHit = System.currentTimeMillis();
-        pointer.hits++;
-
+        pointer.hit();
+        
         ByteBuffer buf = null;
-        if ( pointer.clazz == ByteBuffer.class )
+        if ( pointer.getClazz() == ByteBuffer.class )
         {
-            buf = pointer.directBuffer;
+            buf = pointer.getDirectBuffer();
             buf.position( 0 );
         }
         else
@@ -129,7 +128,7 @@ public class OffHeapMemoryBufferImpl<T>
             synchronized ( buffer )
             {
                 buf = buffer.duplicate();
-                buf.position( pointer.start );
+                buf.position( pointer.getStart() );
             }
         }
 
@@ -149,7 +148,7 @@ public class OffHeapMemoryBufferImpl<T>
     {
         for (final Pointer<T> pointer : pointers)
         {
-            pointer.free = true;
+            pointer.setFree( true );
         }
         allocationErrors = 0;
         pointers.clear();
@@ -180,13 +179,13 @@ public class OffHeapMemoryBufferImpl<T>
 
         Pointer<T> fresh = slice( goodOne, payload.length );
 
-        fresh.created = System.currentTimeMillis();
+        fresh.createdNow();
         setExpiration( fresh, expiresIn, expires );
 
-        fresh.free = false;
+        fresh.setFree( false );
         used.addAndGet( payload.length );
         ByteBuffer buf = buffer.slice();
-        buf.position( fresh.start );
+        buf.position( fresh.getStart() );
         try
         {
             buf.put( payload );
@@ -194,8 +193,8 @@ public class OffHeapMemoryBufferImpl<T>
         catch ( BufferOverflowException e )
         {
             // RpG not convincing - let's fix it later
-            goodOne.start = fresh.start;
-            goodOne.end = buffer.limit();
+            goodOne.setStart( fresh.getStart() );
+            goodOne.setEnd( buffer.limit() );
             return null;
         }
         pointers.add( fresh );
@@ -234,17 +233,17 @@ public class OffHeapMemoryBufferImpl<T>
 
         Pointer<T> fresh = slice( goodOne, size );
 
-        fresh.created = System.currentTimeMillis();
+        fresh.createdNow();
         setExpiration( fresh, expiresIn, expires );
 
-        fresh.free = false;
+        fresh.setFree( false );
         used.addAndGet( size );
         ByteBuffer buf = buffer.slice();
-        buf.limit( fresh.start + size );
-        buf.position( fresh.start );
+        buf.limit( fresh.getStart() + size );
+        buf.position( fresh.getStart() );
 
-        fresh.directBuffer = buf.slice();
-        fresh.clazz = type;
+        fresh.setDirectBuffer( buf.slice() );
+        fresh.setClazz( type );
         pointers.add( fresh );
         return fresh;
     }

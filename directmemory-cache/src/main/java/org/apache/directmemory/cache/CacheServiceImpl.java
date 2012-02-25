@@ -146,7 +146,7 @@ public class CacheServiceImpl<K, V>
             @SuppressWarnings( "unchecked" ) // type driven by the compiler
             Class<? extends V> clazz = (Class<? extends V>) value.getClass();
 
-            ptr.clazz = clazz;
+            ptr.setClazz( clazz );
             return ptr;
         }
         catch ( IOException e )
@@ -187,10 +187,10 @@ public class CacheServiceImpl<K, V>
         {
             return null;
         }
-        if ( ptr.expired() || ptr.free )
+        if ( ptr.isExpired() || ptr.isFree() )
         {
             map.remove( key );
-            if ( !ptr.free )
+            if ( !ptr.isFree() )
             {
                 memoryManager.free( ptr );
             }
@@ -210,10 +210,10 @@ public class CacheServiceImpl<K, V>
         {
             return null;
         }
-        if ( ptr.expired() || ptr.free )
+        if ( ptr.isExpired() || ptr.isFree() )
         {
             map.remove( key );
-            if ( !ptr.free )
+            if ( !ptr.isFree() )
             {
                 memoryManager.free( ptr );
             }
@@ -223,7 +223,7 @@ public class CacheServiceImpl<K, V>
         {
             try
             {
-                return serializer.deserialize( memoryManager.retrieve( ptr ), ptr.clazz );
+                return serializer.deserialize( memoryManager.retrieve( ptr ), ptr.getClazz() );
             }
             catch ( EOFException e )
             {
@@ -385,7 +385,7 @@ public class CacheServiceImpl<K, V>
     {
         Pointer<V> ptr = memoryManager.allocate( type, size, -1, -1 );
         map.put( key, ptr );
-        ptr.clazz = type;
+        ptr.setClazz( type );
         return ptr;
     }
 }

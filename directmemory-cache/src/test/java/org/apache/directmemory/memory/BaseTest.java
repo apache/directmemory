@@ -62,7 +62,7 @@ public class BaseTest
 
         Pointer<Object> p = mem.store( new byte[size] );
         assertNotNull( p );
-        assertEquals( size, p.end );
+        assertEquals( size, p.getEnd() );
         assertEquals( size, mem.used() );
         mem.free( p );
         assertEquals( 0, mem.used() );
@@ -161,11 +161,11 @@ public class BaseTest
         {
             byte[] payload = ( test + " - " + i ).getBytes();
             Pointer<Object> p = mem.store( payload );
-            logger.info( "p.start=" + p.start );
-            logger.info( "p.end=" + p.end );
+            logger.info( "p.start=" + p.getStart() );
+            logger.info( "p.end=" + p.getEnd() );
             if ( lastP != null )
             {
-                assertEquals( lastP.end + 1, p.start );
+                assertEquals( lastP.getEnd() + 1, p.getStart() );
             }
             assertEquals( p.getCapacity(), payload.length );
             lastP = p;

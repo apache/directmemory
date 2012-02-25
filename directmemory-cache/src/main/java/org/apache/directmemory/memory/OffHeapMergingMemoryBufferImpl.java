@@ -128,7 +128,7 @@ public class OffHeapMergingMemoryBufferImpl<V>
      */
     protected Pointer<V> createAndAddFirstPointer()
     {
-        Pointer<V> first = new Pointer<V>( 0, buffer.capacity() - 1 );
+        PointerImpl<V> first = new PointerImpl<V>( 0, buffer.capacity() - 1 );
         first.bufferNumber = bufferNumber;
         first.free = true;
         freePointersBySizeDesc.put( first, DEFAULT_VALUE );
@@ -162,11 +162,10 @@ public class OffHeapMergingMemoryBufferImpl<V>
     @Override
     public byte[] retrieve( Pointer<V> pointer )
     {
-        pointer.lastHit = System.currentTimeMillis();
-        pointer.hits++;
-
+        pointer.hit();
+        
         ByteBuffer buf = buffer.duplicate();
-        buf.position( pointer.start );
+        buf.position( pointer.getStart() );
 
         final byte[] swp = new byte[pointer.getCapacity()];
         buf.get( swp );
@@ -178,7 +177,7 @@ public class OffHeapMergingMemoryBufferImpl<V>
     {
 
         // Avoid freeing twice the same pointer. Maybe atomic boolean is required here.
-        if ( !pointer2free.free )
+        if ( !pointer2free.isFree() )
         {
 
             try
@@ -197,7 +196,7 @@ public class OffHeapMergingMemoryBufferImpl<V>
                     .descendingKeySet() )
                 {
 
-                    if ( adjacentPointer.end + 1 != lowerPointerToMerge.start )
+                    if ( adjacentPointer.getEnd() + 1 != lowerPointerToMerge.getStart() )
                     {
                         break;
                     }
@@ -212,7 +211,7 @@ public class OffHeapMergingMemoryBufferImpl<V>
                     .navigableKeySet() )
                 {
 
-                    if ( adjacentPointer.start - 1 != higherPointerToMerge.end )
+                    if ( adjacentPointer.getStart() - 1 != higherPointerToMerge.getEnd() )
                     {
                         break;
                     }
@@ -224,15 +223,15 @@ public class OffHeapMergingMemoryBufferImpl<V>
                 if ( lowerPointerToMerge != higherPointerToMerge )
                 {
 
-                    final Pointer<V> mergedPointer = new Pointer<V>( lowerPointerToMerge.start, higherPointerToMerge.end );
-                    mergedPointer.free = true;
+                    final Pointer<V> mergedPointer = new PointerImpl<V>( lowerPointerToMerge.getStart(), higherPointerToMerge.getEnd() );
+                    mergedPointer.setFree( true );
 
                     final Iterator<Pointer<V>> adjacentPointersIterator = freePointersByMemoryOffsetAsc
                         .subMap( lowerPointerToMerge, true, higherPointerToMerge, true ).navigableKeySet().iterator();
                     while ( adjacentPointersIterator.hasNext() )
                     {
                         Pointer<V> adjacentPointer = adjacentPointersIterator.next();
-                        adjacentPointer.free = true; // if a reference to the pointer is kept, we must not use it.
+                        adjacentPointer.setFree( true ); // if a reference to the pointer is kept, we must not use it.
                         freePointersBySizeDesc.remove( adjacentPointer );
                         adjacentPointersIterator.remove();
                     }
@@ -275,7 +274,7 @@ public class OffHeapMergingMemoryBufferImpl<V>
 
         for ( Pointer<V> pointer : usedPointers )
         {
-            pointer.free = true;
+            pointer.setFree( true );
             //            free( pointer ); // too costly to merge every pointers while the will be cleared in a row
         }
         usedPointers.clear();
@@ -299,11 +298,11 @@ public class OffHeapMergingMemoryBufferImpl<V>
 
             setExpiration( allocatedPointer, expiresIn, expires );
 
-            allocatedPointer.free = false;
+            allocatedPointer.setFree( false );
 
             final ByteBuffer buf = buffer.duplicate();
-            buf.position( allocatedPointer.start );
-            buf.limit( allocatedPointer.start + size );
+            buf.position( allocatedPointer.getStart() );
+            buf.limit( allocatedPointer.getStart() + size );
 
             buf.put( payload );
 
@@ -341,14 +340,14 @@ public class OffHeapMergingMemoryBufferImpl<V>
             if ( goodOne.getCapacity() != size )
             {
 
-                fresh = new Pointer<V>( goodOne.start, goodOne.start + size - 1 );
-                fresh.bufferNumber = getBufferNumber();
-                fresh.free = true;
-                fresh.created = System.currentTimeMillis();
+                fresh = new PointerImpl<V>( goodOne.getStart(), goodOne.getStart() + size - 1 );
+                fresh.setBufferNumber( getBufferNumber() );
+                fresh.setFree( true );
+                fresh.createdNow();
 
                 // create a new pointer for the remaining space
-                final Pointer<V> newGoodOne = new Pointer<V>( fresh.end + 1, goodOne.end );
-                newGoodOne.free = true;
+                final Pointer<V> newGoodOne = new PointerImpl<V>( fresh.getEnd() + 1, goodOne.getEnd() );
+                newGoodOne.setFree( true );
 
                 // and add it to the free lists
                 freePointersByMemoryOffsetAsc.put( newGoodOne, DEFAULT_VALUE );
@@ -377,12 +376,12 @@ public class OffHeapMergingMemoryBufferImpl<V>
         {
             setExpiration( allocatedPointer, expiresIn, expires );
 
-            allocatedPointer.free = false;
+            allocatedPointer.setFree( false );
 
             final ByteBuffer buf = buffer.duplicate();
-            buf.position( allocatedPointer.start );
-            buf.limit( allocatedPointer.start + size );
-            allocatedPointer.directBuffer = buf.slice();
+            buf.position( allocatedPointer.getStart() );
+            buf.limit( allocatedPointer.getStart() + size );
+            allocatedPointer.setDirectBuffer( buf.slice() );
 
             used.addAndGet( size );
         }
@@ -431,8 +430,8 @@ public class OffHeapMergingMemoryBufferImpl<V>
         @Override
         public int compare( final Pointer<V> pointer0, final Pointer<V> pointer1 )
         {
-            final int offset0 = pointer0.start;
-            final int offset1 = pointer1.start;
+            final int offset0 = pointer0.getStart();
+            final int offset1 = pointer1.getStart();
 
             if ( offset0 < offset1 )
             {
@@ -468,7 +467,7 @@ public class OffHeapMergingMemoryBufferImpl<V>
         // Create an independent view of the buffer
         final ByteBuffer buf = buffer.duplicate();
         // Set it at the right start offset
-        buf.position( pointer.start );
+        buf.position( pointer.getStart() );
         // Write the content in the shared buffer
         buf.put( payload );
 

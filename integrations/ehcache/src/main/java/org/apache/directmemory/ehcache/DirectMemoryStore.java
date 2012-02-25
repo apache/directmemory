@@ -242,7 +242,7 @@ public class DirectMemoryStore
             return null;
         }
 
-        Lock lock = bufferLocks.get( pointer.bufferNumber );
+        Lock lock = bufferLocks.get( pointer.getBufferNumber() );
         lock.lock();
         try
         {
@@ -277,7 +277,7 @@ public class DirectMemoryStore
             return false;
         }
 
-        Lock lock = bufferLocks.get( pointer.bufferNumber );
+        Lock lock = bufferLocks.get( pointer.getBufferNumber() );
         lock.lock();
         try
         {
@@ -317,7 +317,7 @@ public class DirectMemoryStore
             return null;
         }
 
-        Lock lock = bufferLocks.get( pointer.bufferNumber );
+        Lock lock = bufferLocks.get( pointer.getBufferNumber() );
         lock.lock();
         try
         {

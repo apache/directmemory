@@ -192,7 +192,7 @@ public class MemoryManagerServiceImplWithMerginOHMBTest
         Assert.assertNotNull( pointer3 );
 
         byte[] payload3 = MemoryTestUtils.generateRandomPayload( NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD.length );
-        pointer3.directBuffer.put( payload3 );
+        pointer3.getDirectBuffer().put( payload3 );
         byte[] retrievePayload3 = memoryManagerService.retrieve( pointer3 );
         Assert.assertEquals( new String( payload3 ), new String( retrievePayload3 ) );
 

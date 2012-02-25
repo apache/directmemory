@@ -56,9 +56,8 @@ public abstract class AbstractOffHeapMemoryBuffer<T>
         @Override
         public boolean apply( Pointer<T> input )
         {
-            return !input.free
-                            && input.expiresIn > 0
-                            && ( input.expiresIn + input.created ) <= System.currentTimeMillis();
+            return !input.isFree()
+                            && !input.isExpired();
         }
 
     };
@@ -69,9 +68,8 @@ public abstract class AbstractOffHeapMemoryBuffer<T>
         @Override
         public boolean apply( Pointer<T> input )
         {
-            return !input.free
-                            && input.expires > 0
-                            && input.expires <= System.currentTimeMillis();
+            return !input.isFree()
+                            && !input.isExpired();
         }
 
     };
@@ -107,13 +105,7 @@ public abstract class AbstractOffHeapMemoryBuffer<T>
 
     protected void freePointer( Pointer<T> pointer2free )
     {
-        pointer2free.free = true;
-        pointer2free.created = 0;
-        pointer2free.lastHit = 0;
-        pointer2free.hits = 0;
-        pointer2free.expiresIn = 0;
-        pointer2free.clazz = null;
-        pointer2free.directBuffer = null;
+        pointer2free.reset();
         used.addAndGet( -pointer2free.getCapacity() );
     }
 
@@ -197,7 +189,7 @@ public abstract class AbstractOffHeapMemoryBuffer<T>
             @Override
             public boolean apply( Pointer<T> input )
             {
-                return !input.free;
+                return !input.isFree();
             }
 
         } ), limit ) );
@@ -222,27 +214,18 @@ public abstract class AbstractOffHeapMemoryBuffer<T>
 
     protected void resetPointer( final Pointer<T> pointer )
     {
-        pointer.free = true;
-        pointer.created = 0;
-        pointer.lastHit = 0;
-        pointer.hits = 0;
-        pointer.expiresIn = 0;
-        pointer.clazz = null;
-        pointer.directBuffer = null;
+        pointer.reset();
     }
 
     protected void setExpiration( final Pointer<T> pointer, long expiresIn, long expires )
     {
-
         if ( expiresIn > 0 )
         {
-            pointer.expiresIn = expiresIn;
-            pointer.expires = 0;
+            pointer.setExpiration( 0, expiresIn );
         }
         else if ( expires > 0 )
         {
-            pointer.expiresIn = 0;
-            pointer.expires = expires;
+            pointer.setExpiration( expires, 0 );
         }
     }
 
