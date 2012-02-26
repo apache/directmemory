@@ -24,7 +24,7 @@ import java.util.Set;
 import org.apache.directmemory.cache.CacheService;
 import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.memory.MemoryManagerService;
-import org.apache.directmemory.memory.MemoryManagerServiceWithAllocationPolicyEhcacheImpl;
+import org.apache.directmemory.memory.MemoryManagerServiceWithAllocationPolicyImpl;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.memory.RoundRobinAllocationPolicy;
@@ -40,8 +40,8 @@ import org.apache.directmemory.serialization.Serializer;
 public class DirectMemoryCache<K, V>
 {
 
-    private MemoryManagerService<V> memoryManager = new MemoryManagerServiceWithAllocationPolicyEhcacheImpl<V>(
-                                                                                                                new RoundRobinAllocationPolicy<V>() );
+    private MemoryManagerService<V> memoryManager = new MemoryManagerServiceWithAllocationPolicyImpl<V>(
+                                                                                                                new RoundRobinAllocationPolicy<V>(), false );
 
     private CacheServiceImpl<K, V> cacheService = new CacheServiceImpl<K, V>( memoryManager );
 

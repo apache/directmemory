@@ -34,6 +34,18 @@ public class MemoryManagerServiceWithAllocationPolicyImpl<V>
     
     protected AllocationPolicy<V> allocationPolicy;
 
+    public MemoryManagerServiceWithAllocationPolicyImpl()
+    {
+        super();
+    }
+    
+    public MemoryManagerServiceWithAllocationPolicyImpl( final AllocationPolicy<V> allocationPolicy, final boolean returnNullWhenFull )
+    {
+        this();
+        this.setAllocationPolicy( allocationPolicy );
+        this.returnNullWhenFull = returnNullWhenFull;
+    }
+    
     @Override
     public void init( int numberOfBuffers, int size )
     {
