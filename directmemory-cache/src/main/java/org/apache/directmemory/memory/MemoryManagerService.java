@@ -19,7 +19,6 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-
 import java.util.List;
 
 public interface MemoryManagerService<V>
@@ -35,7 +34,6 @@ public interface MemoryManagerService<V>
      *            : size in B of internal buckets
      */
     void init( int numberOfBuffers, int size );
-
 
     /**
      * Store function family. Store the given payload at a certain offset in a MemoryBuffer, returning the pointer to the value.
@@ -62,7 +60,6 @@ public interface MemoryManagerService<V>
      */
     //public Pointer store(byte[] payload, Date expires);
 
-
     /**
      *
      *
@@ -72,7 +69,7 @@ public interface MemoryManagerService<V>
      * @return
      * @throw BufferOverflowException if the size of the payload id bigger than the pointer capacity
      */
-    Pointer<V> update(Pointer<V> pointer, byte[] payload);
+    Pointer<V> update( Pointer<V> pointer, byte[] payload );
 
     byte[] retrieve( Pointer<V> pointer );
 
