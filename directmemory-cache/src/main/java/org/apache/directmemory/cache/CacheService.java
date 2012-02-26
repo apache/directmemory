@@ -49,7 +49,7 @@ public interface CacheService<K, V>
 
     byte[] retrieveByteArray( K key );
 
-    Object retrieve( K key );
+    V retrieve( K key );
 
     Pointer<V> getPointer( K key );
 
