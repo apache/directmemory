@@ -25,8 +25,7 @@
   </properties>
   <body>
     <macro name="toc">
-      <param name="fromDepth" value="0"/>
-      <param name="toDepth" value="4"/>
+
     </macro>
     <section name="DirectMemory Server">
       <p>Apache DirectMemory has a server implementation (a servlet) to provide you a way to store your project remotely and to share those cached objects with various applications.</p>
@@ -34,7 +33,7 @@
       <p>The exchange are based on http(s) exchange with the following implementations/format:
         <ul>
           <li>JSON format</li>
-          <li>"binary" format: parameters are send via http headers (<b>Not yet implemented</b>)</li>
+          <li>"binary" format: parameters are send via http headers</li>
           <li>text/plain format: you can send a text value(json object, xml etc..), the server will serialize the content and store it for you.(<b>Not yet implemented</b>)</li>
         </ul>
       </p>
@@ -47,8 +46,8 @@
           <li>PUT to add some content in cache ${webPath}/${key}</li>
         </ul>
       </p>
-
-      <subsection name="JSON">
+    </section>
+    <section name="JSON Exchange">
         <subsection name="PUT Content">
           <p>
             JSON Request to put content in cache Content-Type: application/json
@@ -74,14 +73,14 @@
             Note: if the entry was not available in the server you will receive a 204 (Not Content)
           </p>
         </subsection>
-      </subsection>
-      <subsection name="binary">
-
-      </subsection>
-      <subsection name="text/plain">
-
-      </subsection>
     </section>
+    <section name="binary Exchange">
+
+    </section>
+    <section name="text/plain Exchange">
+
+    </section>
+
     <section name="Java Client API">
       <subsection name="Client Configuration">
         <p>Before using the client api, you must configure it using the following pattern:
