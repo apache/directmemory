@@ -29,7 +29,7 @@
     <relativePath>../</relativePath>
   </parent>
 
-  <artifactId>directmemory-platforms</artifactId>
+  <artifactId>directmemory-integrations</artifactId>
   <packaging>pom</packaging>
   <name>Apache DirectMemory :: Integrations</name>
   <description>${project.name}</description>

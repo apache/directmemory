@@ -24,7 +24,7 @@ under the License.
 
   <parent>
     <groupId>org.apache.directmemory</groupId>
-    <artifactId>directmemory-platforms</artifactId>
+    <artifactId>directmemory-integrations</artifactId>
     <version>0.6.0-SNAPSHOT</version>
   </parent>
 

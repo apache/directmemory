@@ -12,9 +12,8 @@
 
 	<parent>
 		<groupId>org.apache.directmemory</groupId>
-		<artifactId>directmemory-parent</artifactId>
+		<artifactId>directmemory-integrations</artifactId>
 		<version>0.6.0-SNAPSHOT</version>
-		<relativePath>../../</relativePath>
 	</parent>
 
 	<artifactId>directmemory-ehcache</artifactId>
@@ -24,23 +23,10 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>logs</directory>
-							<followSymlinks>false</followSymlinks>
-						</fileset>
-					</filesets>
-				</configuration>
-			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.9</version>
 				<configuration>
 					<argLine>-Xmx512m -Xms512m -XX:MaxDirectMemorySize=512m</argLine>
 				</configuration>
@@ -53,7 +39,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>directmemory-cache</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 
 		<!-- EHCache Dependency -->
@@ -70,24 +55,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<repositories>
-		<repository>
-			<url>http://repo.fusesource.com/maven2</url>
-			<id>fusesource</id>
-		</repository>
-		<repository>
-			<id>sonatype-nexus-public</id>
-			<name>SonaType public snapshots and releases repository</name>
-			<url>https://oss.sonatype.org/content/groups/public</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-
-	</repositories>
 
 </project>
