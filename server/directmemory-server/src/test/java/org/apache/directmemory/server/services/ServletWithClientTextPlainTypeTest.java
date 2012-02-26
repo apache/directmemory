@@ -62,8 +62,7 @@ public class ServletWithClientTextPlainTypeTest
         throws Exception
     {
 
-        client.put( new DirectMemoryRequest<String>( "bordeaux", "very great wine" ).setSerializer(
-            SerializerFactory.createNewSerializer( StandardSerializer.class ) ) );
+        client.put( new DirectMemoryRequest<String>( "bordeaux", "very great wine" ) );
 
         DirectMemoryResponse<String> response =
             client.retrieve( new DirectMemoryRequest( "bordeaux", "very great wine" ) );
@@ -88,8 +87,7 @@ public class ServletWithClientTextPlainTypeTest
 
         client.delete( new DirectMemoryRequest<String>( "bordeaux" ) );
 
-        client.put( new DirectMemoryRequest<String>( "bordeaux", "very great wine" ).setSerializer(
-            SerializerFactory.createNewSerializer( StandardSerializer.class ) ).setExpiresIn( 1000 ) );
+        client.put( new DirectMemoryRequest<String>( "bordeaux", "very great wine" ).setExpiresIn( 1000 ) );
 
         DirectMemoryRequest<String> rq = new DirectMemoryRequest<String>( "bordeaux", "very great wine" ).setSerializer(
             SerializerFactory.createNewSerializer( StandardSerializer.class ) );

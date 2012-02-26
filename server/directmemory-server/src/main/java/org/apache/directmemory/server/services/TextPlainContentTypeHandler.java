@@ -19,6 +19,7 @@ package org.apache.directmemory.server.services;
  */
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.serialization.SerializerFactory;
 import org.apache.directmemory.serialization.SerializerNotFoundException;
@@ -48,8 +49,7 @@ public class TextPlainContentTypeHandler
             new DirectMemoryResponse().setKey( request.getKey() ).setCacheContent( cacheResponseContent );
         try
         {
-            String serializerClassName = req.getHeader( DirectMemoryHttpConstants.SERIALIZER_HTTP_HEADER );
-            Serializer serializer = SerializerFactory.createNewSerializer( serializerClassName );
+            Serializer serializer = getSerializer( req );
             String res = serializer.deserialize( cacheResponseContent, String.class );
             resp.setContentType( MediaType.TEXT_PLAIN );
             return res.getBytes();
@@ -76,11 +76,10 @@ public class TextPlainContentTypeHandler
     public DirectMemoryRequest handlePut( HttpServletRequest req, HttpServletResponse resp )
         throws DirectMemoryException, IOException
     {
-        String serializerClassName = req.getHeader( DirectMemoryHttpConstants.SERIALIZER_HTTP_HEADER );
         DirectMemoryRequest request = new DirectMemoryRequest();
         try
         {
-            Serializer serializer = SerializerFactory.createNewSerializer( serializerClassName );
+            Serializer serializer = getSerializer( req );
             request.setCacheContent( serializer.serialize( IOUtils.toString( req.getInputStream() ) ) );
         }
         catch ( SerializerNotFoundException e )
@@ -89,5 +88,17 @@ public class TextPlainContentTypeHandler
         }
         return request;
 
+    }
+
+
+    protected Serializer getSerializer( HttpServletRequest req )
+        throws SerializerNotFoundException
+    {
+        String serializerClassName = req.getHeader( DirectMemoryHttpConstants.SERIALIZER_HTTP_HEADER );
+        if ( StringUtils.isEmpty( serializerClassName ) )
+        {
+            return SerializerFactory.createNewSerializer();
+        }
+        return SerializerFactory.createNewSerializer( serializerClassName );
     }
 }
