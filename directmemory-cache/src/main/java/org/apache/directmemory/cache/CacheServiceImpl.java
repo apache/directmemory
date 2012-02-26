@@ -19,15 +19,7 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
-import static java.lang.String.format;
-import static org.apache.directmemory.serialization.SerializerFactory.createNewSerializer;
-
-import java.io.EOFException;
-import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ConcurrentMap;
-
+import com.google.common.collect.MapMaker;
 import org.apache.directmemory.measures.Every;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManagerService;
@@ -38,7 +30,14 @@ import org.apache.directmemory.serialization.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.MapMaker;
+import java.io.EOFException;
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ConcurrentMap;
+
+import static java.lang.String.format;
+import static org.apache.directmemory.serialization.SerializerFactory.createNewSerializer;
 
 public class CacheServiceImpl<K, V>
     implements CacheService<K, V>
@@ -142,11 +141,13 @@ public class CacheServiceImpl<K, V>
         {
             byte[] payload = serializer.serialize( value );
             Pointer<V> ptr = store( key, payload, expiresIn );
+            if ( ptr != null )
+            {
+                @SuppressWarnings( "unchecked" ) // type driven by the compiler
+                    Class<? extends V> clazz = (Class<? extends V>) value.getClass();
 
-            @SuppressWarnings( "unchecked" ) // type driven by the compiler
-            Class<? extends V> clazz = (Class<? extends V>) value.getClass();
-
-            ptr.setClazz( clazz );
+                ptr.setClazz( clazz );
+            }
             return ptr;
         }
         catch ( IOException e )
@@ -174,7 +175,10 @@ public class CacheServiceImpl<K, V>
         else
         {
             pointer = memoryManager.store( payload, expiresIn );
-            map.put( key, pointer );
+            if ( pointer != null )
+            {
+                map.put( key, pointer );
+            }
             return pointer;
         }
     }
