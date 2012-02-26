@@ -30,7 +30,8 @@ import java.io.IOException;
  */
 public interface ContentTypeHandler
 {
-    byte[] handleGet( DirectMemoryRequest request, byte[] cacheResponseContent, HttpServletResponse response )
+    byte[] handleGet( DirectMemoryRequest request, byte[] cacheResponseContent, HttpServletResponse response,
+                      HttpServletRequest req )
         throws DirectMemoryException, IOException;
 
     DirectMemoryRequest handlePut( HttpServletRequest request, HttpServletResponse response )

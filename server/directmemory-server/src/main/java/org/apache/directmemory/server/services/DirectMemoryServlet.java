@@ -75,6 +75,7 @@ public class DirectMemoryServlet
         contentTypeHandlers.put( MediaType.APPLICATION_JSON, new JsonContentTypeHandler() );
         contentTypeHandlers.put( DirectMemoryHttpConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER,
                                  new JavaSerializedContentTypeHandler() );
+        contentTypeHandlers.put( MediaType.TEXT_PLAIN, new TextPlainContentTypeHandler() );
     }
 
     @Override
@@ -128,8 +129,7 @@ public class DirectMemoryServlet
         cacheService.putByteArray( key, request.getCacheContent(), request.getExpiresIn() );
     }
 
-    protected ContentTypeHandler findPutCacheContentTypeHandler( HttpServletRequest req,
-                                                                      HttpServletResponse response )
+    protected ContentTypeHandler findPutCacheContentTypeHandler( HttpServletRequest req, HttpServletResponse response )
     {
 
         String contentType = req.getContentType();
@@ -207,7 +207,7 @@ public class DirectMemoryServlet
         try
         {
             byte[] respBytes =
-                contentTypeHandler.handleGet( new DirectMemoryRequest().setKey( key ), bytes, resp );
+                contentTypeHandler.handleGet( new DirectMemoryRequest().setKey( key ), bytes, resp, req );
             resp.getOutputStream().write( respBytes );
         }
         catch ( DirectMemoryException e )
@@ -218,8 +218,7 @@ public class DirectMemoryServlet
 
     }
 
-    protected ContentTypeHandler findGetCacheContentTypeHandler( HttpServletRequest req,
-                                                                      HttpServletResponse response )
+    protected ContentTypeHandler findGetCacheContentTypeHandler( HttpServletRequest req, HttpServletResponse response )
     {
 
         String acceptContentType = req.getHeader( "Accept" );

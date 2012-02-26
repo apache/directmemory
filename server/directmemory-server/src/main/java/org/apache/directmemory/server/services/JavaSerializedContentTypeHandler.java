@@ -20,8 +20,8 @@ package org.apache.directmemory.server.services;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,8 @@ public class JavaSerializedContentTypeHandler
     private Logger log = LoggerFactory.getLogger( getClass() );
 
     @Override
-    public byte[] handleGet( DirectMemoryRequest request, byte[] cacheResponseContent, HttpServletResponse resp )
+    public byte[] handleGet( DirectMemoryRequest request, byte[] cacheResponseContent, HttpServletResponse resp,
+                             HttpServletRequest req )
         throws DirectMemoryException, IOException
     {
         resp.setContentType( DirectMemoryHttpConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER );

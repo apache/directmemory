@@ -24,10 +24,8 @@ import org.apache.directmemory.server.commons.DirectMemoryParser;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.apache.directmemory.server.commons.DirectMemoryResponse;
 import org.apache.directmemory.server.commons.DirectMemoryWriter;
-import org.apache.directmemory.server.commons.ExchangeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,8 +68,7 @@ public abstract class AbstractDirectMemoryHttpClient
                     throw new DirectMemoryException( e.getMessage(), e );
                 }
             case TEXT_PLAIN:
-                log.error( "{} not implemented yet", ExchangeType.TEXT_PLAIN.getContentType() );
-                throw new NotImplementedException();
+                return request.getObject().toString().getBytes();
             default:
                 log.error( "exchange type unknown {}", request.getExchangeType() );
                 throw new DirectMemoryException( "exchange type unknown " + request.getExchangeType() );
@@ -112,8 +109,16 @@ public abstract class AbstractDirectMemoryHttpClient
                     throw new DirectMemoryException( e.getMessage(), e );
                 }
             case TEXT_PLAIN:
-                log.error( "{} not implemented yet", ExchangeType.TEXT_PLAIN.getContentType() );
-                throw new NotImplementedException();
+                try
+                {
+                    DirectMemoryResponse<String> response = new DirectMemoryResponse<String>();
+                    response.setResponse( IOUtils.toString( inputStream ) );
+                    return response;
+                }
+                catch ( IOException e )
+                {
+                    throw new DirectMemoryException( e.getMessage(), e );
+                }
             default:
                 log.error( "exchange type unknown {}", request.getExchangeType() );
                 throw new DirectMemoryException( "exchange type unknown " + request.getExchangeType() );

@@ -18,11 +18,14 @@ package org.apache.directmemory.server.services;
  * under the License.
  */
 
+import org.apache.commons.io.IOUtils;
+import org.apache.directmemory.serialization.Serializer;
+import org.apache.directmemory.serialization.SerializerFactory;
+import org.apache.directmemory.serialization.SerializerNotFoundException;
 import org.apache.directmemory.server.commons.DirectMemoryException;
-import org.apache.directmemory.server.commons.DirectMemoryParser;
+import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.apache.directmemory.server.commons.DirectMemoryResponse;
-import org.apache.directmemory.server.commons.DirectMemoryWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,13 +35,9 @@ import java.io.IOException;
 /**
  * @author Olivier Lamy
  */
-public class JsonContentTypeHandler
+public class TextPlainContentTypeHandler
     implements ContentTypeHandler
 {
-
-    private DirectMemoryParser parser = DirectMemoryParser.instance();
-
-    private DirectMemoryWriter writer = DirectMemoryWriter.instance();
 
     @Override
     public byte[] handleGet( DirectMemoryRequest request, byte[] cacheResponseContent, HttpServletResponse resp,
@@ -47,18 +46,47 @@ public class JsonContentTypeHandler
     {
         DirectMemoryResponse response =
             new DirectMemoryResponse().setKey( request.getKey() ).setCacheContent( cacheResponseContent );
-        String json = writer.generateJsonResponse( response );
-        resp.setContentType( MediaType.APPLICATION_JSON );
-        return json.getBytes();
+        try
+        {
+            String serializerClassName = req.getHeader( DirectMemoryHttpConstants.SERIALIZER_HTTP_HEADER );
+            Serializer serializer = SerializerFactory.createNewSerializer( serializerClassName );
+            String res = serializer.deserialize( cacheResponseContent, String.class );
+            resp.setContentType( MediaType.TEXT_PLAIN );
+            return res.getBytes();
+        }
+        catch ( SerializerNotFoundException e )
+        {
+            throw new DirectMemoryException( e.getMessage(), e );
+        }
+        catch ( ClassNotFoundException e )
+        {
+            throw new DirectMemoryException( e.getMessage(), e );
+        }
+        catch ( InstantiationException e )
+        {
+            throw new DirectMemoryException( e.getMessage(), e );
+        }
+        catch ( IllegalAccessException e )
+        {
+            throw new DirectMemoryException( e.getMessage(), e );
+        }
     }
 
     @Override
     public DirectMemoryRequest handlePut( HttpServletRequest req, HttpServletResponse resp )
         throws DirectMemoryException, IOException
     {
-        // 	application/json
-
-        DirectMemoryRequest request = parser.buildRequest( req.getInputStream() );
+        String serializerClassName = req.getHeader( DirectMemoryHttpConstants.SERIALIZER_HTTP_HEADER );
+        DirectMemoryRequest request = new DirectMemoryRequest();
+        try
+        {
+            Serializer serializer = SerializerFactory.createNewSerializer( serializerClassName );
+            request.setCacheContent( serializer.serialize( IOUtils.toString( req.getInputStream() ) ) );
+        }
+        catch ( SerializerNotFoundException e )
+        {
+            throw new DirectMemoryException( e.getMessage(), e );
+        }
         return request;
 
     }

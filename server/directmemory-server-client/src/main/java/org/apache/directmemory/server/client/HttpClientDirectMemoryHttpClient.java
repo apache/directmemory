@@ -19,9 +19,9 @@ package org.apache.directmemory.server.client;
  */
 
 import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.apache.directmemory.server.commons.DirectMemoryResponse;
-import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.ExchangeType;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -82,10 +82,16 @@ public class HttpClientDirectMemoryHttpClient
         HttpPut httpPut = new HttpPut( uri );
         httpPut.addHeader( "Content-Type", getRequestContentType( request ) );
 
-        if ( request.getExchangeType() == ExchangeType.JAVA_SERIALIZED_OBJECT && request.getExpiresIn() > 0 )
+        if ( request.getExpiresIn() > 0 )
         {
             httpPut.addHeader( DirectMemoryHttpConstants.EXPIRES_IN_HTTP_HEADER,
                                Integer.toString( request.getExpiresIn() ) );
+        }
+
+        if ( request.getExchangeType() == ExchangeType.TEXT_PLAIN )
+        {
+            httpPut.addHeader( DirectMemoryHttpConstants.SERIALIZER_HTTP_HEADER,
+                               request.getSerializer().getClass().getName() );
         }
 
         httpPut.setEntity( new ByteArrayEntity( getPutContent( request ) ) );
@@ -135,6 +141,11 @@ public class HttpClientDirectMemoryHttpClient
 
         httpGet.addHeader( "Accept", getAcceptContentType( request ) );
 
+        if ( request.getExchangeType() == ExchangeType.TEXT_PLAIN )
+        {
+            httpGet.addHeader( DirectMemoryHttpConstants.SERIALIZER_HTTP_HEADER,
+                               request.getSerializer().getClass().getName() );
+        }
         try
         {
             HttpResponse httpResponse = this.httpClient.execute( httpGet );
