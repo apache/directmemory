@@ -19,8 +19,6 @@ package net.sf.ehcache.store.offheap;
  * under the License.
  */
 
-import java.util.WeakHashMap;
-
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.config.CacheConfiguration;
@@ -31,18 +29,20 @@ import net.sf.ehcache.store.FrontEndCacheTier;
 import net.sf.ehcache.store.MemoryStore;
 import net.sf.ehcache.store.Store;
 import net.sf.ehcache.store.disk.DiskStore;
-
 import org.apache.directmemory.ehcache.DirectMemoryStore;
+
+import java.util.WeakHashMap;
 
 /**
  * This class is simply a connector class into the EHCache for OffHeap.
- * @author michaelandrepearce
  *
+ * @author michaelandrepearce
  */
 public class OffHeapStore
 {
 
-    private static final WeakHashMap<CacheManager, Pool<PoolableStore>> OFFHEAP_POOLS = new WeakHashMap<CacheManager, Pool<PoolableStore>>();
+    private static final WeakHashMap<CacheManager, Pool<PoolableStore>> OFFHEAP_POOLS =
+        new WeakHashMap<CacheManager, Pool<PoolableStore>>();
 
     public static Store create( Ehcache cache, String diskStorePath, Pool<PoolableStore> onHeapPool,
                                 Pool<PoolableStore> onDiskPool )
@@ -75,11 +75,9 @@ public class OffHeapStore
     /**
      * Creates a persitent-to-disk store for the given cache, using the given
      * disk path. Heap and disk usage are not tracked by the returned store.
-     * 
-     * @param cache
-     *            cache that fronts this store
-     * @param diskStorePath
-     *            disk path to store data in
+     *
+     * @param cache         cache that fronts this store
+     * @param diskStorePath disk path to store data in
      * @return a fully initialized store
      */
     public static Store create( Ehcache cache, String diskStorePath )

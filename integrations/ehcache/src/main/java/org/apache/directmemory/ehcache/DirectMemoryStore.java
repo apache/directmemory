@@ -19,15 +19,6 @@ package org.apache.directmemory.ehcache;
  * under the License.
  */
 
-import static java.lang.String.format;
-
-import java.nio.BufferOverflowException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheEntry;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Ehcache;
@@ -41,13 +32,20 @@ import net.sf.ehcache.store.Policy;
 import net.sf.ehcache.store.TierableStore;
 import net.sf.ehcache.store.disk.StoreUpdateException;
 import net.sf.ehcache.writer.CacheWriterManager;
-
 import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.nio.BufferOverflowException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import static java.lang.String.format;
 
 public class DirectMemoryStore
     extends AbstractStore
@@ -109,8 +107,8 @@ public class DirectMemoryStore
             this.bufferLocks.add( new ReentrantLock() );
         }
 
-        directMemoryCache = new DirectMemoryCache<Object, Element>( numberOfBuffers,
-                                                                    (int) ( offHeapSizeBytes / numberOfBuffers ) );
+        directMemoryCache =
+            new DirectMemoryCache<Object, Element>( numberOfBuffers, (int) ( offHeapSizeBytes / numberOfBuffers ) );
     }
 
     @Override
@@ -596,7 +594,8 @@ public class DirectMemoryStore
             used += buffer.used();
         }
         logger.info( "***Totals***************************************" );
-        logger.info( format( "off-heap - # buffers: \t%1d", directMemoryCache.getMemoryManager().getBuffers().size() ) );
+        logger.info(
+            format( "off-heap - # buffers: \t%1d", directMemoryCache.getMemoryManager().getBuffers().size() ) );
         logger.info( format( "off-heap - allocated: \t%1s", Ram.inMb( capacity ) ) );
         logger.info( format( "off-heap - used:      \t%1s", Ram.inMb( used ) ) );
         logger.info( format( "heap     - max: \t%1s", Ram.inMb( Runtime.getRuntime().maxMemory() ) ) );

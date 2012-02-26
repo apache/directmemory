@@ -65,7 +65,9 @@ public class NotifyingDirectMemoryStore
             //.iskeyvalid()
             Element element = remove( key );
             if ( element != null )
+            {
                 this.cache.getCacheEventNotificationService().notifyElementExpiry( element, false );
+            }
         }
     }
 }

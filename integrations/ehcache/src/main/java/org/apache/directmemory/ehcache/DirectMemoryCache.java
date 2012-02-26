@@ -19,8 +19,6 @@ package org.apache.directmemory.ehcache;
  * under the License.
  */
 
-import java.util.Set;
-
 import org.apache.directmemory.cache.CacheService;
 import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.memory.MemoryManagerService;
@@ -30,18 +28,18 @@ import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.memory.RoundRobinAllocationPolicy;
 import org.apache.directmemory.serialization.Serializer;
 
+import java.util.Set;
+
 /**
- * 
- * @author michaelandrepearce
- *
  * @param <K>
  * @param <V>
+ * @author michaelandrepearce
  */
 public class DirectMemoryCache<K, V>
 {
 
-    private MemoryManagerService<V> memoryManager = new MemoryManagerServiceWithAllocationPolicyImpl<V>(
-                                                                                                                new RoundRobinAllocationPolicy<V>(), false );
+    private MemoryManagerService<V> memoryManager =
+        new MemoryManagerServiceWithAllocationPolicyImpl<V>( new RoundRobinAllocationPolicy<V>(), false );
 
     private CacheServiceImpl<K, V> cacheService = new CacheServiceImpl<K, V>( memoryManager );
 
