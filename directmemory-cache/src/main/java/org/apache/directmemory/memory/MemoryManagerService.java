@@ -25,53 +25,53 @@ import java.util.List;
 public interface MemoryManagerService<V>
 {
 
-	/**
-	 * Initialize the internal structure. Need to be called before the service
-	 * can be used.
-	 *
-	 * @param numberOfBuffers
-	 *            : number of internal bucket
-	 * @param size
-	 *            : size in B of internal buckets
-	 */
+    /**
+     * Initialize the internal structure. Need to be called before the service
+     * can be used.
+     *
+     * @param numberOfBuffers
+     *            : number of internal bucket
+     * @param size
+     *            : size in B of internal buckets
+     */
     void init( int numberOfBuffers, int size );
 
 
-	/**
-	 * Store function family. Store the given payload at a certain offset in a MemoryBuffer, returning the pointer to the value.
-	 *
-	 * @param payload : the data to store
-	 * @return the pointer to the value, or null if not enough space has been found.
-	 */
+    /**
+     * Store function family. Store the given payload at a certain offset in a MemoryBuffer, returning the pointer to the value.
+     *
+     * @param payload : the data to store
+     * @return the pointer to the value, or null if not enough space has been found.
+     */
     Pointer<V> store( byte[] payload, int expiresIn );
 
-	/**
-	 * Same function as {@link #store(byte[])}, but add an relative expiration delta in milliseconds
-	 *
-	 * @param payload : the data to store
-	 * @param expiresIn : relative amount of milliseconds the data will expire
-	 * @return the pointer to the value, or null if not enough space has been found.
-	 */
+    /**
+     * Same function as {@link #store(byte[])}, but add an relative expiration delta in milliseconds
+     *
+     * @param payload : the data to store
+     * @param expiresIn : relative amount of milliseconds the data will expire
+     * @return the pointer to the value, or null if not enough space has been found.
+     */
     Pointer<V> store( byte[] payload );
 
-	/**
-	 * Same function as {@link #store(byte[])}, but add an absolute expiration date
-	 * @param payload : the data to store
-	 * @param expires : the absolute date the data will expire
-	 * @return the pointer to the value, or null if not enough space has been found.
-	 */
-	//public Pointer store(byte[] payload, Date expires);
+    /**
+     * Same function as {@link #store(byte[])}, but add an absolute expiration date
+     * @param payload : the data to store
+     * @param expires : the absolute date the data will expire
+     * @return the pointer to the value, or null if not enough space has been found.
+     */
+    //public Pointer store(byte[] payload, Date expires);
 
 
-	/**
-	 *
-	 *
-	 * Update value of a {@link Pointer
-	 * @param pointer
-	 * @param payload
-	 * @return
-	 * @throw BufferOverflowException if the size of the payload id bigger than the pointer capacity
-	 */
+    /**
+     *
+     *
+     * Update value of a {@link Pointer
+     * @param pointer
+     * @param payload
+     * @return
+     * @throw BufferOverflowException if the size of the payload id bigger than the pointer capacity
+     */
     Pointer<V> update(Pointer<V> pointer, byte[] payload);
 
     byte[] retrieve( Pointer<V> pointer );
