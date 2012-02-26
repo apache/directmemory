@@ -18,15 +18,13 @@ package org.apache.directmemory.server.services;
  * under the License.
  */
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.directmemory.cache.CacheService;
-import org.apache.directmemory.cache.CacheServiceImpl;
-import org.apache.directmemory.memory.Pointer;
-import org.apache.directmemory.server.commons.DirectMemoryException;
-import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
-import org.apache.directmemory.server.commons.DirectMemoryRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.lang.Integer.getInteger;
+import static org.apache.directmemory.DirectMemory.DEFAULT_CONCURRENCY_LEVEL;
+import static org.apache.directmemory.DirectMemory.DEFAULT_INITIAL_CAPACITY;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -34,9 +32,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.directmemory.DirectMemory;
+import org.apache.directmemory.cache.CacheService;
+import org.apache.directmemory.memory.Pointer;
+import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
+import org.apache.directmemory.server.commons.DirectMemoryRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TODO add some listener plugin mechanism to store figures/statistics on cache access
@@ -49,7 +54,7 @@ public class DirectMemoryServlet
 
     private Logger log = LoggerFactory.getLogger( getClass() );
 
-    private CacheService cacheService = new CacheServiceImpl();
+    private CacheService<Object, Object> cacheService;
 
     private Map<String, ContentTypeHandler> contentTypeHandlers;
 
@@ -61,13 +66,15 @@ public class DirectMemoryServlet
         super.init( config );
         // TODO some configuration for cacheService.init( .... ); different from sysproperties
         //int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel
-        int numberOfBuffers = Integer.getInteger( "directMemory.numberOfBuffers", 1000 );
-        int size = Integer.getInteger( "directMemory.size", 10 );
-        int initialCapacity =
-            Integer.getInteger( "directMemory.initialCapacity", CacheService.DEFAULT_INITIAL_CAPACITY );
-        int concurrencyLevel =
-            Integer.getInteger( "directMemory.concurrencyLevel", CacheService.DEFAULT_CONCURRENCY_LEVEL );
-        cacheService.init( numberOfBuffers, size, initialCapacity, concurrencyLevel );
+
+        cacheService = new DirectMemory<Object, Object>()
+                        .setNumberOfBuffers( getInteger( "directMemory.numberOfBuffers", 1000 ) )
+                        .setSize( getInteger( "directMemory.size", 10 ) )
+                        .setInitialCapacity( getInteger( "directMemory.initialCapacity",
+                                                         DEFAULT_INITIAL_CAPACITY ) )
+                        .setConcurrencyLevel( getInteger( "directMemory.concurrencyLevel",
+                                                           DEFAULT_CONCURRENCY_LEVEL ) )
+                        .newCacheService();
 
         //
 

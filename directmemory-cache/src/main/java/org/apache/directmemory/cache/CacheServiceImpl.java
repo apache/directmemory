@@ -19,16 +19,8 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
-import com.google.common.collect.MapMaker;
-import org.apache.directmemory.measures.Every;
-import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.MemoryManagerService;
-import org.apache.directmemory.memory.MemoryManagerServiceImpl;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
-import org.apache.directmemory.memory.Pointer;
-import org.apache.directmemory.serialization.Serializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.lang.String.format;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -36,8 +28,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentMap;
 
-import static java.lang.String.format;
-import static org.apache.directmemory.serialization.SerializerFactory.createNewSerializer;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.MemoryManagerService;
+import org.apache.directmemory.memory.OffHeapMemoryBuffer;
+import org.apache.directmemory.memory.Pointer;
+import org.apache.directmemory.serialization.Serializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CacheServiceImpl<K, V>
     implements CacheService<K, V>
@@ -47,28 +44,26 @@ public class CacheServiceImpl<K, V>
 
     private ConcurrentMap<K, Pointer<V>> map;
 
-    private Serializer serializer = createNewSerializer();
+    private Serializer serializer;
 
-    private MemoryManagerService<V> memoryManager = new MemoryManagerServiceImpl<V>();
+    private MemoryManagerService<V> memoryManager;
 
     private final Timer timer = new Timer();
 
-
     /**
      * Constructor
      */
-    public CacheServiceImpl()
+    public CacheServiceImpl( ConcurrentMap<K, Pointer<V>> map,
+                             MemoryManagerService<V> memoryManager,
+                             Serializer serializer )
     {
-    }
+        checkArgument( map != null, "Impossible to initialize the CacheService with a null map" );
+        checkArgument( memoryManager != null, "Impossible to initialize the CacheService with a null memoryManager" );
+        checkArgument( serializer != null, "Impossible to initialize the CacheService with a null serializer" );
 
-    /**
-     * Constructor
-     *
-     * @param memoryManager
-     */
-    public CacheServiceImpl( MemoryManagerService<V> memoryManager )
-    {
+        this.map = map;
         this.memoryManager = memoryManager;
+        this.serializer = serializer;
     }
 
     @Override
@@ -79,41 +74,15 @@ public class CacheServiceImpl<K, V>
             public void run()
             {
                 logger.info( "begin scheduled disposal" );
+
                 collectExpired();
                 collectLFU();
+
                 logger.info( "scheduled disposal complete" );
             }
         }, l );
-        logger.info( "disposal scheduled every " + l + " milliseconds" );
-    }
 
-    @Override
-    public void init( int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel )
-    {
-        map = new MapMaker().concurrencyLevel( concurrencyLevel ).initialCapacity( initialCapacity ).makeMap();
-
-        logger.info( "******************************** initializing *******************************" );
-        logger.info( "         ____  _                 __  __  ___" );
-        logger.info( "        / __ \\(_)________  _____/ /_/  |/  /___  ____ ___  ____  _______  __" );
-        logger.info( "       / / / / // ___/ _ \\/ ___/ __/ /|_/ // _ \\/ __ `__ \\/ __ \\/ ___/ / / /" );
-        logger.info( "      / /_/ / // /  /  __/ /__/ /_/ /  / //  __/ / / / / / /_/ / /  / /_/ / " );
-        logger.info( "     /_____/_//_/   \\___/\\___/\\__/_/  /_/ \\___/_/ /_/ /_/\\____/_/   \\__, /" );
-        logger.info( "                                                                   /____/   " );
-        logger.info( "********************************************************************************" );
-
-        memoryManager.init( numberOfBuffers, size );
-
-        logger.info( "initialized" );
-        logger.info( format( "number of buffer(s): \t%1d  with %2s each", numberOfBuffers, Ram.inMb( size ) ) );
-        logger.info( format( "initial capacity: \t%1d", initialCapacity ) );
-        logger.info( format( "concurrency level: \t%1d", concurrencyLevel ) );
-        scheduleDisposalEvery( Every.seconds( 10 ) );
-    }
-
-    @Override
-    public void init( int numberOfBuffers, int size )
-    {
-        init( numberOfBuffers, size, DEFAULT_INITIAL_CAPACITY, DEFAULT_CONCURRENCY_LEVEL );
+        logger.info( "disposal scheduled every {} milliseconds", l );
     }
 
     @Override

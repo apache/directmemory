@@ -19,13 +19,15 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
+import static org.junit.Assert.assertTrue;
+
+import org.apache.directmemory.DirectMemory;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.AllocationPolicy;
 import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.MemoryManagerServiceWithAllocationPolicyImpl;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.memory.RoundRobinAllocationPolicy;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class CacheServiceImplTest
@@ -37,8 +39,11 @@ public class CacheServiceImplTest
         AllocationPolicy<byte[]> allocationPolicy = new RoundRobinAllocationPolicy<byte[]>();
         MemoryManagerService<byte[]> memoryManager =
             new MemoryManagerServiceWithAllocationPolicyImpl<byte[]>( allocationPolicy, true );
-        CacheService<Integer, byte[]> cache = new CacheServiceImpl<Integer, byte[]>( memoryManager );
-        cache.init( 1, (int) ( Ram.Mb( 1 ) ) );
+        CacheService<Integer, byte[]> cache = new DirectMemory<Integer, byte[]>()
+                        .setMemoryManager( memoryManager )
+                        .setNumberOfBuffers( 1 )
+                        .setSize( Ram.Mb( 1 ) )
+                        .newCacheService();
 
         for ( int i = 0; i < 1000; i++ )
         {
@@ -48,8 +53,7 @@ public class CacheServiceImplTest
                 System.out.println( pointer );
             }
         }
-        Assert.assertTrue( "This test ensures that no unexpected errors/behaviours occurs when heap space is full",
-                           true );
+        assertTrue( "This test ensures that no unexpected errors/behaviours occurs when heap space is full", true );
 
     }
 

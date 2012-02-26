@@ -19,16 +19,19 @@ package org.apache.directmemory.ehcache;
  * under the License.
  */
 
+import static org.apache.directmemory.DirectMemory.DEFAULT_CONCURRENCY_LEVEL;
+import static org.apache.directmemory.DirectMemory.DEFAULT_INITIAL_CAPACITY;
+
+import java.util.Set;
+
+import org.apache.directmemory.DirectMemory;
 import org.apache.directmemory.cache.CacheService;
-import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.MemoryManagerServiceWithAllocationPolicyImpl;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.memory.RoundRobinAllocationPolicy;
 import org.apache.directmemory.serialization.Serializer;
-
-import java.util.Set;
 
 /**
  * @param <K>
@@ -38,19 +41,24 @@ import java.util.Set;
 public class DirectMemoryCache<K, V>
 {
 
-    private MemoryManagerService<V> memoryManager =
-        new MemoryManagerServiceWithAllocationPolicyImpl<V>( new RoundRobinAllocationPolicy<V>(), false );
-
-    private CacheServiceImpl<K, V> cacheService = new CacheServiceImpl<K, V>( memoryManager );
+    private final CacheService<K, V> cacheService;
 
     public DirectMemoryCache( int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel )
     {
-        cacheService.init( numberOfBuffers, size, initialCapacity, concurrencyLevel );
+        MemoryManagerService<V> memoryManager =
+                    new MemoryManagerServiceWithAllocationPolicyImpl<V>( new RoundRobinAllocationPolicy<V>(), false );
+
+        cacheService = new DirectMemory<K, V>().setMemoryManager( memoryManager )
+                        .setNumberOfBuffers( numberOfBuffers )
+                        .setSize( size )
+                        .setInitialCapacity( initialCapacity )
+                        .setConcurrencyLevel( concurrencyLevel )
+                        .newCacheService();;
     }
 
     public DirectMemoryCache( int numberOfBuffers, int size )
     {
-        this( numberOfBuffers, size, CacheService.DEFAULT_INITIAL_CAPACITY, CacheService.DEFAULT_CONCURRENCY_LEVEL );
+        this( numberOfBuffers, size, DEFAULT_INITIAL_CAPACITY, DEFAULT_CONCURRENCY_LEVEL );
     }
 
     public void scheduleDisposalEvery( long l )

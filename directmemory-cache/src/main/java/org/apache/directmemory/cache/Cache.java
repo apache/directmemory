@@ -19,6 +19,9 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
+import static org.apache.directmemory.DirectMemory.*;
+
+import org.apache.directmemory.DirectMemory;
 import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
@@ -27,7 +30,9 @@ import org.apache.directmemory.serialization.Serializer;
 public class Cache
 {
 
-    private static CacheService<String, Object> cacheService = new CacheServiceImpl<String, Object>();
+    private static final DirectMemory<String, Object> builder = new DirectMemory<String, Object>();
+
+    private static CacheService<String, Object> cacheService = builder.newCacheService();
 
     // olamy chicken and eggs isssue
     // private static CacheService cacheService = new CacheServiceImpl( getMemoryManager());
@@ -39,17 +44,23 @@ public class Cache
 
     public static void scheduleDisposalEvery( long l )
     {
+        // store to builder
+        builder.setDisposalTime( l );
+
         cacheService.scheduleDisposalEvery( l );
     }
 
     public static void init( int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel )
     {
-        cacheService.init( numberOfBuffers, size, initialCapacity, concurrencyLevel );
+        cacheService = builder.setNumberOfBuffers( numberOfBuffers )
+                              .setInitialCapacity( initialCapacity )
+                              .setConcurrencyLevel( concurrencyLevel )
+                              .newCacheService();
     }
 
     public static void init( int numberOfBuffers, int size )
     {
-        init( numberOfBuffers, size, CacheService.DEFAULT_INITIAL_CAPACITY, CacheService.DEFAULT_CONCURRENCY_LEVEL );
+        init( numberOfBuffers, size, DEFAULT_INITIAL_CAPACITY, DEFAULT_CONCURRENCY_LEVEL );
     }
 
     public static Pointer<Object> putByteArray( String key, byte[] payload, int expiresIn )

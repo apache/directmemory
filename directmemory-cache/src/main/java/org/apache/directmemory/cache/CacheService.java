@@ -30,13 +30,6 @@ import java.util.concurrent.ConcurrentMap;
 public interface CacheService<K, V>
 {
 
-    public static int DEFAULT_CONCURRENCY_LEVEL = 4;
-    public static int DEFAULT_INITIAL_CAPACITY = 100000;
-
-    void init( int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel );
-
-    void init( int numberOfBuffers, int size );
-
     void scheduleDisposalEvery( long l );
 
     Pointer<V> putByteArray( K key, byte[] payload, int expiresIn );

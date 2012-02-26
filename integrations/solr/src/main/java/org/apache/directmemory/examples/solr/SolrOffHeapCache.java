@@ -19,8 +19,13 @@ package org.apache.directmemory.examples.solr;
  * under the License.
  */
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
+
+import org.apache.directmemory.DirectMemory;
 import org.apache.directmemory.cache.CacheService;
-import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.measures.Monitor;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.serialization.Serializer;
@@ -32,11 +37,6 @@ import org.apache.solr.core.SolrCore;
 import org.apache.solr.search.CacheRegenerator;
 import org.apache.solr.search.SolrCache;
 import org.apache.solr.search.SolrIndexSearcher;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A {@link SolrCache} based on Apache DirectMemory
@@ -78,9 +78,9 @@ public class SolrOffHeapCache<K, V>
 
     private String description = "DM Cache";
 
-    private static CacheService cacheService = new CacheServiceImpl();
+    private CacheService<K, V> cacheService;
 
-    public static CacheService getCacheService()
+    public CacheService<K, V> getCacheService()
     {
         return cacheService;
     }
@@ -88,18 +88,17 @@ public class SolrOffHeapCache<K, V>
     @Override
     public Object init( Map args, Object persistence, CacheRegenerator regenerator )
     {
+
+
         Object buffers = args.get( "buffers" );
         String sizeStr = String.valueOf( args.get( "size" ) );
         Integer capacity = Integer.parseInt( String.valueOf( args.get( "initialSize" ) ) );
 
-        int numberOfBuffers = buffers != null ? Integer.valueOf( String.valueOf( buffers ) ) : 1,
-            size = Ram.Mb( Double.valueOf( sizeStr ) / 512 ),
-            initialCapacity = Ram.Mb( Double.valueOf( capacity ) / 512 ),
-            concurrencyLevel = CacheService.DEFAULT_CONCURRENCY_LEVEL;
-
-        cacheService = new CacheServiceImpl();
-        //Cache.init( numberOfBuffers, size, initialCapacity, concurrencyLevel );
-        cacheService.init( numberOfBuffers, size, initialCapacity, concurrencyLevel );
+        cacheService = new DirectMemory<K, V>()
+                        .setNumberOfBuffers( buffers != null ? Integer.valueOf( String.valueOf( buffers ) ) : 1 )
+                        .setInitialCapacity( Ram.Mb( Double.valueOf( capacity ) / 512 ) )
+                        .setSize( Ram.Mb( Double.valueOf( sizeStr ) / 512 ) )
+                        .newCacheService();
 
         String serializerClassName = (String) args.get( "serializerClassName" );
         if ( serializerClassName != null )
@@ -169,7 +168,8 @@ public class SolrOffHeapCache<K, V>
             }
 
             inserts++;
-            return (V) cacheService.put( String.valueOf( key ), value );
+            cacheService.put( key, value );
+            return value;
         }
     }
 
@@ -178,7 +178,7 @@ public class SolrOffHeapCache<K, V>
     {
         synchronized ( this )
         {
-            V val = (V) cacheService.retrieve( String.valueOf( key ) );
+            V val = cacheService.retrieve( key );
             if ( state == State.LIVE )
             {
                 // only increment lookups and hits if we are live.
