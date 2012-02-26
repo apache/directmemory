@@ -293,7 +293,7 @@ under the License.
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.8</version>
+          <version>${javadoc-plugin.version}</version>
         </plugin>
 
         <plugin>
@@ -441,6 +441,16 @@ under the License.
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <additionnalDependencies>
+            <additionnalDependency>
+              <groupId>geronimo-spec</groupId>
+              <artifactId>geronimo-spec-jta</artifactId>
+              <version>1.0.1B-rc4</version>
+            </additionnalDependency>
+          </additionnalDependencies>
+        </configuration>
+
         <executions>
           <execution>
             <goals>
@@ -452,7 +462,14 @@ under the License.
       </plugin>
     </plugins>
   </build>
-
+  <dependencies>
+    <dependency>
+      <groupId>geronimo-spec</groupId>
+      <artifactId>geronimo-spec-jta</artifactId>
+      <version>1.0.1B-rc4</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
   <dependencyManagement>
     <dependencies>
       <!-- Internal Project Artifacts -->
@@ -656,6 +673,14 @@ under the License.
             | Apple's JVM sometimes requires more memory
           -->
           <additionalJOption>-J-Xmx1024m</additionalJOption>
+          <additionnalDependencies>
+            <!-- prevent doclava to fail -->
+            <additionnalDependency>
+              <groupId>geronimo-spec</groupId>
+              <artifactId>geronimo-spec-jta</artifactId>
+              <version>1.0.1B-rc4</version>
+            </additionnalDependency>
+          </additionnalDependencies>
         </configuration>
       </plugin>
       <plugin>
