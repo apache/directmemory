@@ -21,8 +21,8 @@ under the License.
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>itests</artifactId>
     <groupId>org.apache.directmemory</groupId>
+    <artifactId>itests</artifactId>
     <version>0.6.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -31,7 +31,11 @@ under the License.
   <artifactId>osgi</artifactId>
   <name>Apache DirectMemory :: Integration Tests :: OSGi</name>
   <description>${project.name}</description>
-
+  <properties>
+    <osgi.debug>false</osgi.debug>
+    <osgi.debug.port>5005</osgi.debug.port>
+    <osgi.debug.suspend>true</osgi.debug.suspend>
+  </properties>
   <dependencies>
 
     <dependency>
@@ -79,5 +83,24 @@ under the License.
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.12</version>
+        <configuration>
+          <argLine>-Xmx512m -Xms512m -XX:MaxDirectMemorySize=512m</argLine>
+          <systemPropertyVariables>
+            <osgi.debug>${osgi.debug}</osgi.debug>
+            <osgi.debug.port>${osgi.debug.port}</osgi.debug.port>
+            <osgi.debug.suspend>${osgi.debug.suspend}</osgi.debug.suspend>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 
 </project>

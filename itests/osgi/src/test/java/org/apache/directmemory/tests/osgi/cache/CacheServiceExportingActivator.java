@@ -19,27 +19,45 @@
 
 package org.apache.directmemory.tests.osgi.cache;
 
-import java.util.Properties;
-
+import org.apache.directmemory.DirectMemory;
 import org.apache.directmemory.cache.CacheService;
-import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.AllocationPolicy;
+import org.apache.directmemory.memory.MemoryManagerService;
+import org.apache.directmemory.memory.MemoryManagerServiceWithAllocationPolicyImpl;
+import org.apache.directmemory.memory.RoundRobinAllocationPolicy;
+import org.apache.directmemory.serialization.SerializerFactory;
+import org.apache.directmemory.serialization.StandardSerializer;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+
+import java.util.Properties;
 
 public class CacheServiceExportingActivator
     implements BundleActivator
 {
 
-    CacheService cacheService = new CacheServiceImpl();
+    CacheService<String, SimpleObject> cacheService;
 
     @Override
     public void start( BundleContext context )
         throws Exception
     {
-        cacheService.init( 1, Ram.Mb( 16 ) );
+        AllocationPolicy<SimpleObject> allocationPolicy = new RoundRobinAllocationPolicy<SimpleObject>();
+        MemoryManagerService<SimpleObject> memoryManager =
+            new MemoryManagerServiceWithAllocationPolicyImpl<SimpleObject>( allocationPolicy, true );
+        this.cacheService =
+            new DirectMemory<String, SimpleObject>().setNumberOfBuffers( 1 ).setSize( Ram.Mb( 1 ) ).setMemoryManager(
+                memoryManager ).setSerializer(
+                SerializerFactory.createNewSerializer( StandardSerializer.class ) ).newCacheService();
         cacheService.put( "1", new SimpleObject( "1,", "Activator Object" ) );
         context.registerService( CacheService.class.getCanonicalName(), cacheService, new Properties() );
+
+        /*CacheService<Integer, byte[]> cache = new DirectMemory<Integer, byte[]>()
+        .setMemoryManager( memoryManager )
+        .setNumberOfBuffers( 1 )
+        .setSize(  )
+        .newCacheService();*/
     }
 
     @Override

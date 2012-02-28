@@ -19,16 +19,10 @@
 
 package org.apache.directmemory.tests.osgi;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Dictionary;
-import java.util.Enumeration;
-
 import org.ops4j.pax.exam.Inject;
 import org.ops4j.pax.exam.Option;
+import org.ops4j.pax.exam.container.def.options.VMOption;
+import org.ops4j.pax.exam.options.MavenArtifactProvisionOption;
 import org.ops4j.pax.exam.options.UrlProvisionOption;
 import org.ops4j.store.Store;
 import org.ops4j.store.StoreFactory;
@@ -40,6 +34,15 @@ import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.List;
 
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.container.def.PaxRunnerOptions.vmOption;
@@ -159,7 +162,7 @@ public class DirectMemoryOsgiTestSupport
      */
     public static Option[] getDynamicMemoryOptions()
     {
-        return new Option[]{
+        List<MavenArtifactProvisionOption> mavenOptions = Arrays.asList(
             mavenBundle().groupId( "org.apache.felix" ).artifactId( "org.apache.felix.configadmin" ).version( "1.2.8" ),
             mavenBundle().groupId( "org.ops4j.pax.logging" ).artifactId( "pax-logging-api" ).version( "1.6.2" ),
             mavenBundle().groupId( "org.ops4j.pax.logging" ).artifactId( "pax-logging-service" ).version( "1.6.2" ),
@@ -173,7 +176,14 @@ public class DirectMemoryOsgiTestSupport
                 "org.apache.servicemix.bundles.aspectj" ).version( "1.6.8_2" ),
             mavenBundle().groupId( "com.dyuproject.protostuff" ).artifactId( "protostuff-uberjar" ).version( "1.0.2" ),
             mavenBundle().groupId( "org.apache.directmemory" ).artifactId( "directmemory-cache" ).version(
-                "0.6.0-SNAPSHOT" ) };
+                "0.6.0-SNAPSHOT" ));
+        List<Option> options = new ArrayList<Option>( mavenOptions );
+        if ( Boolean.getBoolean( "osgi.debug" ) )
+        {
+            options.add( enabledDebuggingOnPort( Integer.getInteger( "osgi.debug.port" ),
+                                                 Boolean.getBoolean( "osgi.debug.suspend" ) ) );
+        }
+        return options.toArray( new Option[options.size()] );
     }
 
     protected static UrlProvisionOption bundle( final InputStream stream )
