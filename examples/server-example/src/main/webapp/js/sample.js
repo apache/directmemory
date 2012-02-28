@@ -41,14 +41,15 @@ $(function() {
     clearResultContent();
     $("#result-content" ).html($("#alert-message-warning").tmpl({message:msg}));
   }
+
   // X-DirectMemory-ExpiresIn
-  putWineInCache=function(wine){
+  putWineInCache=function(wine,expiresIn){
     $.ajax({
       url: 'cache/'+encodeURIComponent(wine.name),
       data:$.toJSON( wine ),
       cache: false,
-      type: 'POST',
-      //dataType: 'text',
+      type: 'PUT',
+      headers:{'X-DirectMemory-ExpiresIn':expiresIn},
       contentType: "text/plain",
       statusCode: {
         204: function() {
@@ -92,7 +93,12 @@ $(function() {
         displayError("name mandatory");
         return;
       }
-      putWineInCache(wine);
+      var expiresIn=$("#expires-in").val()?$("#expires-in").val():0;
+      if( $.trim(expiresIn).length>0 && !$.isNumeric($.trim(expiresIn))){
+        displayError("expiresIn must be a number");
+        return;
+      }
+      putWineInCache(wine,expiresIn);
 
     });
 
