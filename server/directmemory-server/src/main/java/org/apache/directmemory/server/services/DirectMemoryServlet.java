@@ -131,12 +131,15 @@ public class DirectMemoryServlet
 
         //if exists free first ?
         //if ( cacheService.retrieveByteArray( key ) == null )
-        Pointer p = cacheService.putByteArray( key, request.getCacheContent(), request.getExpiresIn() );
+        byte[] bytes = request.getCacheContent();
+        Pointer p = cacheService.putByteArray( key, bytes, request.getExpiresIn() );
         if ( p == null )
         {
             resp.sendError( HttpServletResponse.SC_NO_CONTENT, "Content not put in cache for key: " + key );
             return;
         }
+        log.debug( "put content for key {} size {}", key, bytes.length );
+        resp.addHeader( DirectMemoryHttpConstants.EXPIRES_SERIALIZE_SIZE, Integer.toString( bytes.length ) );
     }
 
     protected ContentTypeHandler findPutCacheContentTypeHandler( HttpServletRequest req, HttpServletResponse response )
@@ -171,6 +174,7 @@ public class DirectMemoryServlet
             return;
         }
         cacheService.free( pointer );
+        log.debug( "free content of key: {}", key );
     }
 
     @Override
@@ -210,7 +214,7 @@ public class DirectMemoryServlet
 
         byte[] bytes = cacheService.retrieveByteArray( key );
 
-        log.debug( "content size {} for key {}", ( bytes == null ? "null" : bytes.length ), key );
+        log.debug( "return content size {} for key {}", ( bytes == null ? "null" : bytes.length ), key );
 
         if ( bytes == null || bytes.length == 0 )
         {

@@ -55,8 +55,10 @@ $(function() {
         204: function() {
           displayWarning("not put in cache");
         },
-        200:function( data ) {
-          displayInfo('put in cache with key:'+wine.name);
+        200:function( data, textStatus, jqXHR ) {
+          var size = jqXHR.getResponseHeader('X-DirectMemory-SerializeSize');
+          displayInfo('put in cache with key:'+wine.name+ " bytes stored:"+size);
+
         },
         500:function(data){
           displayError("error put in cache");

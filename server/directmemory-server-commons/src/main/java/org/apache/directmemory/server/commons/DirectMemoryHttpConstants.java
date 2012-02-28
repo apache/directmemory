@@ -29,6 +29,7 @@ public class DirectMemoryHttpConstants
 
     public static final String EXPIRES_IN_HTTP_HEADER = "X-DirectMemory-ExpiresIn";
 
+    public static final String EXPIRES_SERIALIZE_SIZE = "X-DirectMemory-SerializeSize";
 
     private DirectMemoryHttpConstants()
     {
