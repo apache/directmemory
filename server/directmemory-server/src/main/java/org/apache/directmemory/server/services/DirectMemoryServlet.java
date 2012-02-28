@@ -18,21 +18,6 @@ package org.apache.directmemory.server.services;
  * under the License.
  */
 
-import static java.lang.Integer.getInteger;
-import static org.apache.directmemory.DirectMemory.DEFAULT_CONCURRENCY_LEVEL;
-import static org.apache.directmemory.DirectMemory.DEFAULT_INITIAL_CAPACITY;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.MediaType;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.directmemory.DirectMemory;
 import org.apache.directmemory.cache.CacheService;
@@ -42,6 +27,20 @@ import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static java.lang.Integer.getInteger;
+import static org.apache.directmemory.DirectMemory.DEFAULT_CONCURRENCY_LEVEL;
+import static org.apache.directmemory.DirectMemory.DEFAULT_INITIAL_CAPACITY;
 
 /**
  * TODO add some listener plugin mechanism to store figures/statistics on cache access
@@ -67,14 +66,11 @@ public class DirectMemoryServlet
         // TODO some configuration for cacheService.init( .... ); different from sysproperties
         //int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel
 
-        cacheService = new DirectMemory<Object, Object>()
-                        .setNumberOfBuffers( getInteger( "directMemory.numberOfBuffers", 1000 ) )
-                        .setSize( getInteger( "directMemory.size", 10 ) )
-                        .setInitialCapacity( getInteger( "directMemory.initialCapacity",
-                                                         DEFAULT_INITIAL_CAPACITY ) )
-                        .setConcurrencyLevel( getInteger( "directMemory.concurrencyLevel",
-                                                           DEFAULT_CONCURRENCY_LEVEL ) )
-                        .newCacheService();
+        cacheService = new DirectMemory<Object, Object>().setNumberOfBuffers(
+            getInteger( "directMemory.numberOfBuffers", 1000 ) ).setSize(
+            getInteger( "directMemory.size", 10 ) ).setInitialCapacity(
+            getInteger( "directMemory.initialCapacity", DEFAULT_INITIAL_CAPACITY ) ).setConcurrencyLevel(
+            getInteger( "directMemory.concurrencyLevel", DEFAULT_CONCURRENCY_LEVEL ) ).newCacheService();
 
         //
 
@@ -83,6 +79,8 @@ public class DirectMemoryServlet
         contentTypeHandlers.put( DirectMemoryHttpConstants.JAVA_SERIALIZED_OBJECT_CONTENT_TYPE_HEADER,
                                  new JavaSerializedContentTypeHandler() );
         contentTypeHandlers.put( MediaType.TEXT_PLAIN, new TextPlainContentTypeHandler() );
+        log.info( "DirectMemoryServlet initialized" );
+
     }
 
     @Override

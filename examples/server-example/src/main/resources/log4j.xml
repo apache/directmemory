@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   ~ Licensed to the Apache Software Foundation (ASF) under one
   ~ or more contributor license agreements.  See the NOTICE file
@@ -18,24 +18,24 @@
   ~ under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <parent>
-    <groupId>org.apache.directmemory</groupId>
-    <artifactId>directmemory-parent</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
-  </parent>
-  <modelVersion>4.0.0</modelVersion>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
-  <artifactId>platforms</artifactId>
-  <packaging>pom</packaging>
-  <name>Apache DirectMemory :: Platforms</name>
-  <description>${project.name}</description>
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-  <modules>
-    <module>karaf</module>
-  </modules>
+  <appender name="console" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d %-5p %c %x - %m%n"/>
+    </layout>
+  </appender>
 
 
-</project>
+  <logger name="org.apache.directmemory">
+    <level value="debug"/>
+  </logger>
+
+  <root>
+    <priority value ="info" />
+    <appender-ref ref="console" />
+  </root>
+
+</log4j:configuration>

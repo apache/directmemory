@@ -198,6 +198,7 @@ under the License.
     <module>integrations</module>
     <module>serializers</module>
     <module>itests</module>
+    <module>examples</module>
   </modules>
 
   <scm>
@@ -271,6 +272,7 @@ under the License.
     <checkstyle-plugin.version>2.9</checkstyle-plugin.version>
     <site-plugin.version>3.0</site-plugin.version>
     <source-plugin.version>2.1.2</source-plugin.version>
+    <asfTomcatMavenPluginVersion>2.0-beta-1</asfTomcatMavenPluginVersion>
 
     <!-- Bundle Headers -->
     <osgi.activator/>
@@ -337,6 +339,11 @@ under the License.
           <configuration>
             <argLine>-Xmx512m -Xms512m -XX:MaxDirectMemorySize=512m</argLine>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>${asfTomcatMavenPluginVersion}</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>

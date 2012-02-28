@@ -25,6 +25,7 @@
   <servlet>
     <servlet-name>DirectMemoryServlet</servlet-name>
     <servlet-class>org.apache.directmemory.server.services.DirectMemoryServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   
   <servlet-mapping>
