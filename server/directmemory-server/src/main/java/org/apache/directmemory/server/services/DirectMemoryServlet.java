@@ -131,7 +131,13 @@ public class DirectMemoryServlet
 
         //if exists free first ?
         //if ( cacheService.retrieveByteArray( key ) == null )
-        cacheService.putByteArray( key, request.getCacheContent(), request.getExpiresIn() );
+        Pointer p = cacheService.putByteArray( key, request.getCacheContent(), request.getExpiresIn() );
+        if ( p == null )
+        {
+            resp.sendError( HttpServletResponse.SC_NO_CONTENT, "Content not put in cache for key: " + key );
+            return;
+        }
+
     }
 
     protected ContentTypeHandler findPutCacheContentTypeHandler( HttpServletRequest req, HttpServletResponse response )
@@ -142,6 +148,11 @@ public class DirectMemoryServlet
         {
             // 	application/json
             return contentTypeHandlers.get( MediaType.APPLICATION_JSON );
+        }
+        else if ( StringUtils.startsWith( contentType, MediaType.TEXT_PLAIN ) )
+        {
+            // text/plain
+            return contentTypeHandlers.get( MediaType.TEXT_PLAIN );
         }
         return contentTypeHandlers.get( contentType );
     }
@@ -231,6 +242,10 @@ public class DirectMemoryServlet
         {
             // 	application/json
             return contentTypeHandlers.get( MediaType.APPLICATION_JSON );
+        }
+        else if ( StringUtils.startsWith( acceptContentType, MediaType.TEXT_PLAIN ) )
+        {
+            return contentTypeHandlers.get( MediaType.TEXT_PLAIN );
         }
         return contentTypeHandlers.get( acceptContentType );
     }

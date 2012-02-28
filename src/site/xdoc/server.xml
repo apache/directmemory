@@ -56,6 +56,7 @@
     "cacheContent":"rO0ABXNyACtvcmcuYXBhY2hlLmRpcmVjdG1lbW9yeS5zZXJ2ZXIuY29tbW9ucy5XaW5l5dYKhxyAjeECAAFMAARuYW1ldAASTGphdmEvbGFuZy9TdHJpbmc7eHB0AAhCb3JkZWF1eA=="}
           </source>
           To put this content in DirectMemory Cache Server, just use a PUT request on path ${webPath}/DirectMemoryServlet/${key}.<br/>
+          Note: if the content was not put in cache, you will receive a 204 (Not Content)
         </p>
       </subsection>
       <subsection name="JSON GET Content">
@@ -80,7 +81,8 @@
           PUT Request to put content in cache Content-Type: application/x-java-serialized-object.<br/>
           To put this content in DirectMemory Cache Server, just use a PUT request on path ${webPath}/DirectMemoryServlet/${key}.<br/>
           ExpiresIn value can be set with http header: X-DirectMemory-ExpiresIn<br/>
-          The http request body will contains the serialized object value.
+          The http request body will contains the serialized object value.<br/>
+          Note: if the content was not put in cache, you will receive a 204 (Not Content)
         </p>
       </subsection>
       <subsection name="Binary GET Content">
@@ -102,7 +104,8 @@
           To put this content in DirectMemory Cache Server, just use a PUT request on path ${webPath}/DirectMemoryServlet/${key}.<br/>
           ExpiresIn value can be set with http header: X-DirectMemory-ExpiresIn<br/>
           The http request body will contains a String value which will be serialized on server side and stored in directMemory.<br/>
-          You can specify the Serializer to use with the http header: "X-DirectMemory-Serializer" (must contains the full class name).
+          You can specify the Serializer to use with the http header: "X-DirectMemory-Serializer" (must contains the full class name).<br/>
+          Note: if the content was not put in cache, you will receive a 204 (Not Content)
         </p>
       </subsection>
       <subsection name="text/plain GET Content">
