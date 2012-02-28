@@ -4,24 +4,44 @@
   <link rel="stylesheet" href="css/bootstrap.2.0.1.css">
 
   <script type="text/javascript" src="js/jquery-1.7.1.js"></script>
-
+  <script type="text/javascript" src="js/bootstrap.2.0.1.js"></script>
+  <script type="text/javascript" src="js/sample.js"></script>
+  <script type="text/javascript" src="js/jquery.json-2.3.js"></script>
   <title>Apache DirectMemory Sample</title>
 
 </head>
 
-<body style="padding-top: 42px;">
+<body style="padding-top: 1px;">
 
 <div id="topbar-menu-container"></div>
 
 <div class="container-fluid" style="min-height: 450px">
   <div class="row-fluid">
-    <div class="span2 columns">
-      <div class="well sidebar-nav" id="sidebar-content"></div>
-    </div>
+
     <div class="span10 columns">
       <div class="content">
-        <div id="user-messages"></div>
-        <div id="main-content"></div>
+        <div id="wine-create-form">
+          <div class="page-header"><h4>Put in cache</h4></div>
+          <div class="well">
+
+              Wine Name:&nbsp<input type="text" id="wine_name" name="wine_name">
+              Wine Description:&nbsp<input type="text" id="wine_description" name="wine_description">
+              <br/>
+              <button class="btn" id="put-cache-btn">Put</button>
+
+          </div>
+        </div>
+        <div id="wine-cache-get-div">
+          <div class="page-header"><h4>Get from cache</h4></div>
+          <div class="well">
+              Wine Key:&nbsp<input type="text" id="wine_name_cache" name="wine_name_cache">
+              <br/>
+              <button class="btn" id="get_cache_btn">Get</button>
+          </div>
+        </div>
+        <div id="wine-result">
+          <div class="page-header"><h4>Results</h4></div>
+        </div>
     </div>
   </div>
   </div>
@@ -29,12 +49,12 @@
 </div>
 
 <footer id="footer-content" style="vertical-align: bottom">
+  <div class="pull-left">
+    <a href="http://incubator.apache.org/directmemory" target="_blank">Apache DirectMemory Sample</a>
+  </div>
+  <div class="pull-right">
+    Copyright &copy; 2005 - 2012 <a href="http://www.apache.org/" target="_blank">The Apache Software Foundation</a>
+  </div>
 </footer>
-
-<div id="html-fragments"></div>
-
 </body>
-
-
-
 </html>

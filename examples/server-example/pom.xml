@@ -72,7 +72,7 @@
           <path>${tomcatRunPath}</path>
           <warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory>
           <systemProperties>
-            <appserver.base>${project.build.directory}/appserver-base</appserver.base>
+            <directMemory.size>1000</directMemory.size>
           </systemProperties>
         </configuration>
       </plugin>
