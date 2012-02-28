@@ -64,6 +64,26 @@ $(function() {
     });
   }
 
+  deleteFromCache=function(key){
+    $.ajax({
+      url: 'cache/'+encodeURIComponent(key),
+      cache: false,
+      type: 'DELETE',
+      dataType: 'text',
+      statusCode: {
+        204: function() {
+          displayWarning("not found in cache");
+        },
+        200:function( data ) {
+          displayInfo(' key '+key+ ' deleted from cache');
+        },
+        500:function(data){
+          displayError("error delete from cache");
+        }
+      }
+    });
+  }
+
   $(document).ready(function() {
 
     $("#put-cache-btn").on('click',function(){
@@ -103,6 +123,16 @@ $(function() {
       });
 
     });
+
+    $("#delete_cache_btn").on('click',function(){
+      var key = $("#wine_key_cache" ).val();
+      if ( $.trim(key).length<1){
+        displayError("key mandatory");
+        return;
+      }
+      deleteFromCache(key);
+    });
+
 
   });
 

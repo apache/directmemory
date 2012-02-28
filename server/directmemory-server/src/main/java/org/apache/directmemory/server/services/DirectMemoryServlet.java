@@ -137,7 +137,6 @@ public class DirectMemoryServlet
             resp.sendError( HttpServletResponse.SC_NO_CONTENT, "Content not put in cache for key: " + key );
             return;
         }
-
     }
 
     protected ContentTypeHandler findPutCacheContentTypeHandler( HttpServletRequest req, HttpServletResponse response )
@@ -165,7 +164,6 @@ public class DirectMemoryServlet
         String servletPath = req.getServletPath();
         String key = retrieveKeyFromPath( path );
 
-        // TODO if key == null -> BAD_REQUEST http response or SC_NO_CONTENT (olamy: I prefer SC_NO_CONTENT )
         Pointer pointer = cacheService.getPointer( key );
         if ( pointer == null )
         {
