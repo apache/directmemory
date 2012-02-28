@@ -22,9 +22,9 @@ import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.directmemory.serialization.SerializerFactory;
 import org.apache.directmemory.server.client.DefaultDirectMemoryClient;
+import org.apache.directmemory.server.client.DirectMemoryClient;
 import org.apache.directmemory.server.client.DirectMemoryClientConfiguration;
 import org.apache.directmemory.server.client.DirectMemoryHttpClient;
-import org.apache.directmemory.server.client.DirectMemoryClient;
 import org.apache.directmemory.server.client.HttpClientDirectMemoryHttpClient;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.apache.directmemory.server.commons.DirectMemoryResponse;
@@ -49,6 +49,9 @@ public abstract class AbstractServletWithClientTest
     private int port;
 
     DirectMemoryClient client;
+
+    StringBuilder hugeStr = new StringBuilder( "" );
+
 
     protected abstract ExchangeType getExchangeType();
 
@@ -85,6 +88,11 @@ public abstract class AbstractServletWithClientTest
 
         client = DefaultDirectMemoryClient.instance( configuration );
         // END SNIPPET: client-configuration
+
+        for ( int i = 0; i < 1000000; i++ )
+        {
+            hugeStr.append( "foo" );
+        }
     }
 
     public void shutdown()
@@ -100,7 +108,7 @@ public abstract class AbstractServletWithClientTest
         // START SNIPPET: client-put
 
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
-        client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ) );
+        assertTrue( client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ) ) );
 
         // END SNIPPET: client-put
 
@@ -135,10 +143,9 @@ public abstract class AbstractServletWithClientTest
     {
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
 
-        client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ) );
+        assertTrue( client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ) ) );
 
-        DirectMemoryResponse<Wine> response =
-            client.retrieve( new DirectMemoryRequest( "bordeaux", Wine.class ) );
+        DirectMemoryResponse<Wine> response = client.retrieve( new DirectMemoryRequest( "bordeaux", Wine.class ) );
 
         assertTrue( response.isFound() );
         Wine wine = response.getResponse();
@@ -174,7 +181,7 @@ public abstract class AbstractServletWithClientTest
 
         DirectMemoryResponse deleteResponse = client.delete( new DirectMemoryRequest<Wine>( "bordeaux" ) );
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
-        client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ).setExpiresIn( 1000 ) );
+        assertTrue( client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ).setExpiresIn( 1000 ) ) );
 
         DirectMemoryRequest rq = new DirectMemoryRequest( "bordeaux", Wine.class );
 
@@ -195,5 +202,14 @@ public abstract class AbstractServletWithClientTest
         assertFalse( response.isFound() );
 
         assertNull( response.getResponse() );
+    }
+
+
+    @Test
+    public void putTooBigNoPointer()
+        throws Exception
+    {
+
+        assertFalse( client.put( new DirectMemoryRequest<String>( "foo", hugeStr.toString() ) ) );
     }
 }

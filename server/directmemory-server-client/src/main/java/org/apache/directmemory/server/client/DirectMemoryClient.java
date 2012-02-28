@@ -38,10 +38,10 @@ public interface DirectMemoryClient
     Future<DirectMemoryResponse> asyncRetrieve( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException;
 
-    void put( DirectMemoryRequest directMemoryRequest )
+    Boolean put( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException;
 
-    Future<Void> asyncPut( DirectMemoryRequest directMemoryRequest )
+    Future<Boolean> asyncPut( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException;
 
     DirectMemoryResponse delete( DirectMemoryRequest directMemoryRequest )

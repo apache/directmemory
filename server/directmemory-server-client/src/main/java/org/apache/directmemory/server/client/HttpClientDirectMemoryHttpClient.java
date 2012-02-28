@@ -73,7 +73,7 @@ public class HttpClientDirectMemoryHttpClient
     }
 
     @Override
-    public void put( DirectMemoryRequest request )
+    public Boolean put( DirectMemoryRequest request )
         throws DirectMemoryException
     {
         String uri = buildRequestWithKey( request );
@@ -100,12 +100,19 @@ public class HttpClientDirectMemoryHttpClient
         {
             HttpResponse response = httpClient.execute( httpPut );
             StatusLine statusLine = response.getStatusLine();
-            if ( statusLine.getStatusCode() != 200 )
+            switch ( statusLine.getStatusCode() )
             {
-                throw new DirectMemoryException(
-                    "put cache content return http code:'" + statusLine.getStatusCode() + "', reasonPhrase:"
-                        + statusLine.getReasonPhrase() );
+                case 200:
+                    return Boolean.TRUE;
+                case 204:
+                    return Boolean.FALSE;
+                default:
+                    throw new DirectMemoryException(
+                        "put cache content return http code:'" + statusLine.getStatusCode() + "', reasonPhrase:"
+                            + statusLine.getReasonPhrase() );
+
             }
+
         }
         catch ( IOException e )
         {
@@ -114,17 +121,16 @@ public class HttpClientDirectMemoryHttpClient
     }
 
     @Override
-    public Future<Void> asyncPut( final DirectMemoryRequest request )
+    public Future<Boolean> asyncPut( final DirectMemoryRequest request )
         throws DirectMemoryException
     {
-        return Executors.newSingleThreadExecutor().submit( new Callable<Void>()
+        return Executors.newSingleThreadExecutor().submit( new Callable<Boolean>()
         {
             @Override
-            public Void call()
+            public Boolean call()
                 throws Exception
             {
-                put( request );
-                return null;
+                return put( request );
             }
         } );
     }

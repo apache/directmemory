@@ -80,15 +80,15 @@ public class DefaultDirectMemoryClient
     }
 
     @Override
-    public void put( DirectMemoryRequest directMemoryRequest )
+    public Boolean put( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException
     {
         verifyPerRequestParameters( directMemoryRequest );
-        this.directMemoryHttpClient.put( directMemoryRequest );
+        return this.directMemoryHttpClient.put( directMemoryRequest );
     }
 
     @Override
-    public Future<Void> asyncPut( DirectMemoryRequest directMemoryRequest )
+    public Future<Boolean> asyncPut( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException
     {
         verifyPerRequestParameters( directMemoryRequest );
