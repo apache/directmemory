@@ -181,11 +181,17 @@ public abstract class AbstractServletWithClientTest
 
         DirectMemoryResponse deleteResponse = client.delete( new DirectMemoryRequest<Wine>( "bordeaux" ) );
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
-        assertTrue( client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ).setExpiresIn( 1000 ) ).isStored() );
+
+        DirectMemoryResponse<Wine> response =
+            client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ).setExpiresIn( 1000 ) );
+
+        assertTrue( response.isStored() );
+
+        assertTrue( response.getStoredSize() > 0 );
 
         DirectMemoryRequest rq = new DirectMemoryRequest( "bordeaux", Wine.class );
 
-        DirectMemoryResponse<Wine> response = client.retrieve( rq );
+        response = client.retrieve( rq );
 
         assertTrue( response.isFound() );
         Wine wine = response.getResponse();

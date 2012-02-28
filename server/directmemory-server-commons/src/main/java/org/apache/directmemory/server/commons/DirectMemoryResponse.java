@@ -37,6 +37,12 @@ public class DirectMemoryResponse<V>
 
     private V response;
 
+    /**
+     * size of stored content on server size
+     * <code>-1</code> if unknown
+     */
+    private int storedSize = -1;
+
     public boolean isFound()
     {
         return found;
@@ -90,5 +96,16 @@ public class DirectMemoryResponse<V>
     public void setResponse( V response )
     {
         this.response = response;
+    }
+
+    public int getStoredSize()
+    {
+        return storedSize;
+    }
+
+    public DirectMemoryResponse setStoredSize( int storedSize )
+    {
+        this.storedSize = storedSize;
+        return this;
     }
 }

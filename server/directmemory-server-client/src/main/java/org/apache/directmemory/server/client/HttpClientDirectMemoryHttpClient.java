@@ -23,6 +23,7 @@ import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.apache.directmemory.server.commons.DirectMemoryResponse;
 import org.apache.directmemory.server.commons.ExchangeType;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
@@ -103,7 +104,9 @@ public class HttpClientDirectMemoryHttpClient
             switch ( statusLine.getStatusCode() )
             {
                 case 200:
-                    return new DirectMemoryResponse().setStored( Boolean.TRUE );
+                    Header header = response.getFirstHeader( DirectMemoryHttpConstants.EXPIRES_SERIALIZE_SIZE );
+                    int storedSize = header == null ? -1 : Integer.valueOf( header.getValue() );
+                    return new DirectMemoryResponse().setStored( Boolean.TRUE ).setStoredSize( storedSize );
                 case 204:
                     return new DirectMemoryResponse().setStored( Boolean.FALSE );
                 default:
