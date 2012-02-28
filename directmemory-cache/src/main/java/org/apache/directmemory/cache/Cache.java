@@ -55,6 +55,7 @@ public class Cache
         cacheService = builder.setNumberOfBuffers( numberOfBuffers )
                               .setInitialCapacity( initialCapacity )
                               .setConcurrencyLevel( concurrencyLevel )
+                              .setSize( size )
                               .newCacheService();
     }
 
