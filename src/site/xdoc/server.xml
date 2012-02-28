@@ -43,9 +43,38 @@
         <ul>
           <li>GET to retrieve content ${webPath}/${key}</li>
           <li>DELETE to delete content ${webPath}/${key}</li>
-          <li>PUT to add some content in cache ${webPath}/${key}</li>
+          <li>PUT/POST to add some content in cache ${webPath}/${key}</li>
         </ul>
       </p>
+      <subsection name="HTTP Methods">
+        <subsection name="PUT/POST">
+          <p>
+            PUT/POST are used for adding/updating content in cache.<br/>
+            Note: if the content was not put in cache, you will receive a 204 (Not Content)
+          </p>
+        </subsection>
+        <subsection name="GET">
+          <p>
+            GET is used to retrieve content from the cache.<br/>
+            <b>If not content is found for the key, you will receive the http code 204 (No content)</b>
+          </p>
+        </subsection>
+        <subsection name="DELETE">
+          <p>
+            DELETE is used to removed content from cache<br/>
+            Note: if the entry was not available in the server you will receive a 204 (Not Content)
+          </p>
+        </subsection>
+      </subsection>
+      <subsection name="Http Headers">
+        <p>see various exchange type for dedicated http headers</p>
+        <p>
+         Commn http headers:
+          <ul>
+            <li>X-DirectMemory-SerializeSize: returns bytes number stored on server side.</li>
+          </ul>
+        </p>
+      </subsection>
     </section>
     <section name="JSON Exchange">
       <subsection name="JSON PUT Content">
@@ -53,26 +82,20 @@
           JSON Request to put content in cache Content-Type: application/json
           <source>
   {"expiresIn":123,
-    "cacheContent":"rO0ABXNyACtvcmcuYXBhY2hlLmRpcmVjdG1lbW9yeS5zZXJ2ZXIuY29tbW9ucy5XaW5l5dYKhxyAjeECAAFMAARuYW1ldAASTGphdmEvbGFuZy9TdHJpbmc7eHB0AAhCb3JkZWF1eA=="}
+    "cacheContent":"rO0ABXNydmEvbGFuZy9TdHJpbmc7eHB0AAhCb3JkZWF1eA=="}
           </source>
           To put this content in DirectMemory Cache Server, just use a PUT request on path ${webPath}/DirectMemoryServlet/${key}.<br/>
-          Note: if the content was not put in cache, you will receive a 204 (Not Content)
         </p>
       </subsection>
       <subsection name="JSON GET Content">
         <p>Use a GET request on ${webPath}/DirectMemoryServlet/${key} and you will receive the JSON response:
           <source>
-
             {"key":"foo","cacheContent":"Zm9vIGJhcg=="}
-
           </source>
-          <b>If not content is found for the key, you will receive the http code 204 (No content)</b>
         </p>
       </subsection>
       <subsection name="JSON DELETE Content">
-        <p>Use a DELETE request on ${webPath}/DirectMemoryServlet/${key}.
-          Note: if the entry was not available in the server you will receive a 204 (Not Content)
-        </p>
+        <p>Use a DELETE request on ${webPath}/DirectMemoryServlet/${key}.</p>
       </subsection>
     </section>
     <section name="Binary Exchange">
@@ -82,42 +105,34 @@
           To put this content in DirectMemory Cache Server, just use a PUT request on path ${webPath}/DirectMemoryServlet/${key}.<br/>
           ExpiresIn value can be set with http header: X-DirectMemory-ExpiresIn<br/>
           The http request body will contains the serialized object value.<br/>
-          Note: if the content was not put in cache, you will receive a 204 (Not Content)
         </p>
       </subsection>
       <subsection name="Binary GET Content">
         <p>
           Use a GET request on ${webPath}/DirectMemoryServlet/${key} and you will receive the binary form of the object.
-          <b>If not content is found for the key, you will receive the http code 204 (No content)</b>
         </p>
       </subsection>
       <subsection name="Binary DELETE Content">
-        <p>Use a DELETE request on ${webPath}/DirectMemoryServlet/${key}.
-          Note: if the entry was not available in the server you will receive a 204 (Not Content)
-        </p>
+        <p>Use a DELETE request on ${webPath}/DirectMemoryServlet/${key}.</p>
       </subsection>
     </section>
     <section name="text/plain Exchange">
       <subsection name="text/plain PUT Content">
         <p>
-          PUT Request to put content in cache Content-Type: text/plain.<br/>
+          PUT Request to put content in cache <code>Content-Type: text/plain.</code><br/>
           To put this content in DirectMemory Cache Server, just use a PUT request on path ${webPath}/DirectMemoryServlet/${key}.<br/>
           ExpiresIn value can be set with http header: X-DirectMemory-ExpiresIn<br/>
           The http request body will contains a String value which will be serialized on server side and stored in directMemory.<br/>
           You can specify the Serializer to use with the http header: "X-DirectMemory-Serializer" (must contains the full class name).<br/>
-          Note: if the content was not put in cache, you will receive a 204 (Not Content)
         </p>
       </subsection>
       <subsection name="text/plain GET Content">
         <p>
           Use a GET request on ${webPath}/DirectMemoryServlet/${key} and you will receive the stored String.
-          <b>If not content is found for the key, you will receive the http code 204 (No content)</b>
         </p>
       </subsection>
       <subsection name="text/plain DELETE Content">
-        <p>Use a DELETE request on ${webPath}/DirectMemoryServlet/${key}.
-          Note: if the entry was not available in the server you will receive a 204 (Not Content)
-        </p>
+        <p>Use a DELETE request on ${webPath}/DirectMemoryServlet/${key}.</p>
       </subsection>
     </section>
 

@@ -641,7 +641,7 @@ under the License.
           <reportSet>
             <reports>
               <report>changes-report</report>
-              <report>jira-report</report>
+              <!--report>jira-report</report-->
             </reports>
           </reportSet>
         </reportSets>
