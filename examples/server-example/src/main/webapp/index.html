@@ -39,38 +39,58 @@
 
     <div class="span10 columns">
       <div class="content">
-        <div id="wine-result">
-          <div class="page-header"><h4>Results</h4></div>
-          <div id="result-content"></div>
-        </div>
-        <div id="wine-create-form">
-          <div class="page-header"><h4>Put in cache</h4></div>
-          <div class="well">
 
-              Wine Name:&nbsp<input type="text" id="wine_name" name="wine_name">
-              Wine Description:&nbsp<input type="text" id="wine_description" name="wine_description">
-              ExpiresIn:&nbsp<input type="text" id="expires-in" name="expires-in">
-              <br/>
-              <button class="btn" id="put-cache-btn">Put</button>
 
+          <div id="wine-result">
+            <div class="page-header"><h4>Results</h4></div>
+            <div id="result-content"></div>
           </div>
-        </div>
-        <div id="wine-cache-get-div">
-          <div class="page-header"><h4>Get from cache</h4></div>
-          <div class="well">
-              Wine Key:&nbsp<input type="text" id="wine_name_cache" name="wine_name_cache">
-              <br/>
-              <button class="btn" id="get_cache_btn">Get</button>
-          </div>
-        </div>
-        <div id="wine-cache-delete-div">
-          <div class="page-header"><h4>Delete from cache</h4></div>
-          <div class="well">
-              Wine Key:&nbsp<input type="text" id="wine_key_cache" name="wine_key_cache">
-              <br/>
-              <button class="btn" id="delete_cache_btn">Delete</button>
-          </div>
-        </div>
+
+          <div class="accordion" id="accordion-div">
+
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" href="#collapse-put" data-parent="#accordion-div" data-toggle="collapse"><h4>Put in cache</h4></a>
+              </div>
+              <div id="collapse-put" class="accordion-body collapse" style="height: auto;">
+                <div class="well">
+                  Wine Name:&nbsp<input type="text" id="wine_name" name="wine_name">
+                  Wine Description:&nbsp<input type="text" id="wine_description" name="wine_description">
+                  ExpiresIn:&nbsp<input type="text" id="expires-in" name="expires-in">
+                  <br/>
+                  <button class="btn" id="put-cache-btn">Put</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" href="#collapse-get" data-parent="#accordion-div" data-toggle="collapse"><h4>Get from cache</h4></a>
+              </div>
+              <div id="collapse-get" class="accordion-body collapse" style="height: 0px;">
+                <div class="well">
+                  Wine Key:&nbsp<input type="text" id="wine_name_cache" name="wine_name_cache">
+                  <br/>
+                  <button class="btn" id="get_cache_btn">Get</button>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" href="#collapse-delete" data-parent="#accordion-div" data-toggle="collapse"><h4>Delete from cache</h4></a>
+              </div>
+              <div id="collapse-delete" class="accordion-body collapse" style="height: 0px;">
+                <div class="well">
+                  Wine Key:&nbsp<input type="text" id="wine_key_cache" name="wine_key_cache">
+                  <br/>
+                  <button class="btn" id="delete_cache_btn">Delete</button>
+                </div>
+              </div>
+
+            </div>
+
 
     </div>
   </div>

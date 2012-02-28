@@ -42,7 +42,10 @@
     <dependency>
       <groupId>org.apache.directmemory.server</groupId>
       <artifactId>directmemory-server</artifactId>
-      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.directmemory</groupId>
+      <artifactId>directmemory-protostuff</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>

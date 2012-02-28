@@ -496,6 +496,11 @@ under the License.
         <artifactId>directmemory-protostuff</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.directmemory.server</groupId>
+        <artifactId>directmemory-server</artifactId>
+        <version>${project.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>org.aspectj</groupId>
