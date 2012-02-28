@@ -321,6 +321,7 @@ under the License.
           <configuration>
             <mavenExecutorId>forked-path</mavenExecutorId>
             <useReleaseProfile>false</useReleaseProfile>
+            <goals>deploy</goals>
             <arguments>-Prelease</arguments>
           </configuration>
         </plugin>
