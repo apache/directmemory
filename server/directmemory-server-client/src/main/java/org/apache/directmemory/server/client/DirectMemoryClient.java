@@ -30,23 +30,53 @@ import java.util.concurrent.Future;
  */
 public interface DirectMemoryClient
 {
-
+    /**
+     * <p>will ask the server if any content corresponding to the key passed in  {@link DirectMemoryRequest}</p>
+     * <p>if the server doesn't return content {@link DirectMemoryResponse#isFound()} will be <code>false</code> </p>
+     * @param directMemoryRequest
+     * @return
+     * @throws DirectMemoryException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     DirectMemoryResponse retrieve( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException, IOException, ClassNotFoundException, InstantiationException,
         IllegalAccessException;
 
+    /**
+     * same as retrieve
+     */
     Future<DirectMemoryResponse> asyncRetrieve( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException;
+
 
     Boolean put( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException;
 
+    /**
+     *
+     * same as put.
+     */
     Future<Boolean> asyncPut( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException;
 
+    /**
+     *
+     * @param directMemoryRequest
+     * @return check {@link DirectMemoryResponse#isDeleted()} to verify if the content has been deleted
+     * @throws DirectMemoryException
+     */
     DirectMemoryResponse delete( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException;
 
+    /**
+     * same as async.
+     * @param directMemoryRequest
+     * @return
+     * @throws DirectMemoryException
+     */
     Future<DirectMemoryResponse> asyncDelete( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException;
 }
