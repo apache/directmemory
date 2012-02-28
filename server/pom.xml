@@ -38,6 +38,7 @@
     <module>directmemory-server-commons</module>
     <module>directmemory-server</module>
     <module>directmemory-server-client</module>
+    <module>directmemory-server-archetype</module>
   </modules>
 
   <dependencyManagement>
