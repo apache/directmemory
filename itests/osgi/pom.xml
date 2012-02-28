@@ -96,6 +96,7 @@ under the License.
             <osgi.debug.port>${osgi.debug.port}</osgi.debug.port>
             <osgi.debug.suspend>${osgi.debug.suspend}</osgi.debug.suspend>
             <direct.memory.version>${project.version}</direct.memory.version>
+            <java.io.tmpdir>${project.build.directory}</java.io.tmpdir>
           </systemPropertyVariables>
         </configuration>
       </plugin>
