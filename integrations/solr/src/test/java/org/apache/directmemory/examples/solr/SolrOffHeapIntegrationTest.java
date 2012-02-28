@@ -47,7 +47,8 @@ public class SolrOffHeapIntegrationTest
     @AfterClass
     public static void tearDown()
     {
-        solrOffHeapCache.getCacheService().clear();
+        // FIXME restore this when issue with static is fixed
+        //solrOffHeapCache.getCacheService().clear();
     }
 
     @Test
