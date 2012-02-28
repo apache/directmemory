@@ -755,6 +755,8 @@ under the License.
                     <exclude>ajcore**</exclude>
                     <exclude>init-git-svn.sh</exclude>
                     <exclude>src/main/webapp/js/jquery*.js</exclude>
+                    <exclude>src/main/resources/archetype-resources/src/main/webapp/js/jquery*.js</exclude>
+                    <exclude>src/test/resources/projects/basic/**</exclude>
                   </excludes>
                 </configuration>
               </execution>
