@@ -29,7 +29,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>directmemory-server</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>Apache DirectMemory :: Server :: Server Implementation</name>
   <description>${project.name}</description>
 
@@ -51,6 +51,10 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
+    <!--
+      servlet 3.0 is not mandatory work with 2.5 too
+      tomcat embed for test need servlet 3.0
+    -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
@@ -142,14 +146,6 @@
             <!-- must be enough confortable for test beans -->
             <directMemory.size>10000</directMemory.size>
           </systemPropertyVariables>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>2.2</version>
-        <configuration>
-          <attachClasses>true</attachClasses>
         </configuration>
       </plugin>
     </plugins>
