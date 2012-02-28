@@ -24,7 +24,7 @@
   <groupId>${groupId}</groupId>
   <artifactId>${artifactId}</artifactId>
   <packaging>war</packaging>
-  <name>Apache DirectMemory :: Examples :: Server Javascript</name>
+  <name>Apache DirectMemory :: Server Instance</name>
   <description>${project.name}</description>
   <version>${version}</version>
 
