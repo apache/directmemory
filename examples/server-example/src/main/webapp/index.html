@@ -7,6 +7,7 @@
   <script type="text/javascript" src="js/bootstrap.2.0.1.js"></script>
   <script type="text/javascript" src="js/sample.js"></script>
   <script type="text/javascript" src="js/jquery.json-2.3.js"></script>
+  <script type="text/javascript" src="js/jquery-tmpl.js"></script>
   <title>Apache DirectMemory Sample</title>
 
 </head>
@@ -20,6 +21,10 @@
 
     <div class="span10 columns">
       <div class="content">
+        <div id="wine-result">
+          <div class="page-header"><h4>Results</h4></div>
+          <div id="result-content"></div>
+        </div>
         <div id="wine-create-form">
           <div class="page-header"><h4>Put in cache</h4></div>
           <div class="well">
@@ -39,9 +44,7 @@
               <button class="btn" id="get_cache_btn">Get</button>
           </div>
         </div>
-        <div id="wine-result">
-          <div class="page-header"><h4>Results</h4></div>
-        </div>
+
     </div>
   </div>
   </div>
@@ -57,4 +60,26 @@
   </div>
 </footer>
 </body>
+
+<script id='alert-message-error' type='text/html'>
+  <div class="alert fade in alert-error" data-alert="alert">
+    <a class="close" href="#" data-dismiss="alert" id='alert-message-error-close-a'>&#215;</a>
+    ${message}
+  </div>
+</script>
+<script id='alert-message-warning' type='text/html'>
+  <div class="alert fade in alert-heading" data-alert="alert">
+    <a class="close" href="#" data-dismiss="alert" id='alert-message-warning-close-a'>&#215;</a>
+    ${message}
+  </div>
+</script>
+<script id='alert-message-info' type='text/html'>
+  <div class="alert fade in alert-info" data-alert="alert">
+    <a class="close" href="#" data-dismiss="alert" id='alert-message-info-close-a'>&#215;</a>
+    ${message}
+  </div>
+</script>
+
 </html>
+
+

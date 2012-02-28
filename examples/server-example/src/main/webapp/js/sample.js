@@ -21,17 +21,25 @@ $(function() {
     this.name=name;
     this.description=description;
   }
-
+  clearResultContent=function(){
+    $("#result-content" ).html("");
+  }
   displayInfo=function(msg){
-    alert(msg);
+    //alert(msg);
+    clearResultContent();
+    $("#result-content" ).html($("#alert-message-info").tmpl({message:msg}));
   }
 
   displayError=function(msg){
-    alert(msg);
+    //alert(msg);
+    clearResultContent();
+    $("#result-content" ).html($("#alert-message-error").tmpl({message:msg}));
   }
 
   displayWarning=function(msg){
-    alert(msg);
+    //alert(msg);
+    clearResultContent();
+    $("#result-content" ).html($("#alert-message-warning").tmpl({message:msg}));
   }
   // X-DirectMemory-ExpiresIn
   putWineInCache=function(wine){
