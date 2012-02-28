@@ -57,6 +57,11 @@
                   Wine Name:&nbsp<input type="text" id="wine_name" name="wine_name">
                   Wine Description:&nbsp<input type="text" id="wine_description" name="wine_description">
                   ExpiresIn:&nbsp<input type="text" id="expires-in" name="expires-in">
+                  Serializer:&nbsp;
+                  <select name="serialize" id="serializer" class="span8">
+                    <option value="org.apache.directmemory.serialization.StandardSerializer">org.apache.directmemory.serialization.StandardSerializer</option>
+                    <option value="org.apache.directmemory.serialization.protostuff.ProtoStuffWithLinkedBufferSerializer">org.apache.directmemory.serialization.protostuff.ProtoStuffWithLinkedBufferSerializer</option>
+                  </select>
                   <br/>
                   <button class="btn" id="put-cache-btn">Put</button>
                 </div>

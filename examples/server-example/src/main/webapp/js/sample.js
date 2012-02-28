@@ -43,13 +43,13 @@ $(function() {
   }
 
   // X-DirectMemory-ExpiresIn
-  putWineInCache=function(wine,expiresIn){
+  putWineInCache=function(wine,expiresIn,serializer){
     $.ajax({
       url: 'cache/'+encodeURIComponent(wine.name),
       data:$.toJSON( wine ),
       cache: false,
       type: 'PUT',
-      headers:{'X-DirectMemory-ExpiresIn':expiresIn},
+      headers:{'X-DirectMemory-ExpiresIn':expiresIn,'X-DirectMemory-Serializer':serializer},
       contentType: "text/plain",
       statusCode: {
         204: function() {
@@ -100,7 +100,7 @@ $(function() {
         displayError("expiresIn must be a number");
         return;
       }
-      putWineInCache(wine,expiresIn);
+      putWineInCache(wine,expiresIn,$("#serializer" ).val());
 
     });
 
@@ -115,6 +115,7 @@ $(function() {
         url: 'cache/'+encodeURIComponent(key),
         cache: false,
         type: 'GET',
+        headers:{'X-DirectMemory-Serializer':$("#serializer" ).val()},
         dataType: 'text',
         statusCode: {
           204: function() {
