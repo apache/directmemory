@@ -108,7 +108,7 @@ public abstract class AbstractServletWithClientTest
         // START SNIPPET: client-put
 
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
-        assertTrue( client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ) ) );
+        assertTrue( client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ) ).isStored() );
 
         // END SNIPPET: client-put
 
@@ -143,7 +143,7 @@ public abstract class AbstractServletWithClientTest
     {
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
 
-        assertTrue( client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ) ) );
+        assertTrue( client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ) ).isStored() );
 
         DirectMemoryResponse<Wine> response = client.retrieve( new DirectMemoryRequest( "bordeaux", Wine.class ) );
 
@@ -181,7 +181,7 @@ public abstract class AbstractServletWithClientTest
 
         DirectMemoryResponse deleteResponse = client.delete( new DirectMemoryRequest<Wine>( "bordeaux" ) );
         Wine bordeaux = new Wine( "Bordeaux", "very great wine" );
-        assertTrue( client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ).setExpiresIn( 1000 ) ) );
+        assertTrue( client.put( new DirectMemoryRequest<Wine>( "bordeaux", bordeaux ).setExpiresIn( 1000 ) ).isStored() );
 
         DirectMemoryRequest rq = new DirectMemoryRequest( "bordeaux", Wine.class );
 
@@ -210,6 +210,6 @@ public abstract class AbstractServletWithClientTest
         throws Exception
     {
 
-        assertFalse( client.put( new DirectMemoryRequest<String>( "foo", hugeStr.toString() ) ) );
+        assertFalse( client.put( new DirectMemoryRequest<String>( "foo", hugeStr.toString() ) ).isStored() );
     }
 }

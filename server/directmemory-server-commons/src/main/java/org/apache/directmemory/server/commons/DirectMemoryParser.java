@@ -111,10 +111,6 @@ public class DirectMemoryParser
                 {
                     rs.setFound( jp.getValueAsBoolean() );
                 }
-                if ( DirectMemoryConstants.UPDATED_FIELD_NAME.equals( fieldName ) )
-                {
-                    rs.setUpdated( jp.getValueAsBoolean() );
-                }
                 if ( DirectMemoryConstants.KEY_FIELD_NAME.equals( fieldName ) )
                 {
                     rs.setKey( jp.getText() );

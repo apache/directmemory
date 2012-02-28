@@ -52,14 +52,14 @@ public interface DirectMemoryClient
         throws DirectMemoryException;
 
 
-    Boolean put( DirectMemoryRequest directMemoryRequest )
+    DirectMemoryResponse put( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException;
 
     /**
      *
      * same as put.
      */
-    Future<Boolean> asyncPut( DirectMemoryRequest directMemoryRequest )
+    Future<DirectMemoryResponse> asyncPut( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException;
 
     /**

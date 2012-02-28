@@ -55,7 +55,7 @@ public class DirectMemoryParserTest
 
         assertEquals( "foo", dmRs.getKey() );
         assertEquals( true, dmRs.isFound() );
-        assertEquals( false, dmRs.isUpdated() );
+        assertEquals( false, dmRs.isStored() );
         assertEquals( "foo bar", new String( dmRs.getCacheContent() ) );
     }
 

@@ -80,7 +80,7 @@ public class DefaultDirectMemoryClient
     }
 
     @Override
-    public Boolean put( DirectMemoryRequest directMemoryRequest )
+    public DirectMemoryResponse put( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException
     {
         verifyPerRequestParameters( directMemoryRequest );
@@ -88,7 +88,7 @@ public class DefaultDirectMemoryClient
     }
 
     @Override
-    public Future<Boolean> asyncPut( DirectMemoryRequest directMemoryRequest )
+    public Future<DirectMemoryResponse> asyncPut( DirectMemoryRequest directMemoryRequest )
         throws DirectMemoryException
     {
         verifyPerRequestParameters( directMemoryRequest );

@@ -109,8 +109,6 @@ public class DirectMemoryWriter
 
             g.writeBooleanField( DirectMemoryConstants.FOUND_FIELD_NAME, response.isFound() );
 
-            g.writeBooleanField( DirectMemoryConstants.UPDATED_FIELD_NAME, response.isUpdated() );
-
             g.writeStringField( DirectMemoryConstants.KEY_FIELD_NAME, response.getKey() );
 
             if ( response.getCacheContent() != null && response.getCacheContent().length > 0 )

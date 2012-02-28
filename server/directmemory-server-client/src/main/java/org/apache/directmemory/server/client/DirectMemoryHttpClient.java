@@ -32,10 +32,10 @@ public interface DirectMemoryHttpClient
     void configure( DirectMemoryClientConfiguration configuration )
         throws DirectMemoryException;
 
-    Boolean put( DirectMemoryRequest request )
+    DirectMemoryResponse put( DirectMemoryRequest request )
         throws DirectMemoryException;
 
-    Future<Boolean> asyncPut( DirectMemoryRequest request )
+    Future<DirectMemoryResponse> asyncPut( DirectMemoryRequest request )
         throws DirectMemoryException;
 
     DirectMemoryResponse get( DirectMemoryRequest request )

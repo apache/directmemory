@@ -73,7 +73,7 @@ public class HttpClientDirectMemoryHttpClient
     }
 
     @Override
-    public Boolean put( DirectMemoryRequest request )
+    public DirectMemoryResponse put( DirectMemoryRequest request )
         throws DirectMemoryException
     {
         String uri = buildRequestWithKey( request );
@@ -103,9 +103,9 @@ public class HttpClientDirectMemoryHttpClient
             switch ( statusLine.getStatusCode() )
             {
                 case 200:
-                    return Boolean.TRUE;
+                    return new DirectMemoryResponse().setStored( Boolean.TRUE );
                 case 204:
-                    return Boolean.FALSE;
+                    return new DirectMemoryResponse().setStored( Boolean.FALSE );
                 default:
                     throw new DirectMemoryException(
                         "put cache content return http code:'" + statusLine.getStatusCode() + "', reasonPhrase:"
@@ -121,13 +121,13 @@ public class HttpClientDirectMemoryHttpClient
     }
 
     @Override
-    public Future<Boolean> asyncPut( final DirectMemoryRequest request )
+    public Future<DirectMemoryResponse> asyncPut( final DirectMemoryRequest request )
         throws DirectMemoryException
     {
-        return Executors.newSingleThreadExecutor().submit( new Callable<Boolean>()
+        return Executors.newSingleThreadExecutor().submit( new Callable<DirectMemoryResponse>()
         {
             @Override
-            public Boolean call()
+            public DirectMemoryResponse call()
                 throws Exception
             {
                 return put( request );

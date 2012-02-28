@@ -32,8 +32,6 @@ public class DirectMemoryConstants
 
     public static final String EXPIRES_IN_FIELD_NAME = "expiresIn";
 
-    public static final String UPDATED_FIELD_NAME = "updated";
-
     public static final String FOUND_FIELD_NAME = "found";
 
     public static final String SERIALIZER_FIELD_NAME = "serializer";

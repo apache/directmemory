@@ -28,8 +28,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
+
 
 /**
  * @author Olivier Lamy
@@ -51,7 +51,7 @@ public class DirectMemoryWriterTest
         assertNotNull( dmRq );
 
         assertEquals( "101", dmRq.getKey() );
-        assertEquals( true, dmRq.isUpdate() );
+        assertTrue( dmRq.isUpdate() );
         assertEquals( 123, dmRq.getExpiresIn() );
         assertEquals( "foo bar", new String( dmRq.getCacheContent() ) );
     }
@@ -75,7 +75,7 @@ public class DirectMemoryWriterTest
         assertNotNull( dmRq );
 
         assertEquals( "101", dmRq.getKey() );
-        assertEquals( true, dmRq.isUpdate() );
+        assertTrue( dmRq.isUpdate() );
         assertEquals( 123, dmRq.getExpiresIn() );
 
         wine = serializer.deserialize( dmRq.getCacheContent(), Wine.class );
@@ -88,7 +88,7 @@ public class DirectMemoryWriterTest
         throws Exception
     {
         DirectMemoryResponse rs =
-            new DirectMemoryResponse().setKey( "101" ).setFound( true ).setUpdated( false ).setCacheContent(
+            new DirectMemoryResponse().setKey( "101" ).setFound( true ).setStored( false ).setCacheContent(
                 "foo bar".getBytes() );
         String jsonRs = DirectMemoryWriter.instance().generateJsonResponse( rs );
 
@@ -98,8 +98,8 @@ public class DirectMemoryWriterTest
         log.info( "jsonRs:" + jsonRs );
 
         assertEquals( "101", rs.getKey() );
-        assertEquals( true, rs.isFound() );
-        assertEquals( false, rs.isUpdated() );
+        assertTrue( rs.isFound() );
+        assertFalse( rs.isStored() );
         assertEquals( "foo bar", new String( rs.getCacheContent() ) );
     }
 }

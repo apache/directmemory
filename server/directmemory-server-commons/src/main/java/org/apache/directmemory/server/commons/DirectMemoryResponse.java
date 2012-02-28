@@ -31,7 +31,7 @@ public class DirectMemoryResponse<V>
 {
     private boolean found;
 
-    private boolean updated;
+    private boolean stored;
 
     private boolean deleted = false;
 
@@ -48,14 +48,14 @@ public class DirectMemoryResponse<V>
         return this;
     }
 
-    public boolean isUpdated()
+    public boolean isStored()
     {
-        return updated;
+        return stored;
     }
 
-    public DirectMemoryResponse setUpdated( boolean updated )
+    public DirectMemoryResponse setStored( boolean stored )
     {
-        this.updated = updated;
+        this.stored = stored;
         return this;
     }
 
