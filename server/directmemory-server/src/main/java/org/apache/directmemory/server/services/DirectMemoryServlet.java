@@ -67,8 +67,8 @@ public class DirectMemoryServlet
         //int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel
 
         cacheService = new DirectMemory<Object, Object>().setNumberOfBuffers(
-            getInteger( "directMemory.numberOfBuffers", 1000 ) ).setSize(
-            getInteger( "directMemory.size", 10 ) ).setInitialCapacity(
+            getInteger( "directMemory.numberOfBuffers", 10 ) ).setSize(
+            getInteger( "directMemory.size", 1000 ) ).setInitialCapacity(
             getInteger( "directMemory.initialCapacity", DEFAULT_INITIAL_CAPACITY ) ).setConcurrencyLevel(
             getInteger( "directMemory.concurrencyLevel", DEFAULT_CONCURRENCY_LEVEL ) ).newCacheService();
 
