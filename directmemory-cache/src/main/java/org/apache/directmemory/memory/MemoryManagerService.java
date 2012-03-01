@@ -19,7 +19,6 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-import java.util.List;
 
 public interface MemoryManagerService<V>
 {
@@ -79,14 +78,12 @@ public interface MemoryManagerService<V>
 
     long capacity();
 
+    long used();
+    
     long collectExpired();
 
     void collectLFU();
 
-    List<OffHeapMemoryBuffer<V>> getBuffers();
-
-    OffHeapMemoryBuffer<V> getActiveBuffer();
-
     <T extends V> Pointer<V> allocate( Class<T> type, int size, long expiresIn, long expires );
-
+    
 }

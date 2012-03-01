@@ -21,6 +21,7 @@ package org.apache.directmemory.memory;
 
 import java.util.Date;
 
+@Deprecated
 public interface OffHeapMemoryBuffer<T>
 {
 

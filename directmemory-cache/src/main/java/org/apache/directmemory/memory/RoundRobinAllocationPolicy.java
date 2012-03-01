@@ -22,6 +22,8 @@ package org.apache.directmemory.memory;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
+
 /**
  * Round Robin allocation policy. An internal counter is incremented (modulo the size of the buffer), so each calls to
  * {@link #getActiveBuffer(OffHeapMemoryBuffer, int)} will increment the counter and return the buffer at the index of
@@ -29,15 +31,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author bperroud
  */
-public class RoundRobinAllocationPolicy<T>
-    implements AllocationPolicy<T>
+public class RoundRobinAllocationPolicy
+    implements AllocationPolicy
 {
 
     // Increment the counter and get the value. Need to start at -1 to have 0'index at first call.
     private static final int BUFFERS_INDEX_INITIAL_VALUE = -1;
 
     // All the buffers to allocate
-    private List<OffHeapMemoryBuffer<T>> buffers;
+    private List<ByteBufferAllocator> allocators;
 
     // Cyclic counter
     private AtomicInteger buffersIndexCounter = new AtomicInteger( BUFFERS_INDEX_INITIAL_VALUE );
@@ -48,19 +50,19 @@ public class RoundRobinAllocationPolicy<T>
     // Current max number of allocations
     private int maxAllocations = DEFAULT_MAX_ALLOCATIONS;
 
-    public void setMaxAllocations( int maxAllocations )
+    public void setMaxAllocations( final int maxAllocations )
     {
         this.maxAllocations = maxAllocations;
     }
 
     @Override
-    public void init( List<OffHeapMemoryBuffer<T>> buffers )
+    public void init( final List<ByteBufferAllocator> allocators )
     {
-        this.buffers = buffers;
+        this.allocators = allocators;
     }
 
     @Override
-    public OffHeapMemoryBuffer<T> getActiveBuffer( OffHeapMemoryBuffer<T> previouslyAllocatedBuffer, int allocationNumber )
+    public ByteBufferAllocator getActiveAllocator( final ByteBufferAllocator previousAllocator, final int allocationNumber )
     {
         // If current allocation is more than the limit, return a null buffer.
         if ( allocationNumber > maxAllocations )
@@ -71,9 +73,9 @@ public class RoundRobinAllocationPolicy<T>
         // Thread safely increment and get the next buffer's index
         int i = incrementAndGetBufferIndex();
 
-        final OffHeapMemoryBuffer<T> buffer = buffers.get( i );
+        final ByteBufferAllocator allocator = allocators.get( i );
 
-        return buffer;
+        return allocator;
     }
 
     @Override
@@ -95,7 +97,7 @@ public class RoundRobinAllocationPolicy<T>
         do
         {
             int currentIndex = buffersIndexCounter.get();
-            newIndex = ( currentIndex + 1 ) % buffers.size();
+            newIndex = ( currentIndex + 1 ) % allocators.size();
             updateOk = buffersIndexCounter.compareAndSet( currentIndex, newIndex );
         }
         while ( !updateOk );

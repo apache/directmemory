@@ -70,6 +70,16 @@ public class Starter
         logger.info( "************************************************" );
     }
 
+    private static void dump( MemoryManagerService<Object> mms )
+    {
+        logger.info( "off-heap - allocated: " + Ram.inMb( mms.capacity() ) );
+        logger.info( "off-heap - used:      " + Ram.inMb( mms.used() ) );
+        logger.info( "heap    - max: " + Ram.inMb( Runtime.getRuntime().maxMemory() ) );
+        logger.info( "heap     - allocated: " + Ram.inMb( Runtime.getRuntime().totalMemory() ) );
+        logger.info( "heap     - free : " + Ram.inMb( Runtime.getRuntime().freeMemory() ) );
+        logger.info( "************************************************" );
+    }
+    
     public void rawInsert( int megabytes, int howMany )
     {
         OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( megabytes * 1024 * 1024 );
@@ -116,10 +126,7 @@ public class Starter
         logger.info( "...done in " + ( System.currentTimeMillis() - start ) + " msecs." );
         logger.info( "---------------------------------" );
 
-        for ( OffHeapMemoryBuffer<Object> buf : MemoryManager.getBuffers() )
-        {
-            dump( buf );
-        }
+        dump( MemoryManager.getMemoryManager() );
     }
 
 

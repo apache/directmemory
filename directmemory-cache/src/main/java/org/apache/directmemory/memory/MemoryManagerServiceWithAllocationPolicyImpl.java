@@ -1,6 +1,9 @@
 package org.apache.directmemory.memory;
 
 import java.nio.BufferOverflowException;
+import java.nio.ByteBuffer;
+
+import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -29,53 +32,51 @@ import java.nio.BufferOverflowException;
 public class MemoryManagerServiceWithAllocationPolicyImpl<V>
     extends MemoryManagerServiceImpl<V>
 {
-
-    protected boolean returnNullWhenFull = true;
     
-    protected AllocationPolicy<V> allocationPolicy;
+    protected AllocationPolicy allocationPolicy;
 
     public MemoryManagerServiceWithAllocationPolicyImpl()
     {
         super();
     }
     
-    public MemoryManagerServiceWithAllocationPolicyImpl( final AllocationPolicy<V> allocationPolicy, final boolean returnNullWhenFull )
+    public MemoryManagerServiceWithAllocationPolicyImpl( final AllocationPolicy allocationPolicy, final boolean returnNullWhenFull )
     {
-        this();
+        super( returnNullWhenFull );
         this.setAllocationPolicy( allocationPolicy );
-        this.returnNullWhenFull = returnNullWhenFull;
     }
     
     @Override
     public void init( int numberOfBuffers, int size )
     {
         super.init( numberOfBuffers, size );
-        allocationPolicy.init( getBuffers() );
+        allocationPolicy.init( getAllocators() );
     }
 
-    public void setAllocationPolicy( final AllocationPolicy<V> allocationPolicy )
+    public void setAllocationPolicy( final AllocationPolicy allocationPolicy )
     {
         this.allocationPolicy = allocationPolicy;
     }
 
-    @Override
-    public OffHeapMemoryBuffer<V> getActiveBuffer()
+    
+    protected ByteBufferAllocator getAllocator()
     {
-        return allocationPolicy.getActiveBuffer( null, 0 );
+        return allocationPolicy.getActiveAllocator( null, 0 );
     }
 
     @Override
     public Pointer<V> store( byte[] payload, int expiresIn )
     {
         Pointer<V> p = null;
-        OffHeapMemoryBuffer<V> buffer = null;
-        int allocationNumber = 1;
+        ByteBufferAllocator allocator = null;
+        int allocationNumber = 0;
         do
         {
-            buffer = allocationPolicy.getActiveBuffer( buffer, allocationNumber );
-            if ( buffer == null )
+            allocationNumber++;
+            allocator = allocationPolicy.getActiveAllocator( allocator, allocationNumber );
+            if ( allocator == null )
             {
-                if (returnNullWhenFull)
+                if (returnsNullWhenFull())
                 {
                     return null;
                 }
@@ -84,8 +85,20 @@ public class MemoryManagerServiceWithAllocationPolicyImpl<V>
                     throw new BufferOverflowException();
                 }
             }
-            p = buffer.store( payload, expiresIn );
-            allocationNumber++;
+            final ByteBuffer buffer = allocator.allocate( payload.length );
+            
+            if ( buffer == null )
+            {
+                continue;
+            }
+            
+            p = instanciatePointer( buffer, allocator.getNumber(), expiresIn, NEVER_EXPIRES );
+
+            buffer.rewind();
+            buffer.put( payload );
+            
+            used.addAndGet( payload.length );
+            
         }
         while ( p == null );
         return p;
@@ -99,17 +112,18 @@ public class MemoryManagerServiceWithAllocationPolicyImpl<V>
     }
 
     @Override
-    public <T extends V> Pointer<V> allocate( Class<T> type, int size, long expiresIn, long expires )
+    public <T extends V> Pointer<V> allocate( final Class<T> type, final int size, final long expiresIn, final long expires )
     {
         Pointer<V> p = null;
-        OffHeapMemoryBuffer<V> buffer = null;
-        int allocationNumber = 1;
+        ByteBufferAllocator allocator = null;
+        int allocationNumber = 0;
         do
         {
-            buffer = allocationPolicy.getActiveBuffer( buffer, allocationNumber );
-            if ( buffer == null )
+            allocationNumber++;
+            allocator = allocationPolicy.getActiveAllocator( allocator, allocationNumber );
+            if ( allocator == null )
             {
-                if (returnNullWhenFull)
+                if (returnsNullWhenFull())
                 {
                     return null;
                 }
@@ -118,10 +132,22 @@ public class MemoryManagerServiceWithAllocationPolicyImpl<V>
                     throw new BufferOverflowException();
                 }
             }
-            p = buffer.allocate( type, size, expiresIn, expires );
-            allocationNumber++;
+            
+            final ByteBuffer buffer = allocator.allocate( size );
+            
+            if ( buffer == null )
+            {
+                continue;
+            }
+            
+            p = instanciatePointer( buffer, allocator.getNumber(), expiresIn, NEVER_EXPIRES );
+            
+            used.addAndGet( size );
         }
         while ( p == null );
+        
+        p.setClazz( type );
+        
         return p;
     }
 

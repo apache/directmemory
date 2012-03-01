@@ -43,7 +43,7 @@ public class CacheServiceExportingActivator
     public void start( BundleContext context )
         throws Exception
     {
-        AllocationPolicy<SimpleObject> allocationPolicy = new RoundRobinAllocationPolicy<SimpleObject>();
+        AllocationPolicy allocationPolicy = new RoundRobinAllocationPolicy();
         MemoryManagerService<SimpleObject> memoryManager =
             new MemoryManagerServiceWithAllocationPolicyImpl<SimpleObject>( allocationPolicy, true );
         this.cacheService =

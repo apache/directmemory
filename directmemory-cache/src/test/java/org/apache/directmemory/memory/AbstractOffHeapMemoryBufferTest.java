@@ -27,7 +27,6 @@ import java.util.Random;
 import junit.framework.Assert;
 
 import org.apache.directmemory.memory.MemoryManagerService;
-import org.apache.directmemory.memory.OffHeapMergingMemoryBufferImpl;
 import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.Test;
@@ -310,43 +309,6 @@ public abstract class AbstractOffHeapMemoryBufferTest
         pointer3.getDirectBuffer().put( payload3 );
         byte[] retrievePayload3 = offHeapMemoryBuffer.retrieve( pointer3 );
         Assert.assertEquals( new String( payload3 ), new String( retrievePayload3 ) );
-
-    }
-
-    @Test
-    public void testRandomPayload2()
-    {
-
-        final int NUMBER_OF_OBJECTS = 10;
-        final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD_LENGTH;
-
-        final OffHeapMergingMemoryBufferImpl<Object> offHeapLinkedMemoryBuffer = OffHeapMergingMemoryBufferImpl
-            .createNew( BUFFER_SIZE );
-
-        byte[] payload1 = MemoryTestUtils.generateRandomPayload( 2 * SMALL_PAYLOAD_LENGTH );
-        Pointer<Object> pointer1 = offHeapLinkedMemoryBuffer.store( payload1 );
-        Assert.assertNotNull( pointer1 );
-
-        byte[] fetchedPayload1 = offHeapLinkedMemoryBuffer.retrieve( pointer1 );
-        Assert.assertEquals( new String( payload1 ), new String( fetchedPayload1 ) );
-
-        byte[] payload2 = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH );
-        Pointer<Object> pointer2 = offHeapLinkedMemoryBuffer.store( payload2 );
-        Assert.assertNotNull( pointer2 );
-
-        byte[] fetchedPayload2 = offHeapLinkedMemoryBuffer.retrieve( pointer2 );
-        Assert.assertEquals( new String( payload2 ), new String( fetchedPayload2 ) );
-
-        offHeapLinkedMemoryBuffer.free( pointer1 );
-
-        offHeapLinkedMemoryBuffer.free( pointer1 );
-
-        byte[] payload3 = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH );
-        Pointer<Object> pointer3 = offHeapLinkedMemoryBuffer.store( payload3 );
-        Assert.assertNotNull( pointer3 );
-
-        byte[] fetchedPayload3 = offHeapLinkedMemoryBuffer.retrieve( pointer3 );
-        Assert.assertEquals( new String( payload3 ), new String( fetchedPayload3 ) );
 
     }
 

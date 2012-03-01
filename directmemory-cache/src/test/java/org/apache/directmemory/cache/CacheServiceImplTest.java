@@ -36,7 +36,7 @@ public class CacheServiceImplTest
     @Test
     public void testOffHeapExceedMemoryReturnNullWhenTrue()
     {
-        AllocationPolicy<byte[]> allocationPolicy = new RoundRobinAllocationPolicy<byte[]>();
+        AllocationPolicy allocationPolicy = new RoundRobinAllocationPolicy();
         MemoryManagerService<byte[]> memoryManager =
             new MemoryManagerServiceWithAllocationPolicyImpl<byte[]>( allocationPolicy, true );
         CacheService<Integer, byte[]> cache = new DirectMemory<Integer, byte[]>()

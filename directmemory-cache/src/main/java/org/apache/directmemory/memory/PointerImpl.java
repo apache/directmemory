@@ -74,7 +74,7 @@ public class PointerImpl<T>
     @Override
     public int getCapacity()
     {
-        return end - start + 1;
+        return directBuffer == null ? end - start + 1 : directBuffer.limit();
     }
 
     @Override

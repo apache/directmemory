@@ -28,7 +28,6 @@ import com.carrotsearch.junitbenchmarks.annotation.LabelType;
 import com.google.common.collect.MapMaker;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -204,11 +203,10 @@ public class Concurrent2Test
 
     private static Logger logger = LoggerFactory.getLogger( Concurrent2Test.class );
 
-    private static void dump( OffHeapMemoryBuffer<Object> mem )
+    private static void dump( MemoryManagerService<Object> mms )
     {
-        logger.info( "off-heap - buffer: " + mem.getBufferNumber() );
-        logger.info( "off-heap - allocated: " + Ram.inMb( mem.capacity() ) );
-        logger.info( "off-heap - used:      " + Ram.inMb( mem.used() ) );
+        logger.info( "off-heap - allocated: " + Ram.inMb( mms.capacity() ) );
+        logger.info( "off-heap - used:      " + Ram.inMb( mms.used() ) );
         logger.info( "heap 	  - max: " + Ram.inMb( Runtime.getRuntime().maxMemory() ) );
         logger.info( "heap     - allocated: " + Ram.inMb( Runtime.getRuntime().totalMemory() ) );
         logger.info( "heap     - free : " + Ram.inMb( Runtime.getRuntime().freeMemory() ) );
@@ -225,10 +223,7 @@ public class Concurrent2Test
     public static void dump()
     {
 
-        for ( OffHeapMemoryBuffer<Object> mem : MemoryManager.getBuffers() )
-        {
-            dump( mem );
-        }
+        dump( MemoryManager.getMemoryManager() );
 
         logger.info( "************************************************" );
         logger.info( "entries: " + entries );

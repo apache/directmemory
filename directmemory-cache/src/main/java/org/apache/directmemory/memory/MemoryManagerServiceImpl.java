@@ -19,144 +19,352 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.limit;
+import static com.google.common.collect.Ordering.from;
 import static java.lang.String.format;
 
+import java.nio.BufferOverflowException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
+import org.apache.directmemory.memory.allocator.MergingByteBufferAllocatorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Predicate;
 
 public class MemoryManagerServiceImpl<V>
     implements MemoryManagerService<V>
 {
 
+    protected static final long NEVER_EXPIRES = 0L;
+    
     protected static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
 
-    protected List<OffHeapMemoryBuffer<V>> buffers = new ArrayList<OffHeapMemoryBuffer<V>>();
+    private List<ByteBufferAllocator> allocators;
 
-    protected int activeBufferIndex = 0;
+    private final Set<Pointer<V>> pointers = Collections.newSetFromMap( new ConcurrentHashMap<Pointer<V>, Boolean>() );
+    
+    protected int activeAllocatorIndex = 0;
+
+    private final boolean returnNullWhenFull;
+    
+    protected final AtomicLong used = new AtomicLong( 0L );
 
     public MemoryManagerServiceImpl()
     {
+        this( true );
+    }
+    
+    public MemoryManagerServiceImpl( final boolean returnNullWhenFull )
+    {
+        this.returnNullWhenFull = returnNullWhenFull;
     }
 
+    @Override
     public void init( int numberOfBuffers, int size )
     {
-        buffers = new ArrayList<OffHeapMemoryBuffer<V>>( numberOfBuffers );
 
+        allocators = new ArrayList<ByteBufferAllocator>( numberOfBuffers );
+        
         for ( int i = 0; i < numberOfBuffers; i++ )
         {
-            final OffHeapMemoryBuffer<V> offHeapMemoryBuffer = instanciateOffHeapMemoryBuffer( size, i );
-            buffers.add( offHeapMemoryBuffer );
+            final ByteBufferAllocator allocator = instanciateByteBufferAllocator( i, size );
+            allocators.add( allocator );
         }
 
         logger.info( format( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
     }
 
-    protected OffHeapMemoryBuffer<V> instanciateOffHeapMemoryBuffer( int size, int bufferNumber )
+    
+    protected ByteBufferAllocator instanciateByteBufferAllocator( final int allocatorNumber, final int size )
     {
-        return OffHeapMemoryBufferImpl.createNew( size, bufferNumber );
+        final MergingByteBufferAllocatorImpl allocator = new MergingByteBufferAllocatorImpl( allocatorNumber, size );
+        
+        // Hack to ensure the pointers are always splitted as it was the case before.
+        allocator.setMinSizeThreshold( 0.0 );
+        allocator.setSizeRatioThreshold( 1.0 );
+        
+        return allocator;
     }
 
-    public OffHeapMemoryBuffer<V> getActiveBuffer()
+    protected ByteBufferAllocator getAllocator( int allocatorIndex )
     {
-        return buffers.get( activeBufferIndex );
+        return allocators.get( allocatorIndex );
     }
 
+    @Override
     public Pointer<V> store( byte[] payload, int expiresIn )
     {
-        Pointer<V> p = getActiveBuffer().store( payload, expiresIn );
-        if ( p == null )
+        
+        int allocatorIndex = activeAllocatorIndex;
+        
+        ByteBuffer buffer = getAllocator( allocatorIndex ).allocate( payload.length );
+        
+        if (buffer == null && allocators.size() > 1)
         {
-            nextBuffer();
-            p = getActiveBuffer().store( payload, expiresIn );
+            allocatorIndex = nextAllocator();
+            buffer = getAllocator( allocatorIndex ).allocate( payload.length );
         }
+        
+        if (buffer == null)
+        {
+            if (returnsNullWhenFull())
+            {
+                return null;
+            }
+            else
+            {
+                throw new BufferOverflowException();
+            }
+        }
+        
+        buffer.rewind();
+        buffer.put( payload );
+        
+        Pointer<V> p = instanciatePointer( buffer, allocatorIndex, expiresIn, NEVER_EXPIRES );
+        
+        used.addAndGet( payload.length );
+        
         return p;
     }
 
+    @Override
     public Pointer<V> store( byte[] payload )
     {
         return store( payload, 0 );
     }
 
+    @Override
     public Pointer<V> update( Pointer<V> pointer, byte[] payload )
     {
-        return buffers.get( pointer.getBufferNumber() ).update( pointer, payload );
+        free( pointer );
+        return store( payload );
     }
 
-    public byte[] retrieve( Pointer<V> pointer )
+    @Override
+    public byte[] retrieve( final Pointer<V> pointer )
     {
-        return buffers.get( pointer.getBufferNumber() ).retrieve( pointer );
+        // check if pointer has not been freed before
+        if (!pointers.contains( pointer ))
+        {
+            return null;
+        }
+        
+        pointer.hit();
+        
+        final ByteBuffer buf = pointer.getDirectBuffer().asReadOnlyBuffer();
+        buf.rewind();
+
+        final byte[] swp = new byte[buf.limit()];
+        buf.get( swp );
+        return swp;
     }
 
-    public void free( Pointer<V> pointer )
+    @Override
+    public void free( final Pointer<V> pointer )
     {
-        buffers.get( pointer.getBufferNumber() ).free( pointer );
+        if ( !pointers.remove( pointer ) )
+        {
+            // pointers has been already freed.
+            //throw new IllegalArgumentException( "This pointer " + pointer + " has already been freed" );
+            return;
+        }
+        
+        getAllocator( pointer.getBufferNumber() ).free( pointer.getDirectBuffer() );
+        
+        used.addAndGet( - pointer.getCapacity() );
+        
+        pointer.setFree( true );
     }
 
+    @Override
     public void clear()
     {
-        for ( OffHeapMemoryBuffer<V> buffer : buffers )
+        pointers.clear();
+        for (ByteBufferAllocator allocator : allocators)
         {
-            buffer.clear();
+            allocator.clear();
         }
-        activeBufferIndex = 0;
     }
 
+    @Override
     public long capacity()
     {
         long totalCapacity = 0;
-        for ( OffHeapMemoryBuffer<V> buffer : buffers )
+        for (ByteBufferAllocator allocator : allocators)
         {
-            totalCapacity += buffer.capacity();
+            totalCapacity += allocator.getCapacity();
         }
         return totalCapacity;
     }
+    
+    @Override
+    public long used()
+    {
+        return used.get();
+    }
 
+    private final Predicate<Pointer<V>> relative = new Predicate<Pointer<V>>()
+    {
+
+        @Override
+        public boolean apply( Pointer<V> input )
+        {
+            return !input.isFree() && !input.isExpired();
+        }
+
+    };
+
+    private final Predicate<Pointer<V>> absolute = new Predicate<Pointer<V>>()
+    {
+
+        @Override
+        public boolean apply( Pointer<V> input )
+        {
+            return !input.isFree() && !input.isExpired();
+        }
+
+    };
+    
+    @Override
     public long collectExpired()
     {
-        long disposed = 0;
-        for ( OffHeapMemoryBuffer<V> buffer : buffers )
-        {
-            disposed += buffer.collectExpired();
-        }
-        return disposed;
+        int limit = 50;
+        return free( limit( filter( pointers, relative ), limit ) )
+                        + free( limit( filter( pointers, absolute ), limit ) );
+        
     }
 
+    @Override
     public void collectLFU()
     {
-        for ( OffHeapMemoryBuffer<V> buf : buffers )
+
+        int limit = pointers.size() / 10;
+        
+        Iterable<Pointer<V>> result = from( new Comparator<Pointer<V>>()
         {
-            buf.collectLFU( -1 );
-        }
+
+            public int compare( Pointer<V> o1, Pointer<V> o2 )
+            {
+                float f1 = o1.getFrequency();
+                float f2 = o2.getFrequency();
+
+                return Float.compare( f1, f2 );
+            }
+
+        } ).sortedCopy( limit( filter( pointers, new Predicate<Pointer<V>>()
+        {
+
+            @Override
+            public boolean apply( Pointer<V> input )
+            {
+                return !input.isFree();
+            }
+
+        } ), limit ) );
+
+        free( result );
+        
     }
 
+    protected long free( Iterable<Pointer<V>> pointers )
+    {
+        long howMuch = 0;
+        for ( Pointer<V> expired : pointers )
+        {
+            howMuch += expired.getCapacity();
+            free( expired );
+        }
+        return howMuch;
+    }
+    
+    
+    protected List<ByteBufferAllocator> getAllocators()
+    {
+        return allocators;
+    }
+    
+    @Deprecated
     public List<OffHeapMemoryBuffer<V>> getBuffers()
     {
-        return buffers;
+        return Collections.<OffHeapMemoryBuffer<V>>emptyList();
     }
 
-    public void setBuffers( List<OffHeapMemoryBuffer<V>> buffers )
+    @Deprecated
+    @Override
+    public <T extends V> Pointer<V> allocate( final Class<T> type, final int size, final long expiresIn, final long expires )
     {
-        this.buffers = buffers;
-    }
-
-    public <T extends V> Pointer<V> allocate( Class<T> type, int size, long expiresIn, long expires )
-    {
-        Pointer<V> p = getActiveBuffer().allocate( type, size, expiresIn, expires );
-        if ( p == null )
+        
+        int allocatorIndex = activeAllocatorIndex;
+        
+        ByteBuffer buffer = getAllocator( allocatorIndex ).allocate( size );
+        
+        if (buffer == null && allocators.size() > 1)
         {
-            nextBuffer();
-            p = getActiveBuffer().allocate( type, size, expiresIn, expires );
+            allocatorIndex = nextAllocator();
+            buffer = getAllocator( allocatorIndex ).allocate( size );
         }
+        
+        if (buffer == null)
+        {
+            if (returnsNullWhenFull())
+            {
+                return null;
+            }
+            else
+            {
+                throw new BufferOverflowException();
+            }
+        }
+        
+        Pointer<V> pointer = instanciatePointer( buffer, allocatorIndex, expiresIn, expires );
+        
+        if (pointer != null)
+        {
+            pointer.setClazz( type );
+        }
+        
+        used.addAndGet( size );
+        
+        return pointer;
+        
+    }
+    
+    protected Pointer<V> instanciatePointer( final ByteBuffer buffer, final int allocatorIndex, final long expiresIn, final long expires )
+    {
+        
+        Pointer<V> p = new PointerImpl<V>();
+        
+        p.setDirectBuffer( buffer );
+        p.setExpiration( expires, expiresIn );
+        p.setBufferNumber( allocatorIndex );
+        p.setFree( false );
+        p.createdNow();
+        
+        pointers.add( p );
+        
         return p;
     }
-
-    protected void nextBuffer()
+    
+    protected int nextAllocator()
     {
-        activeBufferIndex = ( activeBufferIndex + 1 ) % buffers.size();
+        activeAllocatorIndex = ( activeAllocatorIndex + 1 ) % allocators.size();
+        return activeAllocatorIndex;
+    }
+    
+    protected boolean returnsNullWhenFull()
+    {
+        return returnNullWhenFull;
     }
 
 }

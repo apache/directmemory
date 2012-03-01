@@ -46,14 +46,14 @@ public class DirectMemoryCache<K, V>
     public DirectMemoryCache( int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel )
     {
         MemoryManagerService<V> memoryManager =
-                    new MemoryManagerServiceWithAllocationPolicyImpl<V>( new RoundRobinAllocationPolicy<V>(), false );
+                    new MemoryManagerServiceWithAllocationPolicyImpl<V>( new RoundRobinAllocationPolicy(), false );
 
         cacheService = new DirectMemory<K, V>().setMemoryManager( memoryManager )
                         .setNumberOfBuffers( numberOfBuffers )
                         .setSize( size )
                         .setInitialCapacity( initialCapacity )
                         .setConcurrencyLevel( concurrencyLevel )
-                        .newCacheService();;
+                        .newCacheService();
     }
 
     public DirectMemoryCache( int numberOfBuffers, int size )
@@ -138,22 +138,12 @@ public class DirectMemoryCache<K, V>
 
     public long sizeInBytes()
     {
-        long i = 0;
-        for ( OffHeapMemoryBuffer<V> buffer : getMemoryManager().getBuffers() )
-        {
-            i += buffer.used();
-        }
-        return i;
+        return getMemoryManager().used();
     }
 
     public long capacityInBytes()
     {
-        long i = 0;
-        for ( OffHeapMemoryBuffer<V> buffer : getMemoryManager().getBuffers() )
-        {
-            i += buffer.capacity();
-        }
-        return i;
+        return getMemoryManager().capacity();
     }
 
     public void dump( OffHeapMemoryBuffer<V> mem )

@@ -22,8 +22,6 @@ package org.apache.directmemory.memory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
 public class MemoryManager
 {
     private static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
@@ -83,17 +81,6 @@ public class MemoryManager
     public static void collectLFU()
     {
         memoryManager.collectLFU();
-    }
-
-    public static List<OffHeapMemoryBuffer<Object>> getBuffers()
-    {
-        return memoryManager.getBuffers();
-    }
-
-
-    public static OffHeapMemoryBuffer<Object> getActiveBuffer()
-    {
-        return memoryManager.getActiveBuffer();
     }
 
     public static MemoryManagerService<Object> getMemoryManager()

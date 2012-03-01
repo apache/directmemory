@@ -60,9 +60,9 @@ public class MemoryManagerTest
         assertNotNull( p );
         //assertEquals(size,p.end);
         assertEquals( size, p.getCapacity() );
-        assertEquals( size, MemoryManager.getActiveBuffer().used() );
+        assertEquals( size, MemoryManager.getMemoryManager().used() );
         MemoryManager.free( p );
-        assertEquals( 0, MemoryManager.getActiveBuffer().used() );
+        assertEquals( 0, MemoryManager.getMemoryManager().used() );
         logger.info( "end" );
     }
 
@@ -89,7 +89,7 @@ public class MemoryManagerTest
     @Test
     public void readTest()
     {
-        for ( OffHeapMemoryBuffer<Object> buffer : MemoryManager.getBuffers() )
+        for ( OffHeapMemoryBuffer<Object> buffer : ((MemoryManagerServiceImpl<Object>)MemoryManager.getMemoryManager()).getBuffers() )
         {
             for ( Pointer<Object> ptr : ((OffHeapMemoryBufferImpl<Object>) buffer).getPointers() )
             {

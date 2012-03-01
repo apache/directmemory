@@ -34,7 +34,6 @@ import net.sf.ehcache.store.disk.StoreUpdateException;
 import net.sf.ehcache.writer.CacheWriterManager;
 import org.apache.directmemory.cache.CacheServiceImpl;
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,7 +97,7 @@ public class DirectMemoryStore
         logger.info( "default buffer size = " + DEFAULT_BUFFER_SIZE );
         logger.info( "off heap size = " + offHeapSizeBytes );
         int numberOfBuffers = (int) ( offHeapSizeBytes / DEFAULT_BUFFER_SIZE );
-        numberOfBuffers = DEFAULT_NUMBER_BYTE_BUFFERS;
+//        numberOfBuffers = DEFAULT_NUMBER_BYTE_BUFFERS;
         logger.info( "no of buffers = " + numberOfBuffers );
 
         this.bufferLocks = new ArrayList<ReentrantLock>( numberOfBuffers );
@@ -109,6 +108,7 @@ public class DirectMemoryStore
 
         directMemoryCache =
             new DirectMemoryCache<Object, Element>( numberOfBuffers, (int) ( offHeapSizeBytes / numberOfBuffers ) );
+        
     }
 
     @Override
@@ -586,16 +586,10 @@ public class DirectMemoryStore
 
     public void dumpTotal()
     {
-        long capacity = 0;
-        long used = 0;
-        for ( OffHeapMemoryBuffer<Element> buffer : directMemoryCache.getMemoryManager().getBuffers() )
-        {
-            capacity += buffer.capacity();
-            used += buffer.used();
-        }
+        long capacity = directMemoryCache.getMemoryManager().capacity();
+        long used = directMemoryCache.getMemoryManager().used();
+        
         logger.info( "***Totals***************************************" );
-        logger.info(
-            format( "off-heap - # buffers: \t%1d", directMemoryCache.getMemoryManager().getBuffers().size() ) );
         logger.info( format( "off-heap - allocated: \t%1s", Ram.inMb( capacity ) ) );
         logger.info( format( "off-heap - used:      \t%1s", Ram.inMb( used ) ) );
         logger.info( format( "heap     - max: \t%1s", Ram.inMb( Runtime.getRuntime().maxMemory() ) ) );

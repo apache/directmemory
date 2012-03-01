@@ -23,10 +23,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,52 +43,52 @@ public class RoundRobinAllocationPolicyTest
 
     private static final int NUMBER_OF_BUFFERS = 4;
 
-    List<OffHeapMemoryBuffer<Object>> buffers;
+    List<ByteBufferAllocator> allocators;
 
-    RoundRobinAllocationPolicy<Object> allocationPolicy;
+    RoundRobinAllocationPolicy allocationPolicy;
 
     @Before
     public void initAllocationPolicy()
     {
 
-        buffers = new ArrayList<OffHeapMemoryBuffer<Object>>();
+        allocators = new ArrayList<ByteBufferAllocator>();
 
         for ( int i = 0; i < NUMBER_OF_BUFFERS; i++ )
         {
-            buffers.add( new DummyOffHeapMemoryBufferImpl() );
+            allocators.add( new DummyByteBufferAllocator() );
         }
 
-        allocationPolicy = new RoundRobinAllocationPolicy<Object>();
-        allocationPolicy.init( buffers );
+        allocationPolicy = new RoundRobinAllocationPolicy();
+        allocationPolicy.init( allocators );
     }
 
     @Test
     public void testSequence()
     {
 
-        assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( allocators.get( 0 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 1 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 2 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 3 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 0 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 1 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 2 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 3 ), allocationPolicy.getActiveAllocator( null, 1 ) );
 
-        assertNotNull( allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertNotNull( allocationPolicy.getActiveBuffer( null, 2 ) );
-        assertNull( allocationPolicy.getActiveBuffer( null, 3 ) );
+        assertNotNull( allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertNotNull( allocationPolicy.getActiveAllocator( null, 2 ) );
+        assertNull( allocationPolicy.getActiveAllocator( null, 3 ) );
 
         allocationPolicy.reset();
 
-        assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 0 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 1 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 2 ), allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertEquals( buffers.get( 3 ), allocationPolicy.getActiveBuffer( null, 1 ) );
+        assertEquals( allocators.get( 0 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 1 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 2 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 3 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 0 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 1 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 2 ), allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertEquals( allocators.get( 3 ), allocationPolicy.getActiveAllocator( null, 1 ) );
 
     }
 
@@ -97,9 +99,9 @@ public class RoundRobinAllocationPolicyTest
 
         allocationPolicy.setMaxAllocations( 1 );
 
-        assertNotNull( allocationPolicy.getActiveBuffer( null, 1 ) );
-        assertNull( allocationPolicy.getActiveBuffer( null, 2 ) );
-        assertNull( allocationPolicy.getActiveBuffer( null, 3 ) );
+        assertNotNull( allocationPolicy.getActiveAllocator( null, 1 ) );
+        assertNull( allocationPolicy.getActiveAllocator( null, 2 ) );
+        assertNull( allocationPolicy.getActiveAllocator( null, 3 ) );
 
     }
 
@@ -107,96 +109,44 @@ public class RoundRobinAllocationPolicyTest
     /**
      * Dummy {@link OffHeapMemoryBuffer} that do nothing.
      */
-    private static class DummyOffHeapMemoryBufferImpl
-        implements OffHeapMemoryBuffer<Object>
+    private static class DummyByteBufferAllocator
+        implements ByteBufferAllocator
     {
 
         @Override
-        public int used()
-        {
-            return 0;
+        public void free( ByteBuffer buffer )
+        {            
         }
 
         @Override
-        public int capacity()
-        {
-            return 0;
-        }
-
-        @Override
-        public int getBufferNumber()
-        {
-            return 0;
-        }
-
-        @Override
-        public Pointer<Object> store( byte[] payload )
+        public ByteBuffer allocate( int size )
         {
             return null;
-        }
-
-        @Override
-        public Pointer<Object> store( byte[] payload, Date expires )
-        {
-            return null;
-        }
-
-        @Override
-        public Pointer<Object> store( byte[] payload, long expiresIn )
-        {
-            return null;
-        }
-
-        @Override
-        public byte[] retrieve( Pointer<Object> pointer )
-        {
-            return null;
-        }
-
-        @Override
-        public int free( Pointer<Object> pointer2free )
-        {
-            return 0;
         }
 
         @Override
         public void clear()
-        {
+        {            
         }
 
         @Override
-        public void disposeExpiredRelative()
-        {
-        }
-
-        @Override
-        public void disposeExpiredAbsolute()
-        {
-        }
-
-        @Override
-        public long collectExpired()
+        public int getCapacity()
         {
             return 0;
         }
 
         @Override
-        public long collectLFU( int limit )
+        public int getNumber()
         {
             return 0;
         }
 
         @Override
-        public Pointer<Object> update( Pointer<Object> pointer, byte[] payload )
+        public void close()
+            throws IOException
         {
-            return null;
+            
         }
-
-        @Override
-        public <V> Pointer<Object> allocate( Class<V> type, int size, long expiresIn, long expires )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
+        
     }
 }

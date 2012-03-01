@@ -74,7 +74,7 @@ public class EHCacheTest
             {
                 if ( ( i % 1000 ) == 0 )
                 {
-                    System.out.println( "heatbeat " + i );
+                    System.out.println( "heatbeat 2 " + i );
                     stats( ehcache );
                 }
                 element = new Element( i, new byte[1024] );

@@ -130,7 +130,7 @@ public class MemoryManagerServiceImplTest
         }
 
         // Buffer is fully used.
-        Assert.assertEquals( BUFFER_SIZE, memoryManagerService.getBuffers().get( 0 ).used() );
+        Assert.assertEquals( BUFFER_SIZE, memoryManagerService.used() );
 
         Assert.assertNotNull( lastPointer );
         memoryManagerService.free( lastPointer );
@@ -139,7 +139,7 @@ public class MemoryManagerServiceImplTest
         Assert.assertNotNull( pointerNotNull );
 
         // Buffer again fully used.
-        Assert.assertEquals( BUFFER_SIZE, memoryManagerService.getBuffers().get( 0 ).used() );
+        Assert.assertEquals( BUFFER_SIZE, memoryManagerService.used() );
 
     }
 

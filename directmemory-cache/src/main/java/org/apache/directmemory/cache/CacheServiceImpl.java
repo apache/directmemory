@@ -295,7 +295,17 @@ public class CacheServiceImpl<K, V>
         logger.info( format( "off-heap - buffer: \t%1d", mem.getBufferNumber() ) );
         logger.info( format( "off-heap - allocated: \t%1s", Ram.inMb( mem.capacity() ) ) );
         logger.info( format( "off-heap - used:      \t%1s", Ram.inMb( mem.used() ) ) );
-        logger.info( format( "heap 	- max: \t%1s", Ram.inMb( Runtime.getRuntime().maxMemory() ) ) );
+        logger.info( format( "heap  - max: \t%1s", Ram.inMb( Runtime.getRuntime().maxMemory() ) ) );
+        logger.info( format( "heap     - allocated: \t%1s", Ram.inMb( Runtime.getRuntime().totalMemory() ) ) );
+        logger.info( format( "heap     - free : \t%1s", Ram.inMb( Runtime.getRuntime().freeMemory() ) ) );
+        logger.info( "************************************************" );
+    }
+
+    public void dump( MemoryManagerService<V> mms )
+    {
+        logger.info( format( "off-heap - allocated: \t%1s", Ram.inMb( mms.capacity() ) ) );
+        logger.info( format( "off-heap - used:      \t%1s", Ram.inMb( mms.used() ) ) );
+        logger.info( format( "heap  - max: \t%1s", Ram.inMb( Runtime.getRuntime().maxMemory() ) ) );
         logger.info( format( "heap     - allocated: \t%1s", Ram.inMb( Runtime.getRuntime().totalMemory() ) ) );
         logger.info( format( "heap     - free : \t%1s", Ram.inMb( Runtime.getRuntime().freeMemory() ) ) );
         logger.info( "************************************************" );
@@ -311,10 +321,7 @@ public class CacheServiceImpl<K, V>
 
         logger.info( "*** DirectMemory statistics ********************" );
 
-        for ( OffHeapMemoryBuffer<V> mem : memoryManager.getBuffers() )
-        {
-            dump( mem );
-        }
+        dump( memoryManager );
     }
 
     @Override
