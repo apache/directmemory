@@ -233,6 +233,7 @@ public class MergingByteBufferAllocatorImpl
                                 linkedBuffer.getBefore().setAfter( returnedLinkedBuffer );
                             }
                             
+                            // Insert the remaining buffer into the structure
                             parentBuffer.clear();
                             parentBuffer.position( linkedBuffer.getOffset() + size );
                             parentBuffer.limit( linkedBuffer.getOffset() + linkedBuffer.getBuffer().capacity() );

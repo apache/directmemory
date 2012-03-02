@@ -21,10 +21,10 @@ package org.apache.directmemory.memory.allocator;
 
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -42,7 +42,7 @@ public class FixedSizeByteBufferAllocatorImpl
 {
 
     // Collection that keeps track of the parent buffers (segments) where slices are allocated
-    private final Set<ByteBuffer> segmentsBuffers = new HashSet<ByteBuffer>();
+    private final List<ByteBuffer> segmentsBuffers;
 
     // Collection that owns all slices that can be used.
     private final Queue<ByteBuffer> freeBuffers = new ConcurrentLinkedQueue<ByteBuffer>();
@@ -77,6 +77,8 @@ public class FixedSizeByteBufferAllocatorImpl
         this.totalSize = totalSize;
         this.sliceSize = sliceSize;
 
+        this.segmentsBuffers = new ArrayList<ByteBuffer>(numberOfSegments);
+        
         init( numberOfSegments );
 
     }
