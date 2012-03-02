@@ -21,7 +21,6 @@ package org.apache.directmemory.memory.allocator;
 
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Queue;

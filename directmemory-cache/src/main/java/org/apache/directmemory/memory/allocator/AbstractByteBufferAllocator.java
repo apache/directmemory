@@ -46,17 +46,17 @@ public abstract class AbstractByteBufferAllocator
         return number;
     }
 
-    protected Logger getLogger()
+    protected final Logger getLogger()
     {
         return logger;
     }
     
-    protected boolean isClosed()
+    protected final boolean isClosed()
     {
         return closed.get();
     }
     
-    protected void setClosed( final boolean closed )
+    protected final void setClosed( final boolean closed )
     {
         this.closed.set( closed );
     }

@@ -41,4 +41,20 @@ public class SlabMemoryManagerServiceTest
     {
         
     }
+    
+    @Override
+    @Test
+    public void testStoreAllocAndFree()
+    {
+        
+    }
+    
+    
+    @Override
+    @Test
+    public void testAllocate()
+    {
+        
+    }
+    
 }
