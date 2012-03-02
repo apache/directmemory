@@ -207,6 +207,10 @@ public class MemoryManagerServiceImpl<V>
     @Override
     public void clear()
     {
+        for (Pointer<V> pointer : pointers)
+        {
+            pointer.setFree( true );
+        }
         pointers.clear();
         for (ByteBufferAllocator allocator : allocators)
         {

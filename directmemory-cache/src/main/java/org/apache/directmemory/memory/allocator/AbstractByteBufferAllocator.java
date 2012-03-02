@@ -1,5 +1,6 @@
 package org.apache.directmemory.memory.allocator;
 
+import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
@@ -58,6 +59,11 @@ public abstract class AbstractByteBufferAllocator
     protected void setClosed( final boolean closed )
     {
         this.closed.set( closed );
+    }
+    
+    protected static Integer getHash( final ByteBuffer buffer )
+    {
+        return Integer.valueOf( System.identityHashCode( buffer ) );
     }
     
 }

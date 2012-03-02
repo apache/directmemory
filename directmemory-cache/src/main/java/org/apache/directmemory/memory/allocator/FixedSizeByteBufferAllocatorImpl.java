@@ -23,6 +23,7 @@ import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,9 +54,6 @@ public class FixedSizeByteBufferAllocatorImpl
     // Total size of the current slab
     private int totalSize;
 
-    // Tells if one need to keep track of borrowed buffers
-    private boolean keepTrackOfUsedSliceBuffers = false;
-    
     // Tells if it returns null or throw an BufferOverflowException when the requested size is bigger than the size of the slices
     private boolean returnNullWhenOversizingSliceSize = true;
     
@@ -63,8 +61,7 @@ public class FixedSizeByteBufferAllocatorImpl
     private boolean returnNullWhenNoBufferAvailable = true;
 
     // Collection that keeps track of borrowed buffers
-    private final Set<ByteBuffer> usedSliceBuffers = Collections
-        .newSetFromMap( new ConcurrentHashMap<ByteBuffer, Boolean>() );
+    private final Map<Integer, ByteBuffer> usedSliceBuffers = new ConcurrentHashMap<Integer, ByteBuffer>();
 
     
     /**
@@ -74,7 +71,7 @@ public class FixedSizeByteBufferAllocatorImpl
      * @param sliceSize : arbitrary number of the buffer.
      * @param numberOfSegments : number of parent {@link ByteBuffer} to allocate.
      */
-    FixedSizeByteBufferAllocatorImpl( final int number, final int totalSize, final int sliceSize, final int numberOfSegments )
+    public FixedSizeByteBufferAllocatorImpl( final int number, final int totalSize, final int sliceSize, final int numberOfSegments )
     {
         super( number );
         
@@ -135,7 +132,7 @@ public class FixedSizeByteBufferAllocatorImpl
 
         checkState( !isClosed() );
         
-        if ( keepTrackOfUsedSliceBuffers && !usedSliceBuffers.remove( byteBuffer ) )
+        if ( usedSliceBuffers.remove( getHash( byteBuffer ) ) == null )
         {
             return;
         }
@@ -171,10 +168,7 @@ public class FixedSizeByteBufferAllocatorImpl
         allocatedByteBuffer.clear();
         allocatedByteBuffer.limit( size );
 
-        if ( keepTrackOfUsedSliceBuffers )
-        {
-            usedSliceBuffers.add( allocatedByteBuffer );
-        }
+        usedSliceBuffers.put( getHash( allocatedByteBuffer ), allocatedByteBuffer );
 
         return allocatedByteBuffer;
 
@@ -188,10 +182,11 @@ public class FixedSizeByteBufferAllocatorImpl
     @Override
     public void clear()
     {
-        if ( keepTrackOfUsedSliceBuffers )
+        for ( final Map.Entry<Integer, ByteBuffer> entry : usedSliceBuffers.entrySet() )
         {
-            usedSliceBuffers.clear();
+            freeBuffers.offer( entry.getValue() );
         }
+        usedSliceBuffers.clear();
     }
 
     @Override

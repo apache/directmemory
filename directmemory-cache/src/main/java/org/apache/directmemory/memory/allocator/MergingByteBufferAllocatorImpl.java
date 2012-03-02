@@ -333,11 +333,6 @@ public class MergingByteBufferAllocatorImpl
         
         return newLinkedByteBuffer;
     }
-
-    private static Integer getHash( final ByteBuffer buffer )
-    {
-        return Integer.valueOf( System.identityHashCode( buffer ) );
-    }
     
     public void setSizeRatioThreshold( final double sizeRatioThreshold )
     {
