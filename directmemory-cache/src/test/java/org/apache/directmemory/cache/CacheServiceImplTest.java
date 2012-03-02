@@ -25,7 +25,7 @@ import org.apache.directmemory.DirectMemory;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.AllocationPolicy;
 import org.apache.directmemory.memory.MemoryManagerService;
-import org.apache.directmemory.memory.MemoryManagerServiceWithAllocationPolicyImpl;
+import org.apache.directmemory.memory.MemoryManagerServiceImpl;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.memory.RoundRobinAllocationPolicy;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class CacheServiceImplTest
     {
         AllocationPolicy allocationPolicy = new RoundRobinAllocationPolicy();
         MemoryManagerService<byte[]> memoryManager =
-            new MemoryManagerServiceWithAllocationPolicyImpl<byte[]>( allocationPolicy, true );
+            new MemoryManagerServiceImpl<byte[]>( allocationPolicy, true );
         CacheService<Integer, byte[]> cache = new DirectMemory<Integer, byte[]>()
                         .setMemoryManager( memoryManager )
                         .setNumberOfBuffers( 1 )

@@ -53,13 +53,13 @@ public class MemoryManagerServiceImpl<V>
     private List<ByteBufferAllocator> allocators;
 
     private final Set<Pointer<V>> pointers = Collections.newSetFromMap( new ConcurrentHashMap<Pointer<V>, Boolean>() );
-    
-    protected int activeAllocatorIndex = 0;
 
     private final boolean returnNullWhenFull;
     
     protected final AtomicLong used = new AtomicLong( 0L );
 
+    protected final AllocationPolicy allocationPolicy;
+    
     public MemoryManagerServiceImpl()
     {
         this( true );
@@ -67,6 +67,12 @@ public class MemoryManagerServiceImpl<V>
     
     public MemoryManagerServiceImpl( final boolean returnNullWhenFull )
     {
+        this( new RoundRobinAllocationPolicy(), returnNullWhenFull );
+    }
+    
+    public MemoryManagerServiceImpl( final AllocationPolicy allocationPolicy, final boolean returnNullWhenFull )
+    {
+        this.allocationPolicy = allocationPolicy;
         this.returnNullWhenFull = returnNullWhenFull;
     }
 
@@ -82,6 +88,8 @@ public class MemoryManagerServiceImpl<V>
             allocators.add( allocator );
         }
 
+        allocationPolicy.init( allocators );
+        
         logger.info( format( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
     }
 
@@ -102,39 +110,48 @@ public class MemoryManagerServiceImpl<V>
         return allocators.get( allocatorIndex );
     }
 
+    protected ByteBufferAllocator getCurrentAllocator()
+    {
+        return allocationPolicy.getActiveAllocator( null, 0 );
+    }
+    
     @Override
     public Pointer<V> store( byte[] payload, int expiresIn )
     {
-        
-        int allocatorIndex = activeAllocatorIndex;
-        
-        ByteBuffer buffer = getAllocator( allocatorIndex ).allocate( payload.length );
-        
-        if (buffer == null && allocators.size() > 1)
+        Pointer<V> p = null;
+        ByteBufferAllocator allocator = null;
+        int allocationNumber = 0;
+        do
         {
-            allocatorIndex = nextAllocator();
-            buffer = getAllocator( allocatorIndex ).allocate( payload.length );
-        }
-        
-        if (buffer == null)
-        {
-            if (returnsNullWhenFull())
+            allocationNumber++;
+            allocator = allocationPolicy.getActiveAllocator( allocator, allocationNumber );
+            if ( allocator == null )
             {
-                return null;
+                if (returnsNullWhenFull())
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new BufferOverflowException();
+                }
             }
-            else
+            final ByteBuffer buffer = allocator.allocate( payload.length );
+            
+            if ( buffer == null )
             {
-                throw new BufferOverflowException();
+                continue;
             }
+            
+            p = instanciatePointer( buffer, allocator.getNumber(), expiresIn, NEVER_EXPIRES );
+
+            buffer.rewind();
+            buffer.put( payload );
+            
+            used.addAndGet( payload.length );
+            
         }
-        
-        buffer.rewind();
-        buffer.put( payload );
-        
-        Pointer<V> p = instanciatePointer( buffer, allocatorIndex, expiresIn, NEVER_EXPIRES );
-        
-        used.addAndGet( payload.length );
-        
+        while ( p == null );
         return p;
     }
 
@@ -195,6 +212,7 @@ public class MemoryManagerServiceImpl<V>
         {
             allocator.clear();
         }
+        allocationPolicy.reset();
     }
 
     @Override
@@ -299,39 +317,41 @@ public class MemoryManagerServiceImpl<V>
     public <T extends V> Pointer<V> allocate( final Class<T> type, final int size, final long expiresIn, final long expires )
     {
         
-        int allocatorIndex = activeAllocatorIndex;
-        
-        ByteBuffer buffer = getAllocator( allocatorIndex ).allocate( size );
-        
-        if (buffer == null && allocators.size() > 1)
+        Pointer<V> p = null;
+        ByteBufferAllocator allocator = null;
+        int allocationNumber = 0;
+        do
         {
-            allocatorIndex = nextAllocator();
-            buffer = getAllocator( allocatorIndex ).allocate( size );
-        }
-        
-        if (buffer == null)
-        {
-            if (returnsNullWhenFull())
+            allocationNumber++;
+            allocator = allocationPolicy.getActiveAllocator( allocator, allocationNumber );
+            if ( allocator == null )
             {
-                return null;
+                if (returnsNullWhenFull())
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new BufferOverflowException();
+                }
             }
-            else
+            
+            final ByteBuffer buffer = allocator.allocate( size );
+            
+            if ( buffer == null )
             {
-                throw new BufferOverflowException();
+                continue;
             }
+            
+            p = instanciatePointer( buffer, allocator.getNumber(), expiresIn, NEVER_EXPIRES );
+            
+            used.addAndGet( size );
         }
+        while ( p == null );
         
-        Pointer<V> pointer = instanciatePointer( buffer, allocatorIndex, expiresIn, expires );
+        p.setClazz( type );
         
-        if (pointer != null)
-        {
-            pointer.setClazz( type );
-        }
-        
-        used.addAndGet( size );
-        
-        return pointer;
-        
+        return p;
     }
     
     protected Pointer<V> instanciatePointer( final ByteBuffer buffer, final int allocatorIndex, final long expiresIn, final long expires )
@@ -349,13 +369,7 @@ public class MemoryManagerServiceImpl<V>
         
         return p;
     }
-    
-    protected int nextAllocator()
-    {
-        activeAllocatorIndex = ( activeAllocatorIndex + 1 ) % allocators.size();
-        return activeAllocatorIndex;
-    }
-    
+        
     protected boolean returnsNullWhenFull()
     {
         return returnNullWhenFull;

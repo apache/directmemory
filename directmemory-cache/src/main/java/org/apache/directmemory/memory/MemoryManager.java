@@ -19,13 +19,8 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class MemoryManager
 {
-    private static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
-
     private static MemoryManagerService<Object> memoryManager = new MemoryManagerServiceImpl<Object>();
 
     private MemoryManager()
