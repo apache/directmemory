@@ -295,12 +295,6 @@ public class MemoryManagerServiceImpl<V>
     }
     
     @Deprecated
-    public List<OffHeapMemoryBuffer<V>> getBuffers()
-    {
-        return Collections.<OffHeapMemoryBuffer<V>>emptyList();
-    }
-
-    @Deprecated
     @Override
     public <T extends V> Pointer<V> allocate( final Class<T> type, final int size, final long expiresIn, final long expires )
     {
@@ -367,4 +361,8 @@ public class MemoryManagerServiceImpl<V>
         return returnNullWhenFull;
     }
 
+    public Set<Pointer<V>> getPointers()
+    {
+        return Collections.unmodifiableSet( pointers );
+    }
 }

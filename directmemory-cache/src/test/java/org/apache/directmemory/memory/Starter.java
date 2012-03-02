@@ -21,8 +21,8 @@ package org.apache.directmemory.memory;
 
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
-import org.apache.directmemory.memory.OffHeapMemoryBufferImpl;
+import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
+import org.apache.directmemory.memory.allocator.MergingByteBufferAllocatorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,17 +59,7 @@ public class Starter
         starter.rawInsertMultipleBuffers( buffers, mb, entries );
     }
 
-    public void dump( OffHeapMemoryBuffer<Object> mem )
-    {
-        logger.info( "off-heap - buffer: " + mem.getBufferNumber() );
-        logger.info( "off-heap - allocated: " + Ram.inMb( mem.capacity() ) );
-        logger.info( "off-heap - used:      " + Ram.inMb( mem.used() ) );
-        logger.info( "heap 	  - max: " + Ram.inMb( Runtime.getRuntime().maxMemory() ) );
-        logger.info( "heap     - allocated: " + Ram.inMb( Runtime.getRuntime().totalMemory() ) );
-        logger.info( "heap     - free : " + Ram.inMb( Runtime.getRuntime().freeMemory() ) );
-        logger.info( "************************************************" );
-    }
-
+    
     private static void dump( MemoryManagerService<Object> mms )
     {
         logger.info( "off-heap - allocated: " + Ram.inMb( mms.capacity() ) );
@@ -80,11 +70,21 @@ public class Starter
         logger.info( "************************************************" );
     }
     
+    public void dump( ByteBufferAllocator mem )
+    {
+        logger.info( "off-heap - buffer: " + mem.getNumber() );
+        logger.info( "off-heap - allocated: " + Ram.inMb( mem.getCapacity() ) );
+        logger.info( "heap    - max: " + Ram.inMb( Runtime.getRuntime().maxMemory() ) );
+        logger.info( "heap     - allocated: " + Ram.inMb( Runtime.getRuntime().totalMemory() ) );
+        logger.info( "heap     - free : " + Ram.inMb( Runtime.getRuntime().freeMemory() ) );
+        logger.info( "************************************************" );
+    }
+    
     public void rawInsert( int megabytes, int howMany )
     {
-        OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( megabytes * 1024 * 1024 );
-        assertNotNull( mem );
-        int size = mem.capacity() / ( howMany );
+        ByteBufferAllocator allocator = new MergingByteBufferAllocatorImpl( 1, megabytes * 1024 * 1024 );
+        assertNotNull( allocator );
+        int size = allocator.getCapacity() / ( howMany );
         size -= size / 100 * 1;
         logger.info( "payload size=" + size );
         logger.info( "entries=" + howMany );
@@ -93,15 +93,14 @@ public class Starter
 
         long start = System.currentTimeMillis();
 
-        byte[] payload = new byte[size];
         for ( int i = 0; i < howMany; i++ )
         {
-            mem.store( payload );
+            allocator.allocate( size );
         }
 
         logger.info( "...done in " + ( System.currentTimeMillis() - start ) + " msecs." );
         logger.info( "---------------------------------" );
-        dump( mem );
+        dump( allocator );
     }
 
 

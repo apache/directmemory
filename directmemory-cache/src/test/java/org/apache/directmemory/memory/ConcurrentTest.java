@@ -27,10 +27,9 @@ import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
 import com.carrotsearch.junitbenchmarks.annotation.LabelType;
 import com.google.common.collect.MapMaker;
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
-import org.apache.directmemory.memory.OffHeapMemoryBufferImpl;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -64,12 +63,18 @@ public class ConcurrentTest
 
     private static AtomicInteger read = new AtomicInteger();
 
-    public static OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 512 * 1024 * 1024 );
+    private static MemoryManagerService<Object> mem;
 
     public static ConcurrentMap<String, Pointer<Object>> map =
         new MapMaker().concurrencyLevel( 4 ).initialCapacity( 100000 ).makeMap();
 
-
+    @Before
+    public void initMMS()
+    {
+        mem = new MemoryManagerServiceImpl<Object>();
+        mem.init( 1, 512 * 1024 * 1024 );
+    }
+    
     @BenchmarkOptions( benchmarkRounds = 100000, warmupRounds = 0, concurrency = 100 )
     @Test
     public void store()

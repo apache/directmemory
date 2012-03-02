@@ -28,7 +28,6 @@ import org.apache.directmemory.DirectMemory;
 import org.apache.directmemory.cache.CacheService;
 import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.MemoryManagerServiceWithAllocationPolicyImpl;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.memory.RoundRobinAllocationPolicy;
 import org.apache.directmemory.serialization.Serializer;
@@ -144,11 +143,6 @@ public class DirectMemoryCache<K, V>
     public long capacityInBytes()
     {
         return getMemoryManager().capacity();
-    }
-
-    public void dump( OffHeapMemoryBuffer<V> mem )
-    {
-        cacheService.dump( mem );
     }
 
     public void dump()

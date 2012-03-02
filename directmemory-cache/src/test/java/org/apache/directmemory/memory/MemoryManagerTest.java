@@ -23,8 +23,6 @@ import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.google.common.collect.Maps;
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
-import org.apache.directmemory.memory.OffHeapMemoryBufferImpl;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -89,16 +87,13 @@ public class MemoryManagerTest
     @Test
     public void readTest()
     {
-        for ( OffHeapMemoryBuffer<Object> buffer : ((MemoryManagerServiceImpl<Object>)MemoryManager.getMemoryManager()).getBuffers() )
+        for ( Pointer<Object> ptr : ((MemoryManagerServiceImpl<Object>)MemoryManager.getMemoryManager()).getPointers() )
         {
-            for ( Pointer<Object> ptr : ((OffHeapMemoryBufferImpl<Object>) buffer).getPointers() )
+            if ( !ptr.isFree() )
             {
-                if ( !ptr.isFree() )
-                {
-                    byte[] res = MemoryManager.retrieve( ptr );
-                    assertNotNull( res );
-                    assertEquals( new String( payload ), new String( res ) );
-                }
+                byte[] res = MemoryManager.retrieve( ptr );
+                assertNotNull( res );
+                assertEquals( new String( payload ), new String( res ) );
             }
         }
     }

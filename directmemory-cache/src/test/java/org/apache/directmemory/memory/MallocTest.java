@@ -27,8 +27,6 @@ import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
 import com.carrotsearch.junitbenchmarks.annotation.LabelType;
 import com.google.common.collect.MapMaker;
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
-import org.apache.directmemory.memory.OffHeapMemoryBufferImpl;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.After;
 import org.junit.Before;
@@ -68,14 +66,21 @@ public class MallocTest
         logger.info( "************************************************" );
     }
 
-    OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 512 * 1024 * 1024 );
+    MemoryManagerService<Object> mem;
+    
+    @Before
+    public void initMMS()
+    {
+        mem = new MemoryManagerServiceImpl<Object>();
+        mem.init( 1, 512 * 1024 * 1024 );
+    }
 
     @Test
     public void oneMillionEntries()
     {
         assertNotNull( mem );
         int howMany = 1000000;
-        int size = mem.capacity() / ( howMany );
+        int size = (int)mem.capacity() / ( howMany );
         size -= size / 100 * 1;
         logger.info( "payload size=" + size );
         logger.info( "entries=" + howMany );
@@ -99,7 +104,7 @@ public class MallocTest
 
         assertNotNull( mem );
         int howMany = 2000000;
-        int size = mem.capacity() / ( howMany );
+        int size = (int)mem.capacity() / ( howMany );
         size -= size / 100 * 1;
         logger.info( "payload size=" + size );
         logger.info( "entries=" + howMany );
@@ -122,7 +127,7 @@ public class MallocTest
 
         assertNotNull( mem );
         int howMany = 5000000;
-        int size = mem.capacity() / ( howMany );
+        int size = (int)mem.capacity() / ( howMany );
         size -= size / 100 * 1;
         logger.info( "payload size=" + size );
         logger.info( "entries=" + howMany );

@@ -23,7 +23,6 @@ import static org.apache.directmemory.DirectMemory.*;
 
 import org.apache.directmemory.DirectMemory;
 import org.apache.directmemory.memory.MemoryManagerService;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.serialization.Serializer;
 
@@ -133,11 +132,6 @@ public class Cache
     public static long entries()
     {
         return cacheService.entries();
-    }
-
-    public static void dump( OffHeapMemoryBuffer<Object> mem )
-    {
-        cacheService.dump( mem );
     }
 
     public static void dump()

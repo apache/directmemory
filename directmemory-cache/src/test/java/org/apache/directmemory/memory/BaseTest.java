@@ -22,17 +22,15 @@ package org.apache.directmemory.memory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
-import org.apache.directmemory.memory.OffHeapMemoryBufferImpl;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -47,16 +45,24 @@ import com.google.common.collect.Maps;
 public class BaseTest
     extends AbstractBenchmark
 {
+    
+    MemoryManagerService<Object> mem;
+    
+    @Before
+    public void initMMS()
+    {
+        mem = new MemoryManagerServiceImpl<Object>();
+        mem.init( 1, 1 * 1024 * 1024 );
+    }
     @Test
     public void smokeTest()
     {
-        OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 1 * 1024 * 1024 );
         logger.info( "buffer size=" + mem.capacity() );
         assertNotNull( mem );
 
         Random rnd = new Random();
 
-        int size = rnd.nextInt( 10 ) * mem.capacity() / 100;
+        int size = rnd.nextInt( 10 ) * (int)mem.capacity() / 100;
 
         logger.info( "size=" + size );
 
@@ -117,7 +123,6 @@ public class BaseTest
     @Test
     public void aFewEntriesWithRead()
     {
-        OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 100 * 1024 * 1024 );
         logger.info( "total capacity=" + Ram.inMb( mem.capacity() ) );
         assertNotNull( mem );
         int howMany = 10000;
@@ -149,7 +154,6 @@ public class BaseTest
     @Test
     public void aFewEntriesWithCheck()
     {
-        OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 10 * 1024 * 1024 );
         logger.info( "total capacity=" + Ram.inMb( mem.capacity() ) );
         assertNotNull( mem );
         int howMany = 10;
@@ -179,7 +183,6 @@ public class BaseTest
     public void checkExpiration()
         throws InterruptedException
     {
-        OffHeapMemoryBuffer<Object> mem = OffHeapMemoryBufferImpl.createNew( 10 * 1024 * 1024 );
         assertNotNull( mem );
         int size = 400;
         int howMany = 5000;
@@ -206,27 +209,27 @@ public class BaseTest
         logger.info( "entries with absolute expiration=" + ( howMany / 2 ) );
         for ( int i = 0; i < howMany / 2; i++ )
         {
-            mem.store( payload, new Date() );
+            mem.store( payload, 1 );
         }
         assertEquals( size * howMany * 2, mem.used() );
         logger.info( "total used=" + Ram.inMb( mem.used() ) );
 
-        Thread.sleep( 500 );
+        Thread.sleep( 1000 );
 
         logger.info( "calling disposeExpiredAbsolute" );
-        mem.disposeExpiredAbsolute();
+        mem.collectExpired();
         logger.info( "total used=" + Ram.inMb( mem.used() ) );
         assertEquals( size * howMany + size * howMany / 2, mem.used() );
 
         logger.info( "calling disposeExpiredRelative" );
-        mem.disposeExpiredRelative();
+        mem.collectExpired();
         logger.info( "total used=" + Ram.inMb( mem.used() ) );
         assertEquals( size * howMany, mem.used() );
 
         Thread.sleep( 2000 );
 
         logger.info( "calling disposeExpiredRelative again" );
-        mem.disposeExpiredRelative();
+        mem.collectExpired();
         logger.info( "total used=" + Ram.inMb( mem.used() ) );
         assertEquals( 0, mem.used() );
 

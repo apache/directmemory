@@ -30,7 +30,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManagerService;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.serialization.Serializer;
 import org.slf4j.Logger;
@@ -287,18 +286,6 @@ public class CacheServiceImpl<K, V>
     public long entries()
     {
         return map.size();
-    }
-
-    @Override
-    public void dump( OffHeapMemoryBuffer<V> mem )
-    {
-        logger.info( format( "off-heap - buffer: \t%1d", mem.getBufferNumber() ) );
-        logger.info( format( "off-heap - allocated: \t%1s", Ram.inMb( mem.capacity() ) ) );
-        logger.info( format( "off-heap - used:      \t%1s", Ram.inMb( mem.used() ) ) );
-        logger.info( format( "heap  - max: \t%1s", Ram.inMb( Runtime.getRuntime().maxMemory() ) ) );
-        logger.info( format( "heap     - allocated: \t%1s", Ram.inMb( Runtime.getRuntime().totalMemory() ) ) );
-        logger.info( format( "heap     - free : \t%1s", Ram.inMb( Runtime.getRuntime().freeMemory() ) ) );
-        logger.info( "************************************************" );
     }
 
     public void dump( MemoryManagerService<V> mms )

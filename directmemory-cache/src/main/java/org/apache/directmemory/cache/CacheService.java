@@ -21,7 +21,6 @@ package org.apache.directmemory.cache;
 
 
 import org.apache.directmemory.memory.MemoryManagerService;
-import org.apache.directmemory.memory.OffHeapMemoryBuffer;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.serialization.Serializer;
 
@@ -60,8 +59,6 @@ public interface CacheService<K, V>
     void clear();
 
     long entries();
-
-    void dump( OffHeapMemoryBuffer<V> mem );
 
     void dump();
 
