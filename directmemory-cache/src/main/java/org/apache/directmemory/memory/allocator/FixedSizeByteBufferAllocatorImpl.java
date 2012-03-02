@@ -28,27 +28,23 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * {@link ByteBufferAllocator} implementation that instantiate {@link ByteBuffer}s of fixed size, called slices.
  * 
- * @author bperroud
+ * @since 0.6
  * 
  */
 public class FixedSizeByteBufferAllocatorImpl
     extends AbstractByteBufferAllocator
 {
 
-    protected static Logger logger = LoggerFactory.getLogger( FixedSizeByteBufferAllocatorImpl.class );
-
     // Collection that keeps track of the parent buffers (segments) where slices are allocated
     private final Set<ByteBuffer> segmentsBuffers = new HashSet<ByteBuffer>();
 
-    // Collection that owns all slice that can be used.
+    // Collection that owns all slices that can be used.
     private final Queue<ByteBuffer> freeBuffers = new ConcurrentLinkedQueue<ByteBuffer>();
 
     // Size of each slices dividing each segments of the slab
@@ -60,7 +56,7 @@ public class FixedSizeByteBufferAllocatorImpl
     // Tells if one need to keep track of borrowed buffers
     private boolean keepTrackOfUsedSliceBuffers = false;
     
-    // Tells if it returns null or throw an BufferOverflowExcpetion with the requested size is bigger than the size of the slices
+    // Tells if it returns null or throw an BufferOverflowException when the requested size is bigger than the size of the slices
     private boolean returnNullWhenOversizingSliceSize = true;
     
     // Tells if it returns null when no buffers are available
@@ -70,16 +66,13 @@ public class FixedSizeByteBufferAllocatorImpl
     private final Set<ByteBuffer> usedSliceBuffers = Collections
         .newSetFromMap( new ConcurrentHashMap<ByteBuffer, Boolean>() );
 
-    protected Logger getLogger()
-    {
-        return logger;
-    }
-
+    
     /**
      * Constructor.
+     * @param number : internal identifier of the allocator
      * @param totalSize : the internal buffer
      * @param sliceSize : arbitrary number of the buffer.
-     * @param numberOfSegments : 
+     * @param numberOfSegments : number of parent {@link ByteBuffer} to allocate.
      */
     FixedSizeByteBufferAllocatorImpl( final int number, final int totalSize, final int sliceSize, final int numberOfSegments )
     {
@@ -94,6 +87,8 @@ public class FixedSizeByteBufferAllocatorImpl
 
     protected void init( final int numberOfSegments )
     {
+        checkArgument( numberOfSegments > 0 );
+        
         // Compute the size of each segments
         int segmentSize = totalSize / numberOfSegments;
         // size is rounded down to a multiple of the slice size
@@ -118,6 +113,7 @@ public class FixedSizeByteBufferAllocatorImpl
 
     protected ByteBuffer findFreeBuffer( int capacity )
     {
+        // ensure the requested size is not bigger than the slices' size
         if ( capacity > sliceSize )
         {
             if (returnNullWhenOversizingSliceSize)
@@ -137,12 +133,15 @@ public class FixedSizeByteBufferAllocatorImpl
     public void free( final ByteBuffer byteBuffer )
     {
 
+        checkState( !isClosed() );
+        
         if ( keepTrackOfUsedSliceBuffers && !usedSliceBuffers.remove( byteBuffer ) )
         {
             return;
         }
 
-        Preconditions.checkArgument( byteBuffer.capacity() == sliceSize );
+        // Ensure the buffer belongs to this slab
+        checkArgument( byteBuffer.capacity() == sliceSize );
 
         freeBuffers.offer( byteBuffer );
 
@@ -152,6 +151,8 @@ public class FixedSizeByteBufferAllocatorImpl
     public ByteBuffer allocate( int size )
     {
 
+        checkState( !isClosed() );
+        
         ByteBuffer allocatedByteBuffer = findFreeBuffer( size );
 
         if ( allocatedByteBuffer == null )
@@ -166,6 +167,7 @@ public class FixedSizeByteBufferAllocatorImpl
             }
         }
 
+        // Reset buffer's state
         allocatedByteBuffer.clear();
         allocatedByteBuffer.limit( size );
 
@@ -186,7 +188,10 @@ public class FixedSizeByteBufferAllocatorImpl
     @Override
     public void clear()
     {
-        // Nothing to do.
+        if ( keepTrackOfUsedSliceBuffers )
+        {
+            usedSliceBuffers.clear();
+        }
     }
 
     @Override
@@ -198,6 +203,10 @@ public class FixedSizeByteBufferAllocatorImpl
     @Override
     public void close()
     {
+        checkState( !isClosed() );
+        
+        setClosed( true );
+        
         clear();
         
         for ( final ByteBuffer buffer : segmentsBuffers )
@@ -208,7 +217,7 @@ public class FixedSizeByteBufferAllocatorImpl
             }
             catch (Exception e)
             {
-                
+                getLogger().warn( "Exception thrown while closing the allocator", e );
             }
         }
     }

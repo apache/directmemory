@@ -90,8 +90,8 @@ public class MemoryManagerServiceImpl<V>
     {
         final MergingByteBufferAllocatorImpl allocator = new MergingByteBufferAllocatorImpl( allocatorNumber, size );
         
-        // Hack to ensure the pointers are always splitted as it was the case before.
-        allocator.setMinSizeThreshold( 0.0 );
+        // Hack to ensure the pointers are always split to keep backward compatibility.
+        allocator.setMinSizeThreshold( 0 );
         allocator.setSizeRatioThreshold( 1.0 );
         
         return allocator;

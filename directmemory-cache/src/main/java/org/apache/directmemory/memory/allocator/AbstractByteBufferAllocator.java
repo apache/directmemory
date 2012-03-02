@@ -1,5 +1,10 @@
 package org.apache.directmemory.memory.allocator;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements. See the NOTICE file
@@ -23,7 +28,11 @@ public abstract class AbstractByteBufferAllocator
     implements ByteBufferAllocator
 {
 
+    protected final Logger logger = LoggerFactory.getLogger( this.getClass() );
+
     private final int number;
+    
+    private final AtomicBoolean closed = new AtomicBoolean( false );
     
     AbstractByteBufferAllocator( final int number )
     {
@@ -36,4 +45,19 @@ public abstract class AbstractByteBufferAllocator
         return number;
     }
 
+    protected Logger getLogger()
+    {
+        return logger;
+    }
+    
+    protected boolean isClosed()
+    {
+        return closed.get();
+    }
+    
+    protected void setClosed( final boolean closed )
+    {
+        this.closed.set( closed );
+    }
+    
 }

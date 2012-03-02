@@ -27,21 +27,17 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 /**
- * {@link ByteBufferAllocator} implementation that instantiate uses {@link FixedSizeByteBufferAllocatorImpl} of different size to allocate best matching's size {@link ByteBuffer}
+ * {@link ByteBufferAllocator} implementation that uses {@link FixedSizeByteBufferAllocatorImpl} 
+ * of different size to allocate best matching's size {@link ByteBuffer}
  * 
- * @author bperroud
+ * @since 0.6
  * 
  */
 public class SlabByteBufferAllocatorImpl
     extends AbstractByteBufferAllocator
 {
-
-    protected static Logger logger = LoggerFactory.getLogger( SlabByteBufferAllocatorImpl.class );
 
     // Tells if it returns null when no buffers are available
     private boolean returnNullWhenNoBufferAvailable = true;
@@ -49,20 +45,16 @@ public class SlabByteBufferAllocatorImpl
     // Internal slabs sorted by sliceSize
     private final NavigableMap<Integer, FixedSizeByteBufferAllocatorImpl> slabs = new ConcurrentSkipListMap<Integer, FixedSizeByteBufferAllocatorImpl>();
     
+    // Tells if it is allowed to look in a bigger slab to perform the request.
     private final boolean allowAllocationToBiggerSlab;
-
-    protected Logger getLogger()
-    {
-        return logger;
-    }
 
     /**
      * Constructor.
-     * @param totalSize : the internal buffer
-     * @param sliceSize : arbitrary number of the buffer.
-     * @param numberOfSegments : 
+     * @param number : internal allocator identifier
+     * @param slabs : {@link FixedSizeByteBufferAllocatorImpl} to use for allocation
+     * @param allowAllocationToBiggerSlab : tells if it is allowed to look in a bigger slab to perform the request.
      */
-    SlabByteBufferAllocatorImpl( final int number, final Collection<FixedSizeByteBufferAllocatorImpl> slabs, final boolean allowAllocationToBiggerSlab )
+    public SlabByteBufferAllocatorImpl( final int number, final Collection<FixedSizeByteBufferAllocatorImpl> slabs, final boolean allowAllocationToBiggerSlab )
     {
         super( number );
         
@@ -76,6 +68,10 @@ public class SlabByteBufferAllocatorImpl
     }
     
 
+    /**
+     * @param size
+     * @return the slab that best match the given size
+     */
     private FixedSizeByteBufferAllocatorImpl getSlabThatMatchTheSize( final int size )
     {
         // Find the slab that can carry the wanted size. -1 is used because higherEntry returns a strictly higher entry.
@@ -109,7 +105,6 @@ public class SlabByteBufferAllocatorImpl
     @Override
     public ByteBuffer allocate( final int size )
     {
-
         
         final FixedSizeByteBufferAllocatorImpl slab = getSlabThatMatchTheSize( size );
 
@@ -189,7 +184,10 @@ public class SlabByteBufferAllocatorImpl
     @Override
     public void clear()
     {
-        // Nothing to do.
+        for (final Map.Entry<Integer, FixedSizeByteBufferAllocatorImpl> entry : slabs.entrySet())
+        {
+            entry.getValue().clear();
+        }
     }
 
     @Override

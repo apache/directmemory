@@ -35,17 +35,20 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 /**
- * {@link ByteBufferAllocator} implementation with {@link ByteBuffer} merging capabilities
- *
- * {@link TreeMap} can be safely used because synchronization is achieved through a {@link Lock}
- *
- * @author bperroud
- *
+ * {@link ByteBufferAllocator} implementation with {@link ByteBuffer} merging capabilities. 
+ * 
+ * {@link ByteBuffer}s are wrapped into an {@link LinkedByteBuffer}, and when a {@link ByteBuffer} is freed,
+ * lookup is done to the neighbor to check if they are also free, in which case they are merged.
+ * 
+ * {@link #setMinSizeThreshold(double)} gives the minimum buffer's size under which no splitting is done.
+ * {@link #setSizeRatioThreshold(double)} gives the size ratio (requested allocation / free buffer's size} under which no splitting is done
+ * 
+ * The free {@link ByteBuffer} are held into a {@link NavigableMap} with keys defining the size's range : 0 -> first key (included), first key -> second key (included), ...
+ * Instead of keeping a list of {@link ByteBuffer}s sorted by capacity, {@link ByteBuffer}s in the same size's range are held in the same collection.
+ * The size's range are computed by {@link #generateFreeSizesRange(Integer)} and can be overridden. 
+ * 
+ * @since 0.6
  */
 public class MergingByteBufferAllocatorImpl
     extends AbstractByteBufferAllocator
@@ -55,36 +58,31 @@ public class MergingByteBufferAllocatorImpl
 
     private static final int DEFAULT_MIN_SIZE_THRESHOLD = 128;
     
-    protected static Logger logger = LoggerFactory.getLogger( MergingByteBufferAllocatorImpl.class );
-
-    // List of free pointers, with several list of different size
+    // List of free pointers, with several lists of different size
     private final NavigableMap<Integer, Collection<LinkedByteBuffer>> freePointers = new ConcurrentSkipListMap<Integer, Collection<LinkedByteBuffer>>();
 
-    // Set of used pointers. The key is a hash of ByteBuffer.
+    // Set of used pointers. The key is #getHash(ByteBuffer).
     private final Map<Integer, LinkedByteBuffer> usedPointers = new ConcurrentHashMap<Integer, LinkedByteBuffer>();
 
     // Lock used instead of synchronized block to guarantee consistency when manipulating list of pointers.
-    private final Lock pointerManipulationLock = new ReentrantLock();
+    private final Lock linkedStructureManipulationLock = new ReentrantLock();
 
+    // The initial buffer, from which all the others are sliced
     private final ByteBuffer parentBuffer;
 
-    // Allowed size ratio of the returned pointer before splitting the pointer
+    // Allowed size ratio (requested size / buffer's size) of the returned buffer before splitting
     private double sizeRatioThreshold = DEFAULT_SIZE_RATIO_THRESHOLD;
     
-    //
-    private double minSizeThreshold = DEFAULT_MIN_SIZE_THRESHOLD;
+    // Min size of the returned buffer before splitting
+    private int minSizeThreshold = DEFAULT_MIN_SIZE_THRESHOLD;
 
+    // Tells if null is returned or an BufferOverflowException is thrown when the buffer is full
     private boolean returnNullWhenBufferIsFull = true;
     
-    protected Logger getLogger()
-    {
-        return logger;
-    }
-
     /**
      * Constructor.
-     * @param buffer : the internal buffer
-     * @param bufferNumber : arbitrary number of the buffer.
+     * @param number : the internal buffer identifier
+     * @param totalSize : total size of the parent buffer.
      */
     public MergingByteBufferAllocatorImpl( final int number, final int totalSize )
     {
@@ -101,7 +99,7 @@ public class MergingByteBufferAllocatorImpl
     {
         Integer totalSize = Integer.valueOf( parentBuffer.capacity() );
 
-        for ( Integer i : generateQueueSizes( totalSize ) )
+        for ( Integer i : generateFreeSizesRange( totalSize ) )
         {
             freePointers.put( Integer.valueOf( i ), new LinkedHashSet<LinkedByteBuffer>() );
         }
@@ -110,6 +108,9 @@ public class MergingByteBufferAllocatorImpl
 
     }
 
+    /**
+     * Create the first {@link LinkedByteBuffer}
+     */
     private void initFirstBuffer()
     {
         parentBuffer.clear();
@@ -120,16 +121,23 @@ public class MergingByteBufferAllocatorImpl
     }
     
     
-    protected List<Integer> generateQueueSizes( final Integer totalSize )
+    /**
+     * Generate free sizes' range. Sizes' range are used to try to allocate the best matching {@ByteBuffer} 
+     * regarding the requested size. Instead of using a sorted structure, arbitrary size's range are computed.
+     * 
+     * @param totalSize
+     * @return a list of all size's level used by the allocator.
+     */
+    protected List<Integer> generateFreeSizesRange( final Integer totalSize )
     {
         List<Integer> sizes = new ArrayList<Integer>();
 
-        for ( int i = 128; i <= totalSize; i *= 8 )
+        for ( int i = minSizeThreshold; i <= totalSize; i *= 8 )
         {
             sizes.add( Integer.valueOf( i ) );
         }
 
-        // If totalSize < 128 or totalSize is not a multiple of 128 
+        // If totalSize < minSizeThreshold or totalSize is not a multiple of minSizeThreshold 
         // we force adding an element to the map
         if ( sizes.isEmpty() || !sizes.contains( totalSize ) )
         {
@@ -153,7 +161,7 @@ public class MergingByteBufferAllocatorImpl
 
         try
         {
-            pointerManipulationLock.lock();
+            linkedStructureManipulationLock.lock();
 
             if ( returningLinkedBuffer.getBefore() != null )
             {
@@ -177,7 +185,7 @@ public class MergingByteBufferAllocatorImpl
         }
         finally
         {
-            pointerManipulationLock.unlock();
+            linkedStructureManipulationLock.unlock();
         }
     }
 
@@ -187,7 +195,7 @@ public class MergingByteBufferAllocatorImpl
 
         try
         {
-            pointerManipulationLock.lock();
+            linkedStructureManipulationLock.lock();
 
             final SortedMap<Integer, Collection<LinkedByteBuffer>> freeMap = freePointers
                 .tailMap( size - 1 );
@@ -270,7 +278,7 @@ public class MergingByteBufferAllocatorImpl
         }
         finally
         {
-            pointerManipulationLock.unlock();
+            linkedStructureManipulationLock.unlock();
         }
     }
 
@@ -336,7 +344,7 @@ public class MergingByteBufferAllocatorImpl
         this.sizeRatioThreshold = sizeRatioThreshold;
     }
     
-    public void setMinSizeThreshold( final double minSizeThreshold )
+    public void setMinSizeThreshold( final int minSizeThreshold )
     {
         this.minSizeThreshold = minSizeThreshold;
     }
