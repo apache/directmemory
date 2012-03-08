@@ -17,37 +17,39 @@
   ~ specific language governing permissions and limitations
   ~ under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.apache.directmemory</groupId>
-    <artifactId>directmemory-parent</artifactId>
+    <artifactId>directmemory-integrations</artifactId>
     <version>0.6.0-SNAPSHOT</version>
-    <relativePath>../</relativePath>
   </parent>
 
-  <artifactId>directmemory-integrations</artifactId>
-  <packaging>pom</packaging>
-  <name>Apache DirectMemory :: Integrations</name>
-  <description>${project.name}</description>
+  <artifactId>directmemory-guice</artifactId>
+  <name>Apache DirectMemory :: Integrations :: Google Guice</name>
+  <description>Google Guice bridge to integrate DirectMemory in the Guice DI Framework.</description>
 
-  <modules>
-    <module>solr</module>
-    <module>ehcache</module>
-    <module>guice</module>
-  </modules>
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>directmemory-cache</artifactId>
+    </dependency>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>${project.parent.groupId}</groupId>
-        <artifactId>directmemory-cache</artifactId>
-        <version>${project.parent.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>3.0</version>
+    </dependency>
+
+    <!-- Testing Dependencies -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
 </project>
