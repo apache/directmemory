@@ -227,7 +227,7 @@ under the License.
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
     <implementation.build>${scmBranch}@r${buildNumber}; ${maven.build.timestamp}</implementation.build>
-    <siteUrlDeployment>scp://people.apache.org/www/incubator.apache.org/directmemory</siteUrlDeployment>
+    <siteUrlDeployment>scp://people.apache.org/www/incubator.apache.org/content/directmemory</siteUrlDeployment>
     <sonar.host.url>https://analysis.apache.org/</sonar.host.url>
     <maven.compile.source>1.6</maven.compile.source>
     <maven.compile.target>1.6</maven.compile.target>
