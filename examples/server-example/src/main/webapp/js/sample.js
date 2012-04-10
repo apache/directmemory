@@ -123,7 +123,7 @@ $(function() {
           },
           200:function( data ) {
             var wine = $.parseJSON(data);
-            displayInfo('get from cache with key:'+wine.description);
+            displayInfo('get from cache with key:'+key+",value:"+wine.description);
           },
           500:function(data){
             displayError("error get from cache");
