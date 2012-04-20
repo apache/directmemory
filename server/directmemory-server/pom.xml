@@ -34,7 +34,7 @@
   <description>${project.name}</description>
 
   <properties>
-    <tomcat7Version>7.0.25</tomcat7Version>
+    <tomcat7Version>7.0.27</tomcat7Version>
   </properties>
 
   <dependencies>
