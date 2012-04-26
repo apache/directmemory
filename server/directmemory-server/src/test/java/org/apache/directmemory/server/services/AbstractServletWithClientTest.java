@@ -21,11 +21,9 @@ package org.apache.directmemory.server.services;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.directmemory.serialization.SerializerFactory;
-import org.apache.directmemory.server.client.DefaultDirectMemoryClient;
 import org.apache.directmemory.server.client.DirectMemoryClient;
+import org.apache.directmemory.server.client.DirectMemoryClientBuilder;
 import org.apache.directmemory.server.client.DirectMemoryClientConfiguration;
-import org.apache.directmemory.server.client.DirectMemoryHttpClient;
-import org.apache.directmemory.server.client.HttpClientDirectMemoryHttpClient;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.apache.directmemory.server.commons.DirectMemoryResponse;
 import org.apache.directmemory.server.commons.ExchangeType;
@@ -83,10 +81,7 @@ public abstract class AbstractServletWithClientTest
                 .setSerializer( SerializerFactory.createNewSerializer() )
                 .setExchangeType( getExchangeType() );
 
-        DirectMemoryHttpClient httpClient = HttpClientDirectMemoryHttpClient.instance( configuration );
-        configuration.setDirectMemoryHttpClient( httpClient );
-
-        client = DefaultDirectMemoryClient.instance( configuration );
+        client = DirectMemoryClientBuilder.newBuilder( configuration ).buildClient();
         // END SNIPPET: client-configuration
 
         for ( int i = 0; i < 1000000; i++ )

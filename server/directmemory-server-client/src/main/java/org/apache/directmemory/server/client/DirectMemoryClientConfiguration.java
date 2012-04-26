@@ -19,7 +19,6 @@ package org.apache.directmemory.server.client;
  */
 
 import org.apache.directmemory.serialization.Serializer;
-import org.apache.directmemory.server.commons.DirectMemoryException;
 import org.apache.directmemory.server.commons.ExchangeType;
 
 /**
@@ -53,7 +52,7 @@ public class DirectMemoryClientConfiguration
 
     private Serializer serializer;
 
-    private DirectMemoryHttpClient directMemoryHttpClient;
+    private String httpClientClassName = DirectMemoryClientBuilder.DEFAULT_HTTP_CLIENT_INSTANCE;
 
     public DirectMemoryClientConfiguration()
     {
@@ -93,19 +92,6 @@ public class DirectMemoryClientConfiguration
         return this;
     }
 
-    public DirectMemoryHttpClient getDirectMemoryHttpClient()
-    {
-        return directMemoryHttpClient;
-    }
-
-    public DirectMemoryClientConfiguration setDirectMemoryHttpClient(
-        DirectMemoryHttpClient directMemoryHttpClient )
-        throws DirectMemoryException
-    {
-        this.directMemoryHttpClient = directMemoryHttpClient;
-        this.directMemoryHttpClient.configure( this );
-        return this;
-    }
 
     public int getMaxConcurentConnection()
     {
@@ -171,5 +157,34 @@ public class DirectMemoryClientConfiguration
     {
         this.serializer = serializer;
         return this;
+    }
+
+    public String getHttpClientClassName()
+    {
+        return httpClientClassName;
+    }
+
+    public void setHttpClientClassName( String httpClientClassName )
+    {
+        this.httpClientClassName = httpClientClassName;
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder sb = new StringBuilder();
+        sb.append( "DirectMemoryClientConfiguration" );
+        sb.append( "{protocol='" ).append( protocol ).append( '\'' );
+        sb.append( ", host='" ).append( host ).append( '\'' );
+        sb.append( ", port=" ).append( port );
+        sb.append( ", httpPath='" ).append( httpPath ).append( '\'' );
+        sb.append( ", maxConcurentConnection=" ).append( maxConcurentConnection );
+        sb.append( ", connectionTimeOut=" ).append( connectionTimeOut );
+        sb.append( ", readTimeOut=" ).append( readTimeOut );
+        sb.append( ", exchangeType=" ).append( exchangeType );
+        sb.append( ", serializer=" ).append( serializer );
+        sb.append( ", httpClientClassName='" ).append( httpClientClassName ).append( '\'' );
+        sb.append( '}' );
+        return sb.toString();
     }
 }

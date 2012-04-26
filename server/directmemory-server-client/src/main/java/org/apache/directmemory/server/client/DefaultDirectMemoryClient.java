@@ -33,20 +33,16 @@ public class DefaultDirectMemoryClient
     implements DirectMemoryClient
 {
 
-    public static DirectMemoryClient instance( DirectMemoryClientConfiguration configuration )
-        throws DirectMemoryException
-    {
-        return new DefaultDirectMemoryClient( configuration );
-    }
 
     private DirectMemoryClientConfiguration clientConfiguration;
 
     private DirectMemoryHttpClient directMemoryHttpClient;
 
-    private DefaultDirectMemoryClient( DirectMemoryClientConfiguration configuration )
+    protected DefaultDirectMemoryClient( DirectMemoryClientConfiguration configuration,
+                                       DirectMemoryHttpClient directMemoryHttpClient )
         throws DirectMemoryException
     {
-        this.directMemoryHttpClient = configuration.getDirectMemoryHttpClient();
+        this.directMemoryHttpClient = directMemoryHttpClient;
         this.clientConfiguration = configuration;
     }
 
@@ -111,7 +107,7 @@ public class DefaultDirectMemoryClient
         return this.directMemoryHttpClient.asyncDelete( directMemoryRequest.setDeleteRequest( true ) );
     }
 
-    private void verifyPerRequestParameters(DirectMemoryRequest request)
+    private void verifyPerRequestParameters( DirectMemoryRequest request )
     {
         if ( request.getSerializer() == null )
         {

@@ -29,9 +29,6 @@ import java.util.concurrent.Future;
  */
 public interface DirectMemoryHttpClient
 {
-    void configure( DirectMemoryClientConfiguration configuration )
-        throws DirectMemoryException;
-
     DirectMemoryResponse put( DirectMemoryRequest request )
         throws DirectMemoryException;
 

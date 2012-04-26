@@ -50,10 +50,6 @@ public class HttpClientDirectMemoryHttpClient
 {
     private Logger log = LoggerFactory.getLogger( getClass() );
 
-    public static HttpClientDirectMemoryHttpClient instance( DirectMemoryClientConfiguration configuration )
-    {
-        return new HttpClientDirectMemoryHttpClient( configuration );
-    }
 
     private HttpClient httpClient;
 
@@ -61,11 +57,11 @@ public class HttpClientDirectMemoryHttpClient
     public HttpClientDirectMemoryHttpClient( DirectMemoryClientConfiguration configuration )
     {
         super( configuration );
+        this.configure( configuration );
     }
 
-    @Override
+
     public void configure( DirectMemoryClientConfiguration configuration )
-        throws DirectMemoryException
     {
         this.configuration = configuration;
         ThreadSafeClientConnManager threadSafeClientConnManager = new ThreadSafeClientConnManager();
