@@ -65,7 +65,7 @@ public class HttpClientDirectMemoryHttpClient
     {
         this.configuration = configuration;
         ThreadSafeClientConnManager threadSafeClientConnManager = new ThreadSafeClientConnManager();
-        threadSafeClientConnManager.setDefaultMaxPerRoute( configuration.getMaxConcurentConnection() );
+        threadSafeClientConnManager.setDefaultMaxPerRoute( configuration.getMaxConcurentConnections() );
         this.httpClient = new DefaultHttpClient( threadSafeClientConnManager );
     }
 

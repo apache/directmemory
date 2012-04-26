@@ -42,7 +42,7 @@ public class DirectMemoryClientConfiguration
 
     private String httpPath;
 
-    private int maxConcurentConnection = DEFAULT_MAX_CONCURRENT_CONNECTION;
+    private int maxConcurentConnections = DEFAULT_MAX_CONCURRENT_CONNECTION;
 
     private long connectionTimeOut = DEFAULT_CONNECTION_TIME_OUT;
 
@@ -93,14 +93,14 @@ public class DirectMemoryClientConfiguration
     }
 
 
-    public int getMaxConcurentConnection()
+    public int getMaxConcurentConnections()
     {
-        return maxConcurentConnection;
+        return maxConcurentConnections;
     }
 
-    public DirectMemoryClientConfiguration setMaxConcurentConnection( int maxConcurentConnection )
+    public DirectMemoryClientConfiguration setMaxConcurentConnections( int maxConcurentConnections )
     {
-        this.maxConcurentConnection = maxConcurentConnection;
+        this.maxConcurentConnections = maxConcurentConnections;
         return this;
     }
 
@@ -178,7 +178,7 @@ public class DirectMemoryClientConfiguration
         sb.append( ", host='" ).append( host ).append( '\'' );
         sb.append( ", port=" ).append( port );
         sb.append( ", httpPath='" ).append( httpPath ).append( '\'' );
-        sb.append( ", maxConcurentConnection=" ).append( maxConcurentConnection );
+        sb.append( ", maxConcurentConnections=" ).append( maxConcurentConnections );
         sb.append( ", connectionTimeOut=" ).append( connectionTimeOut );
         sb.append( ", readTimeOut=" ).append( readTimeOut );
         sb.append( ", exchangeType=" ).append( exchangeType );

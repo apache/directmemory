@@ -82,6 +82,17 @@ public abstract class AbstractServletWithClientTest
                 .setExchangeType( getExchangeType() );
 
         client = DirectMemoryClientBuilder.newBuilder( configuration ).buildClient();
+
+        // or
+
+        client = DirectMemoryClientBuilder.newBuilder()
+            .toHost( "localhost" )
+            .onPort( port )
+            .toHttpPath( "/direct-memory/DirectMemoryServlet" )
+            .withSerializer( SerializerFactory.createNewSerializer() )
+            .forExchangeType( getExchangeType() )
+            .buildClient();
+
         // END SNIPPET: client-configuration
 
         for ( int i = 0; i < 1000000; i++ )

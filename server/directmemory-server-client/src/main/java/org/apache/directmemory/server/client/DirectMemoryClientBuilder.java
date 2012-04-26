@@ -18,7 +18,9 @@ package org.apache.directmemory.server.client;
  * under the License.
  */
 
+import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.server.commons.DirectMemoryException;
+import org.apache.directmemory.server.commons.ExchangeType;
 
 /**
  * @author Olivier Lamy
@@ -50,12 +52,68 @@ public class DirectMemoryClientBuilder
         return new DirectMemoryClientBuilder( configuration );
     }
 
+    public DirectMemoryClientBuilder toHost( String host )
+    {
+        this.configuration.setHost( host );
+        return this;
+    }
+
+    public DirectMemoryClientBuilder onPort( int port )
+    {
+        this.configuration.setPort( port );
+        return this;
+    }
+
+    public DirectMemoryClientBuilder toHttpPath( String HttpPath )
+    {
+        this.configuration.setHttpPath( HttpPath );
+        return this;
+    }
+
+    public DirectMemoryClientBuilder withMaxConcurentConnections( int maxConcurentConnections )
+    {
+        this.configuration.setMaxConcurentConnections( maxConcurentConnections );
+        return this;
+    }
+
+    public DirectMemoryClientBuilder withConnectionTimeOut( long connectionTimeOut )
+    {
+        this.configuration.setConnectionTimeOut( connectionTimeOut );
+        return this;
+    }
+
+    public DirectMemoryClientBuilder withReadTimeOut( long readTimeOut )
+    {
+        this.configuration.setReadTimeOut( readTimeOut );
+        return this;
+    }
+
+
+    public DirectMemoryClientBuilder forExchangeType( ExchangeType exchangeType )
+    {
+        this.configuration.setExchangeType( exchangeType );
+        return this;
+    }
+
+    public DirectMemoryClientBuilder withSerializer( Serializer serializer )
+    {
+        this.configuration.setSerializer( serializer );
+        return this;
+    }
+
+    public DirectMemoryClientBuilder withHttpClientClassName( String HttpClientClassName )
+    {
+        this.configuration.setHttpClientClassName( HttpClientClassName );
+        return this;
+    }
+
     public DirectMemoryClient buildClient()
         throws DirectMemoryException
     {
         // TODO check here if the builder has received all necessary parameters !
         return new DefaultDirectMemoryClient( this.configuration, buildDirectMemoryHttpClient() );
     }
+
 
     protected DirectMemoryHttpClient buildDirectMemoryHttpClient()
     {
