@@ -86,7 +86,7 @@ public class DirectMemoryClientBuilder
             }
 
         }
-        // if we are dynamic stuff has sucks !! so we use default one
+        // if we are here dynamic stuff has sucks !! so we use default client
         return new HttpClientDirectMemoryHttpClient( this.configuration );
     }
 

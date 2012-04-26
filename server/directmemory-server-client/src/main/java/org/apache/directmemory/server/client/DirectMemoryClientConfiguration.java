@@ -44,9 +44,9 @@ public class DirectMemoryClientConfiguration
 
     private int maxConcurentConnection = DEFAULT_MAX_CONCURRENT_CONNECTION;
 
-    private long connectionTimeOut;
+    private long connectionTimeOut = DEFAULT_CONNECTION_TIME_OUT;
 
-    private long readTimeOut;
+    private long readTimeOut = DEFAULT_READ_TIME_OUT;
 
     private ExchangeType exchangeType;
 
