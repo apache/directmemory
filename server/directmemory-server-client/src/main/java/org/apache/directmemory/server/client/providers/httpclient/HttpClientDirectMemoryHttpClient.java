@@ -1,4 +1,4 @@
-package org.apache.directmemory.server.client;
+package org.apache.directmemory.server.client.providers.httpclient;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,6 +18,9 @@ package org.apache.directmemory.server.client;
  * under the License.
  */
 
+import org.apache.directmemory.server.client.AbstractDirectMemoryHttpClient;
+import org.apache.directmemory.server.client.DirectMemoryClientConfiguration;
+import org.apache.directmemory.server.client.DirectMemoryHttpClient;
 import org.apache.directmemory.server.commons.DirectMemoryException;
 import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;

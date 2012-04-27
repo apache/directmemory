@@ -19,6 +19,7 @@ package org.apache.directmemory.server.client;
  */
 
 import org.apache.directmemory.serialization.Serializer;
+import org.apache.directmemory.server.client.providers.httpclient.HttpClientDirectMemoryHttpClient;
 import org.apache.directmemory.server.commons.DirectMemoryException;
 import org.apache.directmemory.server.commons.ExchangeType;
 
