@@ -41,7 +41,6 @@ public abstract class AbstractDirectMemoryHttpClient
 
     private DirectMemoryWriter writer = DirectMemoryWriter.instance();
 
-    private DirectMemoryParser parser = DirectMemoryParser.instance();
 
     protected DirectMemoryClientConfiguration configuration;
 
@@ -75,14 +74,14 @@ public abstract class AbstractDirectMemoryHttpClient
         }
     }
 
-    protected DirectMemoryResponse buildResponse( InputStream inputStream, DirectMemoryRequest request )
+    public static DirectMemoryResponse buildResponse( InputStream inputStream, DirectMemoryRequest request )
         throws DirectMemoryException
     {
 
         switch ( request.getExchangeType() )
         {
             case JSON:
-                return parser.buildResponse( inputStream );
+                return DirectMemoryParser.instance().buildResponse( inputStream );
             case JAVA_SERIALIZED_OBJECT:
                 try
                 {
@@ -120,7 +119,8 @@ public abstract class AbstractDirectMemoryHttpClient
                     throw new DirectMemoryException( e.getMessage(), e );
                 }
             default:
-                log.error( "exchange type unknown {}", request.getExchangeType() );
+                LoggerFactory.getLogger( AbstractDirectMemoryHttpClient.class ).error( "exchange type unknown {}",
+                                                                                       request.getExchangeType() );
                 throw new DirectMemoryException( "exchange type unknown " + request.getExchangeType() );
         }
 

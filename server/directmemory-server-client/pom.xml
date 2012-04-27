@@ -69,6 +69,13 @@
       </exclusions>
     </dependency>
 
+    <dependency>
+      <groupId>com.ning</groupId>
+      <artifactId>async-http-client</artifactId>
+      <version>1.7.4</version>
+      <optional>true</optional>
+    </dependency>
+
 
   </dependencies>
 

@@ -26,6 +26,13 @@ import org.apache.directmemory.server.commons.ExchangeType;
 public class ServletWithClientBinaryTypeTest
     extends AbstractServletWithClientTest
 {
+    public ServletWithClientBinaryTypeTest()
+    {
+        super();
+    }
+
+
+
     @Override
     protected ExchangeType getExchangeType()
     {

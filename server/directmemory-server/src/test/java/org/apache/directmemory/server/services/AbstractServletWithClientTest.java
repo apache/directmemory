@@ -24,6 +24,7 @@ import org.apache.directmemory.serialization.SerializerFactory;
 import org.apache.directmemory.server.client.DirectMemoryClient;
 import org.apache.directmemory.server.client.DirectMemoryClientBuilder;
 import org.apache.directmemory.server.client.DirectMemoryClientConfiguration;
+import org.apache.directmemory.server.client.providers.httpclient.HttpClientDirectMemoryHttpClient;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.apache.directmemory.server.commons.DirectMemoryResponse;
 import org.apache.directmemory.server.commons.ExchangeType;
@@ -49,6 +50,13 @@ public abstract class AbstractServletWithClientTest
     DirectMemoryClient client;
 
     StringBuilder hugeStr = new StringBuilder( "" );
+
+    public static String httpClientClassName = HttpClientDirectMemoryHttpClient.class.getName();
+
+    public AbstractServletWithClientTest()
+    {
+        // no op
+    }
 
 
     protected abstract ExchangeType getExchangeType();
@@ -79,18 +87,21 @@ public abstract class AbstractServletWithClientTest
                 .setPort( port )
                 .setHttpPath( "/direct-memory/DirectMemoryServlet" )
                 .setSerializer( SerializerFactory.createNewSerializer() )
+                .setHttpClientClassName( httpClientClassName )
                 .setExchangeType( getExchangeType() );
 
         client = DirectMemoryClientBuilder.newBuilder( configuration ).buildClient();
 
         // or
 
-        client = DirectMemoryClientBuilder.newBuilder()
+        client = DirectMemoryClientBuilder
+            .newBuilder()
             .toHost( "localhost" )
             .onPort( port )
             .toHttpPath( "/direct-memory/DirectMemoryServlet" )
             .withSerializer( SerializerFactory.createNewSerializer() )
             .forExchangeType( getExchangeType() )
+            .withHttpClientClassName( httpClientClassName )
             .buildClient();
 
         // END SNIPPET: client-configuration
@@ -100,6 +111,7 @@ public abstract class AbstractServletWithClientTest
             hugeStr.append( "foo" );
         }
     }
+
 
     public void shutdown()
         throws Exception

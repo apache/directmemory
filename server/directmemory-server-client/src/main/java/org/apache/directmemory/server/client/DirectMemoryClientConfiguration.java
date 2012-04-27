@@ -164,9 +164,10 @@ public class DirectMemoryClientConfiguration
         return httpClientClassName;
     }
 
-    public void setHttpClientClassName( String httpClientClassName )
+    public DirectMemoryClientConfiguration setHttpClientClassName( String httpClientClassName )
     {
         this.httpClientClassName = httpClientClassName;
+        return this;
     }
 
     @Override
