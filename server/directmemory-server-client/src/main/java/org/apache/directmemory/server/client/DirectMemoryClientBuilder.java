@@ -22,6 +22,8 @@ import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.server.client.providers.httpclient.HttpClientDirectMemoryHttpClient;
 import org.apache.directmemory.server.commons.DirectMemoryException;
 import org.apache.directmemory.server.commons.ExchangeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Olivier Lamy
@@ -30,6 +32,8 @@ public class DirectMemoryClientBuilder
 {
 
     public static final String DEFAULT_HTTP_CLIENT_INSTANCE = HttpClientDirectMemoryHttpClient.class.getName();
+
+    private Logger log = LoggerFactory.getLogger( getClass() );
 
     private DirectMemoryClientConfiguration configuration;
 
@@ -129,6 +133,7 @@ public class DirectMemoryClientBuilder
         }
         catch ( Throwable t1 )
         {
+            log.warn( "fail to use configured http client: {} use defautl one", t1.getMessage() );
             try
             {
                 // we try with an other class
