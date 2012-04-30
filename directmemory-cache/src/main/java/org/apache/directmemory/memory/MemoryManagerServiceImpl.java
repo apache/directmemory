@@ -47,7 +47,7 @@ public class MemoryManagerServiceImpl<V>
 {
 
     protected static final long NEVER_EXPIRES = 0L;
-    
+
     protected static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
 
     private List<ByteBufferAllocator> allocators;
@@ -55,21 +55,21 @@ public class MemoryManagerServiceImpl<V>
     private final Set<Pointer<V>> pointers = Collections.newSetFromMap( new ConcurrentHashMap<Pointer<V>, Boolean>() );
 
     private final boolean returnNullWhenFull;
-    
+
     protected final AtomicLong used = new AtomicLong( 0L );
 
     protected final AllocationPolicy allocationPolicy;
-    
+
     public MemoryManagerServiceImpl()
     {
         this( true );
     }
-    
+
     public MemoryManagerServiceImpl( final boolean returnNullWhenFull )
     {
         this( new RoundRobinAllocationPolicy(), returnNullWhenFull );
     }
-    
+
     public MemoryManagerServiceImpl( final AllocationPolicy allocationPolicy, final boolean returnNullWhenFull )
     {
         this.allocationPolicy = allocationPolicy;
@@ -81,7 +81,7 @@ public class MemoryManagerServiceImpl<V>
     {
 
         allocators = new ArrayList<ByteBufferAllocator>( numberOfBuffers );
-        
+
         for ( int i = 0; i < numberOfBuffers; i++ )
         {
             final ByteBufferAllocator allocator = instanciateByteBufferAllocator( i, size );
@@ -89,19 +89,19 @@ public class MemoryManagerServiceImpl<V>
         }
 
         allocationPolicy.init( allocators );
-        
+
         logger.info( format( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
     }
 
-    
+
     protected ByteBufferAllocator instanciateByteBufferAllocator( final int allocatorNumber, final int size )
     {
         final MergingByteBufferAllocatorImpl allocator = new MergingByteBufferAllocatorImpl( allocatorNumber, size );
-        
+
         // Hack to ensure the pointers are always split to keep backward compatibility.
         allocator.setMinSizeThreshold( 0 );
         allocator.setSizeRatioThreshold( 1.0 );
-        
+
         return allocator;
     }
 
@@ -114,7 +114,7 @@ public class MemoryManagerServiceImpl<V>
     {
         return allocationPolicy.getActiveAllocator( null, 0 );
     }
-    
+
     @Override
     public Pointer<V> store( byte[] payload, int expiresIn )
     {
@@ -137,19 +137,19 @@ public class MemoryManagerServiceImpl<V>
                 }
             }
             final ByteBuffer buffer = allocator.allocate( payload.length );
-            
+
             if ( buffer == null )
             {
                 continue;
             }
-            
+
             p = instanciatePointer( buffer, allocator.getNumber(), expiresIn, NEVER_EXPIRES );
 
             buffer.rewind();
             buffer.put( payload );
-            
+
             used.addAndGet( payload.length );
-            
+
         }
         while ( p == null );
         return p;
@@ -176,9 +176,9 @@ public class MemoryManagerServiceImpl<V>
         {
             return null;
         }
-        
+
         pointer.hit();
-        
+
         final ByteBuffer buf = pointer.getDirectBuffer().asReadOnlyBuffer();
         buf.rewind();
 
@@ -196,11 +196,11 @@ public class MemoryManagerServiceImpl<V>
             //throw new IllegalArgumentException( "This pointer " + pointer + " has already been freed" );
             return;
         }
-        
+
         getAllocator( pointer.getBufferNumber() ).free( pointer.getDirectBuffer() );
-        
+
         used.addAndGet( - pointer.getCapacity() );
-        
+
         pointer.setFree( true );
     }
 
@@ -229,7 +229,7 @@ public class MemoryManagerServiceImpl<V>
         }
         return totalCapacity;
     }
-    
+
     @Override
     public long used()
     {
@@ -257,14 +257,14 @@ public class MemoryManagerServiceImpl<V>
         }
 
     };
-    
+
     @Override
     public long collectExpired()
     {
         int limit = 50;
         return free( limit( filter( pointers, relative ), limit ) )
                         + free( limit( filter( pointers, absolute ), limit ) );
-        
+
     }
 
     @Override
@@ -272,7 +272,7 @@ public class MemoryManagerServiceImpl<V>
     {
 
         int limit = pointers.size() / 10;
-        
+
         Iterable<Pointer<V>> result = from( new Comparator<Pointer<V>>()
         {
 
@@ -296,7 +296,7 @@ public class MemoryManagerServiceImpl<V>
         } ), limit ) );
 
         free( result );
-        
+
     }
 
     protected long free( Iterable<Pointer<V>> pointers )
@@ -309,18 +309,18 @@ public class MemoryManagerServiceImpl<V>
         }
         return howMuch;
     }
-    
-    
+
+
     protected List<ByteBufferAllocator> getAllocators()
     {
         return allocators;
     }
-    
+
     @Deprecated
     @Override
     public <T extends V> Pointer<V> allocate( final Class<T> type, final int size, final long expiresIn, final long expires )
     {
-        
+
         Pointer<V> p = null;
         ByteBufferAllocator allocator = null;
         int allocationNumber = 0;
@@ -339,41 +339,41 @@ public class MemoryManagerServiceImpl<V>
                     throw new BufferOverflowException();
                 }
             }
-            
+
             final ByteBuffer buffer = allocator.allocate( size );
-            
+
             if ( buffer == null )
             {
                 continue;
             }
-            
+
             p = instanciatePointer( buffer, allocator.getNumber(), expiresIn, NEVER_EXPIRES );
-            
+
             used.addAndGet( size );
         }
         while ( p == null );
-        
+
         p.setClazz( type );
-        
+
         return p;
     }
-    
+
     protected Pointer<V> instanciatePointer( final ByteBuffer buffer, final int allocatorIndex, final long expiresIn, final long expires )
     {
-        
+
         Pointer<V> p = new PointerImpl<V>();
-        
+
         p.setDirectBuffer( buffer );
         p.setExpiration( expires, expiresIn );
         p.setBufferNumber( allocatorIndex );
         p.setFree( false );
         p.createdNow();
-        
+
         pointers.add( p );
-        
+
         return p;
     }
-        
+
     protected boolean returnsNullWhenFull()
     {
         return returnNullWhenFull;
