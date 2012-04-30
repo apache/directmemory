@@ -19,7 +19,6 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-
 public interface MemoryManagerService<V>
 {
 
@@ -79,11 +78,11 @@ public interface MemoryManagerService<V>
     long capacity();
 
     long used();
-    
+
     long collectExpired();
 
     void collectLFU();
 
     <T extends V> Pointer<V> allocate( Class<T> type, int size, long expiresIn, long expires );
-    
+
 }
