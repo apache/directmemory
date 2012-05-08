@@ -34,19 +34,27 @@ public final class CacheServiceProvider<K, V>
     implements Provider<CacheService<K, V>>
 {
 
-    private final ConcurrentMap<K, Pointer<V>> map;
-
-    private final MemoryManagerService<V> memoryManager;
-
-    private final Serializer serializer;
+    @Inject
+    private ConcurrentMap<K, Pointer<V>> map;
 
     @Inject
-    public CacheServiceProvider( ConcurrentMap<K, Pointer<V>> map,
-                                 MemoryManagerService<V> memoryManager,
-                                 Serializer serializer )
+    private MemoryManagerService<V> memoryManager;
+
+    @Inject
+    private Serializer serializer;
+
+    public void setMap( ConcurrentMap<K, Pointer<V>> map )
     {
         this.map = map;
+    }
+
+    public void setMemoryManager( MemoryManagerService<V> memoryManager )
+    {
         this.memoryManager = memoryManager;
+    }
+
+    public void setSerializer( Serializer serializer )
+    {
         this.serializer = serializer;
     }
 

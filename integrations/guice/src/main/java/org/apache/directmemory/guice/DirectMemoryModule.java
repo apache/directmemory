@@ -19,9 +19,14 @@ package org.apache.directmemory.guice;
  * under the License.
  */
 
-import com.google.inject.AbstractModule;
+import static com.google.inject.Scopes.SINGLETON;
 
-public final class DirectMemoryModule
+import org.apache.directmemory.cache.CacheService;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
+
+public final class DirectMemoryModule<K, V>
     extends AbstractModule
 {
 
@@ -31,7 +36,7 @@ public final class DirectMemoryModule
     @Override
     protected void configure()
     {
-        // TODO
+        bind( new TypeLiteral<CacheService<K, V>>(){} ).toProvider( new CacheServiceProvider<K, V>() ).in( SINGLETON );
     }
 
 }
