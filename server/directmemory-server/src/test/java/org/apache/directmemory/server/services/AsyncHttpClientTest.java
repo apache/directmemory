@@ -57,6 +57,7 @@ public class AsyncHttpClientTest
 
         JUnitCore core = new JUnitCore();
         core.run( ServletWithClientBinaryTypeTest.class );
-
+        core.run( ServletWithClientTextPlainTypeTest.class );
+        core.run( ServletWithClientJsonTypeTest.class );
     }
 }

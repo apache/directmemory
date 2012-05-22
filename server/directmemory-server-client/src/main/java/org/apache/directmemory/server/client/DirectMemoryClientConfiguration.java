@@ -54,6 +54,12 @@ public class DirectMemoryClientConfiguration
 
     private String httpClientClassName = DirectMemoryClientBuilder.DEFAULT_HTTP_CLIENT_INSTANCE;
 
+    /**
+     * http provider class for async http client
+     * default value is <code>NettyAsyncHttpProvider</code>
+     */
+    private String httpProviderClassName = null;
+
     public DirectMemoryClientConfiguration()
     {
         // no op
@@ -167,6 +173,17 @@ public class DirectMemoryClientConfiguration
     public DirectMemoryClientConfiguration setHttpClientClassName( String httpClientClassName )
     {
         this.httpClientClassName = httpClientClassName;
+        return this;
+    }
+
+    public String getHttpProviderClassName()
+    {
+        return httpProviderClassName;
+    }
+
+    public DirectMemoryClientConfiguration setHttpProviderClassName( String httpProviderClassName )
+    {
+        this.httpProviderClassName = httpProviderClassName;
         return this;
     }
 

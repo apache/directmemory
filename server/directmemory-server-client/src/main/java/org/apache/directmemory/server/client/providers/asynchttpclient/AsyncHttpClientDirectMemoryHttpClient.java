@@ -58,7 +58,11 @@ public class AsyncHttpClientDirectMemoryHttpClient
         builder.setConnectionTimeoutInMs( (int) configuration.getConnectionTimeOut() );
         builder.setMaximumConnectionsTotal( configuration.getMaxConcurentConnections() );
 
-        asyncHttpClient = new AsyncHttpClient( NettyAsyncHttpProvider.class.getName(), builder.build() );
+        String httpProviderClassName = configuration.getHttpProviderClassName();
+
+        asyncHttpClient = new AsyncHttpClient(
+            httpProviderClassName != null ? httpProviderClassName : NettyAsyncHttpProvider.class.getName(),
+            builder.build() );
 
     }
 
