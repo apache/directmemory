@@ -19,8 +19,12 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static java.lang.String.format;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.MemoryManagerService;
+import org.apache.directmemory.memory.Pointer;
+import org.apache.directmemory.serialization.Serializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -28,12 +32,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.MemoryManagerService;
-import org.apache.directmemory.memory.Pointer;
-import org.apache.directmemory.serialization.Serializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.lang.String.format;
 
 public class CacheServiceImpl<K, V>
     implements CacheService<K, V>
@@ -52,8 +52,7 @@ public class CacheServiceImpl<K, V>
     /**
      * Constructor
      */
-    public CacheServiceImpl( ConcurrentMap<K, Pointer<V>> map,
-                             MemoryManagerService<V> memoryManager,
+    public CacheServiceImpl( ConcurrentMap<K, Pointer<V>> map, MemoryManagerService<V> memoryManager,
                              Serializer serializer )
     {
         checkArgument( map != null, "Impossible to initialize the CacheService with a null map" );
@@ -79,7 +78,7 @@ public class CacheServiceImpl<K, V>
 
                 logger.info( "scheduled disposal complete" );
             }
-        }, l );
+        }, l, l );
 
         logger.info( "disposal scheduled every {} milliseconds", l );
     }
