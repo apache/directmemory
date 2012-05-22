@@ -18,6 +18,7 @@ package org.apache.directmemory.server.client;
  * under the License.
  */
 
+import com.ning.http.client.AsyncHttpClientConfig;
 import org.apache.directmemory.serialization.Serializer;
 import org.apache.directmemory.server.commons.ExchangeType;
 
@@ -54,6 +55,7 @@ public class DirectMemoryClientConfiguration
 
     private String httpClientClassName = DirectMemoryClientBuilder.DEFAULT_HTTP_CLIENT_INSTANCE;
 
+    private AsyncHttpClientConfig asyncHttpClientConfig;
     /**
      * http provider class for async http client
      * default value is <code>NettyAsyncHttpProvider</code>
@@ -184,6 +186,17 @@ public class DirectMemoryClientConfiguration
     public DirectMemoryClientConfiguration setHttpProviderClassName( String httpProviderClassName )
     {
         this.httpProviderClassName = httpProviderClassName;
+        return this;
+    }
+
+    public AsyncHttpClientConfig getAsyncHttpClientConfig()
+    {
+        return asyncHttpClientConfig;
+    }
+
+    public DirectMemoryClientConfiguration setAsyncHttpClientConfig( AsyncHttpClientConfig asyncHttpClientConfig )
+    {
+        this.asyncHttpClientConfig = asyncHttpClientConfig;
         return this;
     }
 

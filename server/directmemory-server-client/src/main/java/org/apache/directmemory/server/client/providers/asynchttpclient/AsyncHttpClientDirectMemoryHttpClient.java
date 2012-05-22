@@ -62,8 +62,9 @@ public class AsyncHttpClientDirectMemoryHttpClient
 
         asyncHttpClient = new AsyncHttpClient(
             httpProviderClassName != null ? httpProviderClassName : NettyAsyncHttpProvider.class.getName(),
-            builder.build() );
-
+            configuration.getAsyncHttpClientConfig() == null
+                ? builder.build()
+                : configuration.getAsyncHttpClientConfig() );
     }
 
     @Override
