@@ -58,7 +58,7 @@ public class Sizing
 
     public static String inGb( long bytes )
     {
-        return format( "%(,.1fKb", (double) bytes / KILOBYTE_UNIT / KILOBYTE_UNIT / KILOBYTE_UNIT );
+        return format( "%(,.1fGb", (double) bytes / KILOBYTE_UNIT / KILOBYTE_UNIT / KILOBYTE_UNIT );
     }
 
 }
