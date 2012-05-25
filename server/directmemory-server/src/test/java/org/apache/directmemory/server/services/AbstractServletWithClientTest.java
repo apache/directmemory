@@ -29,6 +29,7 @@ import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.apache.directmemory.server.commons.DirectMemoryResponse;
 import org.apache.directmemory.server.commons.ExchangeType;
 import org.apache.directmemory.test.Wine;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -113,6 +114,7 @@ public abstract class AbstractServletWithClientTest
     }
 
 
+    @After
     public void shutdown()
         throws Exception
     {
