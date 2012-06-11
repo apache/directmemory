@@ -41,9 +41,9 @@ under the License.
     <osgi.import>
       !org.apache.directmemory*,
       com.google.common.collect;version="[9.0,11)",
+      com.google.common.base;version="[9.0,11)",
       org.aspectj*;version="[1.6,2)",
-      org.slf4j*,
-      *
+      org.slf4j*
     </osgi.import>
     <osgi.export>org.apache.directmemory*;version="${project.version}</osgi.export>
   </properties>
