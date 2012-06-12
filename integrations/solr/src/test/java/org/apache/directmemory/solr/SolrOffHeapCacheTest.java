@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.directmemory.examples.solr;
+package org.apache.directmemory.solr;
 
 import org.apache.directmemory.serialization.StandardSerializer;
+import org.apache.directmemory.solr.SolrOffHeapCache;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
@@ -38,7 +39,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Testcase for {@link SolrOffHeapCache}
+ * Testcase for {@link org.apache.directmemory.solr.SolrOffHeapCache}
  */
 public class SolrOffHeapCacheTest
 {

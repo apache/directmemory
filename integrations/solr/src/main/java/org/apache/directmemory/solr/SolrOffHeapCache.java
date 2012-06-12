@@ -1,4 +1,4 @@
-package org.apache.directmemory.examples.solr;
+package org.apache.directmemory.solr;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
