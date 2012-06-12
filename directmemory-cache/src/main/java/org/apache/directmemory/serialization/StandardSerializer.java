@@ -60,7 +60,10 @@ public final class StandardSerializer
             protected Class<?> resolveClass( ObjectStreamClass objectStreamClass )
                 throws IOException, ClassNotFoundException
             {
-                return clazz.getClassLoader().loadClass( objectStreamClass.getName() );
+                ClassLoader classLoader = clazz.getClassLoader();
+                return classLoader != null
+                    ? classLoader.loadClass( objectStreamClass.getName() )
+                    : Class.forName( objectStreamClass.getName() );
             }
 
         };
