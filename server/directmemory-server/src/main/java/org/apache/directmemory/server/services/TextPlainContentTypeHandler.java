@@ -48,8 +48,7 @@ public class TextPlainContentTypeHandler
                              HttpServletRequest req )
         throws DirectMemoryException, IOException
     {
-        DirectMemoryResponse response =
-            new DirectMemoryResponse().setKey( request.getKey() ).setCacheContent( cacheResponseContent );
+
         try
         {
             Serializer serializer = getSerializer( req );
