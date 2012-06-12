@@ -89,15 +89,17 @@ public class SolrOffHeapCache<K, V>
     public Object init( Map args, Object persistence, CacheRegenerator regenerator )
     {
 
-
         Object buffers = args.get( "buffers" );
         String sizeStr = String.valueOf( args.get( "size" ) );
-        Integer capacity = Integer.parseInt( String.valueOf( args.get( "initialSize" ) ) );
+        final int limit = sizeStr == null ? 1024 : Integer.parseInt( sizeStr );
+        String initialSizeValue = (String) args.get( "initialSize" );
+        final int initialSize = Math.min( initialSizeValue == null ? 1024 : Integer.parseInt( initialSizeValue ), limit );
+
 
         cacheService = new DirectMemory<K, V>()
                         .setNumberOfBuffers( buffers != null ? Integer.valueOf( String.valueOf( buffers ) ) : 1 )
-                        .setInitialCapacity( Ram.Mb( Double.valueOf( capacity ) / 512 ) )
-                        .setSize( Ram.Mb( Double.valueOf( sizeStr ) / 512 ) )
+                        .setInitialCapacity( Ram.Mb( Double.valueOf( initialSize ) / 512 ) )
+                        .setSize( Ram.Mb( limit / 512 ) )
                         .newCacheService();
 
         String serializerClassName = (String) args.get( "serializerClassName" );
@@ -111,7 +113,7 @@ public class SolrOffHeapCache<K, V>
             catch ( SerializerNotFoundException e )
             {
                 log.warn( "Serializer not found for class " + serializerClassName +
-            			", falling back to the default serializer", e);
+                        ", falling back to the default serializer", e);
                 serializer = SerializerFactory.createNewSerializer();
             }
 
@@ -121,11 +123,8 @@ public class SolrOffHeapCache<K, V>
         state = State.CREATED;
         this.regenerator = regenerator;
         name = (String) args.get( "name" );
-        final int limit = sizeStr == null ? 1024 : Integer.parseInt( sizeStr );
-        String str = (String) args.get( "initialSize" );
-        final int initialSize = Math.min( str == null ? 1024 : Integer.parseInt( str ), limit );
-        str = (String) args.get( "autowarmCount" );
-        autowarmCount = str == null ? 0 : Integer.parseInt( str );
+        String autoWarmCount = (String) args.get( "autowarmCount" );
+        autowarmCount = autoWarmCount == null ? 0 : Integer.parseInt( autoWarmCount );
 
         description = "Solr OffHeap Cache(maxSize=" + limit + ", initialSize=" + initialSize;
         if ( autowarmCount > 0 )

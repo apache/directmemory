@@ -16,60 +16,47 @@
  */
 package org.apache.directmemory.solr;
 
-import static org.junit.Assert.assertTrue;
+import java.util.Map;
 
-import org.apache.directmemory.solr.SolrOffHeapCache;
-import org.apache.solr.request.LocalSolrQueryRequest;
-import org.apache.solr.util.TestHarness;
-import org.junit.AfterClass;
+import org.apache.solr.SolrTestCaseJ4;
+import org.apache.solr.common.util.NamedList;
+import org.apache.solr.core.SolrInfoMBean;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  */
 public class SolrOffHeapIntegrationTest
-{
-
-    private static SolrOffHeapCache<Object, Object> solrOffHeapCache;
-
-    private static TestHarness h;
+        extends SolrTestCaseJ4 {
 
     @BeforeClass
-    public static void setUp()
-    {
-        String data = "target/data/expand";
-        String config = SolrOffHeapCache.class.getResource( "/solr/config/solrconfig.xml" ).getFile();
-        String schema = SolrOffHeapCache.class.getResource( "/solr/config/schema.xml" ).getFile();
-        h = new TestHarness( data, config, schema );
-        solrOffHeapCache = new SolrOffHeapCache<Object, Object>();
-    }
-
-    @AfterClass
-    public static void tearDown()
-    {
-        // FIXME restore this when issue with static is fixed
-        //solrOffHeapCache.getCacheService().clear();
+    public static void beforeClass() throws Exception {
+        initCore("solrconfig.xml", "schema.xml", getFile("solr").getAbsolutePath());
     }
 
     @Test
-    @Ignore // FIXME need TomNaso help - now I see why he needed a static CacheService reference
-    public void testSimpleQuery()
+    public void testSingleQuery()
         throws Exception
     {
 
         // add a doc to Solr
-        h.validateAddDoc( "id", "1", "text", "something is happening here" );
-
+        assertU(adoc("id", "1", "text", "something is happening here"));
+        assertU(commit());
         // make the query
-        LocalSolrQueryRequest request = h.getRequestFactory( "standard", 0, 10 ).makeRequest( "q", "something" );
-        String response = h.query( "standard", request );
-        assertTrue( response != null );
-        assertTrue( !response.contains( "error" ) );
+        assertQ(req("text:something"), "//*[@numFound='1']");
 
-        // check the cache has been hit
-        assertTrue( solrOffHeapCache.getCacheService().entries() > 0 );
+        Map<String, SolrInfoMBean> infoRegistry = h.getCore().getInfoRegistry();
 
+        // check the stats of the queryResultCache
+        SolrInfoMBean solrInfoMBean = infoRegistry.get("queryResultCache");
+        NamedList stats = solrInfoMBean.getStatistics();
+        Long hits = (Long) stats.get("hits");
+        assertEquals(Long.valueOf(0l), hits);
+        Long lookups = (Long) stats.get("lookups");
+        assertEquals(Long.valueOf(1l), lookups);
+        Long inserts = (Long) stats.get("inserts");
+        assertEquals(Long.valueOf(1l), inserts);
 
     }
+
 }
