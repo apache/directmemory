@@ -27,6 +27,8 @@ import org.apache.directmemory.server.commons.DirectMemoryException;
 import org.apache.directmemory.server.commons.DirectMemoryHttpConstants;
 import org.apache.directmemory.server.commons.DirectMemoryRequest;
 import org.apache.directmemory.server.commons.DirectMemoryResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +41,7 @@ import java.io.IOException;
 public class TextPlainContentTypeHandler
     implements ContentTypeHandler
 {
+    private Logger log = LoggerFactory.getLogger( getClass() );
 
     @Override
     public byte[] handleGet( DirectMemoryRequest request, byte[] cacheResponseContent, HttpServletResponse resp,
@@ -86,7 +89,12 @@ public class TextPlainContentTypeHandler
         {
             throw new DirectMemoryException( e.getMessage(), e );
         }
-        return request;
+
+        String expiresInHeader = req.getHeader( DirectMemoryHttpConstants.EXPIRES_IN_HTTP_HEADER );
+        int expiresIn = StringUtils.isEmpty( expiresInHeader ) ? 0 : Integer.valueOf( expiresInHeader );
+        log.debug( "expiresIn: {} for header value: {}", expiresIn, expiresInHeader );
+
+        return request.setExpiresIn( expiresIn );
 
     }
 

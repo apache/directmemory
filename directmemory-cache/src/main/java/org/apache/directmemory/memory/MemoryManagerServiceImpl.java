@@ -19,10 +19,12 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.limit;
-import static com.google.common.collect.Ordering.from;
-import static java.lang.String.format;
+import com.google.common.base.Predicate;
+import org.apache.directmemory.measures.Ram;
+import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
+import org.apache.directmemory.memory.allocator.MergingByteBufferAllocatorImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
@@ -34,13 +36,10 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
-import org.apache.directmemory.memory.allocator.MergingByteBufferAllocatorImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Predicate;
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.limit;
+import static com.google.common.collect.Ordering.from;
+import static java.lang.String.format;
 
 public class MemoryManagerServiceImpl<V>
     implements MemoryManagerService<V>
@@ -127,7 +126,7 @@ public class MemoryManagerServiceImpl<V>
             allocator = allocationPolicy.getActiveAllocator( allocator, allocationNumber );
             if ( allocator == null )
             {
-                if (returnsNullWhenFull())
+                if ( returnsNullWhenFull() )
                 {
                     return null;
                 }
@@ -172,7 +171,7 @@ public class MemoryManagerServiceImpl<V>
     public byte[] retrieve( final Pointer<V> pointer )
     {
         // check if pointer has not been freed before
-        if (!pointers.contains( pointer ))
+        if ( !pointers.contains( pointer ) )
         {
             return null;
         }
@@ -199,7 +198,7 @@ public class MemoryManagerServiceImpl<V>
 
         getAllocator( pointer.getBufferNumber() ).free( pointer.getDirectBuffer() );
 
-        used.addAndGet( - pointer.getCapacity() );
+        used.addAndGet( -pointer.getCapacity() );
 
         pointer.setFree( true );
     }
@@ -207,12 +206,12 @@ public class MemoryManagerServiceImpl<V>
     @Override
     public void clear()
     {
-        for (Pointer<V> pointer : pointers)
+        for ( Pointer<V> pointer : pointers )
         {
             pointer.setFree( true );
         }
         pointers.clear();
-        for (ByteBufferAllocator allocator : allocators)
+        for ( ByteBufferAllocator allocator : allocators )
         {
             allocator.clear();
         }
@@ -223,7 +222,7 @@ public class MemoryManagerServiceImpl<V>
     public long capacity()
     {
         long totalCapacity = 0;
-        for (ByteBufferAllocator allocator : allocators)
+        for ( ByteBufferAllocator allocator : allocators )
         {
             totalCapacity += allocator.getCapacity();
         }
@@ -242,7 +241,7 @@ public class MemoryManagerServiceImpl<V>
         @Override
         public boolean apply( Pointer<V> input )
         {
-            return !input.isFree() && !input.isExpired();
+            return !input.isFree() && input.isExpired();
         }
 
     };
@@ -253,7 +252,7 @@ public class MemoryManagerServiceImpl<V>
         @Override
         public boolean apply( Pointer<V> input )
         {
-            return !input.isFree() && !input.isExpired();
+            return !input.isFree() && input.isExpired();
         }
 
     };
@@ -262,8 +261,8 @@ public class MemoryManagerServiceImpl<V>
     public long collectExpired()
     {
         int limit = 50;
-        return free( limit( filter( pointers, relative ), limit ) )
-                        + free( limit( filter( pointers, absolute ), limit ) );
+        return free( limit( filter( pointers, relative ), limit ) ) + free(
+            limit( filter( pointers, absolute ), limit ) );
 
     }
 
@@ -318,7 +317,8 @@ public class MemoryManagerServiceImpl<V>
 
     @Deprecated
     @Override
-    public <T extends V> Pointer<V> allocate( final Class<T> type, final int size, final long expiresIn, final long expires )
+    public <T extends V> Pointer<V> allocate( final Class<T> type, final int size, final long expiresIn,
+                                              final long expires )
     {
 
         Pointer<V> p = null;
@@ -330,7 +330,7 @@ public class MemoryManagerServiceImpl<V>
             allocator = allocationPolicy.getActiveAllocator( allocator, allocationNumber );
             if ( allocator == null )
             {
-                if (returnsNullWhenFull())
+                if ( returnsNullWhenFull() )
                 {
                     return null;
                 }
@@ -358,7 +358,8 @@ public class MemoryManagerServiceImpl<V>
         return p;
     }
 
-    protected Pointer<V> instanciatePointer( final ByteBuffer buffer, final int allocatorIndex, final long expiresIn, final long expires )
+    protected Pointer<V> instanciatePointer( final ByteBuffer buffer, final int allocatorIndex, final long expiresIn,
+                                             final long expires )
     {
 
         Pointer<V> p = new PointerImpl<V>();
