@@ -42,7 +42,7 @@ under the License.
       org.aspectj*;version=${aspectj.version},
       org.slf4j*;version=${slf4j.version}
     </osgi.import>
-    <osgi.export>org.apache.directmemory.serialization.protostuff;version=${project.version}</osgi.export>
+    <osgi.export>org.apache.directmemory.serialization.protostuff*;version=${project.version}</osgi.export>
   </properties>
 
   <dependencies>

@@ -45,7 +45,7 @@ under the License.
       org.aspectj.runtime.internal,
       org.slf4j;resolution:=optional
     </osgi.import>
-    <osgi.export>org.apache.directmemory*;version="${project.version}</osgi.export>
+    <osgi.export>org.apache.directmemory.serialization.protobuf*;version="${project.version}</osgi.export>
   </properties>
 
   <dependencies>
