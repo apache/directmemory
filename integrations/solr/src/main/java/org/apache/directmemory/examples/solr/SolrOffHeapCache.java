@@ -103,7 +103,7 @@ public class SolrOffHeapCache<K, V>
         String serializerClassName = (String) args.get( "serializerClassName" );
         if ( serializerClassName != null )
         {
-            Serializer serializer = null;
+            Serializer serializer;
             try
             {
                 serializer = SerializerFactory.createNewSerializer( serializerClassName );

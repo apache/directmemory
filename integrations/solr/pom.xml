@@ -75,7 +75,7 @@ under the License.
     <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr-core</artifactId>
-      <version>3.5.0</version>
+      <version>3.6.0</version>
     </dependency>
 
     <dependency>
@@ -98,7 +98,7 @@ under the License.
     <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr-test-framework</artifactId>
-      <version>3.5.0</version>
+      <version>3.6.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

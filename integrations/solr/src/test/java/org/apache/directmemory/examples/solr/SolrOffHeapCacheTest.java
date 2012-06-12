@@ -23,6 +23,7 @@ import org.apache.lucene.search.Sort;
 import org.apache.solr.common.util.NamedList;
 import org.apache.solr.search.QueryResultKey;
 import org.apache.solr.search.function.DocValues;
+import org.apache.solr.search.function.QueryValueSource;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,18 +91,11 @@ public class SolrOffHeapCacheTest
         throws Exception
     {
 
+        MatchAllDocsQuery query = new MatchAllDocsQuery();
         QueryResultKey queryResultKey =
-            new QueryResultKey( new MatchAllDocsQuery(), new ArrayList<Query>(), new Sort(), 1 );
-        DocValues docValues = new DocValues()
-        {
-            @Override
-            public String toString( int doc )
-            {
-                return doc + "asd";
-            }
-        };
+            new QueryResultKey(query, new ArrayList<Query>(), new Sort(), 1 );
 
-        solrOffHeapCache.put( queryResultKey, docValues );
+        solrOffHeapCache.put( queryResultKey, new QueryValueSource(query,1) );
 
     }
 }
