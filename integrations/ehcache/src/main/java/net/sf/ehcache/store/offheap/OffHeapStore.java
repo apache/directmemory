@@ -35,6 +35,8 @@ import java.util.WeakHashMap;
 
 /**
  * This class is simply a connector class into the EHCache for OffHeap.
+ * Until the issue (https://jira.terracotta.org/jira/browse/EHC-940) is fixed we need to use same package and class name
+ * as in ehcache
  *
  * @author michaelandrepearce
  */
