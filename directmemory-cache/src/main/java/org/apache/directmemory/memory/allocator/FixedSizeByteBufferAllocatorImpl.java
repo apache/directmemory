@@ -33,9 +33,8 @@ import static com.google.common.base.Preconditions.checkState;
 
 /**
  * {@link ByteBufferAllocator} implementation that instantiate {@link ByteBuffer}s of fixed size, called slices.
- * 
+ *
  * @since 0.6
- * 
  */
 public class FixedSizeByteBufferAllocatorImpl
     extends AbstractByteBufferAllocator
@@ -55,30 +54,32 @@ public class FixedSizeByteBufferAllocatorImpl
 
     // Tells if it returns null or throw an BufferOverflowException when the requested size is bigger than the size of the slices
     private boolean returnNullWhenOversizingSliceSize = true;
-    
+
     // Tells if it returns null when no buffers are available
     private boolean returnNullWhenNoBufferAvailable = true;
 
     // Collection that keeps track of borrowed buffers
     private final Map<Integer, ByteBuffer> usedSliceBuffers = new ConcurrentHashMap<Integer, ByteBuffer>();
 
-    
+
     /**
      * Constructor.
-     * @param number : internal identifier of the allocator
-     * @param totalSize : the internal buffer
-     * @param sliceSize : arbitrary number of the buffer.
+     *
+     * @param number           : internal identifier of the allocator
+     * @param totalSize        : the internal buffer
+     * @param sliceSize        : arbitrary number of the buffer.
      * @param numberOfSegments : number of parent {@link ByteBuffer} to allocate.
      */
-    public FixedSizeByteBufferAllocatorImpl( final int number, final int totalSize, final int sliceSize, final int numberOfSegments )
+    public FixedSizeByteBufferAllocatorImpl( final int number, final int totalSize, final int sliceSize,
+                                             final int numberOfSegments )
     {
         super( number );
-        
+
         this.totalSize = totalSize;
         this.sliceSize = sliceSize;
 
-        this.segmentsBuffers = new ArrayList<ByteBuffer>(numberOfSegments);
-        
+        this.segmentsBuffers = new ArrayList<ByteBuffer>( numberOfSegments );
+
         init( numberOfSegments );
 
     }
@@ -86,7 +87,7 @@ public class FixedSizeByteBufferAllocatorImpl
     protected void init( final int numberOfSegments )
     {
         checkArgument( numberOfSegments > 0 );
-        
+
         // Compute the size of each segments
         int segmentSize = totalSize / numberOfSegments;
         // size is rounded down to a multiple of the slice size
@@ -107,14 +108,14 @@ public class FixedSizeByteBufferAllocatorImpl
             }
         }
     }
-    
+
 
     protected ByteBuffer findFreeBuffer( int capacity )
     {
         // ensure the requested size is not bigger than the slices' size
         if ( capacity > sliceSize )
         {
-            if (returnNullWhenOversizingSliceSize)
+            if ( returnNullWhenOversizingSliceSize )
             {
                 return null;
             }
@@ -132,7 +133,7 @@ public class FixedSizeByteBufferAllocatorImpl
     {
 
         checkState( !isClosed() );
-        
+
         if ( usedSliceBuffers.remove( getHash( byteBuffer ) ) == null )
         {
             return;
@@ -150,12 +151,12 @@ public class FixedSizeByteBufferAllocatorImpl
     {
 
         checkState( !isClosed() );
-        
+
         ByteBuffer allocatedByteBuffer = findFreeBuffer( size );
 
         if ( allocatedByteBuffer == null )
         {
-            if (returnNullWhenNoBufferAvailable)
+            if ( returnNullWhenNoBufferAvailable )
             {
                 return null;
             }
@@ -195,23 +196,23 @@ public class FixedSizeByteBufferAllocatorImpl
     {
         return totalSize;
     }
-    
+
     @Override
     public void close()
     {
         checkState( !isClosed() );
-        
+
         setClosed( true );
-        
+
         clear();
-        
+
         for ( final ByteBuffer buffer : segmentsBuffers )
         {
-            try 
+            try
             {
                 DirectByteBufferUtils.destroyDirectByteBuffer( buffer );
             }
-            catch (Exception e)
+            catch ( Exception e )
             {
                 getLogger().warn( "Exception thrown while closing the allocator", e );
             }

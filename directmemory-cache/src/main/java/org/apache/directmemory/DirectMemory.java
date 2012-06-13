@@ -51,7 +51,7 @@ public final class DirectMemory<K, V>
 
     private int numberOfBuffers;
 
-    private int size;
+    private int sizes;
 
     private int initialCapacity = DEFAULT_INITIAL_CAPACITY;
 
