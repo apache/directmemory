@@ -21,6 +21,7 @@ import java.util.Map;
 import org.apache.solr.SolrTestCaseJ4;
 import org.apache.solr.common.util.NamedList;
 import org.apache.solr.core.SolrInfoMBean;
+import org.apache.solr.request.SolrQueryRequest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class SolrOffHeapIntegrationTest
     }
 
     @Test
-    public void testSingleQuery()
+    public void testSingleQueryWithQueryResultCache()
         throws Exception
     {
 
@@ -56,6 +57,35 @@ public class SolrOffHeapIntegrationTest
         assertEquals(Long.valueOf(1l), lookups);
         Long inserts = (Long) stats.get("inserts");
         assertEquals(Long.valueOf(1l), inserts);
+
+    }
+
+    @Test
+    public void testSameQueryMultipleTimesWithDocumentCache()
+            throws Exception
+    {
+        // add a doc to Solr
+        assertU(adoc("id", "1", "text", "something is happening here"));
+        assertU(commit());
+        // repeat the query for some times
+        SolrQueryRequest req = req("text:something");
+        assertQ(req, "//*[@numFound='1']");
+        assertQ(req, "//*[@numFound='1']");
+        assertQ(req, "//*[@numFound='1']");
+        assertQ(req, "//*[@numFound='1']");
+
+        Map<String, SolrInfoMBean> infoRegistry = h.getCore().getInfoRegistry();
+
+        // check the stats of the documentCache
+        SolrInfoMBean solrInfoMBean = infoRegistry.get("documentCache");
+        NamedList stats = solrInfoMBean.getStatistics();
+        Long lookups = (Long) stats.get("lookups");
+        assertEquals(Long.valueOf(8l), lookups);
+        Long inserts = (Long) stats.get("inserts");
+        assertEquals(Long.valueOf(1l), inserts);
+        Long hits = (Long) stats.get("hits");
+        assertEquals(Long.valueOf(7l), hits);
+
 
     }
 
