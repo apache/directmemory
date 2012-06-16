@@ -1,0 +1,97 @@
+ ------
+ Server Instance
+ ------
+ Olivier Lamy
+ ------
+ 2012-06-17
+ ------
+
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
+
+Create your server instance
+
+  In order to create a war file to serve a DirectMemory instance, you can:
+
+  * package in a maven war project type
+
+  * create it from the archetype
+
+* Server Configuration
+
+  In the first release, the DirectMemory Server use a single instance of DirectMemory cache and configured via System Properties:
+
+  * numberOfBuffers: "directMemory.numberOfBuffers" (default: 10)
+
+  * size: "directMemory.size" (default: 1000)
+
+  * initialCapacity: "directMemory.initialCapacity" (default: 100000)
+
+  * concurrencyLevel: "directMemory.concurrencyLevel" (default: 4)
+
+
+
+* Maven War project
+
+  Add a dependency to the server core artifact:
+
++------------------------
+  <dependency>
+    <groupId>org.apache.directmemory.server</groupId>
+    <artifactId>directmemory-server</artifactId>
+    <version>${project.version}</version>
+  </dependency>
++------------------------
+
+  Map the DirectMemory servlet in your web.xml:
+
++------------------------
+  <servlet>
+    <servlet-name>DirectMemoryServlet</servlet-name>
+    <servlet-class>org.apache.directmemory.server.services.DirectMemoryServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>DirectMemoryServlet</servlet-name>
+    <url-pattern>/cache/*</url-pattern>
+  </servlet-mapping>
++------------------------
+
+* Create from archetype
+
+  Use the following command line.
+
++------------------------
+mvn archetype:generate \
+   -DarchetypeGroupId=org.apache.directmemory.server \
+   -DarchetypeArtifactId=server-example-archetype \
+   -DarchetypeVersion=${project.version}
++------------------------
+
+  If you want to use a SNAPSHOT version you must add: -DarchetypeRepository=https://repository.apache.org/content/repositories/snapshots/
+
+  Now you have a simple war project configured to be a DirectMemory Server.
+
+  Try the provided sample with running mvn tomcat7:run and hit your browser to http://localhost:9091/dm/
+
+
+
+
