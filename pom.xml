@@ -269,7 +269,7 @@ under the License.
     <release-plugin.version>2.3.2</release-plugin.version>
     <resources-plugin.version>2.5</resources-plugin.version>
     <report-plugin.version>0.1</report-plugin.version>
-    <checkstyle-plugin.version>2.9</checkstyle-plugin.version>
+    <checkstyle-plugin.version>2.9.1</checkstyle-plugin.version>
     <site-plugin.version>3.0</site-plugin.version>
     <source-plugin.version>2.1.2</source-plugin.version>
     <asfTomcatMavenPluginVersion>2.0-beta-1</asfTomcatMavenPluginVersion>
