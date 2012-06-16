@@ -266,7 +266,7 @@ under the License.
     <jxr-plugin.version>2.2</jxr-plugin.version>
     <project-info-reports-plugin.version>2.4</project-info-reports-plugin.version>
     <rat-plugin.version>0.8</rat-plugin.version>
-    <release-plugin.version>2.1</release-plugin.version>
+    <release-plugin.version>2.3.2</release-plugin.version>
     <resources-plugin.version>2.5</resources-plugin.version>
     <report-plugin.version>0.1</report-plugin.version>
     <checkstyle-plugin.version>2.9</checkstyle-plugin.version>
