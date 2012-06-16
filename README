@@ -9,3 +9,5 @@ Build
 ------------
 You need Apache Maven to build the project. Just use: mvn clean install (you will have jars installed locally in your
 local Maven repository.
+
+NOTE: the buildnumber maven plugin which add a maven property with the current svn revision has been configured to work with svn 1.7
