@@ -31,12 +31,26 @@ public interface CacheService<K, V>
 
     void scheduleDisposalEvery( long l );
 
+    /**
+     *
+     * @param key
+     * @param payload
+     * @param expiresIn in ms
+     * @return
+     */
     Pointer<V> putByteArray( K key, byte[] payload, int expiresIn );
 
     Pointer<V> putByteArray( K key, byte[] payload );
 
     Pointer<V> put( K key, V value );
 
+    /**
+     *
+     * @param key
+     * @param value
+     * @param expiresIn in ms
+     * @return
+     */
     Pointer<V> put( K key, V value, int expiresIn );
 
     byte[] retrieveByteArray( K key );
