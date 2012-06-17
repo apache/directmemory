@@ -48,6 +48,7 @@
 
     <menu name="Apache DirectMemory">
       <item name="About"                      href="index.html"/>
+      <item name="Simple Usage"               href="simple-usage.html"/>
       <item name="Server"                     href="server.html"/>
       <item name="Server Instance"            href="server-instance.html"/>
       <item name="EHCahce integration"        href="ehcache-integration.html"/>
