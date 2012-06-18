@@ -54,8 +54,6 @@
       <item name="Javacript Caching"          href="javascript-caching.html"/>
       <item name="EHCahce integration"        href="ehcache-integration.html"/>
       <item name="Committer Environment"      href="committer-environment.html"/>
-      <item name="JIRA report"                href="jira-report.html"/>
-      <item name="Changes report"             href="changes-report.html"/>
     </menu>
 
     <menu ref="reports" inherit="bottom"/>
