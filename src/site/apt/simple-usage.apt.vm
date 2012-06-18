@@ -50,13 +50,11 @@ DirectMemory Simple Usage
     .newCacheService();
 +------------------------
 
-  Use the cache service to store object:
+  Use the cache service to store object, Those methods returns a {{{./apidocs/reference/org/apache/directmemory/memory/Pointer.html}Pointer}} if this pointer is null your object has been stored:
 
 +------------------------
   put( K key, V value )
   put( K key, V value, int expiresIn )
-
-  Those methods returns a Pointer if this pointer is null your object has been stored
 +------------------------
 
   Retrieve an Object from the cache service:
