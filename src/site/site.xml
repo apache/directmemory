@@ -100,9 +100,12 @@
     <fluidoSkin>
       <topBarEnabled>true</topBarEnabled>
       <sideBarEnabled>false</sideBarEnabled>
-      <googleSearch>
-
-      </googleSearch>
+      <googleSearch></googleSearch>
+      <twitter>
+        <user>directmemory</user>
+        <showUser>true</showUser>
+        <showFollowers>true</showFollowers>
+      </twitter>
     </fluidoSkin>
   </custom>
 
