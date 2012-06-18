@@ -41,11 +41,11 @@ import com.google.common.collect.MapMaker;
 public final class DirectMemory<K, V>
 {
 
-    public static int DEFAULT_CONCURRENCY_LEVEL = 4;
+    public static final int DEFAULT_CONCURRENCY_LEVEL = 4;
 
-    public static int DEFAULT_INITIAL_CAPACITY = 100000;
+    public static final int DEFAULT_INITIAL_CAPACITY = 100000;
 
-    public static int DEFAULT_DISPOSAL_TIME = 10; // seconds
+    public static final int DEFAULT_DISPOSAL_TIME = 10; // seconds
 
     private final Logger logger = LoggerFactory.getLogger( getClass() );
 

@@ -19,7 +19,6 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
-import static org.apache.directmemory.DirectMemory.*;
 
 import org.apache.directmemory.DirectMemory;
 import org.apache.directmemory.memory.MemoryManagerService;
@@ -51,16 +50,14 @@ public class Cache
 
     public static void init( int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel )
     {
-        cacheService = builder.setNumberOfBuffers( numberOfBuffers )
-                              .setInitialCapacity( initialCapacity )
-                              .setConcurrencyLevel( concurrencyLevel )
-                              .setSize( size )
-                              .newCacheService();
+        cacheService =
+            builder.setNumberOfBuffers( numberOfBuffers ).setInitialCapacity( initialCapacity ).setConcurrencyLevel(
+                concurrencyLevel ).setSize( size ).newCacheService();
     }
 
     public static void init( int numberOfBuffers, int size )
     {
-        init( numberOfBuffers, size, DEFAULT_INITIAL_CAPACITY, DEFAULT_CONCURRENCY_LEVEL );
+        init( numberOfBuffers, size, DirectMemory.DEFAULT_INITIAL_CAPACITY, DirectMemory.DEFAULT_CONCURRENCY_LEVEL );
     }
 
     public static Pointer<Object> putByteArray( String key, byte[] payload, int expiresIn )
