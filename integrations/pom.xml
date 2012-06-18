@@ -37,7 +37,10 @@
   <modules>
     <module>solr</module>
     <module>ehcache</module>
+    <!--
+    This integration is not yet ready for a release
     <module>guice</module>
+    -->
   </modules>
 
   <dependencyManagement>
