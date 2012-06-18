@@ -39,7 +39,7 @@ DirectMemory Simple Usage
   </dependency>
 +------------------------
 
-  Create your CacheService instance:
+  Create your {{{./apidocs/reference/org/apache/directmemory/cache/CacheService.html}CacheService}} instance:
 
 +------------------------
   CacheService<Object, Object> cacheService = new DirectMemory<Object, Object>()
