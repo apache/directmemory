@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+// NOTE some snippets are used in the web site documentation so take care of those blocks :-)
 $(function() {
   Wine=function(name,description){
     this.name=name;
@@ -43,6 +44,7 @@ $(function() {
   }
 
   // X-DirectMemory-ExpiresIn
+  // START SNIPPET: put
   putWineInCache=function(wine,expiresIn,serializer){
     $.ajax({
       url: 'cache/'+encodeURIComponent(wine.name),
@@ -66,7 +68,9 @@ $(function() {
       }
     });
   }
+  // END SNIPPET: put
 
+  // START SNIPPET: delete
   deleteFromCache=function(key){
     $.ajax({
       url: 'cache/'+encodeURIComponent(key),
@@ -86,6 +90,7 @@ $(function() {
       }
     });
   }
+  // END SNIPPET: delete
 
   $(document).ready(function() {
 
@@ -110,7 +115,7 @@ $(function() {
         displayError("key mandatory");
         return;
       }
-
+      // START SNIPPET: get
       $.ajax({
         url: 'cache/'+encodeURIComponent(key),
         cache: false,
@@ -130,6 +135,7 @@ $(function() {
           }
         }
       });
+      // END SNIPPET: get
 
     });
 
