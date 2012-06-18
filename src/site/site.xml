@@ -85,16 +85,15 @@
       </script>
     </head>
 
-  </body>
-
-  <custom>
     <footer>
       <div>
         Apache DirectMemory, Apache, the Apache feather logo, and the Apache DirectMemory project logos are trademarks
         of The Apache Software Foundation.
         All other marks mentioned may be trademarks or registered trademarks of their respective owners.
+        <a href="${project.url}/privacy-policy.html">Privacy Policy</a>
       </div>
     </footer>
-  </custom>
+
+  </body>
 
 </project>
