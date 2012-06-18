@@ -641,23 +641,7 @@ under the License.
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>${project-info-reports-plugin.version}</version>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <version>2.6</version>
-        <inherited>false</inherited>
-        <configuration>
-          <issueLinkTemplate>%URL%/../%ISSUE%</issueLinkTemplate>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>changes-report</report>
-              <!--report>jira-report</report-->
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
