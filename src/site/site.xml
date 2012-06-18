@@ -106,6 +106,10 @@
         <showUser>true</showUser>
         <showFollowers>true</showFollowers>
       </twitter>
+      <ohloh>
+        <projectId>586685</projectId>
+        <widget>stats</widget>
+      </ohloh>
     </fluidoSkin>
   </custom>
 
