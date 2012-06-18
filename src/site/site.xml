@@ -37,10 +37,6 @@
   </skin>
 
   <body>
-    <links>
-      <item name="Apache" href="http://www.apache.org/"/>
-      <item name="Apache Incubator" href="http://incubator.apache.org"/>
-    </links>
 
     <breadcrumbs position="left">
       <item name="Apache DirectMemory" href="http://incubator.apache.org/directmemory"/>
