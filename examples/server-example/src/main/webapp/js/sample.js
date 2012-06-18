@@ -45,10 +45,10 @@ $(function() {
 
   // X-DirectMemory-ExpiresIn
   // START SNIPPET: put
-  putWineInCache=function(wine,expiresIn,serializer){
+  putObjectInCache=function(key,javascriptBean,expiresIn,serializer){
     $.ajax({
-      url: 'cache/'+encodeURIComponent(wine.name),
-      data:$.toJSON( wine ),
+      url: 'cache/'+encodeURIComponent(key),
+      data:$.toJSON( javascriptBean ),
       cache: false,
       type: 'PUT',
       headers:{'X-DirectMemory-ExpiresIn':expiresIn,'X-DirectMemory-Serializer':serializer},
@@ -59,7 +59,7 @@ $(function() {
         },
         200:function( data, textStatus, jqXHR ) {
           var size = jqXHR.getResponseHeader('X-DirectMemory-SerializeSize');
-          displayInfo('put in cache with key:'+wine.name+ " bytes stored:"+size);
+          displayInfo('put in cache with key:'+key+ " bytes stored:"+size);
 
         },
         500:function(data){
@@ -105,7 +105,7 @@ $(function() {
         displayError("expiresIn must be a number");
         return;
       }
-      putWineInCache(wine,expiresIn,$("#serializer" ).val());
+      putObjectInCache(wine.name,wine,expiresIn,$("#serializer" ).val());
 
     });
 
