@@ -51,6 +51,12 @@ under the License.
     </dependency>
 
     <dependency>
+      <groupId>org.apache.directmemory</groupId>
+      <artifactId>directmemory-ehcache</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>

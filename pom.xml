@@ -237,6 +237,8 @@ under the License.
     <aspectj.bundle.version>1.6.8_2</aspectj.bundle.version>
     <aspectj.version>1.6.12</aspectj.version>
     <doclava.version>1.0.5</doclava.version>
+    <ehcache.version>2.5.0</ehcache.version>
+    <ehcache.bundle.version>2.5.0_2</ehcache.bundle.version>
     <guava.bundle.version>09_1</guava.bundle.version>
     <guava.version>r09</guava.version>
     <h2.version>1.3.158</h2.version>
@@ -513,7 +515,11 @@ under the License.
         <artifactId>directmemory-server</artifactId>
         <version>${project.version}</version>
       </dependency>
-
+      <dependency>
+        <groupId>org.apache.directmemory</groupId>
+        <artifactId>directmemory-ehcache</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.aspectj</groupId>
         <artifactId>aspectjrt</artifactId>
@@ -617,6 +623,12 @@ under the License.
         <groupId>com.google.protobuf</groupId>
         <artifactId>protobuf-java</artifactId>
         <version>${protobuf.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.sf.ehcache</groupId>
+        <artifactId>ehcache-core</artifactId>
+        <version>${ehcache.version}</version>
       </dependency>
 
       <dependency>

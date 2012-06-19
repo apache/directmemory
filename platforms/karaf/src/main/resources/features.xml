@@ -17,9 +17,9 @@
   ~ under the License.
   -->
 
-<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+<features name="direct-memory-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
-  <feature name='directmemory' description='Apache DirectMememory' version='${project.version}' resolver='(obr)'>
+  <feature name='directmemory' description='Apache DirectMemory' version='${project.version}' resolver='(obr)'>
     <bundle dependency='true'>
       mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.guava/${guava.bundle.version}
     </bundle>
@@ -35,5 +35,14 @@
     <bundle dependency='true'>mvn:com.dyuproject.protostuff/protostuff-uberjar/${protostuff.version}</bundle>
     <bundle>mvn:org.apache.directmemory/directmemory-cache/${project.version}</bundle>
   </feature>
+
+  <feature name='directmemory-ehcace' description='Apache DirectMemory - EhCache' version='${project.version}' resolver='(obr)'>
+      <feature version="${project.version}">directmemory</feature>
+      <bundle dependency='true'>
+          mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ehcache/${ehcache.bundle.version}
+      </bundle>
+      <bundle>mvn:org.apache.directmemory/directmemory-ehcache/${project.version}</bundle>
+  </feature>
+
 </features>
 
