@@ -34,7 +34,7 @@
         <ul>
           <li>JSON format</li>
           <li>"binary" format: parameters are send via http headers</li>
-          <li>text/plain format: you can send a text value(json object, xml etc..), the server will serialize the content and store it for you.(<b>Not yet implemented</b>)</li>
+          <li>text/plain format: you can send a text value(json object, xml etc..), the server will serialize the content and store it for you.</li>
         </ul>
       </p>
     </section>
