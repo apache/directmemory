@@ -34,6 +34,13 @@
   <name>Apache DirectMemory :: Platforms :: Karaf</name>
   <description>${project.name}</description>
 
+  <properties>
+    <httpcore4-version>4.1.2</httpcore4-version>
+    <httpclient4-version>4.1.2</httpclient4-version>
+    <commons-codec-version>1.4</commons-codec-version>
+    <commons-httpclient-bundle-version>3.1_7</commons-httpclient-bundle-version>
+  </properties>
+
   <build>
     <plugins>
       <plugin>

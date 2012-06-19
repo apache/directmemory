@@ -36,12 +36,28 @@
     <bundle>mvn:org.apache.directmemory/directmemory-cache/${project.version}</bundle>
   </feature>
 
-  <feature name='directmemory-ehcace' description='Apache DirectMemory - EhCache' version='${project.version}' resolver='(obr)'>
-      <feature version="${project.version}">directmemory</feature>
-      <bundle dependency='true'>
-          mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ehcache/${ehcache.bundle.version}
-      </bundle>
-      <bundle>mvn:org.apache.directmemory/directmemory-ehcache/${project.version}</bundle>
+  <feature name='directmemory-ehcace' description='Apache DirectMemory - EhCache' version='${project.version}'
+           resolver='(obr)'>
+    <feature version="${project.version}">directmemory</feature>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ehcache/${ehcache.bundle.version}
+    </bundle>
+    <bundle>mvn:org.apache.directmemory/directmemory-ehcache/${project.version}</bundle>
+  </feature>
+
+  <feature name='directmemory-solr' description='Apache DirectMemory - Solr' version='${project.version}'
+           resolver='(obr)'>
+    <feature version="${project.version}">directmemory</feature>
+    <bundle dependency='true'>mvn:org.apache.httpcomponents/httpcore-osgi/${httpcore4-version}</bundle>
+    <bundle dependency='true'>mvn:org.apache.httpcomponents/httpclient-osgi/${httpclient4-version}</bundle>
+    <bundle dependency='true'>mvn:commons-codec/commons-codec/${commons-codec-version}</bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-httpclient/${commons-httpclient-bundle-version}
+    </bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.solr-solrj/${solr.bundle.version}
+    </bundle>
+    <bundle>mvn:org.apache.directmemory/directmemory-solr/${project.version}</bundle>
   </feature>
 
 </features>
