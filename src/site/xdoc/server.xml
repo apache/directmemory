@@ -69,7 +69,7 @@
       <subsection name="Http Headers">
         <p>see various exchange type for dedicated http headers</p>
         <p>
-         Commn http headers:
+         Common http headers:
           <ul>
             <li>X-DirectMemory-SerializeSize: returns bytes number stored on server side.</li>
           </ul>
