@@ -474,7 +474,6 @@ under the License.
             </additionnalDependency>
           </additionnalDependencies>
         </configuration>
-
         <executions>
           <execution>
             <goals>
