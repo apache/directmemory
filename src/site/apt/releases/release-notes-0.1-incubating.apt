@@ -1,5 +1,5 @@
  ------
- Release Notes 0.1
+ Release Notes 0.1-incubating
  ------
  Olivier Lamy
  ------
@@ -26,11 +26,11 @@
 ~~ NOTE: For help with the syntax of this file, see:
 ~~ http://maven.apache.org/doxia/references/apt-format.html
 
-Apache DirectMemory 0.1
+Apache DirectMemory 0.1-incubating
 
-  The Apache DirectMemory Team would like to announce the 0.1 release.
+  The Apache DirectMemory Team would like to announce the 0.1-incubating release.
 
-  Apache DirectMemory is a multi layered cache implementation featuring off-heap memory management (a-la BigMemory) to enable efficient handling of a large number of java objects without affecting jvm garbage collection performance
+  Apache DirectMemory is a multi layered cache implementation featuring off-heap memory management to enable efficient handling of a large number of java objects without affecting jvm garbage collection performance
 
   It's a technology preview release. So some APIs can be change in the future.
 
@@ -40,7 +40,7 @@ Apache DirectMemory 0.1
 
   * the directmemory-user mailing list: {{{http://incubator.apache.org/directmemory/mail-lists.html}http://incubator.apache.org/directmemory/mail-lists.html}}
 
-* Apache DirectMemory 0.1 release notes
+* Apache DirectMemory 0.1-incubating release notes
 
 ** New Feature
 

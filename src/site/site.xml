@@ -53,7 +53,7 @@
       <item name="Committer Environment"      href="committer-environment.html"/>
     </menu>
     <menu name="Releases">
-      <item name="0.1 Release Notes"          href="releases/release-notes-0.1.html"/>
+      <item name="0.1-incubating Release Notes"          href="releases/release-notes-0.1-incubating.html"/>
     </menu>
 
     <menu ref="reports" inherit="bottom"/>
