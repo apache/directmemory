@@ -879,6 +879,7 @@ under the License.
                   <goal>single</goal>
                 </goals>
                 <configuration>
+                  <finalName>apache-directmemory-${project.version}</finalName>
                   <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
                   <descriptorRefs>
                     <descriptorRef>${sourceReleaseAssemblyDescriptor}</descriptorRef>
