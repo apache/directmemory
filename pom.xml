@@ -94,6 +94,13 @@ under the License.
       </roles>
     </developer>
     <developer>
+      <id>bperroud</id>
+      <name>Benoit Perroud</name>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+    <developer>
       <id>raffaeleguidi</id>
       <name>Raffaele P. Guidi</name>
       <email>raffaeleguidi at apache dot org</email>
