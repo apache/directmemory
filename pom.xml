@@ -338,6 +338,7 @@ under the License.
           <configuration>
             <mavenExecutorId>forked-path</mavenExecutorId>
             <useReleaseProfile>false</useReleaseProfile>
+            <preparationGoals>clean install</preparationGoals>
             <goals>deploy</goals>
             <arguments>-Prelease</arguments>
             <tagBase>https://svn.apache.org/repos/asf/incubator/directmemory/tags</tagBase>
