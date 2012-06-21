@@ -773,6 +773,7 @@ under the License.
                     <exclude>.git/**</exclude>
                     <exclude>.idea/**</exclude>
                     <exclude>*.bat</exclude>
+                    <exclude>**/*.iml</exclude>
                     <exclude>.repository/**</exclude>
                     <exclude>ajcore**</exclude>
                     <exclude>init-git-svn.sh</exclude>
