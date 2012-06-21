@@ -333,6 +333,7 @@ under the License.
             <useReleaseProfile>false</useReleaseProfile>
             <goals>deploy</goals>
             <arguments>-Prelease</arguments>
+            <tagBase>https://svn.apache.org/repos/asf/incubator/directmemory/tags</tagBase>
           </configuration>
         </plugin>
         <plugin>
