@@ -285,6 +285,10 @@ under the License.
     <osgi.export/>
     <osgi.import/>
     <osgi.private/>
+
+    <!-- properties for web site -->
+    <currentRelease>0.1-incubating</currentRelease>
+
   </properties>
 
   <build>

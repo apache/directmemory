@@ -44,9 +44,9 @@ under the License.
     </section>
 
     <section name="Current Releases">
-      <subsection name="1.0.0-incubating">
+      <subsection name="${currentRelease}">
         <p>Release date: ?</p>
-        <p><a href="releases/release-notes-0.1-incubating.html">Release notes</a></p>
+        <p><a href="releases/release-notes-${currentRelease}.html">Release notes</a></p>
         <table>
           <thead>
             <tr>
@@ -57,12 +57,12 @@ under the License.
           <tbody>
             <tr>
               <td>
-                <a href="http://www.apache.org/dyn/closer.cgi/incubator/directmemory/1.0.0-incubating/apache-directmemory-0.1-incubating-source-release.zip">apache-directmemory-0.1-incubating-source-release.zip</a>
+                <a href="http://www.apache.org/dyn/closer.cgi/incubator/directmemory/${currentRelease}/apache-directmemory-${currentRelease}-source-release.zip">apache-directmemory-0.1-incubating-source-release.zip</a>
               </td>
               <td>
-                <a href="http://www.apache.org/dist/incubator/directmemory/1.0.0-incubating/apache-directmemory-0.1-incubating-source-release.zip.asc">asc</a>
-                <a href="http://www.apache.org/dist/incubator/directmemory/1.0.0-incubating/apache-directmemory-0.1-incubating-source-release.zip.md5">md5</a>
-                <a href="http://www.apache.org/dist/incubator/directmemory/1.0.0-incubating/apache-directmemory-0.1-incubating-source-release.zip.sha1">sha1</a>
+                <a href="http://www.apache.org/dist/incubator/directmemory/${currentRelease}/apache-directmemory-${currentRelease}-source-release.zip.asc">asc</a>
+                <a href="http://www.apache.org/dist/incubator/directmemory/${currentRelease}/apache-directmemory-${currentRelease}-source-release.zip.md5">md5</a>
+                <a href="http://www.apache.org/dist/incubator/directmemory/${currentRelease}/apache-directmemory-${currentRelease}-source-release.zip.sha1">sha1</a>
               </td>
             </tr>
           </tbody>
