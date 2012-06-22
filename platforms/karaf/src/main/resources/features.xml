@@ -36,7 +36,7 @@
     <bundle>mvn:org.apache.directmemory/directmemory-cache/${project.version}</bundle>
   </feature>
 
-  <feature name='directmemory-ehcace' description='Apache DirectMemory - EhCache' version='${project.version}'
+  <feature name='directmemory-ehcache' description='Apache DirectMemory - EhCache' version='${project.version}'
            resolver='(obr)'>
     <feature version="${project.version}">directmemory</feature>
     <bundle dependency='true'>
