@@ -92,8 +92,6 @@ Apache DirectMemory 0.1-incubating
 
     * [DIRECTMEMORY-27] - Upgrade to protostuff 1.0.4 and switch again to off-heap buffer
 
-    * [DIRECTMEMORY-36] - Use Gradle build tool for simplicity and flexibility of the build process
-
     * [DIRECTMEMORY-39] - Create an 'example' module
 
     * [DIRECTMEMORY-40] - Pointers merging with adjacent free pointers when freeing.
