@@ -55,6 +55,9 @@
       mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-httpclient/${commons-httpclient-bundle-version}
     </bundle>
     <bundle dependency='true'>
+      wrap:mvn:org.apache.solr/solr-core/${solr.version}
+    </bundle>
+    <bundle dependency='true'>
       mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.solr-solrj/${solr.bundle.version}
     </bundle>
     <bundle>mvn:org.apache.directmemory/directmemory-solr/${project.version}</bundle>
