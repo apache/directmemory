@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.apache.directmemory</groupId>
         <artifactId>directmemory-integrations</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>directmemory-ehcache</artifactId>
