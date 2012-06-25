@@ -44,41 +44,12 @@ Apache DirectMemory 0.1-incubating
 
 ** New Feature
 
-  * [DIRECTMEMORY-37] - Update the MemoryManager API so it can be used in conjunction with NIO to provide efficient buffer management
+    * [DIRECTMEMORY-37] - Update the MemoryManager API so it can be used in conjunction with NIO to provide efficient buffer management
 
-  * [DIRECTMEMORY-61] - Create Server module to receive data to cache and a client api to send datas to cache
+    * [DIRECTMEMORY-61] - Create Server module to receive data to cache and a client api to send datas to cache
 
-  * [DIRECTMEMORY-62] - Adopt fluent APIs for bootstrapping the Cache (and optionally manage stored objects)
+    * [DIRECTMEMORY-62] - Adopt fluent APIs for bootstrapping the Cache (and optionally manage stored objects)
 
-** Bug
-
-    * [DIRECTMEMORY-17] - Element Eviction/Expiry issue
-
-    * [DIRECTMEMORY-18] - The expiry value is not passed to the underlying store to check the expiry of the element.
-
-    * [DIRECTMEMORY-46] - OffHeapMemoryBuffer.free do an unnecessary pointers.add
-
-    * [DIRECTMEMORY-47] - OffHeapMemoryBuffer.allocate need to be synchronized
-
-    * [DIRECTMEMORY-54] - OffHeapMemoryBuffer.clear should set to free all pointers to avoid misusage
-
-    * [DIRECTMEMORY-55] - OffHeapMemoryBuffer leaks 1 byte at every allocation
-
-    * [DIRECTMEMORY-59] - Fix statistics code for SolrOffHeapCache in examples module
-
-    * [DIRECTMEMORY-68] - Standard Serializer is broken under OSGi
-
-    * [DIRECTMEMORY-73] - NPE on put method in CacheServiceImpl when cache is full.
-
-    * [DIRECTMEMORY-81] - Disposal process run only once
-
-    * [DIRECTMEMORY-85] - Method to format in Gb has a typo
-
-    * [DIRECTMEMORY-86] - Tomcat is never stopped during the server tests
-
-    * [DIRECTMEMORY-87] - collectExpired frees not expired items instead of expired ones
-
-    * [DIRECTMEMORY-88] - Unable to retrieve JDK types (Integer, byte, ..) with the StandardSerializer
 
 ** Improvement
 
@@ -124,6 +95,44 @@ Apache DirectMemory 0.1-incubating
 
     * [DIRECTMEMORY-89] - Update DM-Solr integration to user Solr 3.6
 
+    * [DIRECTMEMORY-90] - Add OSGi support for directmemory-ehcache integration.
+
+    * [DIRECTMEMORY-91] - Add OSGi support for directmemory-solr
+
+** Bug
+
+    * [DIRECTMEMORY-17] - Element Eviction/Expiry issue
+
+    * [DIRECTMEMORY-18] - The expiry value is not passed to the underlying store to check the expiry of the element.
+
+    * [DIRECTMEMORY-46] - OffHeapMemoryBuffer.free do an unnecessary pointers.add
+
+    * [DIRECTMEMORY-47] - OffHeapMemoryBuffer.allocate need to be synchronized
+
+    * [DIRECTMEMORY-54] - OffHeapMemoryBuffer.clear should set to free all pointers to avoid misusage
+
+    * [DIRECTMEMORY-55] - OffHeapMemoryBuffer leaks 1 byte at every allocation
+
+    * [DIRECTMEMORY-59] - Fix statistics code for SolrOffHeapCache in examples module
+
+    * [DIRECTMEMORY-68] - Standard Serializer is broken under OSGi
+
+    * [DIRECTMEMORY-73] - NPE on put method in CacheServiceImpl when cache is full.
+
+    * [DIRECTMEMORY-81] - Disposal process run only once
+
+    * [DIRECTMEMORY-85] - Method to format in Gb has a typo
+
+    * [DIRECTMEMORY-86] - Tomcat is never stopped during the server tests
+
+    * [DIRECTMEMORY-87] - collectExpired frees not expired items instead of expired ones
+
+    * [DIRECTMEMORY-88] - Unable to retrieve JDK types (Integer, byte, ..) with the StandardSerializer
+
+    * [DIRECTMEMORY-93] - There is a typo in the ehcache feature of directmemory
+
+    * [DIRECTMEMORY-94] - directmemory-solr fails to resolve in some cases
+
 ** Task
 
     * [DIRECTMEMORY-1] - Import the codebase
@@ -142,18 +151,18 @@ Apache DirectMemory 0.1-incubating
 
     * [DIRECTMEMORY-45] - Add (TM) symbol to the project logo
 
-** Sub-task
-
-  * [DIRECTMEMORY-22] - Add OSGi integration test for directmemory
-
-  * [DIRECTMEMORY-23] - Provide a feature descriptor for Karaf
-
 ** Test
 
     * [DIRECTMEMORY-29] - Fix a payload size assertion in MemoryManagerTests.smokeTest()
 
-
 ** Wish
 
     * [DIRECTMEMORY-65] - put vs update - not consistent
+
+** Sub-task
+
+    * [DIRECTMEMORY-22] - Add OSGi integration test for directmemory
+
+    * [DIRECTMEMORY-23] - Provide a feature descriptor for Karaf
+
 
