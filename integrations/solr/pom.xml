@@ -24,7 +24,7 @@ under the License.
   <parent>
     <groupId>org.apache.directmemory</groupId>
     <artifactId>directmemory-integrations</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1-incubating</version>
   </parent>
 
   <artifactId>directmemory-solr</artifactId>
