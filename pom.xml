@@ -28,7 +28,7 @@ under the License.
 
   <groupId>org.apache.directmemory</groupId>
   <artifactId>directmemory</artifactId>
-  <version>0.1-incubating</version>
+  <version>0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Apache DirectMemory</name>
@@ -209,9 +209,9 @@ under the License.
   </modules>
 
   <scm>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/tags/directmemory-0.1-incubating</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/tags/directmemory-0.1-incubating</developerConnection>
-    <url>https://svn.apache.org/viewvc/incubator/directmemory/tags/directmemory-0.1-incubating</url>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/trunk/</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/trunk/</developerConnection>
+    <url>https://svn.apache.org/viewvc/incubator/directmemory/trunk/</url>
   </scm>
   <issueManagement>
     <system>jira</system>
