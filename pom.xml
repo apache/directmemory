@@ -899,10 +899,6 @@ under the License.
                 <configuration>
                   <finalName>apache-directmemory-${project.version}</finalName>
                   <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
-                  <!-- use our own as currently apache-source-release-assembly-descriptor doesn't exclude .idea directory -->
-                  <!--descriptors>
-                    <descriptor>src/main/assembly/source-release.xml</descriptor>
-                  </descriptors-->
                   <descriptorRefs>
                     <descriptorRef>${sourceReleaseAssemblyDescriptor}</descriptorRef>
                   </descriptorRefs>
