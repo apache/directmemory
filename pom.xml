@@ -886,7 +886,7 @@ under the License.
               <dependency>
                 <groupId>org.apache.apache.resources</groupId>
                 <artifactId>apache-source-release-assembly-descriptor</artifactId>
-                <version>1.0.3</version>
+                <version>1.0.4</version>
               </dependency>
             </dependencies>
             <executions>
@@ -900,12 +900,12 @@ under the License.
                   <finalName>apache-directmemory-${project.version}</finalName>
                   <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
                   <!-- use our own as currently apache-source-release-assembly-descriptor doesn't exclude .idea directory -->
-                  <descriptors>
+                  <!--descriptors>
                     <descriptor>src/main/assembly/source-release.xml</descriptor>
-                  </descriptors>
-                  <!--descriptorRefs>
+                  </descriptors-->
+                  <descriptorRefs>
                     <descriptorRef>${sourceReleaseAssemblyDescriptor}</descriptorRef>
-                  </descriptorRefs-->
+                  </descriptorRefs>
                   <tarLongFileFormat>gnu</tarLongFileFormat>
                 </configuration>
               </execution>
