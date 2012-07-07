@@ -48,7 +48,7 @@ $(function() {
   putObjectInCache=function(key,javascriptBean,expiresIn,serializer){
     $.ajax({
       url: 'cache/'+encodeURIComponent(key),
-      data:$.toJSON( javascriptBean ),
+      data:JSON.stringify( javascriptBean ),
       cache: false,
       type: 'PUT',
       headers:{'X-DirectMemory-ExpiresIn':expiresIn,'X-DirectMemory-Serializer':serializer},
