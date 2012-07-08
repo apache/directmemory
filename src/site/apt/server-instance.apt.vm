@@ -56,7 +56,7 @@ Create your server instance
   <dependency>
     <groupId>org.apache.directmemory.server</groupId>
     <artifactId>directmemory-server</artifactId>
-    <version>${project.version}</version>
+    <version>${currentRelease}</version>
   </dependency>
 +------------------------
 
@@ -83,7 +83,7 @@ Create your server instance
 mvn archetype:generate \
    -DarchetypeGroupId=org.apache.directmemory.server \
    -DarchetypeArtifactId=server-example-archetype \
-   -DarchetypeVersion=${project.version}
+   -DarchetypeVersion=${currentRelease}
 +------------------------
 
   If you want to use a SNAPSHOT version you must add: -DarchetypeRepository=https://repository.apache.org/content/repositories/snapshots/

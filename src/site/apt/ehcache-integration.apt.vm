@@ -38,7 +38,7 @@ EHCache Integration
   <dependency>
     <groupId>org.apache.directmemory</groupId>
     <artifactId>directmemory-ehcache</artifactId>
-    <version>${project.version}</version>
+    <version>${currentRelease}</version>
   </dependency>
 +------------------------
 

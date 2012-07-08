@@ -35,7 +35,7 @@ DirectMemory Simple Usage
   <dependency>
     <groupId>org.apache.directmemory.server</groupId>
     <artifactId>directmemory-cache</artifactId>
-    <version>${project.version}</version>
+    <version>${currentRelease}</version>
   </dependency>
 +------------------------
 
