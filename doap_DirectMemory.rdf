@@ -1,0 +1,54 @@
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rdf:RDF xml:lang="en" xmlns="http://usefulinc.com/ns/doap#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:asfext="http://projects.apache.org/ns/asfext#" xmlns:foaf="http://xmlns.com/foaf/0.1/">
+  <Project rdf:about="http://DirectMemory.rdf.apache.org/">
+    <created>2011</created>
+    <license rdf:resource="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+    <name>Apache DirectMemory</name>
+    <homepage rdf:resource="http://incubator.apache.org/directmemory/"/>
+    <asfext:pmc rdf:resource="http://incubator.apache.org/directmemory/"/>
+    <shortdesc>DirectMemory is off-heap cache library.</shortdesc>
+    <description>DirectMemory is a multi layered cache implementation featuring off-heap memory management (a-la BigMemory) to enable efficient handling of a large number of java objects without affecting jvm garbage collection performance.</description>
+    <bug-database rdf:resource="https://issues.apache.org/jira/browse/DIRECTMEMORY"/>
+    <mailing-list rdf:resource="http://incubator.apache.org/directmemory/mail-lists.html"/>
+    <download-page rdf:resource="http://incubator.apache.org/directmemory/downloads.html"/>
+    <programming-language>Java</programming-language>
+    <release>
+      <Version>
+        <name>Latest stable release</name>
+        <created>2012-07-09</created>
+        <revision>0.1-incubating</revision>
+        <file-release>http://archive.apache.org/dist/incubator/directmemory/0.1-incubating/apache-directmemory-0.1-incubating-source-release.zip</file-release>
+      </Version>
+    </release>
+    <repository>
+      <SVNRepository>
+        <location rdf:resource="http://svn.apache.org/repos/asf/incubator/directmemory/trunk"/>
+        <browse rdf:resource="http://svn.apache.org/viewvc/incubator/directmemory/trunk"/>
+      </SVNRepository>
+    </repository>
+    <maintainer>
+      <foaf:Person>
+        <foaf:name>Olivier Lamy</foaf:name>
+        <foaf:mbox rdf:resource="mailto:olamy@apache.org"/>
+      </foaf:Person>
+    </maintainer>
+
+  </Project>
+</rdf:RDF>
