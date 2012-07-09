@@ -37,6 +37,10 @@
       </p>
     </div>
 
+    <div class="hero-unit">
+      <p>First release 2012-07-09. See <a href="releases/release-notes-0.1-incubating.html">release notes</a>.</p>
+    </div>
+
     <div class="alert-message warning">
       <h2>Disclaimer</h2>
       <p>Apache DirectMemory is an effort undergoing
