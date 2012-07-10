@@ -51,21 +51,16 @@
       <item name="EHCache integration"        href="ehcache-integration.html"/>
       <item name="Download Release sources"   href="downloads.html"/>
       <item name="License"                    href="license.html"/>
-    </menu>
-    <menu name="Releases">
       <item name="0.1-incubating Release Notes"          href="releases/release-notes-0.1-incubating.html"/>
     </menu>
 
     <menu ref="reports" inherit="bottom"/>
     <menu ref="modules" inherit="bottom"/>
 
-    <menu name="Community">
+    <menu name="Get Involved">
       <item name="Mailing Lists" href="mail-lists.html"/>
       <item name="Issues" href="issue-tracking.html"/>
       <item name="Team" href="team-list.html"/>
-    </menu>
-
-    <menu name="Get Involved">
       <item name="Sources" href="source-repository.html"/>
       <item name="Continuous Integration" href="integration.html"/>
       <item name="Building Guide" href="/involved/building.html"/>
