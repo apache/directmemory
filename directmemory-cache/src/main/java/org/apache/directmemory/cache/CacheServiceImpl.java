@@ -138,8 +138,6 @@ public class CacheServiceImpl<K, V>
         if ( pointer != null )
         {
         	memoryManager.free( pointer );
-// update doesn't add back the pointer to the map
-//            return memoryManager.update( pointer, payload );
         }
         pointer = memoryManager.store( payload, expiresIn );
         if ( pointer != null )
