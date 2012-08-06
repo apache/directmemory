@@ -30,10 +30,7 @@
       <br clear="left"/>
 
       <p>
-        <span style="font-weight: bold">Apache DirectMemory</span>
-        is a multi layered cache implementation featuring off-heap memory management (a-la BigMemory)
-        to enable efficient handling of a large number of java objects without affecting jvm garbage collection
-        performance
+        <span style="font-weight: bold">Apache DirectMemory</span> is a off-heap cache for the Java Virtual Machine.
       </p>
       <p>
         <span style="font-weight: bold">First release 2012-07-09. See <a href="releases/release-notes-0.1-incubating.html">release notes</a>.</span>
