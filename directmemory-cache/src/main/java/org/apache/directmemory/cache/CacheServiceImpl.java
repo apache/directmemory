@@ -137,17 +137,16 @@ public class CacheServiceImpl<K, V>
         Pointer<V> pointer = map.get( key );
         if ( pointer != null )
         {
-            return memoryManager.update( pointer, payload );
+        	memoryManager.free( pointer );
+// update doesn't add back the pointer to the map
+//            return memoryManager.update( pointer, payload );
         }
-        else
+        pointer = memoryManager.store( payload, expiresIn );
+        if ( pointer != null )
         {
-            pointer = memoryManager.store( payload, expiresIn );
-            if ( pointer != null )
-            {
-                map.put( key, pointer );
-            }
-            return pointer;
+            map.put( key, pointer );
         }
+        return pointer;
     }
 
     @Override

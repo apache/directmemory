@@ -22,6 +22,7 @@ package org.apache.directmemory.cache;
 import static org.junit.Assert.*;
 
 import org.apache.directmemory.DirectMemory;
+import org.apache.directmemory.memory.Pointer;
 import org.junit.Test;
 
 public class BasicTest 
@@ -41,8 +42,12 @@ public class BasicTest
 	        assertNotNull(cache.put("a", 3L));
 	        assertNotNull(cache.retrieve("a"));
 	        assertEquals(3L, cache.retrieve("a").longValue());
-	        assertNotNull(cache.put("a", 5L));
-	        assertNotNull(cache.retrieve("a"));
+//	        cache.free("a");
+	        Pointer ptr = cache.put("a", 5L);
+	        assertNotNull(ptr);
+	        assertFalse(ptr.isExpired());
+	        assertFalse(ptr.isFree());
+	        assertNotNull("pointer should not be null", cache.retrieve("a"));
 	        assertEquals(5L, cache.retrieve("a").longValue());
 	}
 
