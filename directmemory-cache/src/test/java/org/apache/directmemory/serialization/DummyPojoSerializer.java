@@ -51,6 +51,7 @@ public final class DummyPojoSerializer
         data = baos.toByteArray();
     }
 
+    @SuppressWarnings( "unchecked" ) // it is just a dummy class for tests
     @Override
     public <T> T deserialize( byte[] source, Class<T> clazz )
         throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
