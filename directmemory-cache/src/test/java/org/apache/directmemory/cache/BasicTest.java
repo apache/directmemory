@@ -27,14 +27,13 @@ import org.junit.Test;
 
 public class BasicTest 
 {
-
 	@Test
-	public void test() 
+	public void putRetrieveAndUpdate() 
 	{
 		CacheService<String, Long> cache = new DirectMemory<String, Long>()
 	            .setNumberOfBuffers(10)
 	            .setSize(1000)
-	            .setInitialCapacity(100000)
+	            .setInitialCapacity(10000)
 	            .setConcurrencyLevel(4)
 	            .newCacheService();
 
@@ -42,8 +41,8 @@ public class BasicTest
 	        assertNotNull(cache.put("a", 3L));
 	        assertNotNull(cache.retrieve("a"));
 	        assertEquals(3L, cache.retrieve("a").longValue());
-//	        cache.free("a");
-	        Pointer ptr = cache.put("a", 5L);
+	        
+	        Pointer<Long> ptr = cache.put("a", 5L);
 	        assertNotNull(ptr);
 	        assertFalse(ptr.isExpired());
 	        assertFalse(ptr.isFree());
