@@ -198,6 +198,7 @@ under the License.
   </mailingLists>
 
   <modules>
+    <!--<module>directmemory-common</module>-->
     <module>directmemory-cache</module>
     <module>directmemory-tests</module>
     <module>server</module>
@@ -264,6 +265,7 @@ under the License.
     <msgpack.version>0.6.5</msgpack.version>
     <protobuf.version>2.4.1</protobuf.version>
     <wagon.version>2.2</wagon.version>
+    <snakeyaml.version>1.10</snakeyaml.version>
 
     <!-- Plugin Versions -->
     <buildnumber-plugin.version>1.1</buildnumber-plugin.version>
@@ -522,6 +524,11 @@ under the License.
       <!-- Internal Project Artifacts -->
       <dependency>
         <groupId>org.apache.directmemory</groupId>
+        <artifactId>directmemory-common</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.directmemory</groupId>
         <artifactId>directmemory-cache</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -679,6 +686,11 @@ under the License.
         <artifactId>slf4j-simple</artifactId>
         <version>${slf4j.version}</version>
         <type>jar</type>
+      </dependency>
+      <dependency>
+        <groupId>org.yaml</groupId>
+        <artifactId>snakeyaml</artifactId>
+        <version>${snakeyaml.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

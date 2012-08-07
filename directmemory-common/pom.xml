@@ -28,41 +28,14 @@ under the License.
     <relativePath>../</relativePath>
   </parent>
 
-  <artifactId>directmemory-cache</artifactId>
-  <name>Apache DirectMemory :: Cache</name>
+  <artifactId>directmemory-common</artifactId>
+  <name>Apache DirectMemory :: Commons</name>
   <packaging>bundle</packaging>
-  <description>DirectMemory Cache is a multi layered cache implementation featuring off-heap memory management (a-la
-    BigMemory) to enable efficient handling of a large number of java objects without affecting jvm garbage collection
-    performance
+  <description>DirectMemory Commons is a collection of base utilities that are shared amongst the various modules of DirectMemory.
   </description>
 
-  <properties>
-    <osgi.import>
-      !org.apache.directmemory*,
-      com.google.common.collect;version="[9.0,11)",
-      com.google.common.base;version="[9.0,11)",
-      org.aspectj*;version="[1.6,2)",
-      org.slf4j*
-    </osgi.import> <!-- ,org.yaml.snakeyaml* -->
-    <osgi.export>org.apache.directmemory*;version="${project.version}</osgi.export>
-  </properties>
-
-
   <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-clean-plugin</artifactId>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>logs</directory>
-              <followSymlinks>false</followSymlinks>
-            </fileset>
-          </filesets>
-        </configuration>
-      </plugin>
-
+    <!--<plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>aspectj-maven-plugin</artifactId>
@@ -76,22 +49,43 @@ under the License.
           <execution>
             <goals>
               <goal>compile</goal>
-              <!-- use this goal to weave all your main classes -->
               <goal>test-compile</goal>
-              <!-- use this goal to weave all your test classes -->
             </goals>
           </execution>
         </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjtools</artifactId>
-            <version>${aspectj.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
+    </plugins>-->
 
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+                <pluginExecutions>
+                    <pluginExecution>
+                        <pluginExecutionFilter>
+                            <groupId>org.codehaus.mojo</groupId>
+                                <artifactId> aspectj-maven-plugin</artifactId>
+                                    <versionRange>[1.4,)</versionRange>
+                                    <goals>
+                                        <goal>compile</goal>
+                                        <goal>test-compile</goal>
+                                    </goals>
+                        </pluginExecutionFilter>
+                            <action>
+                                <ignore></ignore>
+                            </action>
+                        </pluginExecution>
+                    </pluginExecutions>
+                </lifecycleMappingMetadata>
+            </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
   <dependencies>
@@ -100,32 +94,13 @@ under the License.
       <artifactId>slf4j-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjrt</artifactId>
-    </dependency>    
-    <dependency>
-      <groupId>com.carrotsearch</groupId>
-      <artifactId>junit-benchmarks</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <scope>test</scope>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
     </dependency>
   </dependencies>
 
