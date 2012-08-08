@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Provides a global single point of access to all singleton properties comprehensible to DirectMemory.
+ * @since 0.2
  */
 public final class Configuration
 {

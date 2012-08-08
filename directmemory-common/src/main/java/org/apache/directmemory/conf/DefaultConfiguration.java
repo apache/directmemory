@@ -19,6 +19,9 @@ package org.apache.directmemory.conf;
  * under the License.
  */
 
+/**
+ * @since 0.2
+ */
 public abstract class DefaultConfiguration
     implements ConfigurationService
 {

@@ -24,6 +24,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
+/**
+ * @since 0.2
+ */
 public class SimplePropertiesConfiguration
     extends DefaultConfiguration
     implements ConfigurationService

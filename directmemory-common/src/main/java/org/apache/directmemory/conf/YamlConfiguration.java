@@ -22,6 +22,9 @@ package org.apache.directmemory.conf;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
+/**
+ * @since 0.2
+ */
 public class YamlConfiguration
     extends DefaultConfiguration
 {
