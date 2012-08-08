@@ -1,10 +1,5 @@
 package org.apache.directmemory.conf;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -23,6 +18,10 @@ import org.yaml.snakeyaml.constructor.Constructor;
  * specific language governing permissions and limitations
  * under the License.
  */
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Provides a global single point of access to all singleton properties comprehensible to DirectMemory.
@@ -55,12 +54,13 @@ public final class Configuration
     {
         return configurationService.getConcurrencyLevel();
     }
-    
+
     private static ConfigurationService configurationService;
-    
+
     static
     {
-        if (configurationService == null) {
+        if ( configurationService == null )
+        {
             // if not otherwise specified with another mechanism it uses the default implementation
             logger.info( "using default configuration implementation" );
             configurationService = new SimplePropertiesConfiguration();
