@@ -1,0 +1,14 @@
+# Number of buffers
+numberOfBuffers: 1
+
+# Initial capacity
+initialCapacity: 100000
+
+# RAM allocation in MB
+ramMegaBytes: 1
+
+# Concurrency level
+concurrencyLevel: 4
+
+# Disposal time in seconds
+disposalTime: 10

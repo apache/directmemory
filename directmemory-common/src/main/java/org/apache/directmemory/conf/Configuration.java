@@ -1,10 +1,5 @@
 package org.apache.directmemory.conf;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -38,92 +33,49 @@ public final class Configuration
 
     public static int getNumberOfBuffers()
     {
-        return yamlShadow.numberOfBuffers;
+        return configurationService.getNumberOfBuffers();
     }
 
     public static int getInitialCapacity()
     {
-        return yamlShadow.initialCapacity;
+        return configurationService.getInitialCapacity();
     }
 
     public static int getRamMegaBytes()
     {
-        return yamlShadow.ramMegaBytes;
+        return configurationService.getRamMegaBytes();
     }
 
     public static long getDisposalTime()
     {
-        return yamlShadow.disposalTime;
+        return configurationService.getDisposalTime();
     }
 
     public static int getConcurrencyLevel()
     {
-        return yamlShadow.concurrencyLevel;
+        return configurationService.getConcurrencyLevel();
     }
-
-    private static void wireConfiguration()
-    {
-        boolean success = false;
-        InputStream inputStream = null;
-        String yamlLocation = null;
-        try
-        {
-            yamlLocation =
-                new File( System.getProperty( "user.dir" ) + "/../conf/directmemory.yaml" ).getCanonicalPath();
-            inputStream = new FileInputStream( new File( yamlLocation ) );
-            Yaml yaml = new Yaml( new Constructor( YamlShadow.class ) );
-            yamlShadow = (YamlShadow) yaml.load( inputStream );
-            success = true;
-        }
-        catch ( Exception exception )
-        {
-            logger.error( "Problem trying to load DirectMemory configuration, now exiting.", exception );
-        }
-        finally
-        {
-            if ( inputStream != null )
-            {
-                try
-                {
-                    inputStream.close();
-                }
-                catch ( IOException ioException )
-                { // no-op
-                }
-            }
-            if ( success )
-            {
-                logger.info( "Loading DirectMemory configuration from " + yamlLocation );
-            }
-        }
-    }
-
-    public static class YamlShadow
-    {
-        public int numberOfBuffers = 1;
-
-        public int initialCapacity = 100000;
-
-        public int ramMegaBytes = 1;
-
-        public int concurrencyLevel = 4;
-
-        public long disposalTime = 10L;
-
-        public YamlShadow()
-        {
-        }
-    }
-
-    private static YamlShadow yamlShadow;
+    
+    private static ConfigurationService configurationService;
+    
     static
     {
-        wireConfiguration();
+        if (configurationService == null) {
+            // if not otherwise specified with another mechanism it uses the default implementation
+            logger.info( "using default configuration implementation" );
+            configurationService = new SimplePropertiesConfiguration();
+        }
     }
 
     // Prevent instance escape
     private Configuration()
     {
+    }
+
+    public static void configureFromYaml()
+    {
+        logger.info( "using yaml configuration implementation" );
+        configurationService = YamlConfiguration.load();
     }
 
 }

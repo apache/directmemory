@@ -15,4 +15,15 @@ public class ConfigurationTest
         assertTrue( Configuration.getConcurrencyLevel() > 0 );
         assertTrue( Configuration.getDisposalTime() > 0L );
     }
+    
+    @Test
+    public void testYamlConfiguration()
+    {
+        Configuration.configureFromYaml();
+        assertTrue( Configuration.getNumberOfBuffers() > 0 );
+        assertTrue( Configuration.getInitialCapacity() > 0 );
+        assertTrue( Configuration.getRamMegaBytes() > 0 );
+        assertTrue( Configuration.getConcurrencyLevel() > 0 );
+        assertTrue( Configuration.getDisposalTime() > 0L );
+    }
 }
