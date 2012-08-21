@@ -163,32 +163,32 @@ under the License.
   <mailingLists>
     <mailingList>
       <name>Users</name>
-      <post>directmemory-user@incubator.apache.org</post>
-      <subscribe>incubator-directmemory-user-subscribe@apache.org</subscribe>
-      <unsubscribe>incubator-directmemory-user-unsubscribe@apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-user/</archive>
+      <post>user@directmemory.apache.org</post>
+      <subscribe>directmemory-user-subscribe@apache.org</subscribe>
+      <unsubscribe>directmemory-user-unsubscribe@apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-user/</archive>
       <otherArchives>
-        <otherArchive>http://incubator-directmemory-user.markmail.org/</otherArchive>
+        <otherArchive>http://directmemory-user.markmail.org/</otherArchive>
       </otherArchives>
     </mailingList>
     <mailingList>
       <name>Development</name>
-      <post>directmemory-dev@incubator.apache.org</post>
-      <subscribe>incubator-directmemory-dev-subscribe@apache.org</subscribe>
-      <unsubscribe>incubator-directmemory-dev-unsubscribe@apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-dev/</archive>
+      <post>dev@directmemory.apache.org</post>
+      <subscribe>directmemory-dev-subscribe@apache.org</subscribe>
+      <unsubscribe>directmemory-dev-unsubscribe@apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-dev/</archive>
       <otherArchives>
-        <otherArchive>http://incubator-directmemory-dev.markmail.org/</otherArchive>
+        <otherArchive>http://directmemory-dev.markmail.org/</otherArchive>
       </otherArchives>
     </mailingList>
     <mailingList>
       <name>Commits</name>
-      <post>directmemory-commits@incubator.apache.org</post>
-      <subscribe>incubator-directmemory-commits-subscribe@apache.org</subscribe>
-      <unsubscribe>incubator-directmemory-commits-unsubscribe@apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-commits/</archive>
+      <post>commits@directmemory.apache.org</post>
+      <subscribe>directmemory-commits-subscribe@apache.org</subscribe>
+      <unsubscribe>directmemory-commits-unsubscribe@apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-commits/</archive>
       <otherArchives>
-        <otherArchive>http://incubator-directmemory-commits.markmail.org/</otherArchive>
+        <otherArchive>http://directmemory-commits.markmail.org/</otherArchive>
       </otherArchives>
     </mailingList>
   </mailingLists>
