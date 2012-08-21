@@ -1,0 +1,67 @@
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<features name="direct-memory-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+
+  <feature name='directmemory' description='Apache DirectMemory' version='${project.version}' resolver='(obr)'>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.guava/${guava.bundle.version}
+    </bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ant/${ant.bundle.version}
+    </bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oro/${oro.bundle.version}
+    </bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aspectj/${aspectj.bundle.version}
+    </bundle>
+    <bundle dependency='true'>mvn:com.dyuproject.protostuff/protostuff-uberjar/${protostuff.version}</bundle>
+    <bundle>mvn:org.apache.directmemory/directmemory-cache/${project.version}</bundle>
+  </feature>
+
+  <feature name='directmemory-ehcache' description='Apache DirectMemory - EhCache' version='${project.version}'
+           resolver='(obr)'>
+    <feature version="${project.version}">directmemory</feature>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ehcache/${ehcache.bundle.version}
+    </bundle>
+    <bundle>mvn:org.apache.directmemory/directmemory-ehcache/${project.version}</bundle>
+  </feature>
+
+  <feature name='directmemory-solr' description='Apache DirectMemory - Solr' version='${project.version}'
+           resolver='(obr)'>
+    <feature version="${project.version}">directmemory</feature>
+    <bundle dependency='true'>mvn:org.apache.httpcomponents/httpcore-osgi/${httpcore4-version}</bundle>
+    <bundle dependency='true'>mvn:org.apache.httpcomponents/httpclient-osgi/${httpclient4-version}</bundle>
+    <bundle dependency='true'>mvn:commons-codec/commons-codec/${commons-codec-version}</bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-httpclient/${commons-httpclient-bundle-version}
+    </bundle>
+    <bundle dependency='true'>
+      wrap:mvn:org.apache.solr/solr-core/${solr.version}
+    </bundle>
+    <bundle dependency='true'>
+      mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.solr-solrj/${solr.bundle.version}
+    </bundle>
+    <bundle>mvn:org.apache.directmemory/directmemory-solr/${project.version}</bundle>
+  </feature>
+
+</features>
+

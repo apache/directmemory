@@ -1,0 +1,929 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apache</groupId>
+    <artifactId>apache</artifactId>
+    <version>9</version>
+  </parent>
+
+  <groupId>org.apache.directmemory</groupId>
+  <artifactId>directmemory</artifactId>
+  <version>0.1-incubating</version>
+  <packaging>pom</packaging>
+
+  <name>Apache DirectMemory</name>
+  <description>Apache DirectMemory Cache :: Parent pom</description>
+  <url>http://incubator.apache.org/directmemory/</url>
+  <inceptionYear>2011</inceptionYear>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>antelder</id>
+      <name>Anthony Elder</name>
+      <email>antelder at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+        <role>Mentor</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>grobmeier</id>
+      <name>Christian Grobmeier</name>
+      <email>grobmeier at apache dot org</email>
+      <roles>
+        <role>Champion</role>
+        <role>Committer</role>
+        <role>Mentor</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>iocanel</id>
+      <name>Ioannis Canellos</name>
+      <email>iocanel at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>mcucchiara</id>
+      <name>Maurizio Cucchiara</name>
+      <email>mcucchiara at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>olamy</id>
+      <name>Olivier Lamy</name>
+      <email>olamy at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+        <role>Mentor</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>bperroud</id>
+      <name>Benoit Perroud</name>
+      <roles>
+        <role>Committer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>raffaeleguidi</id>
+      <name>Raffaele P. Guidi</name>
+      <email>raffaeleguidi at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>simoneg</id>
+      <name>Simone Gianni</name>
+      <email>simoneg at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>simonetripodi</id>
+      <name>Simone Tripodi</name>
+      <email>simonetripodi at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>sylvain</id>
+      <name>Sylvain Wallez</name>
+      <email>sylvain at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+        <role>Mentor</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>tommaso</id>
+      <name>Tommaso Teofili</name>
+      <email>tommaso at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>twilliams</id>
+      <name>Tim Williams</name>
+      <email>twilliams at apache dot org</email>
+      <roles>
+        <role>Committer</role>
+        <role>Mentor</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Daniel Manzke</name>
+      <email>daniel dot manzke at googlemail dot com</email>
+    </contributor>
+  </contributors>
+
+  <mailingLists>
+    <mailingList>
+      <name>Users</name>
+      <post>directmemory-user@incubator.apache.org</post>
+      <subscribe>incubator-directmemory-user-subscribe@apache.org</subscribe>
+      <unsubscribe>incubator-directmemory-user-unsubscribe@apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-user/</archive>
+      <otherArchives>
+        <otherArchive>http://incubator-directmemory-user.markmail.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+    <mailingList>
+      <name>Development</name>
+      <post>directmemory-dev@incubator.apache.org</post>
+      <subscribe>incubator-directmemory-dev-subscribe@apache.org</subscribe>
+      <unsubscribe>incubator-directmemory-dev-unsubscribe@apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-dev/</archive>
+      <otherArchives>
+        <otherArchive>http://incubator-directmemory-dev.markmail.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+    <mailingList>
+      <name>Commits</name>
+      <post>directmemory-commits@incubator.apache.org</post>
+      <subscribe>incubator-directmemory-commits-subscribe@apache.org</subscribe>
+      <unsubscribe>incubator-directmemory-commits-unsubscribe@apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/incubator-directmemory-commits/</archive>
+      <otherArchives>
+        <otherArchive>http://incubator-directmemory-commits.markmail.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+  </mailingLists>
+
+  <modules>
+    <module>directmemory-cache</module>
+    <module>directmemory-tests</module>
+    <module>server</module>
+    <module>platforms</module>
+    <module>integrations</module>
+    <module>serializers</module>
+    <module>itests</module>
+    <module>examples</module>
+  </modules>
+
+  <scm>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/tags/directmemory-0.1-incubating</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/tags/directmemory-0.1-incubating</developerConnection>
+    <url>https://svn.apache.org/viewvc/incubator/directmemory/tags/directmemory-0.1-incubating</url>
+  </scm>
+  <issueManagement>
+    <system>jira</system>
+    <url>https://issues.apache.org/jira/browse/DIRECTMEMORY</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Jenkins</system>
+    <url>https://builds.apache.org/job/directmemory-trunk/</url>
+  </ciManagement>
+  <distributionManagement>
+    <site>
+      <id>apache.website</id>
+      <url>${siteUrlDeployment}</url>
+    </site>
+  </distributionManagement>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
+    <implementation.build>${scmBranch}@r${buildNumber}; ${maven.build.timestamp}</implementation.build>
+    <siteUrlDeployment>scp://people.apache.org/www/incubator.apache.org/content/directmemory</siteUrlDeployment>
+    <sonar.host.url>https://analysis.apache.org/</sonar.host.url>
+    <maven.compile.source>1.6</maven.compile.source>
+    <maven.compile.target>1.6</maven.compile.target>
+
+    <!-- Dependency Versions -->
+    <ant.bundle.version>1.7.0_1</ant.bundle.version>
+    <aspectj.bundle.version>1.6.8_2</aspectj.bundle.version>
+    <aspectj.version>1.6.12</aspectj.version>
+    <doclava.version>1.0.5</doclava.version>
+    <ehcache.version>2.5.0</ehcache.version>
+    <ehcache.bundle.version>2.5.0_2</ehcache.bundle.version>
+    <guava.bundle.version>09_1</guava.bundle.version>
+    <guava.version>r09</guava.version>
+    <h2.version>1.3.158</h2.version>
+    <karaf.version>2.2.4</karaf.version>
+    <junit.version>4.10</junit.version>
+    <junit-benchamrks.version>0.3.0</junit-benchamrks.version>
+    <logback.version>1.0.0</logback.version>
+    <oro.bundle.version>2.0.8_5</oro.bundle.version>
+    <osgi.version>4.2.0</osgi.version>
+    <pax-exam.version>1.2.4</pax-exam.version>
+    <pax-tiny-bundle.version>1.3.1</pax-tiny-bundle.version>
+    <protostuff.version>1.0.5</protostuff.version>
+    <solr.version>3.6.0</solr.version>
+    <solr.bundle.version>3.6.0_1</solr.bundle.version>
+    <slf4j.version>1.6.4</slf4j.version>
+    <msgpack.version>0.6.5</msgpack.version>
+    <protobuf.version>2.4.1</protobuf.version>
+    <wagon.version>2.2</wagon.version>
+
+    <!-- Plugin Versions -->
+    <buildnumber-plugin.version>1.1</buildnumber-plugin.version>
+    <build-helper-plugin.version>1.7</build-helper-plugin.version>
+    <bundle-plugin.version>2.3.7</bundle-plugin.version>
+    <clean-plugin.version>2.4.1</clean-plugin.version>
+    <compiler-plugin.version>2.4</compiler-plugin.version>
+    <gpg-plugin.version>1.4</gpg-plugin.version>
+    <jar-plugin.version>2.4</jar-plugin.version>
+    <javadoc-plugin.version>2.8.1</javadoc-plugin.version>
+    <jxr-plugin.version>2.2</jxr-plugin.version>
+    <project-info-reports-plugin.version>2.4</project-info-reports-plugin.version>
+    <rat-plugin.version>0.8</rat-plugin.version>
+    <release-plugin.version>2.3.2</release-plugin.version>
+    <resources-plugin.version>2.5</resources-plugin.version>
+    <report-plugin.version>0.1</report-plugin.version>
+    <checkstyle-plugin.version>2.9.1</checkstyle-plugin.version>
+    <site-plugin.version>3.0</site-plugin.version>
+    <source-plugin.version>2.1.2</source-plugin.version>
+    <asfTomcatMavenPluginVersion>2.0-beta-1</asfTomcatMavenPluginVersion>
+
+    <!-- Bundle Headers -->
+    <osgi.activator />
+    <osgi.bundles />
+    <osgi.dynamic.import />
+    <osgi.export />
+    <osgi.import />
+    <osgi.private />
+
+    <!-- properties for web site -->
+    <currentRelease>0.1-incubating</currentRelease>
+
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${clean-plugin.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${javadoc-plugin.version}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.0</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.wagon</groupId>
+              <artifactId>wagon-ssh-external</artifactId>
+              <version>${wagon.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.maven.wagon</groupId>
+              <artifactId>wagon-ssh</artifactId>
+              <version>${wagon.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-remote-resources-plugin</artifactId>
+          <version>1.3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>${release-plugin.version}</version>
+          <configuration>
+            <mavenExecutorId>forked-path</mavenExecutorId>
+            <useReleaseProfile>false</useReleaseProfile>
+            <preparationGoals>clean install</preparationGoals>
+            <goals>deploy</goals>
+            <arguments>-Prelease</arguments>
+            <tagBase>https://svn.apache.org/repos/asf/incubator/directmemory/tags</tagBase>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${resources-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.12</version>
+          <configuration>
+            <argLine>-Xmx1024m -Xms512m -XX:MaxDirectMemorySize=512m</argLine>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>${asfTomcatMavenPluginVersion}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>${build-helper-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>${bundle-plugin.version}</version>
+        <extensions>true</extensions>
+        <inherited>true</inherited>
+        <configuration>
+          <instructions>
+            <Bundle-Name>${project.name}</Bundle-Name>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Export-Package>${osgi.export}</Export-Package>
+            <Import-Package>${osgi.import}</Import-Package>
+            <DynamicImport-Package>${osgi.dynamic.import}</DynamicImport-Package>
+            <Private-Package>${osgi.private}</Private-Package>
+            <Require-Bundle>${osgi.bundles}</Require-Bundle>
+            <Bundle-Activator>${osgi.activator}</Bundle-Activator>
+          </instructions>
+          <supportedProjectTypes>
+            <supportedProjectType>jar</supportedProjectType>
+            <supportedProjectType>war</supportedProjectType>
+            <supportedProjectType>bundle</supportedProjectType>
+          </supportedProjectTypes>
+          <unpackBundle>true</unpackBundle>
+        </configuration>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>${buildnumber-plugin.version}</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <!-- Use committed revision so it does not change every time svn update is run -->
+          <useLastCommittedRevision>true</useLastCommittedRevision>
+          <!-- default revision number if unavailable -->
+          <revisionOnScmFailure>??????</revisionOnScmFailure>
+          <!-- svnjava works even if an svn command-line client is not on the path -->
+          <providerImplementations>
+            <svn>javasvn</svn>
+          </providerImplementations>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.google.code.maven-scm-provider-svnjava</groupId>
+            <artifactId>maven-scm-provider-svnjava</artifactId>
+            <version>2.0.2</version>
+          </dependency>
+          <dependency>
+            <groupId>org.tmatesoft.svnkit</groupId>
+            <artifactId>svnkit</artifactId>
+            <version>1.7.4-v1</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${compiler-plugin.version}</version>
+        <configuration>
+          <source>${maven.compile.source}</source>
+          <target>${maven.compile.target}</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${jar-plugin.version}</version>
+        <configuration>
+          <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+            <manifestEntries>
+              <Specification-Title>${project.name}</Specification-Title>
+              <Specification-Version>${project.version}</Specification-Version>
+              <Specification-Vendor>${project.organization.name}</Specification-Vendor>
+              <Implementation-Title>${project.name}</Implementation-Title>
+              <Implementation-Version>${project.version}</Implementation-Version>
+              <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+              <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
+              <Implementation-Build>${implementation.build}</Implementation-Build>
+              <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
+              <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <additionnalDependencies>
+            <additionnalDependency>
+              <groupId>geronimo-spec</groupId>
+              <artifactId>geronimo-spec-jta</artifactId>
+              <version>1.0.1B-rc4</version>
+            </additionnalDependency>
+          </additionnalDependencies>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>javadoc</goal>
+              <goal>aggregate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>geronimo-spec</groupId>
+      <artifactId>geronimo-spec-jta</artifactId>
+      <version>1.0.1B-rc4</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <!-- Internal Project Artifacts -->
+      <dependency>
+        <groupId>org.apache.directmemory</groupId>
+        <artifactId>directmemory-cache</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.directmemory</groupId>
+        <artifactId>directmemory-tests</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.directmemory</groupId>
+        <artifactId>directmemory-protostuff</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.directmemory.server</groupId>
+        <artifactId>directmemory-server</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.directmemory</groupId>
+        <artifactId>directmemory-ehcache</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.aspectj</groupId>
+        <artifactId>aspectjrt</artifactId>
+        <version>${aspectj.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>${h2.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.carrotsearch</groupId>
+        <artifactId>junit-benchmarks</artifactId>
+        <version>${junit-benchamrks.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+        <version>${logback.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.core</artifactId>
+        <version>${osgi.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam</artifactId>
+        <version>${pax-exam.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam-junit</artifactId>
+        <version>${pax-exam.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.exam</groupId>
+        <artifactId>pax-exam-container-default</artifactId>
+        <version>${pax-exam.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ops4j.pax.swissbox</groupId>
+        <artifactId>pax-swissbox-tinybundles</artifactId>
+        <version>${pax-tiny-bundle.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.dyuproject.protostuff</groupId>
+        <artifactId>protostuff-runtime</artifactId>
+        <version>${protostuff.version}</version>
+        <type>jar</type>
+        <optional>false</optional>
+      </dependency>
+      <dependency>
+        <groupId>com.dyuproject.protostuff</groupId>
+        <artifactId>protostuff-core</artifactId>
+        <version>${protostuff.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.dyuproject.protostuff</groupId>
+        <artifactId>protostuff-api</artifactId>
+        <version>${protostuff.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.msgpack</groupId>
+        <artifactId>msgpack</artifactId>
+        <version>${msgpack.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>${protobuf.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.sf.ehcache</groupId>
+        <artifactId>ehcache-core</artifactId>
+        <version>${ehcache.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.solr</groupId>
+        <artifactId>solr-core</artifactId>
+        <version>${solr.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.solr</groupId>
+        <artifactId>solr-test-framework</artifactId>
+        <version>${solr.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+        <type>jar</type>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>${slf4j.version}</version>
+        <type>jar</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>${project-info-reports-plugin.version}</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${javadoc-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <inherited>false</inherited>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+        <configuration>
+          <docletArtifact>
+            <groupId>com.google.doclava</groupId>
+            <artifactId>doclava</artifactId>
+            <version>${doclava.version}</version>
+          </docletArtifact>
+          <doclet>com.google.doclava.Doclava</doclet>
+          <!--
+            | bootclasspath required by Sun's JVM
+          -->
+          <bootclasspath>${sun.boot.class.path}</bootclasspath>
+          <additionalparam>
+            -quiet
+            -federate JDK http://download.oracle.com/javase/6/docs/api/index.html?
+            -federationxml JDK http://doclava.googlecode.com/svn/static/api/openjdk-6.xml
+            -hdf project.name "${project.name}"
+            -d ${project.build.directory}/site/apidocs
+          </additionalparam>
+          <useStandardDocletOptions>false</useStandardDocletOptions>
+          <!--
+            | Apple's JVM sometimes requires more memory
+          -->
+          <additionalJOption>-J-Xmx1024m</additionalJOption>
+          <additionnalDependencies>
+            <!-- prevent doclava to fail -->
+            <additionnalDependency>
+              <groupId>geronimo-spec</groupId>
+              <artifactId>geronimo-spec-jta</artifactId>
+              <version>1.0.1B-rc4</version>
+            </additionnalDependency>
+          </additionnalDependencies>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>${jxr-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.sonar-plugins</groupId>
+        <artifactId>maven-report</artifactId>
+        <version>${report-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${checkstyle-plugin.version}</version>
+        <configuration>
+          <configLocation>config/maven_checks.xml</configLocation>
+          <headerLocation>config/maven-header.txt</headerLocation>
+        </configuration>
+        <inherited>false</inherited>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>checkstyle-aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.rat</groupId>
+            <artifactId>apache-rat-plugin</artifactId>
+            <version>${rat-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>rat-verify</id>
+                <phase>test</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <configuration>
+                  <excludes>
+                    <exclude>.gitignore</exclude>
+                    <exclude>DEPENDENCIES</exclude>
+                    <exclude>README.txt</exclude>
+                    <exclude>*.sh</exclude>
+                    <exclude>.git/**</exclude>
+                    <exclude>.idea/**</exclude>
+                    <exclude>*.bat</exclude>
+                    <exclude>**/*.iml</exclude>
+                    <exclude>.repository/**</exclude>
+                    <exclude>ajcore**</exclude>
+                    <exclude>init-git-svn.sh</exclude>
+                    <exclude>src/main/webapp/js/jquery*.js</exclude>
+                    <exclude>src/main/resources/archetype-resources/src/main/webapp/js/jquery*.js</exclude>
+                    <exclude>src/test/resources/projects/basic/**</exclude>
+                  </excludes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${source-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+                <configuration>
+                  <archive>
+                    <manifestEntries>
+                      <Specification-Title>${project.name}</Specification-Title>
+                      <Specification-Version>${project.version}</Specification-Version>
+                      <Specification-Vendor>${project.organization.name}</Specification-Vendor>
+                      <Implementation-Title>${project.name}</Implementation-Title>
+                      <Implementation-Version>${project.version}</Implementation-Version>
+                      <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                      <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
+                      <Implementation-Build>${implementation.build}</Implementation-Build>
+                      <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
+                      <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
+                    </manifestEntries>
+                  </archive>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <quiet>true</quiet>
+                  <archive>
+                    <manifestEntries>
+                      <Specification-Title>${project.name}</Specification-Title>
+                      <Specification-Version>${project.version}</Specification-Version>
+                      <Specification-Vendor>${project.organization.name}</Specification-Vendor>
+                      <Implementation-Title>${project.name}</Implementation-Title>
+                      <Implementation-Version>${project.version}</Implementation-Version>
+                      <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                      <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
+                      <Implementation-Build>${implementation.build}</Implementation-Build>
+                      <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
+                      <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
+                    </manifestEntries>
+                  </archive>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${gpg-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.apache.resources</groupId>
+                <artifactId>apache-source-release-assembly-descriptor</artifactId>
+                <version>1.0.3</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <id>source-release-assembly</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <configuration>
+                  <finalName>apache-directmemory-${project.version}</finalName>
+                  <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+                  <!-- use our own as currently apache-source-release-assembly-descriptor doesn't exclude .idea directory -->
+                  <descriptors>
+                    <descriptor>src/main/assembly/source-release.xml</descriptor>
+                  </descriptors>
+                  <!--descriptorRefs>
+                    <descriptorRef>${sourceReleaseAssemblyDescriptor}</descriptorRef>
+                  </descriptorRefs-->
+                  <tarLongFileFormat>gnu</tarLongFileFormat>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- We want to deploy the artifact to a staging location for perusal -->
+          <plugin>
+            <inherited>true</inherited>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <configuration>
+              <updateReleaseInfo>true</updateReleaseInfo>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

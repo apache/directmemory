@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<project name="Apache DirectMemory Cache">
+
+  <bannerRight>
+    <src>images/apache-incubator-logo.png</src>
+    <href>http://incubator.apache.org/</href>
+  </bannerRight>
+
+  <bannerLeft>
+    <src>images/Apache-DirectMemory-logo-flat-small.png</src>
+    <href>http://incubator.apache.org/directmemory</href>
+  </bannerLeft>
+
+  <publishDate position="right"/>
+  <version position="right"/>
+
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>1.2.1</version>
+  </skin>
+
+  <body>
+
+    <breadcrumbs position="left">
+      <item name="Apache DirectMemory" href="http://incubator.apache.org/directmemory"/>
+    </breadcrumbs>
+
+    <menu name="Apache DirectMemory">
+      <item name="About"                      href="index.html"/>
+      <item name="Simple Usage"               href="simple-usage.html"/>
+      <item name="Server"                     href="server.html"/>
+      <item name="Server Instance"            href="server-instance.html"/>
+      <item name="Javascript Caching"         href="javascript-caching.html"/>
+      <item name="EHCache integration"        href="ehcache-integration.html"/>
+      <item name="Download Release sources"   href="downloads.html"/>
+      <item name="Committer Environment"      href="committer-environment.html"/>
+    </menu>
+    <menu name="Releases">
+      <item name="0.1-incubating Release Notes"          href="releases/release-notes-0.1-incubating.html"/>
+    </menu>
+
+    <menu ref="reports" inherit="bottom"/>
+    <menu ref="modules" inherit="bottom"/>
+
+    <menu name="ASF">
+      <item name="How Apache Works" href="http://www.apache.org/foundation/how-it-works.html"/>
+      <item name="Foundation" href="http://www.apache.org/foundation/"/>
+      <item name="Sponsoring Apache" href="http://www.apache.org/foundation/sponsorship.html"/>
+      <item name="Thanks" href="http://www.apache.org/foundation/thanks.html"/>
+    </menu>
+
+    <head>
+      <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-3211522-11']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+      </script>
+    </head>
+
+    <footer>
+      <div>
+        Apache DirectMemory, Apache, the Apache feather logo, and the Apache DirectMemory project logos are trademarks
+        of The Apache Software Foundation.
+        All other marks mentioned may be trademarks or registered trademarks of their respective owners.
+        <a href="${project.url}/privacy-policy.html">Privacy Policy</a>
+      </div>
+    </footer>
+
+  </body>
+
+  <custom>
+    <fluidoSkin>
+      <topBarEnabled>true</topBarEnabled>
+      <sideBarEnabled>false</sideBarEnabled>
+      <googleSearch></googleSearch>
+      <twitter>
+        <user>directmemory</user>
+        <showUser>true</showUser>
+        <showFollowers>true</showFollowers>
+      </twitter>
+      <ohloh>
+        <projectId>586685</projectId>
+        <widget>stats</widget>
+      </ohloh>
+    </fluidoSkin>
+  </custom>
+
+</project>

@@ -1,0 +1,3 @@
+{"key":"101","put":true,"expiresIn":123,
+    "cacheContent":"rO0ABXNyACtvcmcuYXBhY2hlLmRpcmVjdG1lbW9yeS5zZXJ2ZXIuY29tbW9ucy5XaW5l5dYKhxyAjeECAAFMAARuYW1ldAASTGphdmEvbGFuZy9TdHJpbmc7eHB0AAhCb3JkZWF1eA=="
+    ,"serializer":"org.apache.directmemory.serialization.StandardSerializer"}

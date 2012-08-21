@@ -1,0 +1,54 @@
+ ------
+ Apache DirectMemory Javascript Caching
+ ------
+ Olivier Lamy
+ ------
+ 2012-06-18
+ ------
+
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
+
+Javascript caching with DirectMemory
+
+  First you must have a server instance installed and available see {{{./server-instance.html}server instance}}.
+  Sample here are based on using JQuery library.
+
+  Now you will be able to store/get/delete your json objects in an Apache DirectMemory instance.
+
+%{toc|fromDepth=2}
+
+* Store your object
+
+  Note the header <<<X-DirectMemory-ExpiresIn>>> to specify the ttl value in ms.
+
+%{snippet|id=put|url=http://svn.apache.org/repos/asf/incubator/directmemory/trunk/examples/server-example/src/main/webapp/js/sample.js}
+
+* Get your object
+
+%{snippet|id=get|url=http://svn.apache.org/repos/asf/incubator/directmemory/trunk/examples/server-example/src/main/webapp/js/sample.js}
+
+* Delete your object
+
+%{snippet|id=delete|url=http://svn.apache.org/repos/asf/incubator/directmemory/trunk/examples/server-example/src/main/webapp/js/sample.js}
+
+
+
+
