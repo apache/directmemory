@@ -17,10 +17,6 @@
 -->
 <project name="Apache DirectMemory Cache">
 
-  <bannerRight>
-    <src>images/apache-incubator-logo.png</src>
-    <href>http://incubator.apache.org/</href>
-  </bannerRight>
 
   <bannerLeft>
     <src>images/Apache-DirectMemory-logo-flat-small.png</src>
@@ -39,7 +35,7 @@
   <body>
 
     <breadcrumbs position="left">
-      <item name="Apache DirectMemory" href="http://incubator.apache.org/directmemory"/>
+      <item name="Apache DirectMemory" href="http://directmemory.apache.org/"/>
     </breadcrumbs>
 
     <menu name="Apache DirectMemory">
