@@ -33,7 +33,7 @@ under the License.
 
   <name>Apache DirectMemory</name>
   <description>Apache DirectMemory Cache :: Parent pom</description>
-  <url>http://incubator.apache.org/directmemory/</url>
+  <url>http://directmemory.apache.org/</url>
   <inceptionYear>2011</inceptionYear>
 
   <licenses>
@@ -210,9 +210,9 @@ under the License.
   </modules>
 
   <scm>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/trunk/</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/directmemory/trunk/</developerConnection>
-    <url>https://svn.apache.org/viewvc/incubator/directmemory/trunk/</url>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/directmemory/trunk/</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directmemory/trunk/</developerConnection>
+    <url>https://svn.apache.org/viewvc/directmemory/trunk/</url>
   </scm>
   <issueManagement>
     <system>jira</system>
