@@ -350,7 +350,7 @@ under the License.
             <preparationGoals>clean install</preparationGoals>
             <goals>deploy</goals>
             <arguments>-Prelease</arguments>
-            <tagBase>https://svn.apache.org/repos/asf/incubator/directmemory/tags</tagBase>
+            <tagBase>https://svn.apache.org/repos/asf/directmemory/tags</tagBase>
           </configuration>
         </plugin>
         <plugin>
