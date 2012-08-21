@@ -39,15 +39,15 @@ Javascript caching with DirectMemory
 
   Note the header <<<X-DirectMemory-ExpiresIn>>> to specify the ttl value in ms.
 
-%{snippet|id=put|url=http://svn.apache.org/repos/asf/incubator/directmemory/trunk/examples/server-example/src/main/webapp/js/sample.js}
+%{snippet|id=put|url=http://svn.apache.org/repos/asf/directmemory/trunk/examples/server-example/src/main/webapp/js/sample.js}
 
 * Get your object
 
-%{snippet|id=get|url=http://svn.apache.org/repos/asf/incubator/directmemory/trunk/examples/server-example/src/main/webapp/js/sample.js}
+%{snippet|id=get|url=http://svn.apache.org/repos/asf/directmemory/trunk/examples/server-example/src/main/webapp/js/sample.js}
 
 * Delete your object
 
-%{snippet|id=delete|url=http://svn.apache.org/repos/asf/incubator/directmemory/trunk/examples/server-example/src/main/webapp/js/sample.js}
+%{snippet|id=delete|url=http://svn.apache.org/repos/asf/directmemory/trunk/examples/server-example/src/main/webapp/js/sample.js}
 
 
 
