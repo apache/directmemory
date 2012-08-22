@@ -11,3 +11,12 @@ You need Apache Maven to build the project. Just use: mvn clean install (you wil
 local Maven repository.
 
 NOTE: the buildnumber maven plugin which add a maven property with the current svn revision has been configured to work with svn 1.7
+
+----------------
+Site deployment
+----------------
+Run:
+* mvn site-deploy
+* mvn scm-publish:publish-scm -Dscmpublish.dryRun=false -N -e -Dscmpublish.skipCheckin=false -DscmSkipDeletedFiles=true
+
+NOTE: site is deployed using the property siteFilePath default value ${user.home}/directmemory-site-deploy, svnpub content is chechout in property scmPubCheckoutDirectory default value ${user.home}/directmemory-site-content
