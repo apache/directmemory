@@ -20,7 +20,7 @@
 
   <bannerLeft>
     <src>images/Apache-DirectMemory-logo-flat-small.png</src>
-    <href>http://directmory.apache.org/</href>
+    <href>http://directmemory.apache.org/</href>
   </bannerLeft>
 
   <publishDate position="right"/>
