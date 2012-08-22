@@ -102,7 +102,7 @@
     <fluidoSkin>
       <topBarEnabled>true</topBarEnabled>
       <sideBarEnabled>false</sideBarEnabled>
-      <topBarContainerStyle>width: 90%;</topBarContainerStyle>
+      <topBarContainerStyle>width: auto;</topBarContainerStyle>
       <googleSearch></googleSearch>
       <twitter>
         <user>directmemory</user>
