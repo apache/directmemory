@@ -367,6 +367,16 @@ under the License.
           </configuration>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-publish-plugin</artifactId>
+          <version>1.0-SNAPSHOT</version>
+          <configuration>
+            <pubScmUrl>scm:svn:https://svn.apache.org/repos/asf/directmemory/site-content/</pubScmUrl>
+            <tryUpdate>true</tryUpdate>
+            <skipDeletedFiles>true</skipDeletedFiles>
+          </configuration>
+        </plugin>
+        <plugin>
           <groupId>org.apache.tomcat.maven</groupId>
           <artifactId>tomcat7-maven-plugin</artifactId>
           <version>${asfTomcatMavenPluginVersion}</version>
