@@ -234,7 +234,7 @@ under the License.
     <siteFilePath>${user.home}/directmemory-site-deploy</siteFilePath>
     <siteUrlDeployment>file://${siteFilePath}</siteUrlDeployment>
     <scmPubCheckoutDirectory>${user.home}/directmemory-site-content</scmPubCheckoutDirectory>
-    <scmSkipDeletedFiles>true</scmSkipDeletedFiles>
+    <scmSkipDeletedFiles>false</scmSkipDeletedFiles>
     <sonar.host.url>https://analysis.apache.org/</sonar.host.url>
     <maven.compile.source>1.6</maven.compile.source>
     <maven.compile.target>1.6</maven.compile.target>
