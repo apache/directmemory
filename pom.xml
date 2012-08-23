@@ -379,7 +379,24 @@ under the License.
             <checkoutDirectory>${scmPubCheckoutDirectory}</checkoutDirectory>
             <tryUpdate>true</tryUpdate>
             <skipDeletedFiles>${scmSkipDeletedFiles}</skipDeletedFiles>
+
+            <providerImplementations>
+              <svn>javasvn</svn>
+            </providerImplementations>
+
           </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.google.code.maven-scm-provider-svnjava</groupId>
+              <artifactId>maven-scm-provider-svnjava</artifactId>
+              <version>2.0.3</version>
+            </dependency>
+            <dependency>
+              <groupId>org.tmatesoft.svnkit</groupId>
+              <artifactId>svnkit</artifactId>
+              <version>1.7.5-v1</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.tomcat.maven</groupId>
