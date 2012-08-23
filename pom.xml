@@ -286,6 +286,9 @@ under the License.
     <source-plugin.version>2.1.2</source-plugin.version>
     <asfTomcatMavenPluginVersion>2.0-beta-1</asfTomcatMavenPluginVersion>
 
+    <maven-scm-provider-svnjava.version>2.0.3</maven-scm-provider-svnjava.version>
+    <svnkit.version>1.7.5-v1</svnkit.version>
+
     <!-- Bundle Headers -->
     <osgi.activator />
     <osgi.bundles />
@@ -389,12 +392,12 @@ under the License.
             <dependency>
               <groupId>com.google.code.maven-scm-provider-svnjava</groupId>
               <artifactId>maven-scm-provider-svnjava</artifactId>
-              <version>2.0.3</version>
+              <version>${maven-scm-provider-svnjava.version}</version>
             </dependency>
             <dependency>
               <groupId>org.tmatesoft.svnkit</groupId>
               <artifactId>svnkit</artifactId>
-              <version>1.7.5-v1</version>
+              <version>${svnkit.version}</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -473,12 +476,12 @@ under the License.
           <dependency>
             <groupId>com.google.code.maven-scm-provider-svnjava</groupId>
             <artifactId>maven-scm-provider-svnjava</artifactId>
-            <version>2.0.2</version>
+            <version>${maven-scm-provider-svnjava.version}</version>
           </dependency>
           <dependency>
             <groupId>org.tmatesoft.svnkit</groupId>
             <artifactId>svnkit</artifactId>
-            <version>1.7.4-v1</version>
+            <version>${svnkit.version}</version>
           </dependency>
         </dependencies>
       </plugin>
