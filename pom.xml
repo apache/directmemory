@@ -286,7 +286,7 @@ under the License.
     <source-plugin.version>2.1.2</source-plugin.version>
     <asfTomcatMavenPluginVersion>2.0-beta-1</asfTomcatMavenPluginVersion>
 
-    <maven-scm-provider-svnjava.version>2.0.4-SNAPSHOT</maven-scm-provider-svnjava.version>
+    <maven-scm-provider-svnjava.version>2.0.4</maven-scm-provider-svnjava.version>
     <svnkit.version>1.7.5-v1</svnkit.version>
 
     <!-- Bundle Headers -->
@@ -813,19 +813,6 @@ under the License.
       </plugin>
     </plugins>
   </reporting>
-
-  <repositories>
-    <repository>
-      <id>oss.snapshots</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
   <profiles>
     <profile>
