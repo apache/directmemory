@@ -19,4 +19,6 @@ Run:
 * mvn site-deploy
 * mvn scm-publish:publish-scm -N (optionnal arguments -Dscmpublish.dryRun=false -Dscmpublish.skipCheckin=false -DscmSkipDeletedFiles=true)
 
+shorcut: sh ./deploySite.sh  
+
 NOTE: site is deployed using the property siteFilePath default value ${user.home}/directmemory-site-deploy, svnpub content is chechout in property scmPubCheckoutDirectory default value ${user.home}/directmemory-site-content
