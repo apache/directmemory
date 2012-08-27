@@ -1,1 +1,1 @@
-mvn clean site-deploy && mvn scm-publish:publish-scm -N 
+mvn clean site-deploy && mvn scm-publish:publish-scm 

@@ -17,7 +17,7 @@ Site deployment
 ----------------
 Run:
 * mvn site-deploy
-* mvn scm-publish:publish-scm -N (optionnal arguments -Dscmpublish.dryRun=false -Dscmpublish.skipCheckin=false -DscmSkipDeletedFiles=true)
+* mvn scm-publish:publish-scm (optionnal arguments -Dscmpublish.dryRun=false -Dscmpublish.skipCheckin=false -DscmSkipDeletedFiles=true)
 
 shorcut: sh ./deploySite.sh  
 
