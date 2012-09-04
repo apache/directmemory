@@ -16,7 +16,7 @@ NOTE: the buildnumber maven plugin which add a maven property with the current s
 Site deployment
 ----------------
 Run:
-* mvn site-deploy
+* mvn site site:stage-deploy 
 * mvn scm-publish:publish-scm (optionnal arguments -Dscmpublish.dryRun=false -Dscmpublish.skipCheckin=false -DscmSkipDeletedFiles=true)
 
 shorcut: sh ./deploySite.sh  

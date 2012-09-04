@@ -324,6 +324,10 @@ under the License.
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>${site-plugin.version}</version>
+          <configuration>
+            <stagingSiteURL>${siteUrlDeployment}</stagingSiteURL>
+          </configuration>
+
           <dependencies>
             <dependency>
               <groupId>org.codehaus.plexus</groupId>
