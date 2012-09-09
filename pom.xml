@@ -164,8 +164,8 @@ under the License.
     <mailingList>
       <name>Users</name>
       <post>user@directmemory.apache.org</post>
-      <subscribe>directmemory-user-subscribe@apache.org</subscribe>
-      <unsubscribe>directmemory-user-unsubscribe@apache.org</unsubscribe>
+      <subscribe>user-subscribe@directmemory.apache.org</subscribe>
+      <unsubscribe>user-unsubscribe@directmemory.apache.org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/directmemory-user/</archive>
       <otherArchives>
         <otherArchive>http://directmemory-user.markmail.org/</otherArchive>
@@ -174,8 +174,8 @@ under the License.
     <mailingList>
       <name>Development</name>
       <post>dev@directmemory.apache.org</post>
-      <subscribe>directmemory-dev-subscribe@apache.org</subscribe>
-      <unsubscribe>directmemory-dev-unsubscribe@apache.org</unsubscribe>
+      <subscribe>dev-subscribe@directmemory.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@directmemory.apache.org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/directmemory-dev/</archive>
       <otherArchives>
         <otherArchive>http://directmemory-dev.markmail.org/</otherArchive>
@@ -184,8 +184,8 @@ under the License.
     <mailingList>
       <name>Commits</name>
       <post>commits@directmemory.apache.org</post>
-      <subscribe>directmemory-commits-subscribe@apache.org</subscribe>
-      <unsubscribe>directmemory-commits-unsubscribe@apache.org</unsubscribe>
+      <subscribe>commits-subscribe@directmemory.apache.org</subscribe>
+      <unsubscribe>commits-unsubscribe@directmemory.apache.org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/directmemory-commits/</archive>
       <otherArchives>
         <otherArchive>http://directmemory-commits.markmail.org/</otherArchive>
@@ -234,9 +234,9 @@ under the License.
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
     <implementation.build>${scmBranch}@r${buildNumber}; ${maven.build.timestamp}</implementation.build>
-    <siteFilePath>${user.home}/directmemory-site-deploy</siteFilePath>
-    <siteUrlDeployment>file://${siteFilePath}</siteUrlDeployment>
-    <scmPubCheckoutDirectory>${user.home}/directmemory-site-content</scmPubCheckoutDirectory>
+    <directmemory.siteFilePath>${user.home}/directmemory-site-deploy</directmemory.siteFilePath>
+    <siteUrlDeployment>file://${directmemory.siteFilePath}</siteUrlDeployment>
+    <directmemory.scmPubCheckoutDirectory>${user.home}/directmemory-site-content</directmemory.scmPubCheckoutDirectory>
     <scmSkipDeletedFiles>false</scmSkipDeletedFiles>
     <sonar.host.url>https://analysis.apache.org/</sonar.host.url>
     <maven.compile.source>1.6</maven.compile.source>
@@ -375,8 +375,8 @@ under the License.
           <version>1.0-SNAPSHOT</version>
           <configuration>
             <pubScmUrl>scm:svn:https://svn.apache.org/repos/asf/directmemory/site-content/</pubScmUrl>
-            <content>${siteFilePath}</content>
-            <checkoutDirectory>${scmPubCheckoutDirectory}</checkoutDirectory>
+            <content>${directmemory.siteFilePath}</content>
+            <checkoutDirectory>${directmemory.scmPubCheckoutDirectory}</checkoutDirectory>
             <tryUpdate>true</tryUpdate>
             <skipDeletedFiles>${scmSkipDeletedFiles}</skipDeletedFiles>
 
