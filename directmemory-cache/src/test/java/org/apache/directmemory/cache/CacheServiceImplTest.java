@@ -66,6 +66,7 @@ public class CacheServiceImplTest
         /**
          * @return the name
          */
+        @SuppressWarnings( "unused" )
         public String getName()
         {
             return name;

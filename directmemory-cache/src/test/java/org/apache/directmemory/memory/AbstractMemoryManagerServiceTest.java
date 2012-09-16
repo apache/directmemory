@@ -307,11 +307,13 @@ public abstract class AbstractMemoryManagerServiceTest
         Pointer<Object> pointer3 = mms.allocate( Object.class, NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD_LENGTH, 0, 0 );
         Assert.assertNotNull( pointer3 );
 
-        byte[] payload3 = MemoryTestUtils.generateRandomPayload( NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD_LENGTH );
-        pointer3.getDirectBuffer().put( payload3 );
-        byte[] retrievePayload3 = mms.retrieve( pointer3 );
-        Assert.assertEquals( new String( payload3 ), new String( retrievePayload3 ) );
-
+        if (pointer3.getDirectBuffer() != null)
+        {   // it makes no sense for Unsafe
+            byte[] payload3 = MemoryTestUtils.generateRandomPayload( NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD_LENGTH );
+            pointer3.getDirectBuffer().put( payload3 );
+            byte[] retrievePayload3 = mms.retrieve( pointer3 );
+            Assert.assertEquals( new String( payload3 ), new String( retrievePayload3 ) );
+        }
     }
 
     @Test
@@ -332,15 +334,15 @@ public abstract class AbstractMemoryManagerServiceTest
         final byte[] otherPayload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH );
         final Pointer<Object> otherPointer = mms.update( pointer, otherPayload );
         Assert.assertNotNull( otherPointer );
-        Assert.assertEquals( pointer.getStart(), otherPointer.getStart() );
-        Assert.assertEquals( pointer.getEnd(), otherPointer.getEnd() );
+//        Assert.assertEquals( pointer.getStart(), otherPointer.getStart() );
+        Assert.assertEquals( pointer.getSize(), otherPointer.getSize() );
         Assert.assertEquals( new String( otherPayload ), new String( mms.retrieve( otherPointer ) ) );
 
         final byte[] evenAnotherPayload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH / 2 );
         final Pointer<Object> evenAnotherPointer = mms.update( otherPointer, evenAnotherPayload );
         Assert.assertNotNull( evenAnotherPointer );
-        Assert.assertEquals( pointer.getStart(), evenAnotherPointer.getStart() );
-        Assert.assertEquals( pointer.getEnd(), evenAnotherPointer.getEnd() );
+//        Assert.assertEquals( pointer.getStart(), evenAnotherPointer.getStart() );
+        Assert.assertEquals( pointer.getSize() / 2, evenAnotherPointer.getSize() );
         //Assert.assertEquals( 2, new String( mms.retrieve( evenAnotherPointer ) ).length() );
         Assert.assertTrue( new String( mms.retrieve( evenAnotherPointer ) )
             .startsWith( new String( evenAnotherPayload ) ) );

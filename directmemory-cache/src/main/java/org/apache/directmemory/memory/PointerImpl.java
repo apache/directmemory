@@ -27,9 +27,9 @@ import java.nio.ByteBuffer;
 public class PointerImpl<T>
     implements Pointer<T>
 {
-    public int start;
+    public long start;
 
-    public int end;
+    public long size;
 
     public long created;
 
@@ -53,10 +53,10 @@ public class PointerImpl<T>
     {
     }
 
-    public PointerImpl( int start, int end )
+    public PointerImpl( long start, long end )
     {
         this.start = start;
-        this.end = end;
+        this.size = end;
     }
 
     @Override
@@ -72,15 +72,18 @@ public class PointerImpl<T>
     }
 
     @Override
-    public int getCapacity()
+    public long getCapacity()
     {
-        return directBuffer == null ? end - start + 1 : directBuffer.limit();
+        if (directBuffer != null) 
+            return directBuffer == null ? size - start + 1 : directBuffer.limit();
+        else
+            return size;
     }
 
     @Override
     public String toString()
     {
-        return format( "%s[%s, %s] %s free", getClass().getSimpleName(), start, end, ( free ? "" : "not" ) );
+        return format( "%s[%s, %s] %s free", getClass().getSimpleName(), start, size, ( free ? "" : "not" ) );
     }
 
     @Override
@@ -118,19 +121,19 @@ public class PointerImpl<T>
     }
 
     @Override
-    public int getStart()
+    public long getStart()
     {
         return start;
     }
 
     @Override
-    public int getEnd()
+    public long getSize()
     {
-        return end;
+        return size;
     }
 
     @Override
-    public void setStart( int start )
+    public void setStart( long start )
     {
         this.start = start;
     }
@@ -161,9 +164,9 @@ public class PointerImpl<T>
     }
 
     @Override
-    public void setEnd( int end )
+    public void setEnd( long end )
     {
-        this.end = end;
+        this.size = end;
     }
 
     @Override
@@ -176,6 +179,8 @@ public class PointerImpl<T>
     public void setDirectBuffer( ByteBuffer directBuffer )
     {
         this.directBuffer = directBuffer;
+        this.start = 0;
+        this.size = directBuffer.capacity();
     }
 
     @Override
@@ -195,5 +200,17 @@ public class PointerImpl<T>
     {
         this.expires = expires;
         this.expiresIn = expiresIn;
+    }
+
+    @Override
+    public long getExpires()
+    {
+        return this.expires;
+    }
+
+    @Override
+    public long getExpiresIn()
+    {
+        return this.expiresIn;
     }
 }

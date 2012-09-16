@@ -87,7 +87,7 @@ public class MemoryManagerTest
     @Test
     public void readTest()
     {
-        for ( Pointer<Object> ptr : ((MemoryManagerServiceImpl<Object>)MemoryManager.getMemoryManager()).getPointers() )
+        for ( Pointer<Object> ptr : MemoryManager.getMemoryManager().getPointers() )
         {
             if ( !ptr.isFree() )
             {

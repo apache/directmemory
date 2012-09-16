@@ -51,8 +51,10 @@ public class Cache
     public static void init( int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel )
     {
         cacheService =
-            builder.setNumberOfBuffers( numberOfBuffers ).setInitialCapacity( initialCapacity ).setConcurrencyLevel(
-                concurrencyLevel ).setSize( size ).newCacheService();
+            builder.setNumberOfBuffers( numberOfBuffers ).setInitialCapacity( initialCapacity )
+                .setConcurrencyLevel(concurrencyLevel )
+                    .setSize( size ).newCacheService();
+//        concurrencyLevel ).setMemoryManager( new UnsafeMemoryManagerServiceImpl<Object>() ).setSize( size ).newCacheService();
     }
 
     public static void init( int numberOfBuffers, int size )

@@ -1,5 +1,7 @@
 package org.apache.directmemory.memory;
 
+import org.junit.Test;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +11,7 @@ package org.apache.directmemory.memory;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,54 +20,22 @@ package org.apache.directmemory.memory;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import java.nio.ByteBuffer;
-
-public interface Pointer<T>
+public class UnsafeMemoryManagerTest
+    extends AbstractMemoryManagerServiceTest
 {
 
-    byte[] content();
-
-    boolean isFree();
-
-    void setFree( boolean free );
-
-    boolean isExpired();
-
-    float getFrequency();
-
-    long getCapacity();
-
-    void reset();
-
-    int getBufferNumber();
-
-    void setBufferNumber( int bufferNumber );
-
-    long getStart();
-
-    void setStart( long address );
-
-    long getSize();
-
-    void setEnd( long l );
-
-    void hit();
-
-    Class<? extends T> getClazz();
-
-    void setClazz( Class<? extends T> clazz );
-
-    ByteBuffer getDirectBuffer();
-
-    void setDirectBuffer( ByteBuffer directBuffer );
-
-    void createdNow();
-
-    void setExpiration( long expires, long expiresIn );
+    @Override
+    protected MemoryManagerService<Object> instanciateMemoryManagerService( int bufferSize )
+    {
+        final MemoryManagerService<Object> mms = new UnsafeMemoryManagerServiceImpl<Object>();
+        mms.init( 1, bufferSize );
+        return mms;
+    }
     
-    long getExpires();
-    
-    long getExpiresIn();
+    @Override
+    public void testAllocate()
+    {
+        
+    }
 
 }

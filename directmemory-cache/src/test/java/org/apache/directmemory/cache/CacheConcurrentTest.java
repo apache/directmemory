@@ -43,6 +43,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @AxisRange( min = 0, max = 1 )
 @BenchmarkMethodChart()
 @BenchmarkHistoryChart( labelWith = LabelType.CUSTOM_KEY, maxRuns = 5 )
+
 @Ignore
 public class CacheConcurrentTest
     extends AbstractBenchmark

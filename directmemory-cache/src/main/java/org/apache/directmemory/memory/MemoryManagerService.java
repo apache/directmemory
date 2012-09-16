@@ -1,5 +1,7 @@
 package org.apache.directmemory.memory;
 
+import java.util.Set;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -39,7 +41,7 @@ public interface MemoryManagerService<V>
      * @param payload : the data to store
      * @return the pointer to the value, or null if not enough space has been found.
      */
-    Pointer<V> store( byte[] payload, int expiresIn );
+    Pointer<V> store( byte[] payload, long expiresIn );
 
     /**
      * Same function as {@link #store(byte[])}, but add an relative expiration delta in milliseconds
@@ -71,7 +73,7 @@ public interface MemoryManagerService<V>
 
     byte[] retrieve( Pointer<V> pointer );
 
-    void free( Pointer<V> pointer );
+    Pointer<V> free( Pointer<V> pointer );
 
     void clear();
 
@@ -84,5 +86,7 @@ public interface MemoryManagerService<V>
     void collectLFU();
 
     <T extends V> Pointer<V> allocate( Class<T> type, int size, long expiresIn, long expires );
+
+    Set<Pointer<V>> getPointers();
 
 }
