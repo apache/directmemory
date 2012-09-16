@@ -177,6 +177,12 @@ public class DirectMemoryOsgiTestSupport
             mavenBundle().groupId( "org.apache.directmemory" ).artifactId( "directmemory-cache" ).version(
                 System.getProperty( "direct.memory.version" ) ) );
         List<Option> options = new ArrayList<Option>( mavenOptions );
+        
+        options.add(vmOption("-Dorg.osgi.framework.system.packages.extra=sun.misc"));
+        // ^^^
+        //needed to avoid:
+        //org.osgi.framework.BundleException: The bundle "directmemory-cache_0.2.0.SNAPSHOT [12]" could not be resolved. Reason: Missing Constraint: Import-Package: sun.misc; version="0.0.0"
+
         if ( Boolean.getBoolean( "osgi.debug" ) )
         {
             options.add( enabledDebuggingOnPort( Integer.getInteger( "osgi.debug.port" ),
