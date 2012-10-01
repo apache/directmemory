@@ -158,6 +158,10 @@ under the License.
       <name>Daniel Manzke</name>
       <email>daniel dot manzke at googlemail dot com</email>
     </contributor>
+    <contributor>
+      <name>Min Zhou</name>
+      <email>coderplay at gmail dot com</email>
+    </contributor>
   </contributors>
 
   <mailingLists>
@@ -266,6 +270,7 @@ under the License.
     <slf4j.version>1.6.4</slf4j.version>
     <msgpack.version>0.6.5</msgpack.version>
     <protobuf.version>2.4.1</protobuf.version>
+    <kryo.version>2.20</kryo.version>
     <wagon.version>2.2</wagon.version>
     <snakeyaml.version>1.10</snakeyaml.version>
 
@@ -684,6 +689,12 @@ under the License.
         <artifactId>msgpack</artifactId>
         <version>${msgpack.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>com.esotericsoftware.kryo</groupId>
+        <artifactId>kryo</artifactId>
+        <version>${kryo.version}</version>
+     </dependency>
 
       <dependency>
         <groupId>com.google.protobuf</groupId>
