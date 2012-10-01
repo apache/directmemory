@@ -390,7 +390,9 @@ under the License.
             <checkoutDirectory>${directmemory.scmPubCheckoutDirectory}</checkoutDirectory>
             <tryUpdate>true</tryUpdate>
             <skipDeletedFiles>${scmSkipDeletedFiles}</skipDeletedFiles>
-
+            <ignorePathsToDelete>
+              <ignorePathToDelete>lightning**</ignorePathToDelete>
+            </ignorePathsToDelete>
             <providerImplementations>
               <svn>javasvn</svn>
             </providerImplementations>
