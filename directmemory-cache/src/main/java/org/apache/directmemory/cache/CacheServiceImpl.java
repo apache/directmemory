@@ -47,7 +47,7 @@ public class CacheServiceImpl<K, V>
 
     private MemoryManagerService<V> memoryManager;
 
-    private final Timer timer = new Timer();
+    private final Timer timer = new Timer(true);
 
     /**
      * Constructor
