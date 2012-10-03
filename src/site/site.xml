@@ -18,25 +18,8 @@
 <project name="Apache DirectMemory">
 
 
-  <bannerLeft>
-    <src>images/Apache-DirectMemory-logo-flat-small.png</src>
-    <href>http://directmemory.apache.org/</href>
-  </bannerLeft>
-
-  <publishDate position="right"/>
-  <version position="right"/>
-
-  <skin>
-    <groupId>org.apache.maven.skins</groupId>
-    <artifactId>maven-fluido-skin</artifactId>
-    <version>1.3.0</version>
-  </skin>
 
   <body>
-
-    <breadcrumbs position="left">
-      <item name="Apache DirectMemory" href="http://directmemory.apache.org/"/>
-    </breadcrumbs>
 
     <menu name="Apache DirectMemory">
       <item name="About"                      href="index.html"/>
@@ -50,9 +33,6 @@
       <item name="0.1-incubating Release Notes"          href="releases/release-notes-0.1-incubating.html"/>
     </menu>
 
-    <menu ref="reports" inherit="bottom"/>
-    <menu ref="modules" inherit="bottom"/>
-
     <menu name="Get Involved">
       <item name="Mailing Lists" href="mail-lists.html"/>
       <item name="Issues" href="issue-tracking.html"/>
@@ -64,56 +44,8 @@
       <item name="Release Guide" href="/involved/release.html"/>
     </menu>
 
-    <menu name="ASF">
-      <item name="How Apache Works" href="http://www.apache.org/foundation/how-it-works.html"/>
-      <item name="Foundation" href="http://www.apache.org/foundation/"/>
-      <item name="Sponsoring Apache" href="http://www.apache.org/foundation/sponsorship.html"/>
-      <item name="Thanks" href="http://www.apache.org/foundation/thanks.html"/>
-    </menu>
-
-    <head>
-      <script type="text/javascript">
-
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-3211522-11']);
-        _gaq.push(['_trackPageview']);
-
-        (function() {
-          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
-      </script>
-    </head>
-
-    <footer>
-      <div>
-        Apache DirectMemory, Apache, the Apache feather logo, and the Apache DirectMemory project logos are trademarks
-        of The Apache Software Foundation.
-        All other marks mentioned may be trademarks or registered trademarks of their respective owners.
-        <a href="${project.url}/privacy-policy.html">Privacy Policy</a>
-      </div>
-    </footer>
 
   </body>
 
-  <custom>
-    <fluidoSkin>
-      <topBarEnabled>true</topBarEnabled>
-      <sideBarEnabled>false</sideBarEnabled>
-      <topBarContainerStyle>width: auto;</topBarContainerStyle>
-      <googleSearch></googleSearch>
-      <twitter>
-        <user>directmemory</user>
-        <showUser>true</showUser>
-        <showFollowers>true</showFollowers>
-      </twitter>
-      <ohloh>
-        <projectId>586685</projectId>
-        <widget>stats</widget>
-      </ohloh>
-    </fluidoSkin>
-  </custom>
 
 </project>
