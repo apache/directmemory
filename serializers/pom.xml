@@ -35,6 +35,7 @@
     <module>protobuf</module>
     <module>protostuff</module>
     <module>msgpack</module>
+    <module>kryo</module>
   </modules>
 
   <dependencies>
