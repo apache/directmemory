@@ -222,29 +222,6 @@ under the License.
         </executions>
       </plugin>
 
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${javadoc-plugin.version}</version>
-        <configuration>
-          <additionnalDependencies>
-            <additionnalDependency>
-              <groupId>geronimo-spec</groupId>
-              <artifactId>geronimo-spec-jta</artifactId>
-              <version>1.0.1B-rc4</version>
-            </additionnalDependency>
-          </additionnalDependencies>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>javadoc</goal>
-              <goal>aggregate</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
   <dependencies>
