@@ -3,7 +3,7 @@
  ------
  Olivier Lamy
  ------
- 2012-06-17
+ 2012-10-03
  ------
 
 ~~ Licensed to the Apache Software Foundation (ASF) under one
@@ -50,7 +50,7 @@ DirectMemory Simple Usage
     .newCacheService();
 +------------------------
 
-  Use the cache service to store object, Those methods returns a {{{./apidocs/reference/org/apache/directmemory/memory/Pointer.html}Pointer}} if this pointer is null your object has been stored:
+  Use the cache service to store object, Those methods returns a {{{./apidocs/reference/org/apache/directmemory/memory/Pointer.html}Pointer}} if this pointer is null your object has not been stored:
 
 +------------------------
   put( K key, V value )
@@ -62,4 +62,11 @@ DirectMemory Simple Usage
 +------------------------
   V retrieve( K key );
 +------------------------
+
+  Clear at the end of usage
+
++------------------------
+  cacheService.clear()
++------------------------
+
 
