@@ -422,14 +422,9 @@ under the License.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${javadoc-plugin.version}</version>
+        <inherited>false</inherited>
         <reportSets>
           <reportSet>
-            <reports>
-              <report>javadoc</report>
-            </reports>
-          </reportSet>
-          <reportSet>
-            <inherited>false</inherited>
             <reports>
               <report>aggregate</report>
             </reports>
