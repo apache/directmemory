@@ -21,9 +21,9 @@ under the License.
 
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>11</version>
+    <groupId>org.apache.directmemory</groupId>
+    <artifactId>directmemory-parent</artifactId>
+    <version>1-SNAPSHOT</version>
   </parent>
 
   <groupId>org.apache.directmemory</groupId>
@@ -35,167 +35,6 @@ under the License.
   <description>Apache DirectMemory Cache :: Parent pom</description>
   <url>http://directmemory.apache.org/</url>
   <inceptionYear>2011</inceptionYear>
-
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
-
-  <developers>
-    <developer>
-      <id>antelder</id>
-      <name>Anthony Elder</name>
-      <email>antelder at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>grobmeier</id>
-      <name>Christian Grobmeier</name>
-      <email>grobmeier at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>iocanel</id>
-      <name>Ioannis Canellos</name>
-      <email>iocanel at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>mcucchiara</id>
-      <name>Maurizio Cucchiara</name>
-      <email>mcucchiara at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>olamy</id>
-      <name>Olivier Lamy</name>
-      <email>olamy at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>bperroud</id>
-      <name>Benoit Perroud</name>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>raffaeleguidi</id>
-      <name>Raffaele P. Guidi</name>
-      <email>raffaeleguidi at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Chair</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>simoneg</id>
-      <name>Simone Gianni</name>
-      <email>simoneg at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>simonetripodi</id>
-      <name>Simone Tripodi</name>
-      <email>simonetripodi at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>sylvain</id>
-      <name>Sylvain Wallez</name>
-      <email>sylvain at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-        <role>Mentor</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>tommaso</id>
-      <name>Tommaso Teofili</name>
-      <email>tommaso at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>twilliams</id>
-      <name>Tim Williams</name>
-      <email>twilliams at apache dot org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-  </developers>
-  <contributors>
-    <contributor>
-      <name>Daniel Manzke</name>
-      <email>daniel dot manzke at googlemail dot com</email>
-    </contributor>
-    <contributor>
-      <name>Min Zhou</name>
-      <email>coderplay at gmail dot com</email>
-    </contributor>
-  </contributors>
-
-  <mailingLists>
-    <mailingList>
-      <name>Users</name>
-      <post>user@directmemory.apache.org</post>
-      <subscribe>user-subscribe@directmemory.apache.org</subscribe>
-      <unsubscribe>user-unsubscribe@directmemory.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-user/</archive>
-      <otherArchives>
-        <otherArchive>http://directmemory-user.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-    <mailingList>
-      <name>Development</name>
-      <post>dev@directmemory.apache.org</post>
-      <subscribe>dev-subscribe@directmemory.apache.org</subscribe>
-      <unsubscribe>dev-unsubscribe@directmemory.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-dev/</archive>
-      <otherArchives>
-        <otherArchive>http://directmemory-dev.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-    <mailingList>
-      <name>Commits</name>
-      <post>commits@directmemory.apache.org</post>
-      <subscribe>commits-subscribe@directmemory.apache.org</subscribe>
-      <unsubscribe>commits-unsubscribe@directmemory.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/directmemory-commits/</archive>
-      <otherArchives>
-        <otherArchive>http://directmemory-commits.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-  </mailingLists>
 
   <modules>
     <module>directmemory-common</module>
@@ -230,21 +69,11 @@ under the License.
   </distributionManagement>
 
   <properties>
-    <!-- issue with apache parent 11 -->
-    <arguments></arguments>
 
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
-    <implementation.build>${scmBranch}@r${buildNumber}; ${maven.build.timestamp}</implementation.build>
     <directmemory.siteFilePath>${user.home}/directmemory-site-deploy</directmemory.siteFilePath>
     <siteUrlDeployment>file://${directmemory.siteFilePath}</siteUrlDeployment>
     <directmemory.scmPubCheckoutDirectory>${user.home}/directmemory-site-content</directmemory.scmPubCheckoutDirectory>
     <scmSkipDeletedFiles>false</scmSkipDeletedFiles>
-    <sonar.host.url>https://analysis.apache.org/</sonar.host.url>
-    <maven.compile.source>1.6</maven.compile.source>
-    <maven.compile.target>1.6</maven.compile.target>
 
     <!-- Dependency Versions -->
     <ant.bundle.version>1.7.0_1</ant.bundle.version>
@@ -274,29 +103,6 @@ under the License.
     <wagon.version>2.2</wagon.version>
     <snakeyaml.version>1.10</snakeyaml.version>
 
-    <!-- Plugin Versions -->
-    <buildnumber-plugin.version>1.1</buildnumber-plugin.version>
-    <build-helper-plugin.version>1.7</build-helper-plugin.version>
-    <bundle-plugin.version>2.3.7</bundle-plugin.version>
-    <clean-plugin.version>2.4.1</clean-plugin.version>
-    <compiler-plugin.version>2.4</compiler-plugin.version>
-    <gpg-plugin.version>1.4</gpg-plugin.version>
-    <jar-plugin.version>2.4</jar-plugin.version>
-    <javadoc-plugin.version>2.8.1</javadoc-plugin.version>
-    <jxr-plugin.version>2.2</jxr-plugin.version>
-    <project-info-reports-plugin.version>2.5.1</project-info-reports-plugin.version>
-    <rat-plugin.version>0.8</rat-plugin.version>
-    <release-plugin.version>2.3.2</release-plugin.version>
-    <resources-plugin.version>2.5</resources-plugin.version>
-    <report-plugin.version>0.1</report-plugin.version>
-    <checkstyle-plugin.version>2.9.1</checkstyle-plugin.version>
-    <site-plugin.version>3.1</site-plugin.version>
-    <source-plugin.version>2.1.2</source-plugin.version>
-    <asfTomcatMavenPluginVersion>2.0-beta-1</asfTomcatMavenPluginVersion>
-
-    <maven-scm-provider-svnjava.version>2.0.5</maven-scm-provider-svnjava.version>
-    <svnkit.version>1.7.5-v1</svnkit.version>
-
     <!-- Bundle Headers -->
     <osgi.activator />
     <osgi.bundles />
@@ -313,23 +119,6 @@ under the License.
   <build>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>${clean-plugin.version}</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.5.1</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${javadoc-plugin.version}</version>
-        </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -338,26 +127,11 @@ under the License.
           <configuration>
             <stagingSiteURL>${siteUrlDeployment}</stagingSiteURL>
           </configuration>
-
-          <dependencies>
-            <dependency>
-              <groupId>org.codehaus.plexus</groupId>
-              <artifactId>plexus-utils</artifactId>
-              <version>3.0.5</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-remote-resources-plugin</artifactId>
-          <version>1.3</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>${release-plugin.version}</version>
           <configuration>
             <mavenExecutorId>forked-path</mavenExecutorId>
             <useReleaseProfile>false</useReleaseProfile>
@@ -369,13 +143,7 @@ under the License.
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>${resources-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.12</version>
           <configuration>
             <argLine>-Xmx1024m -Xms512m -XX:MaxDirectMemorySize=512m</argLine>
           </configuration>
@@ -383,43 +151,15 @@ under the License.
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-publish-plugin</artifactId>
-          <version>1.0</version>
           <configuration>
             <pubScmUrl>scm:svn:https://svn.apache.org/repos/asf/directmemory/site-content/</pubScmUrl>
             <content>${directmemory.siteFilePath}</content>
             <checkoutDirectory>${directmemory.scmPubCheckoutDirectory}</checkoutDirectory>
-            <tryUpdate>true</tryUpdate>
             <skipDeletedFiles>${scmSkipDeletedFiles}</skipDeletedFiles>
             <ignorePathsToDelete>
               <ignorePathToDelete>lightning**</ignorePathToDelete>
             </ignorePathsToDelete>
-            <providerImplementations>
-              <svn>javasvn</svn>
-            </providerImplementations>
-
           </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>com.google.code.maven-scm-provider-svnjava</groupId>
-              <artifactId>maven-scm-provider-svnjava</artifactId>
-              <version>${maven-scm-provider-svnjava.version}</version>
-            </dependency>
-            <dependency>
-              <groupId>org.tmatesoft.svnkit</groupId>
-              <artifactId>svnkit</artifactId>
-              <version>${svnkit.version}</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.tomcat.maven</groupId>
-          <artifactId>tomcat7-maven-plugin</artifactId>
-          <version>${asfTomcatMavenPluginVersion}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>build-helper-maven-plugin</artifactId>
-          <version>${build-helper-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -428,7 +168,6 @@ under the License.
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>${bundle-plugin.version}</version>
         <extensions>true</extensions>
         <inherited>true</inherited>
         <configuration>
@@ -460,78 +199,11 @@ under the License.
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>buildnumber-maven-plugin</artifactId>
-        <version>${buildnumber-plugin.version}</version>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>create</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <!-- Use committed revision so it does not change every time svn update is run -->
-          <useLastCommittedRevision>true</useLastCommittedRevision>
-          <!-- default revision number if unavailable -->
-          <revisionOnScmFailure>??????</revisionOnScmFailure>
-          <!-- svnjava works even if an svn command-line client is not on the path -->
-          <providerImplementations>
-            <svn>javasvn</svn>
-          </providerImplementations>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>com.google.code.maven-scm-provider-svnjava</groupId>
-            <artifactId>maven-scm-provider-svnjava</artifactId>
-            <version>${maven-scm-provider-svnjava.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.tmatesoft.svnkit</groupId>
-            <artifactId>svnkit</artifactId>
-            <version>${svnkit.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${compiler-plugin.version}</version>
-        <configuration>
-          <source>${maven.compile.source}</source>
-          <target>${maven.compile.target}</target>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>${jar-plugin.version}</version>
-        <configuration>
-          <archive>
-            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-            <manifestEntries>
-              <Specification-Title>${project.name}</Specification-Title>
-              <Specification-Version>${project.version}</Specification-Version>
-              <Specification-Vendor>${project.organization.name}</Specification-Vendor>
-              <Implementation-Title>${project.name}</Implementation-Title>
-              <Implementation-Version>${project.version}</Implementation-Version>
-              <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
-              <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
-              <Implementation-Build>${implementation.build}</Implementation-Build>
-              <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
-              <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${javadoc-plugin.version}</version>
         <configuration>
           <additionnalDependencies>
             <additionnalDependency>
@@ -744,11 +416,7 @@ under the License.
 
   <reporting>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>${project-info-reports-plugin.version}</version>
-      </plugin>
+
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -800,33 +468,7 @@ under the License.
           </additionnalDependencies>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>${jxr-plugin.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.sonar-plugins</groupId>
-        <artifactId>maven-report</artifactId>
-        <version>${report-plugin.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${checkstyle-plugin.version}</version>
-        <configuration>
-          <configLocation>config/maven_checks.xml</configLocation>
-          <headerLocation>config/maven-header.txt</headerLocation>
-        </configuration>
-        <inherited>false</inherited>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>checkstyle-aggregate</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
+
     </plugins>
   </reporting>
 
@@ -867,120 +509,6 @@ under the License.
               </execution>
             </executions>
           </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>${source-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-                <configuration>
-                  <archive>
-                    <manifestEntries>
-                      <Specification-Title>${project.name}</Specification-Title>
-                      <Specification-Version>${project.version}</Specification-Version>
-                      <Specification-Vendor>${project.organization.name}</Specification-Vendor>
-                      <Implementation-Title>${project.name}</Implementation-Title>
-                      <Implementation-Version>${project.version}</Implementation-Version>
-                      <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
-                      <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
-                      <Implementation-Build>${implementation.build}</Implementation-Build>
-                      <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
-                      <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
-                    </manifestEntries>
-                  </archive>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-                <configuration>
-                  <quiet>true</quiet>
-                  <archive>
-                    <manifestEntries>
-                      <Specification-Title>${project.name}</Specification-Title>
-                      <Specification-Version>${project.version}</Specification-Version>
-                      <Specification-Vendor>${project.organization.name}</Specification-Vendor>
-                      <Implementation-Title>${project.name}</Implementation-Title>
-                      <Implementation-Version>${project.version}</Implementation-Version>
-                      <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
-                      <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
-                      <Implementation-Build>${implementation.build}</Implementation-Build>
-                      <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
-                      <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
-                    </manifestEntries>
-                  </archive>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>${gpg-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <dependencies>
-              <dependency>
-                <groupId>org.apache.apache.resources</groupId>
-                <artifactId>apache-source-release-assembly-descriptor</artifactId>
-                <version>1.0.4</version>
-              </dependency>
-            </dependencies>
-            <executions>
-              <execution>
-                <id>source-release-assembly</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>single</goal>
-                </goals>
-                <configuration>
-                  <finalName>apache-directmemory-${project.version}</finalName>
-                  <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
-                  <descriptorRefs>
-                    <descriptorRef>${sourceReleaseAssemblyDescriptor}</descriptorRef>
-                  </descriptorRefs>
-                  <tarLongFileFormat>gnu</tarLongFileFormat>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- We want to deploy the artifact to a staging location for perusal -->
-          <plugin>
-            <inherited>true</inherited>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-deploy-plugin</artifactId>
-            <configuration>
-              <updateReleaseInfo>true</updateReleaseInfo>
-            </configuration>
-          </plugin>
-
         </plugins>
       </build>
     </profile>
