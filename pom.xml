@@ -172,7 +172,7 @@ under the License.
         <version>${jar-plugin.version}</version>
         <configuration>
           <archive>
-            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+            <!-- manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile -->
             <manifestEntries>
               <Specification-Title>${project.name}</Specification-Title>
               <Specification-Version>${project.version}</Specification-Version>
