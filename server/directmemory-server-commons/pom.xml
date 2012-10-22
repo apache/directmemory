@@ -75,7 +75,6 @@
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
-        <version>${rat-plugin.version}</version>
         <executions>
           <execution>
             <id>rat-verify</id>
