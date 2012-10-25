@@ -20,8 +20,7 @@ package org.apache.directmemory.memory;
  */
 
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.MemoryManager;
-import org.apache.directmemory.memory.Pointer;
+import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -67,14 +66,13 @@ public class NIOTest
         int size = rnd.nextInt( 10 ) * (int) MemoryManager.capacity() / 100;
         logger.info( "payload size=" + Ram.inKb( size ) );
         Pointer<Object> p = MemoryManager.allocate( size );
-        ByteBuffer b = p.getDirectBuffer();
+        MemoryBuffer b = p.getMemoryBuffer();
         logger.info( "allocated" );
         assertNotNull( p );
         assertNotNull( b );
 
-        assertTrue( b.isDirect() );
-        assertEquals( 0, b.position() );
-        assertEquals( size, b.limit() );
+        // assertTrue( b.isDirect() );
+        assertEquals( 0, b.readerIndex() );
         assertEquals( size, b.capacity() );
 
         byte[] check = MemoryManager.retrieve( p );

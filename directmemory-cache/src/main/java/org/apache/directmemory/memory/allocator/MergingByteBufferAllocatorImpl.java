@@ -19,6 +19,8 @@ package org.apache.directmemory.memory.allocator;
  * under the License.
  */
 
+import org.apache.directmemory.memory.buffer.MemoryBuffer;
+
 import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
@@ -150,51 +152,13 @@ public class MergingByteBufferAllocatorImpl
     }
 
     @Override
-    public void free( final ByteBuffer buffer )
+    public void free( final MemoryBuffer buffer )
     {
-
-        LinkedByteBuffer returningLinkedBuffer = usedPointers.remove( getHash( buffer ) );
-
-        if ( returningLinkedBuffer == null )
-        {
-            // Hu ? returned twice ? Not returned at the right place ?
-            throw new IllegalArgumentException( "The buffer " + buffer + " seems not to belong to this allocator" );
-        }
-
-        try
-        {
-            linkedStructureManipulationLock.lock();
-
-            if ( returningLinkedBuffer.getBefore() != null )
-            {
-                // if returningLinkedBuffer.getBefore is in the free list, it is free, then it's free and can be merged
-                if ( getFreeLinkedByteBufferCollection( returningLinkedBuffer.getBefore() ).contains(
-                    returningLinkedBuffer.getBefore() ) )
-                {
-                    returningLinkedBuffer = mergePointer( returningLinkedBuffer.getBefore(), returningLinkedBuffer );
-                }
-            }
-
-            if ( returningLinkedBuffer.getAfter() != null )
-            {
-                // if returningLinkedBuffer.getAfter is in the free list, it is free, it is free, then it's free and can be merged 
-                if ( getFreeLinkedByteBufferCollection( returningLinkedBuffer.getAfter() ).contains(
-                    returningLinkedBuffer.getAfter() ) )
-                {
-                    returningLinkedBuffer = mergePointer( returningLinkedBuffer, returningLinkedBuffer.getAfter() );
-                }
-            }
-
-            insertLinkedBuffer( returningLinkedBuffer );
-        }
-        finally
-        {
-            linkedStructureManipulationLock.unlock();
-        }
+        buffer.free();
     }
 
     @Override
-    public ByteBuffer allocate( final int size )
+    public MemoryBuffer allocate( final int size )
     {
 
         try
@@ -265,7 +229,7 @@ public class MergingByteBufferAllocatorImpl
 
                         usedPointers.put( getHash( returnedLinkedBuffer.getBuffer() ), returnedLinkedBuffer );
 
-                        return returnedLinkedBuffer.getBuffer();
+                        return new MergingNioMemoryBuffer(returnedLinkedBuffer);
                     }
 
                 }
@@ -408,6 +372,63 @@ public class MergingByteBufferAllocatorImpl
         public void setAfter( final LinkedByteBuffer after )
         {
             this.after = after;
+        }
+    }
+
+    private class MergingNioMemoryBuffer extends NioMemoryBuffer {
+
+        private final LinkedByteBuffer linkedBuffer;
+
+        MergingNioMemoryBuffer(LinkedByteBuffer linkedBuffer) {
+            super(linkedBuffer.buffer);
+            this.linkedBuffer = linkedBuffer;
+        }
+
+        @Override
+        public boolean growing() {
+            return true;
+        }
+
+        @Override
+        public void free() {
+            LinkedByteBuffer returningLinkedBuffer = usedPointers.remove( getHash( getByteBuffer() ) );
+
+            if ( returningLinkedBuffer == null )
+            {
+                // Hu ? returned twice ? Not returned at the right place ?
+                throw new IllegalArgumentException( "The buffer " + this + " seems not to belong to this allocator" );
+            }
+
+            try
+            {
+                linkedStructureManipulationLock.lock();
+
+                if ( returningLinkedBuffer.getBefore() != null )
+                {
+                    // if returningLinkedBuffer.getBefore is in the free list, it is free, then it's free and can be merged
+                    if ( getFreeLinkedByteBufferCollection( returningLinkedBuffer.getBefore() ).contains(
+                            returningLinkedBuffer.getBefore() ) )
+                    {
+                        returningLinkedBuffer = mergePointer( returningLinkedBuffer.getBefore(), returningLinkedBuffer );
+                    }
+                }
+
+                if ( returningLinkedBuffer.getAfter() != null )
+                {
+                    // if returningLinkedBuffer.getAfter is in the free list, it is free, it is free, then it's free and can be merged
+                    if ( getFreeLinkedByteBufferCollection( returningLinkedBuffer.getAfter() ).contains(
+                            returningLinkedBuffer.getAfter() ) )
+                    {
+                        returningLinkedBuffer = mergePointer( returningLinkedBuffer, returningLinkedBuffer.getAfter() );
+                    }
+                }
+
+                insertLinkedBuffer( returningLinkedBuffer );
+            }
+            finally
+            {
+                linkedStructureManipulationLock.unlock();
+            }
         }
     }
 

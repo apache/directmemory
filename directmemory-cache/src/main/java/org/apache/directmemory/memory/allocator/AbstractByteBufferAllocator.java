@@ -19,6 +19,7 @@ package org.apache.directmemory.memory.allocator;
  * under the License.
  */
 
+import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

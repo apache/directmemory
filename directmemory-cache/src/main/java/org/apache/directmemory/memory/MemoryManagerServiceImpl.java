@@ -22,13 +22,13 @@ package org.apache.directmemory.memory;
 import static java.lang.String.format;
 
 import java.nio.BufferOverflowException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
 import org.apache.directmemory.memory.allocator.MergingByteBufferAllocatorImpl;
+import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -118,7 +118,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
                     throw new BufferOverflowException();
                 }
             }
-            final ByteBuffer buffer = allocator.allocate( payload.length );
+            final MemoryBuffer buffer = allocator.allocate( payload.length );
 
             if ( buffer == null )
             {
@@ -127,8 +127,8 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
 
             p = instanciatePointer( buffer, allocator.getNumber(), expiresIn, NEVER_EXPIRES );
 
-            buffer.rewind();
-            buffer.put( payload );
+            buffer.writerIndex(0);
+            buffer.writeBytes( payload );
 
             used.addAndGet( payload.length );
 
@@ -148,11 +148,11 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
 
         pointer.hit();
 
-        final ByteBuffer buf = pointer.getDirectBuffer().asReadOnlyBuffer();
-        buf.rewind();
+        final MemoryBuffer buf = pointer.getMemoryBuffer();
+        buf.readerIndex(0);
 
-        final byte[] swp = new byte[buf.limit()];
-        buf.get( swp );
+        final byte[] swp = new byte[(int) buf.readableBytes()];
+        buf.readBytes( swp );
         return swp;
     }
 
@@ -166,7 +166,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
             return pointer;
         }
 
-        getAllocator( pointer.getBufferNumber() ).free( pointer.getDirectBuffer() );
+        getAllocator( pointer.getBufferNumber() ).free( pointer.getMemoryBuffer() );
 
         used.addAndGet( -pointer.getCapacity() );
 
@@ -217,7 +217,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
                 }
             }
 
-            final ByteBuffer buffer = allocator.allocate( size );
+            final MemoryBuffer buffer = allocator.allocate( size );
 
             if ( buffer == null )
             {
@@ -250,13 +250,13 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
         allocationPolicy.reset();
     }
 
-    protected Pointer<V> instanciatePointer( final ByteBuffer buffer, final int allocatorIndex, final long expiresIn,
+    protected Pointer<V> instanciatePointer( final MemoryBuffer buffer, final int allocatorIndex, final long expiresIn,
                                              final long expires )
     {
 
         Pointer<V> p = new PointerImpl<V>();
         
-        p.setDirectBuffer( buffer );
+        p.setMemoryBuffer(buffer);
         p.setExpiration( expires, expiresIn );
         p.setBufferNumber( allocatorIndex );
         p.setFree( false );

@@ -1,4 +1,4 @@
-package org.apache.directmemory.memory;
+package org.apache.directmemory.memory.buffer;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,53 +19,45 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-import org.apache.directmemory.memory.buffer.MemoryBuffer;
+import java.nio.ByteBuffer;
 
-public interface Pointer<T>
+public interface ReadableMemoryBuffer
 {
 
-    byte[] content();
+    boolean readable();
 
-    boolean isFree();
+    long readableBytes();
 
-    void setFree( boolean free );
+    int readBytes( byte[] bytes );
 
-    boolean isExpired();
+    int readBytes( byte[] bytes, int offset, int length );
 
-    float getFrequency();
+    int readBuffer( ByteBuffer byteBuffer );
 
-    long getCapacity();
+    int readBuffer( ByteBuffer byteBuffer, int offset, int length );
 
-    void reset();
+    long readBuffer( WritableMemoryBuffer memoryBuffer );
 
-    int getBufferNumber();
+    long readBuffer( WritableMemoryBuffer memoryBuffer, long offset, long length );
 
-    void setBufferNumber( int bufferNumber );
+    byte readByte();
 
-    long getStart();
+    short readUnsignedByte();
 
-    void setStart( long address );
+    short readShort();
 
-    long getSize();
+    char readChar();
 
-    void setEnd( long l );
+    int readInt();
 
-    void hit();
+    long readLong();
 
-    Class<? extends T> getClazz();
+    float readFloat();
 
-    void setClazz( Class<? extends T> clazz );
+    double readDouble();
 
-    MemoryBuffer getMemoryBuffer();
+    long readerIndex();
 
-    void setMemoryBuffer(MemoryBuffer memoryBuffer);
-
-    void createdNow();
-
-    void setExpiration( long expires, long expiresIn );
-    
-    long getExpires();
-    
-    long getExpiresIn();
+    void readerIndex( long readerIndex );
 
 }

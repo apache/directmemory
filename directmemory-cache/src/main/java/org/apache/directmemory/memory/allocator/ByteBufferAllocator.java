@@ -19,8 +19,9 @@ package org.apache.directmemory.memory.allocator;
  * under the License.
  */
 
+import org.apache.directmemory.memory.buffer.MemoryBuffer;
+
 import java.io.Closeable;
-import java.nio.ByteBuffer;
 
 /**
  * Interface defining interaction with {@link ByteBuffer}
@@ -32,21 +33,21 @@ public interface ByteBufferAllocator
 {
     
     /**
-     * Returns the given {@link ByteBuffer} making it available for a future usage. Returning twice a {@link ByteBuffer} won't throw an exception. 
-     * @param buffer : the {@link ByteBuffer} to return
+     * Returns the given {@link MemoryBuffer} making it available for a future usage. Returning twice a {@link MemoryBuffer} won't throw an exception.
+     * @param memoryBuffer : the {@link MemoryBuffer} to return
      */
-    void free( final ByteBuffer buffer );
+    void free( final MemoryBuffer memoryBuffer );
     
     /**
-     * Allocates and returns a {@link ByteBuffer} with {@link ByteBuffer#limit()} set to the given size.
+     * Allocates and returns a {@link MemoryBuffer} with {@link MemoryBuffer#capacity()} set to the given size.
      * When the allocation fails, it returns either null or throws an {@link BufferOverflowException}, depending on the implementation. 
      * @param size : the size in byte to allocate
-     * @return a {@link ByteBuffer} of the given size, or either return null or throw an {@link BufferOverflowException} when the allocation fails.
+     * @return a {@link MemoryBuffer} of the given size, or either return null or throw an {@link BufferOverflowException} when the allocation fails.
      */
-    ByteBuffer allocate( final int size );
+    MemoryBuffer allocate( final int size );
     
     /**
-     * Clear all allocated {@link ByteBuffer}, resulting in a empty and ready to deserve {@link ByteBufferAllocator}
+     * Clear all allocated {@link MemoryBuffer}, resulting in a empty and ready to deserve {@link ByteBufferAllocator}
      */
     void clear();
     

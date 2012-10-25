@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
+import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -114,12 +115,12 @@ public class RoundRobinAllocationPolicyTest
     {
 
         @Override
-        public void free( ByteBuffer buffer )
+        public void free( MemoryBuffer buffer )
         {            
         }
 
         @Override
-        public ByteBuffer allocate( int size )
+        public MemoryBuffer allocate( int size )
         {
             return null;
         }

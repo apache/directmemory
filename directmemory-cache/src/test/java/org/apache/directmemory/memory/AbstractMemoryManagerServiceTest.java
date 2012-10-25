@@ -26,9 +26,7 @@ import java.util.Random;
 
 import junit.framework.Assert;
 
-import org.apache.directmemory.memory.MemoryManagerService;
-import org.apache.directmemory.memory.MemoryTestUtils;
-import org.apache.directmemory.memory.Pointer;
+import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.junit.Test;
 
 public abstract class AbstractMemoryManagerServiceTest
@@ -307,10 +305,10 @@ public abstract class AbstractMemoryManagerServiceTest
         Pointer<Object> pointer3 = mms.allocate( Object.class, NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD_LENGTH, 0, 0 );
         Assert.assertNotNull( pointer3 );
 
-        if (pointer3.getDirectBuffer() != null)
+        if (pointer3.getMemoryBuffer() != null)
         {   // it makes no sense for Unsafe
             byte[] payload3 = MemoryTestUtils.generateRandomPayload( NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD_LENGTH );
-            pointer3.getDirectBuffer().put( payload3 );
+            pointer3.getMemoryBuffer().writeBytes( payload3 );
             byte[] retrievePayload3 = mms.retrieve( pointer3 );
             Assert.assertEquals( new String( payload3 ), new String( retrievePayload3 ) );
         }
@@ -380,23 +378,22 @@ public abstract class AbstractMemoryManagerServiceTest
         final byte[] allocatedPayload1 = MemoryTestUtils.generateRandomPayload( size1 );
         final Pointer<Object> allocatedPointer1 = mms.allocate( Object.class, allocatedPayload1.length, -1, -1 );
         Assert.assertNotNull( allocatedPointer1 );
-        final ByteBuffer buffer1 = allocatedPointer1.getDirectBuffer();
+        final MemoryBuffer buffer1 = allocatedPointer1.getMemoryBuffer();
         Assert.assertNotNull( buffer1 );
-        Assert.assertEquals( 0, buffer1.position() );
-        Assert.assertEquals( size1, buffer1.limit() );
+        Assert.assertEquals( 0, buffer1.writerIndex() );
         Assert.assertEquals( size1, buffer1.capacity() );
-        buffer1.put( allocatedPayload1 );
+        Assert.assertEquals( size1, buffer1.capacity() );
+        buffer1.writeBytes( allocatedPayload1 );
         Assert.assertEquals( new String( allocatedPayload1 ), new String( mms.retrieve( allocatedPointer1 ) ) );
 
         final int size2 = 2 * SMALL_PAYLOAD_LENGTH;
         final byte[] allocatedPayload2 = MemoryTestUtils.generateRandomPayload( size2 );
         final Pointer<Object> allocatedPointer2 = mms.allocate( Object.class, allocatedPayload2.length, -1, -1 );
         Assert.assertNotNull( allocatedPointer2 );
-        final ByteBuffer buffer2 = allocatedPointer2.getDirectBuffer();
+        final MemoryBuffer buffer2 = allocatedPointer2.getMemoryBuffer();
         Assert.assertNotNull( buffer2 );
-        Assert.assertEquals( size2, buffer2.limit() );
         Assert.assertEquals( size2, buffer2.capacity() );
-        buffer2.put( allocatedPayload2 );
+        buffer2.writeBytes( allocatedPayload2 );
         Assert.assertEquals( new String( allocatedPayload2 ), new String( mms.retrieve( allocatedPointer2 ) ) );
 
 

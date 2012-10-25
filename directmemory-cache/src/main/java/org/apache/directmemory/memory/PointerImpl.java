@@ -19,6 +19,8 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
+import org.apache.directmemory.memory.buffer.MemoryBuffer;
+
 import static java.lang.System.currentTimeMillis;
 import static java.lang.String.format;
 
@@ -47,7 +49,7 @@ public class PointerImpl<T>
 
     public Class<? extends T> clazz;
 
-    public ByteBuffer directBuffer = null;
+    public MemoryBuffer memoryBuffer = null;
 
     public PointerImpl()
     {
@@ -74,8 +76,8 @@ public class PointerImpl<T>
     @Override
     public long getCapacity()
     {
-        if (directBuffer != null) 
-            return directBuffer == null ? size - start + 1 : directBuffer.limit();
+        if (memoryBuffer != null)
+            return memoryBuffer == null ? size - start + 1 : memoryBuffer.capacity();
         else
             return size;
     }
@@ -95,7 +97,7 @@ public class PointerImpl<T>
         hits = 0;
         expiresIn = 0;
         clazz = null;
-        directBuffer = null;
+        memoryBuffer = null;
     }
 
     @Override
@@ -152,9 +154,9 @@ public class PointerImpl<T>
     }
 
     @Override
-    public ByteBuffer getDirectBuffer()
+    public MemoryBuffer getMemoryBuffer()
     {
-        return directBuffer;
+        return memoryBuffer;
     }
 
     @Override
@@ -176,11 +178,11 @@ public class PointerImpl<T>
     }
 
     @Override
-    public void setDirectBuffer( ByteBuffer directBuffer )
+    public void setMemoryBuffer(MemoryBuffer memoryBuffer)
     {
-        this.directBuffer = directBuffer;
+        this.memoryBuffer = memoryBuffer;
         this.start = 0;
-        this.size = directBuffer.capacity();
+        this.size = memoryBuffer.capacity();
     }
 
     @Override

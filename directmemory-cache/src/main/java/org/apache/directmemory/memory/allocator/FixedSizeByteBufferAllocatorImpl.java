@@ -19,6 +19,8 @@ package org.apache.directmemory.memory.allocator;
  * under the License.
  */
 
+import org.apache.directmemory.memory.buffer.MemoryBuffer;
+
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -129,25 +131,13 @@ public class FixedSizeByteBufferAllocatorImpl
     }
 
     @Override
-    public void free( final ByteBuffer byteBuffer )
+    public void free( final MemoryBuffer buffer )
     {
-
-        checkState( !isClosed() );
-
-        if ( usedSliceBuffers.remove( getHash( byteBuffer ) ) == null )
-        {
-            return;
-        }
-
-        // Ensure the buffer belongs to this slab
-        checkArgument( byteBuffer.capacity() == sliceSize );
-
-        freeBuffers.offer( byteBuffer );
-
+        buffer.free();
     }
 
     @Override
-    public ByteBuffer allocate( int size )
+    public MemoryBuffer allocate( int size )
     {
 
         checkState( !isClosed() );
@@ -172,7 +162,7 @@ public class FixedSizeByteBufferAllocatorImpl
 
         usedSliceBuffers.put( getHash( allocatedByteBuffer ), allocatedByteBuffer );
 
-        return allocatedByteBuffer;
+        return new FixedSizeNioMemoryBuffer( allocatedByteBuffer );
 
     }
 
@@ -218,4 +208,32 @@ public class FixedSizeByteBufferAllocatorImpl
             }
         }
     }
+
+    private class FixedSizeNioMemoryBuffer extends NioMemoryBuffer {
+
+        FixedSizeNioMemoryBuffer(ByteBuffer byteBuffer) {
+            super(byteBuffer);
+        }
+
+        @Override
+        public boolean growing() {
+            return false;
+        }
+
+        @Override
+        public void free() {
+            checkState( !isClosed() );
+
+            if ( usedSliceBuffers.remove( getHash( getByteBuffer() ) ) == null )
+            {
+                return;
+            }
+
+            // Ensure the buffer belongs to this slab
+            checkArgument( getByteBuffer().capacity() == sliceSize );
+
+            freeBuffers.offer( getByteBuffer() );
+        }
+    }
+
 }

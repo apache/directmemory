@@ -1,4 +1,4 @@
-package org.apache.directmemory.memory;
+package org.apache.directmemory.memory.buffer;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,53 +19,24 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-import org.apache.directmemory.memory.buffer.MemoryBuffer;
+import java.nio.ByteOrder;
 
-public interface Pointer<T>
+public interface MemoryBuffer
+    extends ReadableMemoryBuffer, WritableMemoryBuffer
 {
 
-    byte[] content();
+    long capacity();
 
-    boolean isFree();
+    long maxCapacity();
 
-    void setFree( boolean free );
+    boolean growing();
 
-    boolean isExpired();
+    ByteOrder byteOrder();
 
-    float getFrequency();
+    void byteOrder( ByteOrder byteOrder );
 
-    long getCapacity();
+    void free();
 
-    void reset();
-
-    int getBufferNumber();
-
-    void setBufferNumber( int bufferNumber );
-
-    long getStart();
-
-    void setStart( long address );
-
-    long getSize();
-
-    void setEnd( long l );
-
-    void hit();
-
-    Class<? extends T> getClazz();
-
-    void setClazz( Class<? extends T> clazz );
-
-    MemoryBuffer getMemoryBuffer();
-
-    void setMemoryBuffer(MemoryBuffer memoryBuffer);
-
-    void createdNow();
-
-    void setExpiration( long expires, long expiresIn );
-    
-    long getExpires();
-    
-    long getExpiresIn();
+    void clear();
 
 }
