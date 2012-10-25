@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
+import org.apache.directmemory.memory.allocator.Allocator;
 import org.apache.directmemory.memory.allocator.MergingByteBufferAllocatorImpl;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.slf4j.Logger;
@@ -38,7 +38,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
 
     protected static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
 
-    List<ByteBufferAllocator> allocators;
+    List<Allocator> allocators;
 
     protected final AllocationPolicy allocationPolicy;
 
@@ -62,11 +62,11 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
     public void init( int numberOfBuffers, int size )
     {
 
-        allocators = new ArrayList<ByteBufferAllocator>( numberOfBuffers );
+        allocators = new ArrayList<Allocator>( numberOfBuffers );
 
         for ( int i = 0; i < numberOfBuffers; i++ )
         {
-            final ByteBufferAllocator allocator = instanciateByteBufferAllocator( i, size );
+            final Allocator allocator = instanciateByteBufferAllocator( i, size );
             allocators.add( allocator );
         }
 
@@ -76,7 +76,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
     }
 
 
-    protected ByteBufferAllocator instanciateByteBufferAllocator( final int allocatorNumber, final int size )
+    protected Allocator instanciateByteBufferAllocator( final int allocatorNumber, final int size )
     {
         final MergingByteBufferAllocatorImpl allocator = new MergingByteBufferAllocatorImpl( allocatorNumber, size );
 
@@ -87,12 +87,12 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
         return allocator;
     }
 
-    protected ByteBufferAllocator getAllocator( int allocatorIndex )
+    protected Allocator getAllocator( int allocatorIndex )
     {
         return allocators.get( allocatorIndex );
     }
 
-    protected ByteBufferAllocator getCurrentAllocator()
+    protected Allocator getCurrentAllocator()
     {
         return allocationPolicy.getActiveAllocator( null, 0 );
     }
@@ -101,7 +101,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
     public Pointer<V> store( byte[] payload, long expiresIn )
     {
         Pointer<V> p = null;
-        ByteBufferAllocator allocator = null;
+        Allocator allocator = null;
         int allocationNumber = 0;
         do
         {
@@ -179,7 +179,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
     public long capacity()
     {
         long totalCapacity = 0;
-        for ( ByteBufferAllocator allocator : allocators )
+        for ( Allocator allocator : allocators )
         {
             totalCapacity += allocator.getCapacity();
         }
@@ -187,7 +187,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
     }
 
   
-    protected List<ByteBufferAllocator> getAllocators()
+    protected List<Allocator> getAllocators()
     {
         return allocators;
     }
@@ -199,7 +199,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
     {
 
         Pointer<V> p = null;
-        ByteBufferAllocator allocator = null;
+        Allocator allocator = null;
         int allocationNumber = 0;
         do
         {
@@ -243,7 +243,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
             pointer.setFree( true );
         }
         pointers.clear();
-        for ( ByteBufferAllocator allocator : allocators )
+        for ( Allocator allocator : allocators )
         {
             allocator.clear();
         }

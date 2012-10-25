@@ -19,7 +19,6 @@ package org.apache.directmemory.memory.allocator;
  * under the License.
  */
 
-import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +27,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public abstract class AbstractByteBufferAllocator
-    implements ByteBufferAllocator
+    implements Allocator
 {
 
     protected final Logger logger = LoggerFactory.getLogger( this.getClass() );

@@ -22,7 +22,7 @@ package org.apache.directmemory.memory;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
+import org.apache.directmemory.memory.allocator.Allocator;
 
 /**
  * Round Robin allocation policy. An internal counter is incremented (modulo the size of the buffer), so each calls to
@@ -39,7 +39,7 @@ public class RoundRobinAllocationPolicy
     private static final int BUFFERS_INDEX_INITIAL_VALUE = -1;
 
     // All the buffers to allocate
-    private List<ByteBufferAllocator> allocators;
+    private List<Allocator> allocators;
 
     // Cyclic counter
     private AtomicInteger buffersIndexCounter = new AtomicInteger( BUFFERS_INDEX_INITIAL_VALUE );
@@ -56,13 +56,13 @@ public class RoundRobinAllocationPolicy
     }
 
     @Override
-    public void init( final List<ByteBufferAllocator> allocators )
+    public void init( final List<Allocator> allocators )
     {
         this.allocators = allocators;
     }
 
     @Override
-    public ByteBufferAllocator getActiveAllocator( final ByteBufferAllocator previousAllocator, final int allocationNumber )
+    public Allocator getActiveAllocator( final Allocator previousAllocator, final int allocationNumber )
     {
         // If current allocation is more than the limit, return a null buffer.
         if ( allocationNumber > maxAllocations )
@@ -73,7 +73,7 @@ public class RoundRobinAllocationPolicy
         // Thread safely increment and get the next buffer's index
         int i = incrementAndGetBufferIndex();
 
-        final ByteBufferAllocator allocator = allocators.get( i );
+        final Allocator allocator = allocators.get( i );
 
         return allocator;
     }

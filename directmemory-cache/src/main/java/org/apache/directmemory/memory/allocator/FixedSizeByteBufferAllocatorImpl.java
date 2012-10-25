@@ -34,7 +34,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 /**
- * {@link ByteBufferAllocator} implementation that instantiate {@link ByteBuffer}s of fixed size, called slices.
+ * {@link Allocator} implementation that instantiate {@link ByteBuffer}s of fixed size, called slices.
  *
  * @since 0.6
  */

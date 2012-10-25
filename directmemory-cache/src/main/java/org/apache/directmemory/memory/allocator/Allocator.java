@@ -24,11 +24,11 @@ import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import java.io.Closeable;
 
 /**
- * Interface defining interaction with {@link ByteBuffer}
+ * Interface defining interaction with {@link MemoryBuffer}
  * 
  * @since 0.6
  */
-public interface ByteBufferAllocator
+public interface Allocator
     extends Closeable
 {
     
@@ -47,7 +47,7 @@ public interface ByteBufferAllocator
     MemoryBuffer allocate( final int size );
     
     /**
-     * Clear all allocated {@link MemoryBuffer}, resulting in a empty and ready to deserve {@link ByteBufferAllocator}
+     * Clear all allocated {@link MemoryBuffer}, resulting in a empty and ready to deserve {@link Allocator}
      */
     void clear();
     
@@ -57,7 +57,7 @@ public interface ByteBufferAllocator
     int getCapacity();
     
     /**
-     * @return the internal identifier of the {@link ByteBufferAllocator}
+     * @return the internal identifier of the {@link Allocator}
      */
     int getNumber();
     

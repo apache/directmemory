@@ -21,7 +21,7 @@ package org.apache.directmemory.memory;
 
 import java.util.List;
 
-import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
+import org.apache.directmemory.memory.allocator.Allocator;
 
 /**
  * Interface describing the buffer allocation policy.
@@ -40,16 +40,16 @@ public interface AllocationPolicy
      *
      * @param buffers
      */
-    void init( List<ByteBufferAllocator> allocators );
+    void init( List<Allocator> allocators );
 
     /**
-     * Returns the {@link ByteBufferAllocator} to use to allocate.
+     * Returns the {@link Allocator} to use to allocate.
      *
-     * @param previousAllocator : the previously used {@link ByteBufferAllocator}, or null if it's the first allocation
+     * @param previousAllocator : the previously used {@link Allocator}, or null if it's the first allocation
      * @param allocationNumber : the number of time the allocation has already failed.
-     * @return the {@link ByteBufferAllocator} to use, or null if allocation has failed.
+     * @return the {@link Allocator} to use, or null if allocation has failed.
      */
-    ByteBufferAllocator getActiveAllocator( ByteBufferAllocator previousAllocator, int allocationNumber );
+    Allocator getActiveAllocator( Allocator previousAllocator, int allocationNumber );
 
     /**
      * Reset internal state

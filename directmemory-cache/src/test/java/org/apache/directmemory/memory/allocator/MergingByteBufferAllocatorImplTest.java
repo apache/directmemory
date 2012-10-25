@@ -32,7 +32,7 @@ public class MergingByteBufferAllocatorImplTest
     public void allocationTest()
     {
         
-        ByteBufferAllocator allocator = new MergingByteBufferAllocatorImpl( 0, 5000 );
+        Allocator allocator = new MergingByteBufferAllocatorImpl( 0, 5000 );
         
         MemoryBuffer bf1 = allocator.allocate( 250 );
         Assert.assertEquals( 250, bf1.maxCapacity() );
@@ -68,7 +68,7 @@ public class MergingByteBufferAllocatorImplTest
     public void releaseTest()
     {
         
-        ByteBufferAllocator allocator = new MergingByteBufferAllocatorImpl( 0, 1000 );
+        Allocator allocator = new MergingByteBufferAllocatorImpl( 0, 1000 );
         
         MemoryBuffer bf1 = allocator.allocate( 250 );
         Assert.assertEquals( 250, bf1.maxCapacity() );
@@ -98,7 +98,7 @@ public class MergingByteBufferAllocatorImplTest
     public void allocateAndFreeTest()
     {
         
-        ByteBufferAllocator allocator = new MergingByteBufferAllocatorImpl( 0, 1000 );
+        Allocator allocator = new MergingByteBufferAllocatorImpl( 0, 1000 );
         
         for (int i = 0; i < 1000; i++)
         {
@@ -120,7 +120,7 @@ public class MergingByteBufferAllocatorImplTest
     public void allocationWithoutSplittingPointerTest()
     {
         
-        ByteBufferAllocator allocator = new MergingByteBufferAllocatorImpl( 0, 200 );
+        Allocator allocator = new MergingByteBufferAllocatorImpl( 0, 200 );
         
         MemoryBuffer bf1 = allocator.allocate( 180 );
         Assert.assertEquals( 200, bf1.maxCapacity() );

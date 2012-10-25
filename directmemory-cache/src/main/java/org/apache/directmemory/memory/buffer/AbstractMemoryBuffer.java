@@ -313,6 +313,19 @@ public abstract class AbstractMemoryBuffer
         this.writerIndex = writerIndex;
     }
 
+    protected void rangeCheck( long offset )
+    {
+        if ( offset < 0 )
+        {
+            throw new IndexOutOfBoundsException( String.format( "Offset %s is below 0", offset ) );
+        }
+        if ( offset >= maxCapacity() )
+        {
+            throw new IndexOutOfBoundsException( String.format( "Offset %s is higher than maximum legal index ",
+                                                                offset, ( maxCapacity() - 1 ) ) );
+        }
+    }
+
     protected abstract void writeByte( long offset, byte value );
 
     protected abstract byte readByte( long offset );

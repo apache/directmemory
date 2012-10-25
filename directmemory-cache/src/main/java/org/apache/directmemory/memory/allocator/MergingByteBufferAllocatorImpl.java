@@ -38,7 +38,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * {@link ByteBufferAllocator} implementation with {@link ByteBuffer} merging capabilities.
+ * {@link Allocator} implementation with {@link ByteBuffer} merging capabilities.
  * <p/>
  * {@link ByteBuffer}s are wrapped into an {@link LinkedByteBuffer}, and when a {@link ByteBuffer} is freed,
  * lookup is done to the neighbor to check if they are also free, in which case they are merged.
@@ -377,11 +377,8 @@ public class MergingByteBufferAllocatorImpl
 
     private class MergingNioMemoryBuffer extends NioMemoryBuffer {
 
-        private final LinkedByteBuffer linkedBuffer;
-
         MergingNioMemoryBuffer(LinkedByteBuffer linkedBuffer) {
             super(linkedBuffer.buffer);
-            this.linkedBuffer = linkedBuffer;
         }
 
         @Override

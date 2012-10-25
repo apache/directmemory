@@ -40,7 +40,7 @@ public class SlabByteBufferAllocatorImplTest
         slabs.add( new FixedSizeByteBufferAllocatorImpl( 3, 1024, 1024, 1 ) );
         
         
-        ByteBufferAllocator allocator = new SlabByteBufferAllocatorImpl( 0, slabs, false );
+        Allocator allocator = new SlabByteBufferAllocatorImpl( 0, slabs, false );
         
         MemoryBuffer bf1 = allocator.allocate( 250 );
         Assert.assertEquals( 256, bf1.maxCapacity() );

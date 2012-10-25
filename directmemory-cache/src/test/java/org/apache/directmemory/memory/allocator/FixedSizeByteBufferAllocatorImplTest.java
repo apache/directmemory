@@ -30,7 +30,7 @@ public class FixedSizeByteBufferAllocatorImplTest
     public void allocationTest()
     {
         
-        ByteBufferAllocator allocator = new FixedSizeByteBufferAllocatorImpl( 0, 5000, 256, 1 );
+        Allocator allocator = new FixedSizeByteBufferAllocatorImpl( 0, 5000, 256, 1 );
         
         MemoryBuffer bf1 = allocator.allocate( 250 );
         Assert.assertEquals( 256, bf1.maxCapacity() );
@@ -61,7 +61,7 @@ public class FixedSizeByteBufferAllocatorImplTest
     public void releaseTest()
     {
         
-        ByteBufferAllocator allocator = new FixedSizeByteBufferAllocatorImpl( 0, 1000, 256, 1 );
+        Allocator allocator = new FixedSizeByteBufferAllocatorImpl( 0, 1000, 256, 1 );
         
         MemoryBuffer bf1 = allocator.allocate( 250 );
         Assert.assertEquals( 256, bf1.maxCapacity() );
@@ -98,7 +98,7 @@ public class FixedSizeByteBufferAllocatorImplTest
     public void allocateAndFreeTest()
     {
         
-        ByteBufferAllocator allocator = new FixedSizeByteBufferAllocatorImpl( 0, 1000, 256, 1 );
+        Allocator allocator = new FixedSizeByteBufferAllocatorImpl( 0, 1000, 256, 1 );
         
         for (int i = 0; i < 1000; i++)
         {

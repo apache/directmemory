@@ -22,7 +22,7 @@ package org.apache.directmemory.memory;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
+import org.apache.directmemory.memory.allocator.Allocator;
 import org.apache.directmemory.memory.allocator.FixedSizeByteBufferAllocatorImpl;
 import org.apache.directmemory.memory.allocator.SlabByteBufferAllocatorImpl;
 import org.junit.Test;
@@ -37,7 +37,7 @@ public class SlabMemoryManagerServiceTest
         final MemoryManagerService<Object> mms = new MemoryManagerServiceImpl<Object>() {
 
             @Override
-            protected ByteBufferAllocator instanciateByteBufferAllocator( int allocatorNumber, int size )
+            protected Allocator instanciateByteBufferAllocator( int allocatorNumber, int size )
             {
                 Collection<FixedSizeByteBufferAllocatorImpl> slabs = new HashSet<FixedSizeByteBufferAllocatorImpl>();
                 

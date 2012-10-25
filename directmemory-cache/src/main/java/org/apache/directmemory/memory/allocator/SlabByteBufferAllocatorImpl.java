@@ -31,7 +31,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 
 /**
- * {@link ByteBufferAllocator} implementation that uses {@link FixedSizeByteBufferAllocatorImpl}
+ * {@link Allocator} implementation that uses {@link FixedSizeByteBufferAllocatorImpl}
  * of different size to allocate best matching's size {@link ByteBuffer}
  *
  * @since 0.6

@@ -21,7 +21,7 @@ package org.apache.directmemory.memory;
 
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.MemoryManager;
-import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
+import org.apache.directmemory.memory.allocator.Allocator;
 import org.apache.directmemory.memory.allocator.MergingByteBufferAllocatorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +70,7 @@ public class Starter
         logger.info( "************************************************" );
     }
     
-    public void dump( ByteBufferAllocator mem )
+    public void dump( Allocator mem )
     {
         logger.info( "off-heap - buffer: " + mem.getNumber() );
         logger.info( "off-heap - allocated: " + Ram.inMb( mem.getCapacity() ) );
@@ -82,7 +82,7 @@ public class Starter
     
     public void rawInsert( int megabytes, int howMany )
     {
-        ByteBufferAllocator allocator = new MergingByteBufferAllocatorImpl( 1, megabytes * 1024 * 1024 );
+        Allocator allocator = new MergingByteBufferAllocatorImpl( 1, megabytes * 1024 * 1024 );
         assertNotNull( allocator );
         int size = allocator.getCapacity() / ( howMany );
         size -= size / 100 * 1;

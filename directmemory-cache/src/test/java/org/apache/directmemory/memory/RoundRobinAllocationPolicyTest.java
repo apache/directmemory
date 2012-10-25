@@ -28,7 +28,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.directmemory.memory.allocator.ByteBufferAllocator;
+import org.apache.directmemory.memory.allocator.Allocator;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class RoundRobinAllocationPolicyTest
 
     private static final int NUMBER_OF_BUFFERS = 4;
 
-    List<ByteBufferAllocator> allocators;
+    List<Allocator> allocators;
 
     RoundRobinAllocationPolicy allocationPolicy;
 
@@ -52,7 +52,7 @@ public class RoundRobinAllocationPolicyTest
     public void initAllocationPolicy()
     {
 
-        allocators = new ArrayList<ByteBufferAllocator>();
+        allocators = new ArrayList<Allocator>();
 
         for ( int i = 0; i < NUMBER_OF_BUFFERS; i++ )
         {
@@ -111,7 +111,7 @@ public class RoundRobinAllocationPolicyTest
      * Dummy {@link OffHeapMemoryBuffer} that do nothing.
      */
     private static class DummyByteBufferAllocator
-        implements ByteBufferAllocator
+        implements Allocator
     {
 
         @Override
