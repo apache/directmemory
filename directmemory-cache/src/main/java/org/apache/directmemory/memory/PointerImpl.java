@@ -19,19 +19,16 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-import org.apache.directmemory.memory.buffer.MemoryBuffer;
-
-import static java.lang.System.currentTimeMillis;
 import static java.lang.String.format;
+import static java.lang.System.currentTimeMillis;
 
-import java.nio.ByteBuffer;
+import org.apache.directmemory.memory.buffer.MemoryBuffer;
 
 public class PointerImpl<T>
     implements Pointer<T>
 {
-    public long start;
 
-    public long size;
+    public final MemoryBuffer memoryBuffer;
 
     public long created;
 
@@ -49,16 +46,9 @@ public class PointerImpl<T>
 
     public Class<? extends T> clazz;
 
-    public MemoryBuffer memoryBuffer = null;
-
-    public PointerImpl()
+    public PointerImpl( MemoryBuffer memoryBuffer )
     {
-    }
-
-    public PointerImpl( long start, long end )
-    {
-        this.start = start;
-        this.size = end;
+        this.memoryBuffer = memoryBuffer;
     }
 
     @Override
@@ -76,16 +66,13 @@ public class PointerImpl<T>
     @Override
     public long getCapacity()
     {
-        if (memoryBuffer != null)
-            return memoryBuffer == null ? size - start + 1 : memoryBuffer.capacity();
-        else
-            return size;
+        return memoryBuffer == null ? -1 : memoryBuffer.capacity();
     }
 
     @Override
     public String toString()
     {
-        return format( "%s[%s, %s] %s free", getClass().getSimpleName(), start, size, ( free ? "" : "not" ) );
+        return format( "%s[%s] %s free", getClass().getSimpleName(), getSize(), ( free ? "" : "not" ) );
     }
 
     @Override
@@ -97,7 +84,7 @@ public class PointerImpl<T>
         hits = 0;
         expiresIn = 0;
         clazz = null;
-        memoryBuffer = null;
+        memoryBuffer.clear();
     }
 
     @Override
@@ -123,21 +110,9 @@ public class PointerImpl<T>
     }
 
     @Override
-    public long getStart()
-    {
-        return start;
-    }
-
-    @Override
     public long getSize()
     {
-        return size;
-    }
-
-    @Override
-    public void setStart( long start )
-    {
-        this.start = start;
+        return memoryBuffer.capacity();
     }
 
     @Override
@@ -166,23 +141,9 @@ public class PointerImpl<T>
     }
 
     @Override
-    public void setEnd( long end )
-    {
-        this.size = end;
-    }
-
-    @Override
     public void setClazz( Class<? extends T> clazz )
     {
         this.clazz = clazz;
-    }
-
-    @Override
-    public void setMemoryBuffer(MemoryBuffer memoryBuffer)
-    {
-        this.memoryBuffer = memoryBuffer;
-        this.start = 0;
-        this.size = memoryBuffer.capacity();
     }
 
     @Override

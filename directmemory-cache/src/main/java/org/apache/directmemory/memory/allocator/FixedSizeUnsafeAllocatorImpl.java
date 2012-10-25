@@ -1,10 +1,11 @@
 package org.apache.directmemory.memory.allocator;
 
 import java.io.IOException;
+import java.nio.BufferOverflowException;
 import java.nio.ByteOrder;
 import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.directmemory.memory.buffer.AbstractMemoryBuffer;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
@@ -15,18 +16,32 @@ public class FixedSizeUnsafeAllocatorImpl
 
     private final sun.misc.Unsafe unsafe = UnsafeUtils.getUnsafe();
 
-    private final Set<UnsafeMemoryBuffer> memoryBuffers = new ConcurrentSkipListSet<UnsafeMemoryBuffer>();
+    private final Queue<UnsafeMemoryBuffer> memoryBuffers = new ConcurrentLinkedQueue<UnsafeMemoryBuffer>();
 
     private final int number;
 
-    public FixedSizeUnsafeAllocatorImpl( int number )
+    private final int size;
+
+    // Tells if it returns null or throw an BufferOverflowException when the requested size is bigger than the size of
+    // the slices
+    private final boolean returnNullWhenOversizingSliceSize = true;
+
+    public FixedSizeUnsafeAllocatorImpl( int number, int size )
     {
         this.number = number;
+        this.size = size;
 
         if ( unsafe == null )
         {
             throw new IllegalStateException( "This JVM has no sun.misc.Unsafe support, "
                 + "please choose another MemoryManager implementation" );
+        }
+
+        for ( int i = 0; i < number; i++ )
+        {
+            long baseAddress = unsafe.allocateMemory( size );
+            UnsafeMemoryBuffer memoryBuffer = new UnsafeMemoryBuffer( baseAddress, size );
+            memoryBuffers.add( memoryBuffer );
         }
     }
 
@@ -35,22 +50,26 @@ public class FixedSizeUnsafeAllocatorImpl
         throws IOException
     {
         clear();
+        Iterator<UnsafeMemoryBuffer> iterator = memoryBuffers.iterator();
+        while ( iterator.hasNext() )
+        {
+            UnsafeMemoryBuffer memoryBuffer = iterator.next();
+            memoryBuffer.free();
+            iterator.remove();
+        }
     }
 
     @Override
     public void free( MemoryBuffer memoryBuffer )
     {
-        memoryBuffer.free();
-        memoryBuffers.remove( memoryBuffer );
+        memoryBuffer.clear();
+        memoryBuffers.offer( (UnsafeMemoryBuffer) memoryBuffer );
     }
 
     @Override
     public MemoryBuffer allocate( int size )
     {
-        long baseAddress = unsafe.allocateMemory( size );
-        UnsafeMemoryBuffer memoryBuffer = new UnsafeMemoryBuffer( baseAddress, size );
-        memoryBuffers.add( memoryBuffer );
-        return memoryBuffer;
+        return findFreeBuffer( size );
     }
 
     @Override
@@ -61,7 +80,6 @@ public class FixedSizeUnsafeAllocatorImpl
         {
             UnsafeMemoryBuffer memoryBuffer = iterator.next();
             unsafe.setMemory( memoryBuffer.baseAddress, memoryBuffer.capacity, (byte) 0 );
-            iterator.remove();
         }
     }
 
@@ -81,6 +99,24 @@ public class FixedSizeUnsafeAllocatorImpl
     public int getNumber()
     {
         return number;
+    }
+
+    protected MemoryBuffer findFreeBuffer( int capacity )
+    {
+        // ensure the requested size is not bigger than the slices' size
+        if ( capacity > size )
+        {
+            if ( returnNullWhenOversizingSliceSize )
+            {
+                return null;
+            }
+            else
+            {
+                throw new BufferOverflowException();
+            }
+        }
+        // TODO : Add capacity to wait till a given timeout for a freed buffer
+        return memoryBuffers.poll();
     }
 
     private class UnsafeMemoryBuffer

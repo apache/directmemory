@@ -42,13 +42,7 @@ public interface Pointer<T>
 
     void setBufferNumber( int bufferNumber );
 
-    long getStart();
-
-    void setStart( long address );
-
     long getSize();
-
-    void setEnd( long l );
 
     void hit();
 
@@ -58,14 +52,12 @@ public interface Pointer<T>
 
     MemoryBuffer getMemoryBuffer();
 
-    void setMemoryBuffer(MemoryBuffer memoryBuffer);
-
     void createdNow();
 
     void setExpiration( long expires, long expiresIn );
-    
+
     long getExpires();
-    
+
     long getExpiresIn();
 
 }

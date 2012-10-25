@@ -32,7 +32,8 @@ import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
+public class MemoryManagerServiceImpl<V>
+    extends AbstractMemoryManager<V>
     implements MemoryManagerService<V>
 {
 
@@ -74,7 +75,6 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
 
         logger.info( format( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
     }
-
 
     protected Allocator instanciateByteBufferAllocator( final int allocatorNumber, final int size )
     {
@@ -127,7 +127,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
 
             p = instanciatePointer( buffer, allocator.getNumber(), expiresIn, NEVER_EXPIRES );
 
-            buffer.writerIndex(0);
+            buffer.writerIndex( 0 );
             buffer.writeBytes( payload );
 
             used.addAndGet( payload.length );
@@ -149,7 +149,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
         pointer.hit();
 
         final MemoryBuffer buf = pointer.getMemoryBuffer();
-        buf.readerIndex(0);
+        buf.readerIndex( 0 );
 
         final byte[] swp = new byte[(int) buf.readableBytes()];
         buf.readBytes( swp );
@@ -157,12 +157,12 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
     }
 
     @Override
-    public Pointer<V>  free( final Pointer<V> pointer )
+    public Pointer<V> free( final Pointer<V> pointer )
     {
         if ( !pointers.remove( pointer ) )
         {
             // pointers has been already freed.
-            //throw new IllegalArgumentException( "This pointer " + pointer + " has already been freed" );
+            // throw new IllegalArgumentException( "This pointer " + pointer + " has already been freed" );
             return pointer;
         }
 
@@ -171,7 +171,7 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
         used.addAndGet( -pointer.getCapacity() );
 
         pointer.setFree( true );
-        
+
         return pointer;
     }
 
@@ -186,7 +186,6 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
         return totalCapacity;
     }
 
-  
     protected List<Allocator> getAllocators()
     {
         return allocators;
@@ -254,9 +253,8 @@ public class MemoryManagerServiceImpl<V> extends AbstractMemoryManager<V>
                                              final long expires )
     {
 
-        Pointer<V> p = new PointerImpl<V>();
-        
-        p.setMemoryBuffer(buffer);
+        Pointer<V> p = new PointerImpl<V>( buffer );
+
         p.setExpiration( expires, expiresIn );
         p.setBufferNumber( allocatorIndex );
         p.setFree( false );
