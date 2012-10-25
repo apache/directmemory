@@ -383,7 +383,7 @@ public class MergingByteBufferAllocatorImpl
 
         @Override
         public boolean growing() {
-            return true;
+            return false;
         }
 
         @Override
