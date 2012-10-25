@@ -3,46 +3,44 @@ package org.apache.directmemory.memory.allocator;
 import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.nio.ByteOrder;
+import java.util.Collections;
 import java.util.Iterator;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.directmemory.memory.IllegalMemoryPointerException;
 import org.apache.directmemory.memory.buffer.AbstractMemoryBuffer;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
 
-public class FixedSizeUnsafeAllocatorImpl
+public class LazyUnsafeAllocatorImpl
     implements Allocator
 {
 
     private final sun.misc.Unsafe unsafe = UnsafeUtils.getUnsafe();
 
-    private final Queue<UnsafeMemoryBuffer> memoryBuffers = new ConcurrentLinkedQueue<UnsafeMemoryBuffer>();
+    private final Set<UnsafeMemoryBuffer> memoryBuffers =
+        Collections.newSetFromMap( new ConcurrentHashMap<UnsafeMemoryBuffer, Boolean>() );
+
+    private final AtomicLong used = new AtomicLong( 0 );
 
     private final int number;
 
-    private final int size;
+    private final long capacity;
 
     // Tells if it returns null or throw an BufferOverflowException when the requested size is bigger than the size of
     // the slices
     private final boolean returnNullWhenOversizingSliceSize = true;
 
-    public FixedSizeUnsafeAllocatorImpl( int number, int size )
+    public LazyUnsafeAllocatorImpl( int number, long capacity )
     {
         this.number = number;
-        this.size = size;
+        this.capacity = capacity;
 
         if ( unsafe == null )
         {
             throw new IllegalStateException( "This JVM has no sun.misc.Unsafe support, "
                 + "please choose another MemoryManager implementation" );
-        }
-
-        for ( int i = 0; i < number; i++ )
-        {
-            long baseAddress = unsafe.allocateMemory( size );
-            UnsafeMemoryBuffer memoryBuffer = new UnsafeMemoryBuffer( baseAddress, size );
-            memoryBuffers.add( memoryBuffer );
         }
     }
 
@@ -63,14 +61,24 @@ public class FixedSizeUnsafeAllocatorImpl
     @Override
     public void free( MemoryBuffer memoryBuffer )
     {
-        memoryBuffer.clear();
-        memoryBuffers.offer( (UnsafeMemoryBuffer) memoryBuffer );
+        used.addAndGet( -memoryBuffer.capacity() );
+        memoryBuffer.free();
+        memoryBuffers.remove( memoryBuffer );
     }
 
     @Override
     public MemoryBuffer allocate( int size )
     {
-        return findFreeBuffer( size );
+        if ( capacity < used.get() + size )
+        {
+            throw new BufferOverflowException();
+        }
+
+        long baseAddress = unsafe.allocateMemory( size );
+        UnsafeMemoryBuffer memoryBuffer = new UnsafeMemoryBuffer( baseAddress, size );
+        memoryBuffers.add( memoryBuffer );
+        used.addAndGet( size );
+        return memoryBuffer;
     }
 
     @Override
@@ -102,24 +110,6 @@ public class FixedSizeUnsafeAllocatorImpl
         return number;
     }
 
-    protected MemoryBuffer findFreeBuffer( int capacity )
-    {
-        // ensure the requested size is not bigger than the slices' size
-        if ( capacity > size )
-        {
-            if ( returnNullWhenOversizingSliceSize )
-            {
-                return null;
-            }
-            else
-            {
-                throw new BufferOverflowException();
-            }
-        }
-        // TODO : Add capacity to wait till a given timeout for a freed buffer
-        return memoryBuffers.poll();
-    }
-
     private class UnsafeMemoryBuffer
         extends AbstractMemoryBuffer
     {
@@ -132,7 +122,7 @@ public class FixedSizeUnsafeAllocatorImpl
 
         private UnsafeMemoryBuffer( long baseAddress, long capacity )
         {
-            if ( baseAddress == 0 )
+            if ( capacity > 0 && baseAddress == 0 )
             {
                 throw new IllegalMemoryPointerException( "The pointers base address is not legal" );
             }
@@ -144,7 +134,7 @@ public class FixedSizeUnsafeAllocatorImpl
         @Override
         public long capacity()
         {
-            return writerIndex();
+            return capacity;
         }
 
         @Override

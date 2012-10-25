@@ -28,14 +28,12 @@ import java.util.concurrent.ConcurrentMap;
 import org.apache.directmemory.measures.Ram;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.MapMaker;
 
-@Ignore
 public class MallocWithUnsafeTest
 {
 
@@ -55,7 +53,7 @@ public class MallocWithUnsafeTest
     }
 
     MemoryManagerService<Object> mem;
-    
+
     @Before
     public void initMMS()
     {
@@ -68,7 +66,7 @@ public class MallocWithUnsafeTest
     {
         assertNotNull( mem );
         int howMany = 1000000;
-        int size = (int)mem.capacity() / ( howMany );
+        int size = (int) mem.capacity() / ( howMany );
         size -= size / 100 * 1;
         logger.info( "payload size=" + size );
         logger.info( "entries=" + howMany );
@@ -92,7 +90,7 @@ public class MallocWithUnsafeTest
 
         assertNotNull( mem );
         int howMany = 2000000;
-        int size = (int)mem.capacity() / ( howMany );
+        int size = (int) mem.capacity() / ( howMany );
         size -= size / 100 * 1;
         logger.info( "payload size=" + size );
         logger.info( "entries=" + howMany );
@@ -115,7 +113,7 @@ public class MallocWithUnsafeTest
 
         assertNotNull( mem );
         int howMany = 5000000;
-        int size = (int)mem.capacity() / ( howMany );
+        int size = (int) mem.capacity() / ( howMany );
         size -= size / 100 * 1;
         logger.info( "payload size=" + size );
         logger.info( "entries=" + howMany );
@@ -132,12 +130,12 @@ public class MallocWithUnsafeTest
         logger.info( "...done in " + ( System.currentTimeMillis() - start ) + " msecs." );
     }
 
-
     @Test
     public void withMap()
     {
 
-        ConcurrentMap<Long, Pointer<Object>> map = new MapMaker().concurrencyLevel( 4 ).initialCapacity( 500000 ).makeMap();
+        ConcurrentMap<Long, Pointer<Object>> map =
+            new MapMaker().concurrencyLevel( 4 ).initialCapacity( 500000 ).makeMap();
 
         String str = "This is the string to store into the off-heap memory";
 
@@ -160,7 +158,6 @@ public class MallocWithUnsafeTest
     {
         mem.clear();
     }
-
 
     @Test
     public void oneMillionEntriesWithRead()

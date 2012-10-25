@@ -26,28 +26,38 @@ import org.junit.runners.Parameterized.Parameters;
  * under the License.
  */
 
-@RunWith(Parameterized.class)
+@RunWith( Parameterized.class )
 public class DefaultMemoryManagerServiceTest
     extends AbstractMemoryManagerServiceTest
 {
 
     @Parameters
-    public static Collection<Object[]> data() {
-        return Arrays.asList( new Object[][] {{new MemoryManagerServiceImpl<Object>()},{new UnsafeMemoryManagerServiceImpl<Object>()}} );
+    public static Collection<Object[]> data()
+    {
+        return Arrays.asList( new Object[][] { { MemoryManagerServiceImpl.class },
+            { UnsafeMemoryManagerServiceImpl.class } } );
     }
-    
-    private final MemoryManagerService<Object> memoryManagerService;
-    
-    public DefaultMemoryManagerServiceTest(MemoryManagerService<Object> memoryManagerService) {
-        this.memoryManagerService = memoryManagerService;
+
+    private final Class<? extends MemoryManagerService<Object>> memoryManagerServiceClass;
+
+    public DefaultMemoryManagerServiceTest( Class<? extends MemoryManagerService<Object>> memoryManagerServiceClass )
+    {
+        this.memoryManagerServiceClass = memoryManagerServiceClass;
     }
-    
+
     @Override
     protected MemoryManagerService<Object> instanciateMemoryManagerService( int bufferSize )
     {
-        final MemoryManagerService<Object> mms = memoryManagerService;
-        mms.init( 1, bufferSize );
-        return mms;
+        try
+        {
+            final MemoryManagerService<Object> mms = memoryManagerServiceClass.newInstance();
+            mms.init( 1, bufferSize );
+            return mms;
+        }
+        catch ( Exception e )
+        {
+            throw new RuntimeException( e );
+        }
     }
 
 }

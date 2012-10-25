@@ -1,5 +1,6 @@
 package org.apache.directmemory.memory;
 
+import java.io.Closeable;
 import java.util.Set;
 
 /*
@@ -22,22 +23,21 @@ import java.util.Set;
  */
 
 public interface MemoryManagerService<V>
+    extends Closeable
 {
 
     /**
-     * Initialize the internal structure. Need to be called before the service
-     * can be used.
-     *
-     * @param numberOfBuffers
-     *            : number of internal bucket
-     * @param size
-     *            : size in B of internal buckets
+     * Initialize the internal structure. Need to be called before the service can be used.
+     * 
+     * @param numberOfBuffers : number of internal bucket
+     * @param size : size in B of internal buckets
      */
     void init( int numberOfBuffers, int size );
 
     /**
-     * Store function family. Store the given payload at a certain offset in a MemoryBuffer, returning the pointer to the value.
-     *
+     * Store function family. Store the given payload at a certain offset in a MemoryBuffer, returning the pointer to
+     * the value.
+     * 
      * @param payload : the data to store
      * @return the pointer to the value, or null if not enough space has been found.
      */
@@ -45,7 +45,7 @@ public interface MemoryManagerService<V>
 
     /**
      * Same function as {@link #store(byte[])}, but add an relative expiration delta in milliseconds
-     *
+     * 
      * @param payload : the data to store
      * @param expiresIn : relative amount of milliseconds the data will expire
      * @return the pointer to the value, or null if not enough space has been found.
@@ -54,13 +54,14 @@ public interface MemoryManagerService<V>
 
     /**
      * Same function as {@link #store(byte[])}, but add an absolute expiration date
+     * 
      * @param payload : the data to store
      * @param expires : the absolute date the data will expire
      * @return the pointer to the value, or null if not enough space has been found.
      */
-    //public Pointer store(byte[] payload, Date expires);
+    // public Pointer store(byte[] payload, Date expires);
 
-    /**
+/**
      *
      *
      * Update value of a {@link Pointer

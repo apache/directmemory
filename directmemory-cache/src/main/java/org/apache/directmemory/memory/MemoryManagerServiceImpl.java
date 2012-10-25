@@ -21,8 +21,10 @@ package org.apache.directmemory.memory;
 
 import static java.lang.String.format;
 
+import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.directmemory.measures.Ram;
@@ -74,6 +76,20 @@ public class MemoryManagerServiceImpl<V>
         allocationPolicy.init( allocators );
 
         logger.info( format( "MemoryManager initialized - %d buffers, %s each", numberOfBuffers, Ram.inMb( size ) ) );
+    }
+
+    @Override
+    public void close()
+        throws IOException
+    {
+        Iterator<Allocator> iterator = allocators.iterator();
+        while ( iterator.hasNext() )
+        {
+            Allocator allocator = iterator.next();
+            allocator.close();
+            iterator.remove();
+        }
+        used.set( 0 );
     }
 
     protected Allocator instanciateByteBufferAllocator( final int allocatorNumber, final int size )

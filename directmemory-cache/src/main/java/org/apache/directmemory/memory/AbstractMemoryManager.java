@@ -16,15 +16,18 @@ public abstract class AbstractMemoryManager<V>
 {
 
     protected static final long NEVER_EXPIRES = 0L;
+
     protected final Set<Pointer<V>> pointers = Collections.newSetFromMap( new ConcurrentHashMap<Pointer<V>, Boolean>() );
+
     protected boolean returnNullWhenFull = true;
+
     protected final AtomicLong used = new AtomicLong( 0L );
 
     public AbstractMemoryManager()
     {
         super();
     }
-    
+
     abstract public Pointer<V> store( byte[] payload, long expiresIn );
 
     public Pointer<V> store( byte[] payload )
@@ -45,15 +48,14 @@ public abstract class AbstractMemoryManager<V>
         return used.get();
     }
 
-
     public long collectExpired()
     {
         int limit = 50;
-        return free( limit( filter( pointers, relative ), limit ) ) + free(
-            limit( filter( pointers, absolute ), limit ) );
-    
+        return free( limit( filter( pointers, relative ), limit ) )
+            + free( limit( filter( pointers, absolute ), limit ) );
+
     }
-    
+
     final Predicate<Pointer<V>> relative = new Predicate<Pointer<V>>()
     {
 
@@ -78,33 +80,34 @@ public abstract class AbstractMemoryManager<V>
 
     public void collectLFU()
     {
-    
+
         int limit = pointers.size() / 10;
-    
+
         Iterable<Pointer<V>> result = from( new Comparator<Pointer<V>>()
         {
-    
+
+            @Override
             public int compare( Pointer<V> o1, Pointer<V> o2 )
             {
                 float f1 = o1.getFrequency();
                 float f2 = o2.getFrequency();
-    
+
                 return Float.compare( f1, f2 );
             }
-    
+
         } ).sortedCopy( limit( filter( pointers, new Predicate<Pointer<V>>()
         {
-    
+
             @Override
             public boolean apply( Pointer<V> input )
             {
                 return !input.isFree();
             }
-    
+
         } ), limit ) );
-    
+
         free( result );
-    
+
     }
 
     protected long free( Iterable<Pointer<V>> pointers )
@@ -127,14 +130,17 @@ public abstract class AbstractMemoryManager<V>
     {
         return Collections.unmodifiableSet( pointers );
     }
-    
+
     public <T extends V> Pointer<V> allocate( final Class<T> type, final int size, final long expiresIn,
                                               final long expires )
     {
 
-        Pointer<V> p = store(new byte[size], expiresIn );
+        Pointer<V> p = store( new byte[size], expiresIn );
+        if ( p != null && p.getMemoryBuffer() != null )
+            p.getMemoryBuffer().clear();
 
-        if (p != null) p.setClazz( type );
+        if ( p != null )
+            p.setClazz( type );
 
         return p;
     }

@@ -25,9 +25,6 @@ import java.util.Random;
 
 import junit.framework.Assert;
 
-import org.apache.directmemory.memory.MemoryManagerService;
-import org.apache.directmemory.memory.MemoryManagerServiceImpl;
-import org.apache.directmemory.memory.Pointer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -44,22 +41,27 @@ public class MemoryManagerServiceImplTest
     @Parameters
     public static Collection<Object[]> data()
     {
-        Object[][] data =
-            new Object[][] { { new MemoryManagerServiceImpl<Object>() },
-                { new UnsafeMemoryManagerServiceImpl<Object>() } };
-        return Arrays.asList( data );
+        return Arrays.asList( new Object[][] { { MemoryManagerServiceImpl.class },
+            { UnsafeMemoryManagerServiceImpl.class } } );
     }
 
-    private final MemoryManagerService<Object> memoryManagerService;
+    private final Class<? extends MemoryManagerService<Object>> memoryManagerServiceClass;
 
-    public MemoryManagerServiceImplTest( MemoryManagerService<Object> memoryManagerService )
+    public MemoryManagerServiceImplTest( Class<? extends MemoryManagerService<Object>> memoryManagerServiceClass )
     {
-        this.memoryManagerService = memoryManagerService;
+        this.memoryManagerServiceClass = memoryManagerServiceClass;
     }
 
     protected MemoryManagerService<Object> getMemoryManagerService()
     {
-        return memoryManagerService;
+        try
+        {
+            return memoryManagerServiceClass.newInstance();
+        }
+        catch ( Exception e )
+        {
+            throw new RuntimeException( e );
+        }
     }
 
     @Test

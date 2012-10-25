@@ -62,7 +62,7 @@ public class BaseTest
 
         Random rnd = new Random();
 
-        int size = rnd.nextInt( 10 ) * (int) mem.capacity() / 100;
+        int size = 0;// rnd.nextInt( 10 ) * (int) mem.capacity() / 100;
 
         logger.info( "size=" + size );
 

@@ -1,5 +1,6 @@
 package org.apache.directmemory.memory;
 
+import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.util.Collections;
 import java.util.Iterator;
@@ -7,7 +8,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.directmemory.memory.allocator.Allocator;
-import org.apache.directmemory.memory.allocator.FixedSizeUnsafeAllocatorImpl;
+import org.apache.directmemory.memory.allocator.LazyUnsafeAllocatorImpl;
+import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +26,6 @@ public class UnsafeMemoryManagerServiceImpl<V>
 
     private Allocator allocator;
 
-    // protected final AtomicLong used = new AtomicLong( 0L );
-
     private long capacity;
 
     private int size;
@@ -35,10 +35,18 @@ public class UnsafeMemoryManagerServiceImpl<V>
     {
         this.capacity = numberOfBuffers * size;
         this.size = size;
-        this.allocator = new FixedSizeUnsafeAllocatorImpl( numberOfBuffers, size );
+        this.allocator = new LazyUnsafeAllocatorImpl( numberOfBuffers, capacity );
     }
 
-    protected Pointer<V> instanciatePointer( final long expiresIn, final long expires )
+    @Override
+    public void close()
+        throws IOException
+    {
+        allocator.close();
+        used.set( 0 );
+    }
+
+    protected Pointer<V> instanciatePointer( int size, long expiresIn, long expires )
     {
         Pointer<V> p = new PointerImpl<V>( allocator.allocate( size ) );
 
@@ -66,7 +74,7 @@ public class UnsafeMemoryManagerServiceImpl<V>
             }
         }
 
-        Pointer<V> p = instanciatePointer( expiresIn, NEVER_EXPIRES );
+        Pointer<V> p = instanciatePointer( payload.length, expiresIn, NEVER_EXPIRES );
         p.getMemoryBuffer().writeBytes( payload );
 
         used.addAndGet( payload.length );
@@ -93,7 +101,9 @@ public class UnsafeMemoryManagerServiceImpl<V>
     {
         final byte[] swp = new byte[(int) pointer.getSize()];
 
-        pointer.getMemoryBuffer().readBytes( swp );
+        MemoryBuffer memoryBuffer = pointer.getMemoryBuffer();
+        memoryBuffer.readerIndex( 0 );
+        memoryBuffer.readBytes( swp );
 
         return swp;
     }
@@ -101,9 +111,9 @@ public class UnsafeMemoryManagerServiceImpl<V>
     @Override
     public Pointer<V> free( Pointer<V> pointer )
     {
+        used.addAndGet( -pointer.getSize() );
         allocator.free( pointer.getMemoryBuffer() );
         pointers.remove( pointer );
-        used.set( used.get() - ( pointer.getSize() ) );
         pointer.setFree( true );
         return pointer;
     }

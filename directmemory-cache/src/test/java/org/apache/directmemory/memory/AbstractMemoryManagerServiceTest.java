@@ -19,7 +19,7 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-import java.nio.ByteBuffer;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,6 +27,7 @@ import java.util.Random;
 import junit.framework.Assert;
 
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
+import org.junit.After;
 import org.junit.Test;
 
 public abstract class AbstractMemoryManagerServiceTest
@@ -35,28 +36,36 @@ public abstract class AbstractMemoryManagerServiceTest
     protected static final Random R = new Random();
 
     protected static final int SMALL_PAYLOAD_LENGTH = 4;
+
     protected static final byte[] SMALL_PAYLOAD = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH );
 
+    protected MemoryManagerService<Object> mms;
 
-	protected MemoryManagerService<Object> mms;
-	
     protected abstract MemoryManagerService<Object> instanciateMemoryManagerService( int bufferSize );
 
+    @After
+    public void cleanup()
+        throws IOException
+    {
+        if ( mms != null )
+            mms.close();
+    }
 
     /**
-     * Test pointers allocation, when buffer size is not aligned with the size of stored objects.
-     * Null {@link Pointer} should be returned to allow {@link MemoryManagerService} to go to next step with allocation policy.
+     * Test pointers allocation, when buffer size is not aligned with the size of stored objects. Null {@link Pointer}
+     * should be returned to allow {@link MemoryManagerService} to go to next step with allocation policy.
      */
     @Test
     public void testNotEnoughFreeSpace()
     {
 
-        // Storing a first payload of 4 bytes, 1 byte remaining in the buffer. When storing a second 4 bytes payload, an null pointer should be returned.
+        // Storing a first payload of 4 bytes, 1 byte remaining in the buffer. When storing a second 4 bytes payload, an
+        // null pointer should be returned.
 
         final int BUFFER_SIZE = SMALL_PAYLOAD_LENGTH + 1;
 
         mms = instanciateMemoryManagerService( BUFFER_SIZE );
-        
+
         Pointer<Object> pointer1 = mms.store( SMALL_PAYLOAD );
         Assert.assertNotNull( pointer1 );
         Assert.assertFalse( pointer1.isFree() );
@@ -65,7 +74,6 @@ public abstract class AbstractMemoryManagerServiceTest
         Assert.assertNull( pointer2 );
 
     }
-
 
     /**
      * Ensure no byte is leaking when allocating several objects.
@@ -80,7 +88,7 @@ public abstract class AbstractMemoryManagerServiceTest
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD_LENGTH;
 
         mms = instanciateMemoryManagerService( BUFFER_SIZE );
-        
+
         for ( int i = 0; i < NUMBER_OF_OBJECTS; i++ )
         {
             Pointer<Object> pointer = mms.store( SMALL_PAYLOAD );
@@ -104,7 +112,7 @@ public abstract class AbstractMemoryManagerServiceTest
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD_LENGTH;
 
         mms = instanciateMemoryManagerService( BUFFER_SIZE );
-        
+
         Pointer<Object> lastPointer = null;
         for ( int i = 0; i < NUMBER_OF_OBJECTS; i++ )
         {
@@ -128,7 +136,8 @@ public abstract class AbstractMemoryManagerServiceTest
     }
 
     /**
-     * Completely fill the buffer, free some pointer, reallocated the freed space, clear the buffer. The entire space should be
+     * Completely fill the buffer, free some pointer, reallocated the freed space, clear the buffer. The entire space
+     * should be
      */
     @Test
     public void testFullFillAndFreeAndClearBuffer()
@@ -138,7 +147,7 @@ public abstract class AbstractMemoryManagerServiceTest
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD_LENGTH;
 
         mms = instanciateMemoryManagerService( BUFFER_SIZE );
-        
+
         Pointer<Object> pointerFull = mms.store( MemoryTestUtils.generateRandomPayload( BUFFER_SIZE ) );
         Assert.assertNotNull( pointerFull );
         mms.free( pointerFull );
@@ -219,7 +228,7 @@ public abstract class AbstractMemoryManagerServiceTest
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD_LENGTH;
 
         mms = instanciateMemoryManagerService( BUFFER_SIZE );
-        
+
         for ( int i = 0; i < NUMBER_OF_OBJECTS; i++ )
         {
             byte[] payload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH );
@@ -259,7 +268,7 @@ public abstract class AbstractMemoryManagerServiceTest
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD_LENGTH;
 
         mms = instanciateMemoryManagerService( BUFFER_SIZE );
-        
+
         List<Pointer<Object>> pointers = new ArrayList<Pointer<Object>>( NUMBER_OF_OBJECTS );
         for ( int i = 0; i < NUMBER_OF_OBJECTS; i++ )
         {
@@ -305,8 +314,8 @@ public abstract class AbstractMemoryManagerServiceTest
         Pointer<Object> pointer3 = mms.allocate( Object.class, NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD_LENGTH, 0, 0 );
         Assert.assertNotNull( pointer3 );
 
-        if (pointer3.getMemoryBuffer() != null)
-        {   // it makes no sense for Unsafe
+        if ( pointer3.getMemoryBuffer() != null )
+        { // it makes no sense for Unsafe
             byte[] payload3 = MemoryTestUtils.generateRandomPayload( NUMBER_OF_OBJECTS / 4 * SMALL_PAYLOAD_LENGTH );
             pointer3.getMemoryBuffer().writeBytes( payload3 );
             byte[] retrievePayload3 = mms.retrieve( pointer3 );
@@ -322,7 +331,7 @@ public abstract class AbstractMemoryManagerServiceTest
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD_LENGTH;
 
         mms = instanciateMemoryManagerService( BUFFER_SIZE );
-        
+
         final byte[] payload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH );
 
         final Pointer<Object> pointer = mms.store( payload );
@@ -332,21 +341,19 @@ public abstract class AbstractMemoryManagerServiceTest
         final byte[] otherPayload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH );
         final Pointer<Object> otherPointer = mms.update( pointer, otherPayload );
         Assert.assertNotNull( otherPointer );
-//        Assert.assertEquals( pointer.getStart(), otherPointer.getStart() );
+        // Assert.assertEquals( pointer.getStart(), otherPointer.getStart() );
         Assert.assertEquals( pointer.getSize(), otherPointer.getSize() );
         Assert.assertEquals( new String( otherPayload ), new String( mms.retrieve( otherPointer ) ) );
 
         final byte[] evenAnotherPayload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH / 2 );
         final Pointer<Object> evenAnotherPointer = mms.update( otherPointer, evenAnotherPayload );
         Assert.assertNotNull( evenAnotherPointer );
-//        Assert.assertEquals( pointer.getStart(), evenAnotherPointer.getStart() );
+        // Assert.assertEquals( pointer.getStart(), evenAnotherPointer.getStart() );
         Assert.assertEquals( pointer.getSize() / 2, evenAnotherPointer.getSize() );
-        //Assert.assertEquals( 2, new String( mms.retrieve( evenAnotherPointer ) ).length() );
-        Assert.assertTrue( new String( mms.retrieve( evenAnotherPointer ) )
-            .startsWith( new String( evenAnotherPayload ) ) );
+        // Assert.assertEquals( 2, new String( mms.retrieve( evenAnotherPointer ) ).length() );
+        Assert.assertTrue( new String( mms.retrieve( evenAnotherPointer ) ).startsWith( new String( evenAnotherPayload ) ) );
 
     }
-
 
     @Test
     public void testAllocate()
@@ -356,7 +363,7 @@ public abstract class AbstractMemoryManagerServiceTest
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD_LENGTH;
 
         mms = instanciateMemoryManagerService( BUFFER_SIZE );
-        
+
         final byte[] payload1 = MemoryTestUtils.generateRandomPayload( 8 * SMALL_PAYLOAD_LENGTH );
         final Pointer<Object> pointer1 = mms.store( payload1 );
         Assert.assertNotNull( pointer1 );
@@ -395,7 +402,6 @@ public abstract class AbstractMemoryManagerServiceTest
         Assert.assertEquals( size2, buffer2.capacity() );
         buffer2.writeBytes( allocatedPayload2 );
         Assert.assertEquals( new String( allocatedPayload2 ), new String( mms.retrieve( allocatedPointer2 ) ) );
-
 
         // Ensure the new allocation has not overwritten other data
         Assert.assertEquals( new String( payload2 ), new String( mms.retrieve( pointer2 ) ) );

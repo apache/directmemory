@@ -31,7 +31,6 @@ import org.apache.directmemory.measures.Ram;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,18 +38,19 @@ import org.slf4j.LoggerFactory;
 import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.google.common.collect.Maps;
 
-@Ignore
-public class BaseUnsafeTest extends AbstractBenchmark
+public class BaseUnsafeTest
+    extends AbstractBenchmark
 {
-    
+
     MemoryManagerService<Object> mem;
-    
+
     @Before
     public void initMMS()
     {
         mem = new UnsafeMemoryManagerServiceImpl<Object>();
         mem.init( 1, 1 * 1024 * 1024 );
     }
+
     @Test
     public void smokeTest()
     {
@@ -59,7 +59,7 @@ public class BaseUnsafeTest extends AbstractBenchmark
 
         Random rnd = new Random();
 
-        int size = rnd.nextInt( 10 ) * (int)mem.capacity() / 100;
+        int size = rnd.nextInt( 10 ) * (int) mem.capacity() / 100;
 
         logger.info( "size=" + size );
 
@@ -70,7 +70,6 @@ public class BaseUnsafeTest extends AbstractBenchmark
         mem.free( p );
         assertEquals( 0, mem.used() );
     }
-
 
     private static Logger logger = LoggerFactory.getLogger( MallocTest.class );
 
@@ -91,8 +90,8 @@ public class BaseUnsafeTest extends AbstractBenchmark
     @AfterClass
     public static void setup()
     {
-//		logger.info("off-heap allocated: " + Ram.inMb(mem.capacity()));
-//		logger.info("off-heap used:      " + Ram.inMb(mem.used()));
+        // logger.info("off-heap allocated: " + Ram.inMb(mem.capacity()));
+        // logger.info("off-heap used:      " + Ram.inMb(mem.used()));
         logger.info( "test - size: " + test.size() );
         logger.info( "test - errors: " + errors );
         logger.info( "heap - max: " + Ram.inMb( Runtime.getRuntime().maxMemory() ) );
@@ -101,17 +100,15 @@ public class BaseUnsafeTest extends AbstractBenchmark
         logger.info( "************************************************" );
     }
 
-    
-    
     @Test
     public void aFewEntriesWithRead()
     {
-//        logger.info( "total capacity=" + Ram.inMb( mem.capacity() ) );
+        // logger.info( "total capacity=" + Ram.inMb( mem.capacity() ) );
         assertNotNull( mem );
         int howMany = 100000;
-//        logger.info( "payload size is variable" );
-//        logger.info( "entries=" + howMany );
-//        String test = "this is a nicely crafted test";
+        // logger.info( "payload size is variable" );
+        // logger.info( "entries=" + howMany );
+        // String test = "this is a nicely crafted test";
         for ( int i = 0; i < howMany; i++ )
         {
             final byte[] payload = ( test + " - " + i ).getBytes();
@@ -124,7 +121,7 @@ public class BaseUnsafeTest extends AbstractBenchmark
             assertEquals( crc1, crc2 );
         }
 
-//        logger.info( "total used=" + Ram.inMb( mem.used() ) );
+        // logger.info( "total used=" + Ram.inMb( mem.used() ) );
     }
 
     private static long crc32( byte[] payload )
@@ -137,24 +134,24 @@ public class BaseUnsafeTest extends AbstractBenchmark
     @Test
     public void aFewEntriesWithCheck()
     {
-//        logger.info( "total capacity=" + Ram.inMb( mem.capacity() ) );
+        // logger.info( "total capacity=" + Ram.inMb( mem.capacity() ) );
         assertNotNull( mem );
         int howMany = 10;
-//        logger.info( "payload size is variable" );
-//        logger.info( "entries=" + howMany );
-//        String test = "this is a nicely crafted test";
-//        Pointer<Object> lastP = null;
+        // logger.info( "payload size is variable" );
+        // logger.info( "entries=" + howMany );
+        // String test = "this is a nicely crafted test";
+        // Pointer<Object> lastP = null;
         for ( int i = 0; i < howMany; i++ )
         {
             byte[] payload = ( test + " - " + i ).getBytes();
             Pointer<Object> p = mem.store( payload );
-//            logger.info( "p.start=" + p.getStart() );
-//            logger.info( "p.end=" + p.getEnd() );
+            // logger.info( "p.start=" + p.getStart() );
+            // logger.info( "p.end=" + p.getEnd() );
             assertEquals( p.getCapacity(), payload.length );
-//            lastP = p;
-//            logger.info( "---" );
+            // lastP = p;
+            // logger.info( "---" );
         }
 
-//        logger.info( "total used=" + Ram.inMb( mem.used() ) );
+        // logger.info( "total used=" + Ram.inMb( mem.used() ) );
     }
 }
