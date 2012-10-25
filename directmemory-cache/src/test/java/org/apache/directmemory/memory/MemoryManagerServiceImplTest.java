@@ -19,6 +19,8 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Random;
 
 import junit.framework.Assert;
@@ -27,7 +29,11 @@ import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.MemoryManagerServiceImpl;
 import org.apache.directmemory.memory.Pointer;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith( Parameterized.class )
 public class MemoryManagerServiceImplTest
 {
 
@@ -35,9 +41,25 @@ public class MemoryManagerServiceImplTest
 
     protected static final byte[] SMALL_PAYLOAD = "ABCD".getBytes();
 
+    @Parameters
+    public static Collection<Object[]> data()
+    {
+        Object[][] data =
+            new Object[][] { { new MemoryManagerServiceImpl<Object>() },
+                { new UnsafeMemoryManagerServiceImpl<Object>() } };
+        return Arrays.asList( data );
+    }
+
+    private final MemoryManagerService<Object> memoryManagerService;
+
+    public MemoryManagerServiceImplTest( MemoryManagerService<Object> memoryManagerService )
+    {
+        this.memoryManagerService = memoryManagerService;
+    }
+
     protected MemoryManagerService<Object> getMemoryManagerService()
     {
-        return new MemoryManagerServiceImpl<Object>();
+        return memoryManagerService;
     }
 
     @Test

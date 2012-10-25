@@ -1,5 +1,12 @@
 package org.apache.directmemory.memory;
 
+import java.util.Arrays;
+import java.util.Collection;
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,14 +26,26 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
+@RunWith(Parameterized.class)
 public class DefaultMemoryManagerServiceTest
     extends AbstractMemoryManagerServiceTest
 {
 
+    @Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList( new Object[][] {{new MemoryManagerServiceImpl<Object>()},{new UnsafeMemoryManagerServiceImpl<Object>()}} );
+    }
+    
+    private final MemoryManagerService<Object> memoryManagerService;
+    
+    public DefaultMemoryManagerServiceTest(MemoryManagerService<Object> memoryManagerService) {
+        this.memoryManagerService = memoryManagerService;
+    }
+    
     @Override
     protected MemoryManagerService<Object> instanciateMemoryManagerService( int bufferSize )
     {
-        final MemoryManagerService<Object> mms = new MemoryManagerServiceImpl<Object>();
+        final MemoryManagerService<Object> mms = memoryManagerService;
         mms.init( 1, bufferSize );
         return mms;
     }
