@@ -63,10 +63,11 @@ DirectMemory Simple Usage
   V retrieve( K key );
 +------------------------
 
-  Clear at the end of usage
+  Clear at the end of usage and close the CacheService
 
 +------------------------
-  cacheService.clear()
+  cacheService.clear();
+  cacheService.close();
 +------------------------
 
 

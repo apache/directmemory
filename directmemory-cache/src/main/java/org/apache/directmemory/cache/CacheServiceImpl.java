@@ -279,6 +279,14 @@ public class CacheServiceImpl<K, V>
     }
 
     @Override
+    public void close()
+        throws IOException
+    {
+        memoryManager.close();
+        logger.info( "Cache closed" );
+    }
+
+    @Override
     public long entries()
     {
         return map.size();

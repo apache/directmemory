@@ -19,20 +19,20 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
-
 import org.apache.directmemory.memory.MemoryManagerService;
 import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.serialization.Serializer;
 
+import java.io.Closeable;
 import java.util.concurrent.ConcurrentMap;
 
 public interface CacheService<K, V>
+    extends Closeable
 {
 
     void scheduleDisposalEvery( long l );
 
     /**
-     *
      * @param key
      * @param payload
      * @param expiresIn in ms
@@ -45,7 +45,6 @@ public interface CacheService<K, V>
     Pointer<V> put( K key, V value );
 
     /**
-     *
      * @param key
      * @param value
      * @param expiresIn in ms
@@ -68,7 +67,6 @@ public interface CacheService<K, V>
     void collectLFU();
 
     void collectAll();
-
 
     void clear();
 
