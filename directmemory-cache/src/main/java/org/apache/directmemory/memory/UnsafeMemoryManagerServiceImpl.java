@@ -28,13 +28,10 @@ public class UnsafeMemoryManagerServiceImpl<V>
 
     private long capacity;
 
-    private int size;
-
     @Override
     public void init( int numberOfBuffers, int size )
     {
         this.capacity = numberOfBuffers * size;
-        this.size = size;
         this.allocator = new LazyUnsafeAllocatorImpl( numberOfBuffers, capacity );
     }
 
@@ -83,19 +80,6 @@ public class UnsafeMemoryManagerServiceImpl<V>
         return p;
     }
 
-    // @Override
-    // public Pointer<V> store( byte[] payload )
-    // {
-    // return store(payload, 0);
-    // }
-
-    // @Override
-    // public Pointer<V> update( Pointer<V> pointer, byte[] payload )
-    // {
-    // free(pointer);
-    // return store(payload, pointer.getExpiresIn());
-    // }
-
     @Override
     public byte[] retrieve( Pointer<V> pointer )
     {
@@ -133,14 +117,13 @@ public class UnsafeMemoryManagerServiceImpl<V>
     {
         return capacity;
     }
-    //
-    // @Override
-    // public long used()
-    // {
-    // // TODO Auto-generated method stub
-    // return used.get();
-    // }
-    //
+
+    @Override
+    public long used()
+    {
+        return used.get();
+    }
+
     // @Override
     // public long collectExpired()
     // {
