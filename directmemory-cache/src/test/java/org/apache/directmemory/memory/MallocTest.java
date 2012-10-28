@@ -35,6 +35,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.ConcurrentMap;
 
@@ -42,11 +43,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @AxisRange( min = 0, max = 1 )
-@BenchmarkMethodChart()
+@BenchmarkMethodChart( )
 @BenchmarkOptions( benchmarkRounds = 1, warmupRounds = 0 )
 @BenchmarkHistoryChart( labelWith = LabelType.CUSTOM_KEY, maxRuns = 5 )
 @Ignore
-
 public class MallocTest
     extends AbstractBenchmark
 {
@@ -57,6 +57,7 @@ public class MallocTest
 
     @After
     public void dump()
+        throws IOException
     {
         logger.info( "off-heap allocated: " + Ram.inMb( mem.capacity() ) );
         logger.info( "off-heap used:      " + Ram.inMb( mem.used() ) );
@@ -64,10 +65,15 @@ public class MallocTest
         logger.info( "heap - allocated: " + Ram.inMb( Runtime.getRuntime().totalMemory() ) );
         logger.info( "heap - free : " + Ram.inMb( Runtime.getRuntime().freeMemory() ) );
         logger.info( "************************************************" );
+
+        if ( mem != null )
+        {
+            mem.close();
+        }
     }
 
     MemoryManagerService<Object> mem;
-    
+
     @Before
     public void initMMS()
     {
@@ -80,7 +86,7 @@ public class MallocTest
     {
         assertNotNull( mem );
         int howMany = 1000000;
-        int size = (int)mem.capacity() / ( howMany );
+        int size = (int) mem.capacity() / ( howMany );
         size -= size / 100 * 1;
         logger.info( "payload size=" + size );
         logger.info( "entries=" + howMany );
@@ -104,7 +110,7 @@ public class MallocTest
 
         assertNotNull( mem );
         int howMany = 2000000;
-        int size = (int)mem.capacity() / ( howMany );
+        int size = (int) mem.capacity() / ( howMany );
         size -= size / 100 * 1;
         logger.info( "payload size=" + size );
         logger.info( "entries=" + howMany );
@@ -127,7 +133,7 @@ public class MallocTest
 
         assertNotNull( mem );
         int howMany = 5000000;
-        int size = (int)mem.capacity() / ( howMany );
+        int size = (int) mem.capacity() / ( howMany );
         size -= size / 100 * 1;
         logger.info( "payload size=" + size );
         logger.info( "entries=" + howMany );
@@ -144,12 +150,12 @@ public class MallocTest
         logger.info( "...done in " + ( System.currentTimeMillis() - start ) + " msecs." );
     }
 
-
     @Test
     public void withMap()
     {
 
-        ConcurrentMap<Long, Pointer<Object>> map = new MapMaker().concurrencyLevel( 4 ).initialCapacity( 500000 ).makeMap();
+        ConcurrentMap<Long, Pointer<Object>> map =
+            new MapMaker().concurrencyLevel( 4 ).initialCapacity( 500000 ).makeMap();
 
         String str = "This is the string to store into the off-heap memory";
 
@@ -172,7 +178,6 @@ public class MallocTest
     {
         mem.clear();
     }
-
 
     @Test
     public void oneMillionEntriesWithRead()

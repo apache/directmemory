@@ -28,6 +28,7 @@ import org.apache.directmemory.memory.Pointer;
 import org.apache.directmemory.memory.RoundRobinAllocationPolicy;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import static org.junit.Assert.*;
@@ -37,12 +38,12 @@ public class CacheServiceImplTest
 
     @Test
     public void testOffHeapExceedMemoryReturnNullWhenTrue()
+        throws IOException
     {
         AllocationPolicy allocationPolicy = new RoundRobinAllocationPolicy();
         MemoryManagerService<byte[]> memoryManager = new MemoryManagerServiceImpl<byte[]>( allocationPolicy, true );
         CacheService<Integer, byte[]> cache =
-            new DirectMemory<Integer, byte[]>().setMemoryManager( memoryManager ).setNumberOfBuffers( 1 ).setSize(
-                Ram.Mb( 1 ) ).newCacheService();
+            new DirectMemory<Integer, byte[]>().setMemoryManager( memoryManager ).setNumberOfBuffers( 1 ).setSize( Ram.Mb( 1 ) ).newCacheService();
 
         for ( int i = 0; i < 1000; i++ )
         {
@@ -54,6 +55,7 @@ public class CacheServiceImplTest
         }
         assertTrue( "This test ensures that no unexpected errors/behaviours occurs when heap space is full", true );
 
+        cache.close();
     }
 
     private static class MyBean
@@ -83,13 +85,12 @@ public class CacheServiceImplTest
 
     @Test
     public void testEntryIsNoMoreAvailableAfterExpiry()
-        throws InterruptedException
+        throws InterruptedException, IOException
     {
         AllocationPolicy allocationPolicy = new RoundRobinAllocationPolicy();
         MemoryManagerService<MyBean> memoryManager = new MemoryManagerServiceImpl<MyBean>( allocationPolicy, true );
         CacheService<Integer, MyBean> cache =
-            new DirectMemory<Integer, MyBean>().setMemoryManager( memoryManager ).setNumberOfBuffers( 1 ).setSize(
-                Ram.Mb( 1 ) ).newCacheService();
+            new DirectMemory<Integer, MyBean>().setMemoryManager( memoryManager ).setNumberOfBuffers( 1 ).setSize( Ram.Mb( 1 ) ).newCacheService();
         /*
          * let the scan run every 10s
          */
@@ -120,7 +121,8 @@ public class CacheServiceImplTest
         assertNotNull( pointer );
         assertTrue( pointer.isExpired() );
         assertTrue( pointer.isFree() );
-    }
 
+        cache.close();
+    }
 
 }

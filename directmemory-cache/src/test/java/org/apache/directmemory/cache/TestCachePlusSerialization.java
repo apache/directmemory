@@ -32,6 +32,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
@@ -55,9 +56,11 @@ public class TestCachePlusSerialization
 
     @AfterClass
     public static void end()
+        throws IOException
     {
         Cache.dump();
         Monitor.dump();
+        Cache.close();
         logger.info( "test ended" );
     }
 

@@ -1,5 +1,7 @@
 package org.apache.directmemory.memory;
 
+import java.io.IOException;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -25,7 +27,7 @@ public class MemoryManager
 
     private MemoryManager()
     {
-        //static class
+        // static class
     }
 
     public static void init( int numberOfBuffers, int size )
@@ -63,6 +65,12 @@ public class MemoryManager
         memoryManager.clear();
     }
 
+    public static void close()
+        throws IOException
+    {
+        memoryManager.close();
+    }
+
     public static long capacity()
     {
         return memoryManager.capacity();
@@ -85,6 +93,6 @@ public class MemoryManager
 
     public static Pointer<Object> allocate( int size )
     {
-        return memoryManager.allocate( Object.class, size, -1, -1 ); //add a version with expiration
+        return memoryManager.allocate( Object.class, size, -1, -1 ); // add a version with expiration
     }
 }

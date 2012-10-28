@@ -22,6 +22,7 @@ package org.apache.directmemory.memory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.ConcurrentMap;
 
@@ -43,6 +44,7 @@ public class MallocWithUnsafeTest
 
     @After
     public void dump()
+        throws IOException
     {
         logger.info( "off-heap allocated: " + Ram.inMb( mem.capacity() ) );
         logger.info( "off-heap used:      " + Ram.inMb( mem.used() ) );
@@ -50,6 +52,11 @@ public class MallocWithUnsafeTest
         logger.info( "heap - allocated: " + Ram.inMb( Runtime.getRuntime().totalMemory() ) );
         logger.info( "heap - free : " + Ram.inMb( Runtime.getRuntime().freeMemory() ) );
         logger.info( "************************************************" );
+
+        if ( mem != null )
+        {
+            mem.close();
+        }
     }
 
     MemoryManagerService<Object> mem;

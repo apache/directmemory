@@ -22,12 +22,14 @@ package org.apache.directmemory.memory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
 import org.apache.directmemory.measures.Ram;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -52,6 +54,16 @@ public class BaseTest
     {
         mem = new MemoryManagerServiceImpl<Object>();
         mem.init( 1, 1 * 1024 * 1024 );
+    }
+
+    @After
+    public void cleanup()
+        throws IOException
+    {
+        if ( mem != null )
+        {
+            mem.close();
+        }
     }
 
     @Test

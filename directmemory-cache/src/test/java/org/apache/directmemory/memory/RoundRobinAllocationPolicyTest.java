@@ -24,20 +24,19 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.directmemory.memory.allocator.Allocator;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Unit test of {@link RoundRobinAllocationPolicy} class.
- *
+ * 
  * @author benoit@noisette.ch
- *
  */
 public class RoundRobinAllocationPolicyTest
 {
@@ -61,6 +60,16 @@ public class RoundRobinAllocationPolicyTest
 
         allocationPolicy = new RoundRobinAllocationPolicy();
         allocationPolicy.init( allocators );
+    }
+
+    @After
+    public void cleanup()
+        throws IOException
+    {
+        for ( Allocator allocator : allocators )
+        {
+            allocator.close();
+        }
     }
 
     @Test
@@ -93,7 +102,6 @@ public class RoundRobinAllocationPolicyTest
 
     }
 
-
     @Test
     public void testMaxAllocation()
     {
@@ -106,7 +114,6 @@ public class RoundRobinAllocationPolicyTest
 
     }
 
-
     /**
      * Dummy {@link OffHeapMemoryBuffer} that do nothing.
      */
@@ -116,7 +123,7 @@ public class RoundRobinAllocationPolicyTest
 
         @Override
         public void free( MemoryBuffer buffer )
-        {            
+        {
         }
 
         @Override
@@ -127,7 +134,7 @@ public class RoundRobinAllocationPolicyTest
 
         @Override
         public void clear()
-        {            
+        {
         }
 
         @Override
@@ -146,8 +153,8 @@ public class RoundRobinAllocationPolicyTest
         public void close()
             throws IOException
         {
-            
+
         }
-        
+
     }
 }

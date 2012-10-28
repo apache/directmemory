@@ -19,6 +19,7 @@ package org.apache.directmemory.memory.allocator;
  * under the License.
  */
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class SlabByteBufferAllocatorImplTest
 {
     @Test
     public void allocationTest()
+        throws IOException
     {
         
         List<FixedSizeByteBufferAllocatorImpl> slabs = new ArrayList<FixedSizeByteBufferAllocatorImpl>();
@@ -70,7 +72,8 @@ public class SlabByteBufferAllocatorImplTest
         MemoryBuffer bf7 = allocator.allocate( 800 );
         Assert.assertEquals( 1024, bf7.maxCapacity() );
         Assert.assertEquals( 800, bf7.capacity() );
-        
+     
+        allocator.close();
     }
     
 }

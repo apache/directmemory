@@ -21,12 +21,14 @@ package org.apache.directmemory.memory;
 
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Random;
 
@@ -59,6 +61,13 @@ public class NIOTest
         logger.info( "" + howMany + " items stored" );
     }
 
+    @AfterClass
+    public static void cleanup()
+        throws IOException
+    {
+        MemoryManager.close();
+    }
+
     @Test
     public void nioTest()
     {
@@ -82,6 +91,5 @@ public class NIOTest
         assertEquals( size, p.getCapacity() );
         logger.info( "end" );
     }
-
 
 }

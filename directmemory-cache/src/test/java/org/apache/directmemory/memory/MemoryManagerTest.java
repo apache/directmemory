@@ -19,32 +19,39 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
-import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
-import com.google.common.collect.Maps;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Random;
+
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.MemoryManager;
-import org.apache.directmemory.memory.Pointer;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-import java.util.Random;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
+import com.google.common.collect.Maps;
 
 public class MemoryManagerTest
     extends AbstractBenchmark
 {
-
 
     @BeforeClass
     public static void init()
     {
         logger.info( "init" );
         MemoryManager.init( 1, Ram.Mb( 100 ) );
+    }
+
+    @AfterClass
+    public static void cleanup()
+        throws IOException
+    {
+        MemoryManager.close();
     }
 
     @Test
@@ -56,7 +63,7 @@ public class MemoryManagerTest
         Pointer<Object> p = MemoryManager.store( new byte[size] );
         logger.info( "stored" );
         assertNotNull( p );
-        //assertEquals(size,p.end);
+        // assertEquals(size,p.end);
         assertEquals( size, p.getCapacity() );
         assertEquals( size, MemoryManager.getMemoryManager().used() );
         MemoryManager.free( p );
@@ -83,7 +90,6 @@ public class MemoryManagerTest
         logger.info( "" + howMany + " items stored" );
     }
 
-
     @Test
     public void readTest()
     {
@@ -97,7 +103,6 @@ public class MemoryManagerTest
             }
         }
     }
-
 
     private static Logger logger = LoggerFactory.getLogger( MallocTest.class );
 

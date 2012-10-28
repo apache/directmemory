@@ -19,6 +19,7 @@ package org.apache.directmemory.memory;
  * under the License.
  */
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Random;
@@ -66,6 +67,7 @@ public class MemoryManagerServiceImplTest
 
     @Test
     public void testFirstMatchBorderCase()
+        throws IOException
     {
 
         // Storing a first payload of 4 bytes, 1 byte remaining in the buffer.
@@ -84,10 +86,12 @@ public class MemoryManagerServiceImplTest
         Pointer<Object> pointer2 = memoryManagerService.store( SMALL_PAYLOAD );
         Assert.assertNull( pointer2 );
 
+        memoryManagerService.close();
     }
 
     @Test
     public void testAllocateMultipleBuffers()
+        throws IOException
     {
 
         // Initializing 4 buffers of 4 bytes, MemoryManagerService should search
@@ -107,10 +111,13 @@ public class MemoryManagerServiceImplTest
 
         Pointer<Object> pointerNull = memoryManagerService.store( SMALL_PAYLOAD );
         Assert.assertNull( pointerNull );
+
+        memoryManagerService.close();
     }
 
     @Test
     public void testByteLeaking()
+        throws IOException
     {
 
         // Initializing 1 buffer of 10*4 bytes, should be able to allocate 10
@@ -129,10 +136,13 @@ public class MemoryManagerServiceImplTest
 
         Pointer<Object> pointerNull = memoryManagerService.store( SMALL_PAYLOAD );
         Assert.assertNull( pointerNull );
+
+        memoryManagerService.close();
     }
 
     @Test
     public void testReportCorrectUsedMemory()
+        throws IOException
     {
 
         // Initializing 1 buffer of 4*4 bytes, storing and freeing and storing
@@ -165,10 +175,12 @@ public class MemoryManagerServiceImplTest
         // Buffer again fully used.
         Assert.assertEquals( BUFFER_SIZE, memoryManagerService.used() );
 
+        memoryManagerService.close();
     }
 
     @Test
     public void testRandomPayload()
+        throws IOException
     {
 
         final int NUMBER_OF_OBJECTS = 10;
@@ -221,6 +233,7 @@ public class MemoryManagerServiceImplTest
         }
         while ( pointer != null );
 
+        memoryManagerService.close();
     }
 
 }

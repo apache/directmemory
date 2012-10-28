@@ -19,6 +19,7 @@ package org.apache.directmemory.cache;
  * under the License.
  */
 
+import java.io.IOException;
 
 import org.apache.directmemory.DirectMemory;
 import org.apache.directmemory.memory.MemoryManagerService;
@@ -51,10 +52,9 @@ public class Cache
     public static void init( int numberOfBuffers, int size, int initialCapacity, int concurrencyLevel )
     {
         cacheService =
-            builder.setNumberOfBuffers( numberOfBuffers ).setInitialCapacity( initialCapacity )
-                .setConcurrencyLevel(concurrencyLevel )
-                    .setSize( size ).newCacheService();
-//        concurrencyLevel ).setMemoryManager( new UnsafeMemoryManagerServiceImpl<Object>() ).setSize( size ).newCacheService();
+            builder.setNumberOfBuffers( numberOfBuffers ).setInitialCapacity( initialCapacity ).setConcurrencyLevel( concurrencyLevel ).setSize( size ).newCacheService();
+        // concurrencyLevel ).setMemoryManager( new UnsafeMemoryManagerServiceImpl<Object>() ).setSize( size
+        // ).newCacheService();
     }
 
     public static void init( int numberOfBuffers, int size )
@@ -122,10 +122,15 @@ public class Cache
         cacheService.collectAll();
     }
 
-
     public static void clear()
     {
         cacheService.clear();
+    }
+
+    public static void close()
+        throws IOException
+    {
+        cacheService.close();
     }
 
     public static long entries()
