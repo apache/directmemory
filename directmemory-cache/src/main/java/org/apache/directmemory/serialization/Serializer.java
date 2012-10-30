@@ -21,6 +21,9 @@ package org.apache.directmemory.serialization;
 
 import java.io.IOException;
 
+/**
+ * <b>All implementations must be thread-safe</b>
+ */
 public interface Serializer
 {
 
