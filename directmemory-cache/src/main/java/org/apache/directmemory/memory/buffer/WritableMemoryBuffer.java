@@ -40,6 +40,8 @@ public interface WritableMemoryBuffer
 
     void writeBuffer( ReadableMemoryBuffer memoryBuffer, long offset, long length );
 
+    void writeBoolean( boolean value );
+
     void writeByte( byte value );
 
     void writeUnsignedByte( short value );

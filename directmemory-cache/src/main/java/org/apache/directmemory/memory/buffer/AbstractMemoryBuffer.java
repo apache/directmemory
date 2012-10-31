@@ -43,6 +43,12 @@ public abstract class AbstractMemoryBuffer
     }
 
     @Override
+    public boolean readBoolean()
+    {
+        return readByte() == 1 ? true : false;
+    }
+
+    @Override
     public byte readByte()
     {
         return readByte( readerIndex++ );
@@ -177,6 +183,12 @@ public abstract class AbstractMemoryBuffer
     public boolean writable()
     {
         return growing() || writerIndex() < maxCapacity();
+    }
+
+    @Override
+    public void writeBoolean( boolean value )
+    {
+        writeByte( (byte) ( value ? 1 : 0 ) );
     }
 
     @Override

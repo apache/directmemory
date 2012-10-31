@@ -40,6 +40,8 @@ public interface ReadableMemoryBuffer
 
     long readBuffer( WritableMemoryBuffer memoryBuffer, long offset, long length );
 
+    boolean readBoolean();
+
     byte readByte();
 
     short readUnsignedByte();
