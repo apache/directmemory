@@ -33,9 +33,6 @@ public final class KryoSerializer
     private static final int BUFFER_SIZE = 1024;
 
     private final Kryo kryo;
-    private final byte[] buffer = new byte[ BUFFER_SIZE ];
-    private final Output output = new Output( buffer, -1 );
-    private final Input input = new Input( buffer );
 
     public KryoSerializer()
     {
@@ -54,6 +51,8 @@ public final class KryoSerializer
 
         checkRegiterNeeded( clazz );
 
+        byte[] buffer = new byte[BUFFER_SIZE];
+        Output output = new Output( buffer, -1 );
         output.setBuffer( buffer, -1 );
         kryo.writeObject( output, obj );
         return output.toBytes();
@@ -67,8 +66,10 @@ public final class KryoSerializer
         throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
     {
         checkRegiterNeeded( clazz );
-        input.setBuffer( source);
-        return kryo.readObject(input, clazz);
+        byte[] buffer = new byte[BUFFER_SIZE];
+        Input input = new Input( buffer );
+        input.setBuffer( source );
+        return kryo.readObject( input, clazz );
     }
 
     private void checkRegiterNeeded( Class<?> clazz )
