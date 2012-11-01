@@ -39,8 +39,19 @@ public abstract class AbstractMemoryManager<V>
 
     public Pointer<V> update( Pointer<V> pointer, byte[] payload )
     {
-        free( pointer );
-        return store( payload );
+        if ( pointer.getCapacity() >= payload.length )
+        {
+            pointer.reset();
+            pointer.setFree( false );
+            pointer.getMemoryBuffer().writeBytes( payload );
+            pointer.hit();
+            return pointer;
+        }
+        else
+        {
+            free( pointer );
+            return store( payload );
+        }
     }
 
     public long used()
