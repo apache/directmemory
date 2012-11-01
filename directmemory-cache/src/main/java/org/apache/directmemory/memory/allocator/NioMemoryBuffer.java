@@ -64,6 +64,8 @@ abstract class NioMemoryBuffer
     {
         byteBuffer.clear();
         byteBuffer.rewind();
+        writerIndex = 0;
+        readerIndex = 0;
     }
 
     @Override
