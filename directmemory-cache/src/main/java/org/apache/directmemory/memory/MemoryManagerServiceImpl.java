@@ -269,10 +269,9 @@ public class MemoryManagerServiceImpl<V>
                                              final long expires )
     {
 
-        Pointer<V> p = new PointerImpl<V>( buffer );
+        Pointer<V> p = new PointerImpl<V>( buffer, allocatorIndex );
 
         p.setExpiration( expires, expiresIn );
-        p.setBufferNumber( allocatorIndex );
         p.setFree( false );
         p.createdNow();
 

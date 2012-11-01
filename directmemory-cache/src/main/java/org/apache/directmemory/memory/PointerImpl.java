@@ -33,6 +33,8 @@ public class PointerImpl<T>
 
     public final MemoryBuffer memoryBuffer;
 
+    public final int bufferNumber;
+
     public long created;
 
     public long expires;
@@ -45,13 +47,12 @@ public class PointerImpl<T>
 
     public AtomicLong lastHit = new AtomicLong();
 
-    public int bufferNumber;
-
     public Class<? extends T> clazz;
 
-    public PointerImpl( MemoryBuffer memoryBuffer )
+    public PointerImpl( MemoryBuffer memoryBuffer, int bufferNumber )
     {
         this.memoryBuffer = memoryBuffer;
+        this.bufferNumber = bufferNumber;
     }
 
     @Override
@@ -153,12 +154,6 @@ public class PointerImpl<T>
     public void createdNow()
     {
         created = System.currentTimeMillis();
-    }
-
-    @Override
-    public void setBufferNumber( int bufferNumber )
-    {
-        this.bufferNumber = bufferNumber;
     }
 
     @Override

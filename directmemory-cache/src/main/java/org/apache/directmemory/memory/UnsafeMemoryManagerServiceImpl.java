@@ -45,7 +45,7 @@ public class UnsafeMemoryManagerServiceImpl<V>
 
     protected Pointer<V> instanciatePointer( int size, long expiresIn, long expires )
     {
-        Pointer<V> p = new PointerImpl<V>( allocator.allocate( size ) );
+        Pointer<V> p = new PointerImpl<V>( allocator.allocate( size ), 1 );
 
         p.setExpiration( expires, expiresIn );
         p.setFree( false );

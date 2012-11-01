@@ -40,8 +40,6 @@ public interface Pointer<T>
 
     int getBufferNumber();
 
-    void setBufferNumber( int bufferNumber );
-
     long getSize();
 
     void hit();

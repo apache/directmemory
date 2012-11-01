@@ -34,21 +34,24 @@ public class SlabMemoryManagerServiceTest
     @Override
     protected MemoryManagerService<Object> instanciateMemoryManagerService( int bufferSize )
     {
-        final MemoryManagerService<Object> mms = new MemoryManagerServiceImpl<Object>() {
+        final MemoryManagerService<Object> mms = new MemoryManagerServiceImpl<Object>()
+        {
 
             @Override
             protected Allocator instanciateByteBufferAllocator( int allocatorNumber, int size )
             {
                 Collection<FixedSizeByteBufferAllocatorImpl> slabs = new HashSet<FixedSizeByteBufferAllocatorImpl>();
-                
-                slabs.add( new FixedSizeByteBufferAllocatorImpl(0, size, SMALL_PAYLOAD_LENGTH / 2, 1) );
-                slabs.add( new FixedSizeByteBufferAllocatorImpl(1, size, SMALL_PAYLOAD_LENGTH, 1) );
-                
-                final SlabByteBufferAllocatorImpl allocator = new SlabByteBufferAllocatorImpl( allocatorNumber, slabs, false );
-                
+
+                slabs.add( new FixedSizeByteBufferAllocatorImpl( 0, size, SMALL_PAYLOAD_LENGTH / 2, 1 ) );
+                slabs.add( new FixedSizeByteBufferAllocatorImpl( 1, size, SMALL_PAYLOAD_LENGTH, 1 ) );
+                slabs.add( new FixedSizeByteBufferAllocatorImpl( 2, size, SMALL_PAYLOAD_LENGTH * 2, 1 ) );
+
+                final SlabByteBufferAllocatorImpl allocator =
+                    new SlabByteBufferAllocatorImpl( allocatorNumber, slabs, false );
+
                 return allocator;
             }
-            
+
         };
         mms.init( 1, bufferSize );
         return mms;
@@ -58,22 +61,21 @@ public class SlabMemoryManagerServiceTest
     @Test
     public void testFullFillAndFreeAndClearBuffer()
     {
-        
+
     }
-    
+
     @Override
     @Test
     public void testStoreAllocAndFree()
     {
-        
+
     }
-    
-    
+
     @Override
     @Test
     public void testAllocate()
     {
-        
+
     }
-    
+
 }

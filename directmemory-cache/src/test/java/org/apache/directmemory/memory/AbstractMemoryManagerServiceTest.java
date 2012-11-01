@@ -327,7 +327,7 @@ public abstract class AbstractMemoryManagerServiceTest
     public void testUpdate()
     {
 
-        final int NUMBER_OF_OBJECTS = 1;
+        final int NUMBER_OF_OBJECTS = 2;
         final int BUFFER_SIZE = NUMBER_OF_OBJECTS * SMALL_PAYLOAD_LENGTH;
 
         mms = instanciateMemoryManagerService( BUFFER_SIZE );
@@ -349,10 +349,17 @@ public abstract class AbstractMemoryManagerServiceTest
         final Pointer<Object> evenAnotherPointer = mms.update( otherPointer, evenAnotherPayload );
         Assert.assertNotNull( evenAnotherPointer );
         // Assert.assertEquals( pointer.getStart(), evenAnotherPointer.getStart() );
-        Assert.assertEquals( pointer.getSize() / 2, evenAnotherPointer.getSize() );
+        Assert.assertEquals( pointer.getSize(), evenAnotherPointer.getSize() );
         // Assert.assertEquals( 2, new String( mms.retrieve( evenAnotherPointer ) ).length() );
         Assert.assertTrue( new String( mms.retrieve( evenAnotherPointer ) ).startsWith( new String( evenAnotherPayload ) ) );
 
+        final byte[] andAnotherPayload = MemoryTestUtils.generateRandomPayload( SMALL_PAYLOAD_LENGTH * 2 );
+        final Pointer<Object> andAnotherPointer = mms.update( otherPointer, andAnotherPayload );
+        Assert.assertNotNull( andAnotherPointer );
+        // Assert.assertEquals( pointer.getStart(), evenAnotherPointer.getStart() );
+        Assert.assertEquals( pointer.getSize() * 2, andAnotherPointer.getSize() );
+        // Assert.assertEquals( 2, new String( mms.retrieve( evenAnotherPointer ) ).length() );
+        Assert.assertTrue( new String( mms.retrieve( andAnotherPointer ) ).startsWith( new String( andAnotherPayload ) ) );
     }
 
     @Test
