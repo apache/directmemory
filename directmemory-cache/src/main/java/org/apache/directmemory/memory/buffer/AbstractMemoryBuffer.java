@@ -168,6 +168,12 @@ public abstract class AbstractMemoryBuffer
     }
 
     @Override
+    public String readString()
+    {
+        return UnicodeUtil.UTF8toUTF16( this );
+    }
+
+    @Override
     public long readerIndex()
     {
         return readerIndex;
@@ -311,6 +317,12 @@ public abstract class AbstractMemoryBuffer
     public void writeDouble( double value )
     {
         writeLong( Double.doubleToLongBits( value ) );
+    }
+
+    @Override
+    public void writeString( String value )
+    {
+        UnicodeUtil.UTF16toUTF8( value, this );
     }
 
     @Override

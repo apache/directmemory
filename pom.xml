@@ -103,6 +103,7 @@ under the License.
     <kryo.version>2.20</kryo.version>
     <wagon.version>2.2</wagon.version>
     <snakeyaml.version>1.10</snakeyaml.version>
+    <lightning.version>0.0.1-SNAPSHOT</lightning.version>
 
     <!-- Bundle Headers -->
     <osgi.activator />
@@ -359,6 +360,12 @@ under the License.
         <groupId>com.esotericsoftware.kryo</groupId>
         <artifactId>kryo</artifactId>
         <version>${kryo.version}</version>
+     </dependency>
+
+      <dependency>
+        <groupId>org.apache.directmemory.lightning</groupId>
+        <artifactId>lightning-core</artifactId>
+        <version>${lightning.version}</version>
      </dependency>
 
       <dependency>

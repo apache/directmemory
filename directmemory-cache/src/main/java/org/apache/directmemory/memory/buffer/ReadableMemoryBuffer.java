@@ -58,6 +58,8 @@ public interface ReadableMemoryBuffer
 
     double readDouble();
 
+    String readString();
+
     long readerIndex();
 
     void readerIndex( long readerIndex );

@@ -58,6 +58,8 @@ public interface WritableMemoryBuffer
 
     void writeDouble( double value );
 
+    void writeString( String value );
+
     long writerIndex();
 
     void writerIndex( long writerIndex );
