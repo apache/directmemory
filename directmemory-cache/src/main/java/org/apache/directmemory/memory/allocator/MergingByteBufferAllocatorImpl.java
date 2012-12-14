@@ -105,7 +105,7 @@ public class MergingByteBufferAllocatorImpl
 
         for ( Integer i : generateFreeSizesRange( totalSize ) )
         {
-            freePointers.put( Integer.valueOf( i ), new LinkedHashSet<LinkedByteBuffer>() );
+            freePointers.put( i, new LinkedHashSet<LinkedByteBuffer>() );
         }
 
         initFirstBuffer();
@@ -132,20 +132,20 @@ public class MergingByteBufferAllocatorImpl
      * @param totalSize
      * @return a list of all size's level used by the allocator.
      */
-    protected List<Integer> generateFreeSizesRange( final Integer totalSize )
+    protected List<Integer> generateFreeSizesRange( final long totalSize )
     {
         List<Integer> sizes = new ArrayList<Integer>();
 
-        for ( int i = minSizeThreshold; i <= totalSize; i *= 8 )
+        for ( long i = minSizeThreshold; i <= totalSize; i *= 8 )
         {
-            sizes.add( Integer.valueOf( i ) );
+            sizes.add( (int) i );
         }
 
         // If totalSize < minSizeThreshold or totalSize is not a multiple of minSizeThreshold 
         // we force adding an element to the map
         if ( sizes.isEmpty() || !sizes.contains( totalSize ) )
         {
-            sizes.add( totalSize );
+            sizes.add( (int) totalSize );
         }
 
         return sizes;

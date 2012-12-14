@@ -19,11 +19,16 @@ package org.apache.directmemory.memory.allocator;
  * under the License.
  */
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.IOException;
 import java.nio.BufferOverflowException;
 
 import junit.framework.Assert;
 
+import org.apache.directmemory.DirectMemory;
+import org.apache.directmemory.cache.CacheService;
+import org.apache.directmemory.memory.MemoryManagerServiceImpl;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.junit.Test;
 
@@ -197,6 +202,20 @@ public class MergingByteBufferAllocatorImplTest
         {
             allocator.close();
         }
+    }
+
+    @Test
+    public void testJiraIssue118()
+        throws Exception
+    {
+        CacheService<String, Object> cacheService = new DirectMemory<String, Object>() 
+                        .setNumberOfBuffers(1) 
+                        .setInitialCapacity(1) 
+                        .setMemoryManager(new MemoryManagerServiceImpl<Object>(true)) 
+                        .setSize(350 *(1024*1024)) 
+                        .setConcurrencyLevel(1) 
+                        .newCacheService();
+        assertNotNull(cacheService);
     }
 
 }
