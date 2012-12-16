@@ -156,8 +156,8 @@ public class ByteOrderUtils
 
     private static long buildLong( byte b7, byte b6, byte b5, byte b4, byte b3, byte b2, byte b1, byte b0 )
     {
-        return ( ( ( ( b7 & 0xFF ) << 56 ) | ( ( b6 & 0xFF ) << 48 ) | ( ( b5 & 0xFF ) << 40 ) | ( ( b4 & 0xFF ) << 32 )
-            | ( ( b3 & 0xFF ) << 24 ) | ( ( b2 & 0xFF ) << 16 ) | ( ( b1 & 0xFF ) << 8 ) | ( ( b0 & 0xFF ) << 0 ) ) );
+        return ( ( ( ( b7 & 0xFFL ) << 56 ) | ( ( b6 & 0xFFL ) << 48 ) | ( ( b5 & 0xFFL ) << 40 )
+            | ( ( b4 & 0xFFL ) << 32 ) | ( ( b3 & 0xFFL ) << 24 ) | ( ( b2 & 0xFFL ) << 16 ) | ( ( b1 & 0xFFL ) << 8 ) | ( ( b0 & 0xFFL ) << 0 ) ) );
     }
 
 }
