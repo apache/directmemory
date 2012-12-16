@@ -52,7 +52,11 @@ public interface ReadableMemoryBuffer
 
     int readInt();
 
+    int readCompressedInt();
+
     long readLong();
+
+    long readCompressedLong();
 
     float readFloat();
 

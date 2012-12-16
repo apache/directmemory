@@ -52,7 +52,11 @@ public interface WritableMemoryBuffer
 
     void writeInt( int value );
 
+    void writeCompressedInt( int value );
+
     void writeLong( long value );
+
+    void writeCompressedLong( long value );
 
     void writeFloat( float value );
 

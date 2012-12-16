@@ -150,9 +150,21 @@ public abstract class AbstractMemoryBuffer
     }
 
     @Override
+    public int readCompressedInt()
+    {
+        return Int32Compressor.readInt32( this );
+    }
+
+    @Override
     public long readLong()
     {
         return ByteOrderUtils.getLong( this, byteOrder() == ByteOrder.BIG_ENDIAN );
+    }
+
+    @Override
+    public long readCompressedLong()
+    {
+        return Int64Compressor.readInt64( this );
     }
 
     @Override
@@ -302,9 +314,21 @@ public abstract class AbstractMemoryBuffer
     }
 
     @Override
+    public void writeCompressedInt( int value )
+    {
+        Int32Compressor.writeInt32( value, this );
+    }
+
+    @Override
     public void writeLong( long value )
     {
         ByteOrderUtils.putLong( value, this, byteOrder() == ByteOrder.BIG_ENDIAN );
+    }
+
+    @Override
+    public void writeCompressedLong( long value )
+    {
+        Int64Compressor.writeInt64( value, this );
     }
 
     @Override
