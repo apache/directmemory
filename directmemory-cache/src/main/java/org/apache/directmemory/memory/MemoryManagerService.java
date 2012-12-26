@@ -53,18 +53,8 @@ public interface MemoryManagerService<V>
     Pointer<V> store( byte[] payload );
 
     /**
-     * Same function as {@link #store(byte[])}, but add an absolute expiration date
+     * Update value of a {@link Pointer}
      * 
-     * @param payload : the data to store
-     * @param expires : the absolute date the data will expire
-     * @return the pointer to the value, or null if not enough space has been found.
-     */
-    // public Pointer store(byte[] payload, Date expires);
-
-/**
-     *
-     *
-     * Update value of a {@link Pointer
      * @param pointer
      * @param payload
      * @return
