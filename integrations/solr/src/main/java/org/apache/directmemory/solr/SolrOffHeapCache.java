@@ -95,17 +95,10 @@ public class SolrOffHeapCache<K, V>
         String initialSizeValue = (String) args.get( "initialSize" );
         final int initialSize = Math.min( initialSizeValue == null ? 1024 : Integer.parseInt( initialSizeValue ), limit );
 
-
-        cacheService = new DirectMemory<K, V>()
-                        .setNumberOfBuffers( buffers != null ? Integer.valueOf( String.valueOf( buffers ) ) : 1 )
-                        .setInitialCapacity( Ram.Mb( Double.valueOf( initialSize ) / 512 ) )
-                        .setSize( Ram.Mb( limit / 512 ) )
-                        .newCacheService();
-
+        Serializer serializer = null;
         String serializerClassName = (String) args.get( "serializerClassName" );
         if ( serializerClassName != null )
         {
-            Serializer serializer;
             try
             {
                 serializer = SerializerFactory.createNewSerializer( serializerClassName );
@@ -116,10 +109,15 @@ public class SolrOffHeapCache<K, V>
                         ", falling back to the default serializer", e);
                 serializer = SerializerFactory.createNewSerializer();
             }
-
-            cacheService.setSerializer( serializer );
         }
 
+        cacheService = new DirectMemory<K, V>()
+                        .setNumberOfBuffers( buffers != null ? Integer.valueOf( String.valueOf( buffers ) ) : 1 )
+                        .setInitialCapacity( Ram.Mb( Double.valueOf( initialSize ) / 512 ) )
+                        .setSize( Ram.Mb( limit / 512 ) )
+                        .setSerializer( serializer )
+                        .newCacheService();
+        
         state = State.CREATED;
         this.regenerator = regenerator;
         name = (String) args.get( "name" );

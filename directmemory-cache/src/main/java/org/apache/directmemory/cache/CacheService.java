@@ -76,15 +76,9 @@ public interface CacheService<K, V>
 
     ConcurrentMap<K, Pointer<V>> getMap();
 
-    void setMap( ConcurrentMap<K, Pointer<V>> map );
-
     Serializer getSerializer();
 
     MemoryManagerService<V> getMemoryManager();
-
-    void setMemoryManager( MemoryManagerService<V> memoryManager );
-
-    void setSerializer( Serializer serializer );
 
     <T extends V> Pointer<V> allocate( K key, Class<T> type, int size );
 

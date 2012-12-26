@@ -36,7 +36,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.String.format;
 
 public class CacheServiceImpl<K, V>
-    implements CacheService<K, V>
+    implements MutableCacheService<K, V>
 {
 
     private static Logger logger = LoggerFactory.getLogger( CacheServiceImpl.class );
