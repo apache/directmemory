@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.String.format;
@@ -65,7 +66,13 @@ public class CacheServiceImpl<K, V>
     }
 
     @Override
-    public void scheduleDisposalEvery( long l )
+    public void scheduleDisposalEvery( long period, TimeUnit unit )
+    {
+        scheduleDisposalEvery( unit.toMillis( period ) );
+    }
+    
+    @Override
+    public void scheduleDisposalEvery( long period )
     {
         timer.schedule( new TimerTask()
         {
@@ -78,9 +85,9 @@ public class CacheServiceImpl<K, V>
 
                 logger.info( "scheduled disposal complete" );
             }
-        }, l, l );
+        }, period, period );
 
-        logger.info( "disposal scheduled every {} milliseconds", l );
+        logger.info( "disposal scheduled every {} milliseconds", period );
     }
 
     @Override
@@ -90,7 +97,7 @@ public class CacheServiceImpl<K, V>
     }
 
     @Override
-    public Pointer<V> putByteArray( K key, byte[] payload, int expiresIn )
+    public Pointer<V> putByteArray( K key, byte[] payload, long expiresIn )
     {
         return store( key, payload, expiresIn );
     }
@@ -132,7 +139,7 @@ public class CacheServiceImpl<K, V>
         }
     }
 
-    private Pointer<V> store( K key, byte[] payload, int expiresIn )
+    private Pointer<V> store( K key, byte[] payload, long expiresIn )
     {
         Pointer<V> pointer = map.get( key );
         if ( pointer != null )
