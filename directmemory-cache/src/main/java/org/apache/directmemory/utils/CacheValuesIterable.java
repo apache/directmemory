@@ -22,6 +22,7 @@ package org.apache.directmemory.utils;
 import java.util.Iterator;
 
 import org.apache.directmemory.cache.CacheService;
+import org.apache.directmemory.memory.Pointer;
 
 /**
  * A simple {@link Iterable} over {@link CacheService}'s values
@@ -54,7 +55,13 @@ public class CacheValuesIterable<K, V>
             @Override
             public V next()
             {
-                return cacheService.retrieve( keysIterator.next() );
+                K nextKey = keysIterator.next();
+                Pointer<V> pointer = cacheService.getPointer( nextKey );
+                if ( pointer != null && pointer.isExpired() )
+                {
+                    throw new RuntimeException( "Value pointer has expired" );
+                }
+                return cacheService.retrieve( nextKey );
             }
 
             @Override
