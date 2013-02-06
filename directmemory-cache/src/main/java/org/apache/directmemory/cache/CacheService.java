@@ -124,7 +124,7 @@ public interface CacheService<K, V>
     /**
      * Removes the pointer and frees the underlying memory area.
      * 
-     * @param key The pointer to remove
+     * @param pointer The pointer to remove
      */
     void free( Pointer<V> pointer );
 
