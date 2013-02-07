@@ -22,7 +22,6 @@ package org.apache.directmemory.utils;
 import java.util.Iterator;
 
 import org.apache.directmemory.cache.CacheService;
-import org.apache.directmemory.memory.Pointer;
 
 /**
  * A simple {@link Iterable} over {@link CacheService}'s values
@@ -35,40 +34,36 @@ public class CacheValuesIterable<K, V>
 
     private final Iterator<K> keysIterator;
 
+    private final boolean strict;
+
+    /**
+     * Creates a {@link StrictCacheValuesIterator} over cache values.
+     * 
+     * @param cacheService
+     */
     public CacheValuesIterable( CacheService<K, V> cacheService )
+    {
+        this( cacheService, true );
+    }
+
+    /**
+     * Creates a iterator over cache values.
+     * 
+     * @param cacheService the {@link CacheService} on whose values this will iterate
+     * @param strict When <code>true</code> the resulting iterator might returns expired or stalled values. Please see
+     *            {@link NonStrictCacheValuesIterator} for details
+     */
+    public CacheValuesIterable( CacheService<K, V> cacheService, boolean strict )
     {
         this.cacheService = cacheService;
         this.keysIterator = cacheService.getMap().keySet().iterator();
+        this.strict = strict;
     }
 
     @Override
     public Iterator<V> iterator()
     {
-        return new Iterator<V>()
-        {
-            @Override
-            public boolean hasNext()
-            {
-                return keysIterator.hasNext();
-            }
-
-            @Override
-            public V next()
-            {
-                K nextKey = keysIterator.next();
-                Pointer<V> pointer = cacheService.getPointer( nextKey );
-                if ( pointer != null && pointer.isExpired() )
-                {
-                    throw new RuntimeException( "Value pointer has expired" );
-                }
-                return cacheService.retrieve( nextKey );
-            }
-
-            @Override
-            public void remove()
-            {
-                keysIterator.remove();
-            }
-        };
+        return strict ? new StrictCacheValuesIterator<K, V>( keysIterator, cacheService )
+                        : new NonStrictCacheValuesIterator<K, V>( keysIterator, cacheService );
     }
 }
