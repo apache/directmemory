@@ -23,7 +23,7 @@ import java.io.IOException;
 
 public class MemoryManager
 {
-    private static MemoryManagerService<Object> memoryManager = new MemoryManagerServiceImpl<Object>();
+    private static final MemoryManagerService<Object> memoryManager = new MemoryManagerServiceImpl<Object>();
 
     private MemoryManager()
     {

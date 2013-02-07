@@ -101,7 +101,7 @@ public class MergingByteBufferAllocatorImpl
      */
     protected void init()
     {
-        Integer totalSize = Integer.valueOf( parentBuffer.capacity() );
+        Integer totalSize = parentBuffer.capacity();
 
         for ( Integer i : generateFreeSizesRange( totalSize ) )
         {
@@ -271,7 +271,7 @@ public class MergingByteBufferAllocatorImpl
 
     private Collection<LinkedByteBuffer> getFreeLinkedByteBufferCollection( final LinkedByteBuffer linkedBuffer )
     {
-        final Integer size = Integer.valueOf( linkedBuffer.getBuffer().capacity() - 1 );
+        final Integer size = linkedBuffer.getBuffer().capacity() - 1;
         final Map.Entry<Integer, Collection<LinkedByteBuffer>> bufferCollectionEntry =
             freePointers.ceilingEntry( size );
         return bufferCollectionEntry.getValue();

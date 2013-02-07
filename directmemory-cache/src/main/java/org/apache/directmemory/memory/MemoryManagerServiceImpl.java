@@ -39,7 +39,7 @@ public class MemoryManagerServiceImpl<V>
     implements MemoryManagerService<V>
 {
 
-    protected static Logger logger = LoggerFactory.getLogger( MemoryManager.class );
+    protected static final Logger logger = LoggerFactory.getLogger( MemoryManager.class );
 
     List<Allocator> allocators;
 

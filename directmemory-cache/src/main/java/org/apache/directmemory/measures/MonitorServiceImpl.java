@@ -33,7 +33,7 @@ public class MonitorServiceImpl
     implements MonitorService
 {
 
-    private AtomicLong hits = new AtomicLong( 0 );
+    private final AtomicLong hits = new AtomicLong( 0 );
 
     private long totalTime = 0;
 
@@ -41,7 +41,7 @@ public class MonitorServiceImpl
 
     private long max = -1;
 
-    public String name;
+    public final String name;
 
     private static final Logger LOG = LoggerFactory.getLogger( MonitorServiceImpl.class );
 

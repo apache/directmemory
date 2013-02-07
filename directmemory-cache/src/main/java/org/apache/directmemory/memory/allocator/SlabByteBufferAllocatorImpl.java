@@ -41,7 +41,7 @@ public class SlabByteBufferAllocatorImpl
 {
 
     // Tells if it returns null when no buffers are available
-    private boolean returnNullWhenNoBufferAvailable = true;
+    private final boolean returnNullWhenNoBufferAvailable = true;
 
     // Internal slabs sorted by sliceSize
     private final NavigableMap<Long, FixedSizeByteBufferAllocatorImpl> slabs =

@@ -45,7 +45,7 @@ public abstract class AbstractMemoryBuffer
     @Override
     public boolean readBoolean()
     {
-        return readByte() == 1 ? true : false;
+        return readByte() == 1;
     }
 
     @Override
@@ -369,7 +369,7 @@ public abstract class AbstractMemoryBuffer
         }
         if ( offset >= maxCapacity() )
         {
-            throw new IndexOutOfBoundsException( String.format( "Offset %s is higher than maximum legal index ",
+            throw new IndexOutOfBoundsException( String.format( "Offset %s is higher than maximum legal index %d",
                                                                 offset, ( maxCapacity() - 1 ) ) );
         }
     }

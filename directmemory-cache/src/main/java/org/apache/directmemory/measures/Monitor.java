@@ -36,7 +36,7 @@ public class Monitor
     //TODO: MONITORS looks like a good candidate to become a private field
     public static final Map<String, MonitorService> MONITORS = new HashMap<String, MonitorService>();
 
-    private MonitorService monitorService;
+    private final MonitorService monitorService;
 
     public static MonitorService get( String key )
     {

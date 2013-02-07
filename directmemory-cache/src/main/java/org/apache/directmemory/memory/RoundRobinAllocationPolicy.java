@@ -42,7 +42,7 @@ public class RoundRobinAllocationPolicy
     private List<Allocator> allocators;
 
     // Cyclic counter
-    private AtomicInteger buffersIndexCounter = new AtomicInteger( BUFFERS_INDEX_INITIAL_VALUE );
+    private final AtomicInteger buffersIndexCounter = new AtomicInteger( BUFFERS_INDEX_INITIAL_VALUE );
 
     // Default max number of allocations before returning null buffer.
     private static final int DEFAULT_MAX_ALLOCATIONS = 2;
@@ -73,9 +73,7 @@ public class RoundRobinAllocationPolicy
         // Thread safely increment and get the next buffer's index
         int i = incrementAndGetBufferIndex();
 
-        final Allocator allocator = allocators.get( i );
-
-        return allocator;
+        return allocators.get( i );
     }
 
     @Override

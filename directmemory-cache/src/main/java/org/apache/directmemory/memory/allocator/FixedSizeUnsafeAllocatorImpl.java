@@ -76,11 +76,8 @@ public class FixedSizeUnsafeAllocatorImpl
     @Override
     public void clear()
     {
-        Iterator<UnsafeMemoryBuffer> iterator = memoryBuffers.iterator();
-        while ( iterator.hasNext() )
-        {
-            UnsafeMemoryBuffer memoryBuffer = iterator.next();
-            unsafe.setMemory( memoryBuffer.baseAddress, memoryBuffer.capacity, (byte) 0 );
+        for (UnsafeMemoryBuffer memoryBuffer : memoryBuffers) {
+            unsafe.setMemory(memoryBuffer.baseAddress, memoryBuffer.capacity, (byte) 0);
         }
     }
 
@@ -88,10 +85,8 @@ public class FixedSizeUnsafeAllocatorImpl
     public int getCapacity()
     {
         long capacity = 0;
-        Iterator<UnsafeMemoryBuffer> iterator = memoryBuffers.iterator();
-        while ( iterator.hasNext() )
-        {
-            capacity += iterator.next().capacity;
+        for (UnsafeMemoryBuffer memoryBuffer : memoryBuffers) {
+            capacity += memoryBuffer.capacity;
         }
         return (int) capacity;
     }
@@ -194,8 +189,7 @@ public class FixedSizeUnsafeAllocatorImpl
         @Override
         protected byte readByte( long offset )
         {
-            byte value = unsafe.getByte( baseAddress + offset );
-            return value;
+            return unsafe.getByte( baseAddress + offset );
         }
 
         @Override

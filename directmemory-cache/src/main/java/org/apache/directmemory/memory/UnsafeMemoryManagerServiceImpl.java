@@ -105,10 +105,8 @@ public class UnsafeMemoryManagerServiceImpl<V>
     @Override
     public void clear()
     {
-        for ( Iterator<Pointer<V>> iterator = pointers.iterator(); iterator.hasNext(); )
-        {
-            Pointer<V> pointer = iterator.next();
-            free( pointer );
+        for (Pointer<V> pointer : pointers) {
+            free(pointer);
         }
     }
 

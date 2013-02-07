@@ -35,18 +35,13 @@ public final class SerializerFactory
 
     public static Serializer createNewSerializer( ClassLoader classLoader )
     {
-        Iterator<Serializer> serializers = load( Serializer.class, classLoader ).iterator();
 
         // iterate over all found services
-        while ( serializers.hasNext() )
-        {
+        for (Serializer serializer : load(Serializer.class, classLoader)) {
             // try getting the current service and return
-            try
-            {
-                return serializers.next();
-            }
-            catch ( Throwable t )
-            {
+            try {
+                return serializer;
+            } catch (Throwable t) {
                 // just ignore, skip and try getting the next
             }
         }
@@ -57,22 +52,16 @@ public final class SerializerFactory
     public static <S extends Serializer> S createNewSerializer( Class<S> serializer )
         throws SerializerNotFoundException
     {
-        Iterator<Serializer> serializers = load( Serializer.class, serializer.getClassLoader() ).iterator();
 
         // iterate over all found services
-        while ( serializers.hasNext() )
-        {
+        for (Serializer serializer1 : load(Serializer.class, serializer.getClassLoader())) {
             // try getting the current service and return
-            try
-            {
-                Serializer next = serializers.next();
-                if ( serializer.isInstance( next ) )
-                {
-                    return serializer.cast( next );
+            try {
+                Serializer next = serializer1;
+                if (serializer.isInstance(next)) {
+                    return serializer.cast(next);
                 }
-            }
-            catch ( Throwable t )
-            {
+            } catch (Throwable t) {
                 // just ignore, skip and try getting the next
             }
         }

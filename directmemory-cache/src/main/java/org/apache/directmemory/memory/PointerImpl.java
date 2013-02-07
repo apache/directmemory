@@ -43,9 +43,9 @@ public class PointerImpl<T>
 
     public long hits;
 
-    public AtomicBoolean free = new AtomicBoolean( true );
+    public final AtomicBoolean free = new AtomicBoolean( true );
 
-    public AtomicLong lastHit = new AtomicLong();
+    public final AtomicLong lastHit = new AtomicLong();
 
     public Class<? extends T> clazz;
 

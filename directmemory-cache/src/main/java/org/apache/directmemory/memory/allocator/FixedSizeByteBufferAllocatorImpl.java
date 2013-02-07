@@ -52,13 +52,13 @@ public class FixedSizeByteBufferAllocatorImpl
     private final int sliceSize;
 
     // Total size of the current slab
-    private int totalSize;
+    private final int totalSize;
 
     // Tells if it returns null or throw an BufferOverflowException when the requested size is bigger than the size of the slices
-    private boolean returnNullWhenOversizingSliceSize = true;
+    private final boolean returnNullWhenOversizingSliceSize = true;
 
     // Tells if it returns null when no buffers are available
-    private boolean returnNullWhenNoBufferAvailable = true;
+    private final boolean returnNullWhenNoBufferAvailable = true;
 
     // Collection that keeps track of borrowed buffers
     private final Map<Integer, ByteBuffer> usedSliceBuffers = new ConcurrentHashMap<Integer, ByteBuffer>();

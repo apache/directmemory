@@ -40,7 +40,7 @@ public class CacheServiceImpl<K, V>
     implements MutableCacheService<K, V>
 {
 
-    private static Logger logger = LoggerFactory.getLogger( CacheServiceImpl.class );
+    private static final Logger logger = LoggerFactory.getLogger( CacheServiceImpl.class );
 
     private ConcurrentMap<K, Pointer<V>> map;
 

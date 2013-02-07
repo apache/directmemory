@@ -28,7 +28,7 @@ public class In
 
     private static final int HOUR_IN_DAY = 24;
 
-    private double measure;
+    private final double measure;
 
     public In( double measure )
     {
