@@ -13,4 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-mvn clean site site:stage-deploy scm-publish:publish-scm  $@
+mvn clean site site:stage $@
+mvn scm-publish:publish-scm $@

@@ -71,10 +71,8 @@ under the License.
 
   <properties>
 
-    <directmemory.siteFilePath>${user.home}/directmemory-site-deploy</directmemory.siteFilePath>
-    <siteUrlDeployment>file://${directmemory.siteFilePath}</siteUrlDeployment>
-    <directmemory.scmPubCheckoutDirectory>${user.home}/directmemory-site-content</directmemory.scmPubCheckoutDirectory>
     <scmSkipDeletedFiles>false</scmSkipDeletedFiles>
+    <directmemory.scmPubCheckoutDirectory>${user.home}/directmemory-site</directmemory.scmPubCheckoutDirectory>
 
     <!-- Dependency Versions -->
     <ant.bundle.version>1.7.0_1</ant.bundle.version>
@@ -126,9 +124,6 @@ under the License.
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>${site-plugin.version}</version>
-          <configuration>
-            <stagingSiteURL>${siteUrlDeployment}</stagingSiteURL>
-          </configuration>
         </plugin>
 
         <plugin>
@@ -155,7 +150,6 @@ under the License.
           <artifactId>maven-scm-publish-plugin</artifactId>
           <configuration>
             <pubScmUrl>scm:svn:https://svn.apache.org/repos/asf/directmemory/site-content/</pubScmUrl>
-            <content>${directmemory.siteFilePath}</content>
             <checkoutDirectory>${directmemory.scmPubCheckoutDirectory}</checkoutDirectory>
             <skipDeletedFiles>${scmSkipDeletedFiles}</skipDeletedFiles>
             <ignorePathsToDelete>
