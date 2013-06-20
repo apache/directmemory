@@ -28,7 +28,7 @@ import junit.framework.Assert;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.junit.Test;
 
-public class SlabByteBufferAllocatorImplTest
+public class SlabByteBufferAllocatorTest
 {
     @Test
     public void allocationTest()
@@ -42,7 +42,7 @@ public class SlabByteBufferAllocatorImplTest
         slabs.add( new FixedSizeByteBufferAllocatorImpl( 3, 1024, 1024, 1 ) );
         
         
-        Allocator allocator = new SlabByteBufferAllocatorImpl( 0, slabs, false );
+        Allocator allocator = new SlabByteBufferAllocator( 0, slabs, false );
         
         MemoryBuffer bf1 = allocator.allocate( 250 );
         Assert.assertEquals( 256, bf1.maxCapacity() );

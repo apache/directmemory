@@ -32,14 +32,14 @@ import org.apache.directmemory.memory.MemoryManagerServiceImpl;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.junit.Test;
 
-public class MergingByteBufferAllocatorImplTest
+public class MergingByteBufferAllocatorTest
 {
     @Test
     public void allocationTest()
         throws IOException
     {
 
-        Allocator allocator = new MergingByteBufferAllocatorImpl( 0, 5000 );
+        Allocator allocator = new MergingByteBufferAllocator( 0, 5000 );
 
         MemoryBuffer bf1 = allocator.allocate( 250 );
         Assert.assertEquals( 250, bf1.maxCapacity() );
@@ -76,7 +76,7 @@ public class MergingByteBufferAllocatorImplTest
         throws IOException
     {
 
-        Allocator allocator = new MergingByteBufferAllocatorImpl( 0, 1000 );
+        Allocator allocator = new MergingByteBufferAllocator( 0, 1000 );
 
         MemoryBuffer bf1 = allocator.allocate( 250 );
         Assert.assertEquals( 250, bf1.maxCapacity() );
@@ -108,7 +108,7 @@ public class MergingByteBufferAllocatorImplTest
         throws IOException
     {
 
-        Allocator allocator = new MergingByteBufferAllocatorImpl( 0, 1000 );
+        Allocator allocator = new MergingByteBufferAllocator( 0, 1000 );
 
         for ( int i = 0; i < 1000; i++ )
         {
@@ -131,7 +131,7 @@ public class MergingByteBufferAllocatorImplTest
         throws IOException
     {
 
-        Allocator allocator = new MergingByteBufferAllocatorImpl( 0, 200 );
+        Allocator allocator = new MergingByteBufferAllocator( 0, 200 );
 
         MemoryBuffer bf1 = allocator.allocate( 180 );
         Assert.assertEquals( 200, bf1.maxCapacity() );
@@ -169,7 +169,7 @@ public class MergingByteBufferAllocatorImplTest
         throws IOException
     {
 
-        MergingByteBufferAllocatorImpl allocator = new MergingByteBufferAllocatorImpl( 0, 200 );
+        MergingByteBufferAllocator allocator = new MergingByteBufferAllocator( 0, 200 );
         allocator.setSizeRatioThreshold( 0.95 );
 
         allocator.setSizeRatioThreshold( 10 );
@@ -190,7 +190,7 @@ public class MergingByteBufferAllocatorImplTest
         throws IOException
     {
 
-        MergingByteBufferAllocatorImpl allocator = new MergingByteBufferAllocatorImpl( 0, 200 );
+        MergingByteBufferAllocator allocator = new MergingByteBufferAllocator( 0, 200 );
         allocator.setReturnNullWhenBufferIsFull( false );
 
         try

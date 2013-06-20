@@ -30,7 +30,7 @@ import org.apache.directmemory.memory.IllegalMemoryPointerException;
 import org.apache.directmemory.memory.buffer.AbstractMemoryBuffer;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
 
-public class FixedSizeUnsafeAllocatorImpl
+public class FixedSizeUnsafeAllocator
     implements Allocator
 {
 
@@ -46,7 +46,7 @@ public class FixedSizeUnsafeAllocatorImpl
     // the slices
     private final boolean returnNullWhenOversizingSliceSize = true;
 
-    public FixedSizeUnsafeAllocatorImpl( int number, int size )
+    public FixedSizeUnsafeAllocator( int number, int size )
     {
         this.number = number;
         this.size = size;

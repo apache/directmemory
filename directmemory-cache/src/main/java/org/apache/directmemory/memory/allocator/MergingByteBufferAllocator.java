@@ -52,7 +52,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @since 0.6
  */
-public class MergingByteBufferAllocatorImpl
+public class MergingByteBufferAllocator
     extends AbstractByteBufferAllocator
 {
 
@@ -88,7 +88,7 @@ public class MergingByteBufferAllocatorImpl
      * @param number    : the internal buffer identifier
      * @param totalSize : total size of the parent buffer.
      */
-    public MergingByteBufferAllocatorImpl( final int number, final int totalSize )
+    public MergingByteBufferAllocator( final int number, final int totalSize )
     {
         super( number );
 

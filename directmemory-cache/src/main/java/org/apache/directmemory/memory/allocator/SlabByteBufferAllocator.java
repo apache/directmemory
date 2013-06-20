@@ -31,12 +31,12 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 
 /**
- * {@link Allocator} implementation that uses {@link FixedSizeByteBufferAllocatorImpl}
+ * {@link Allocator} implementation that uses {@link FixedSizeByteBufferAllocator}
  * of different size to allocate best matching's size {@link ByteBuffer}
  *
  * @since 0.6
  */
-public class SlabByteBufferAllocatorImpl
+public class SlabByteBufferAllocator
     extends AbstractByteBufferAllocator
 {
 
@@ -57,8 +57,8 @@ public class SlabByteBufferAllocatorImpl
      * @param slabs                       : {@link FixedSizeByteBufferAllocatorImpl} to use for allocation
      * @param allowAllocationToBiggerSlab : tells if it is allowed to look in a bigger slab to perform the request.
      */
-    public SlabByteBufferAllocatorImpl( final int number, final Collection<FixedSizeByteBufferAllocatorImpl> slabs,
-                                        final boolean allowAllocationToBiggerSlab )
+    public SlabByteBufferAllocator( final int number, final Collection<FixedSizeByteBufferAllocatorImpl> slabs,
+                                    final boolean allowAllocationToBiggerSlab )
     {
         super( number );
 

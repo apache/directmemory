@@ -45,7 +45,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Random;
 
-import org.apache.directmemory.memory.allocator.FixedSizeUnsafeAllocatorImpl;
+import org.apache.directmemory.memory.allocator.FixedSizeUnsafeAllocator;
 import org.junit.Test;
 
 public class IntLongCompressionTestCase
@@ -57,7 +57,7 @@ public class IntLongCompressionTestCase
     public void testInt32Compression()
         throws Exception
     {
-        FixedSizeUnsafeAllocatorImpl allocator = new FixedSizeUnsafeAllocatorImpl( 1, 5 );
+        FixedSizeUnsafeAllocator allocator = new FixedSizeUnsafeAllocator( 1, 5 );
         try
         {
             for ( int i = 0; i < 4; i++ )
@@ -98,7 +98,7 @@ public class IntLongCompressionTestCase
         throws Exception
     {
 
-        FixedSizeUnsafeAllocatorImpl allocator = new FixedSizeUnsafeAllocatorImpl( 1, 9 );
+        FixedSizeUnsafeAllocator allocator = new FixedSizeUnsafeAllocator( 1, 9 );
         try
         {
             for ( int i = 0; i < 8; i++ )

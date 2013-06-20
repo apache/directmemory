@@ -32,7 +32,7 @@ import org.apache.directmemory.memory.IllegalMemoryPointerException;
 import org.apache.directmemory.memory.buffer.AbstractMemoryBuffer;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
 
-public class LazyUnsafeAllocatorImpl
+public class LazyUnsafeAllocator
     implements Allocator
 {
 
@@ -51,7 +51,7 @@ public class LazyUnsafeAllocatorImpl
     // the slices
     private final boolean returnNullWhenOversizingSliceSize = true;
 
-    public LazyUnsafeAllocatorImpl( int number, long capacity )
+    public LazyUnsafeAllocator( int number, long capacity )
     {
         this.number = number;
         this.capacity = capacity;

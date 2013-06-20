@@ -29,7 +29,7 @@ import java.util.List;
 
 import org.apache.directmemory.measures.Ram;
 import org.apache.directmemory.memory.allocator.Allocator;
-import org.apache.directmemory.memory.allocator.MergingByteBufferAllocatorImpl;
+import org.apache.directmemory.memory.allocator.MergingByteBufferAllocator;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,7 +94,7 @@ public class MemoryManagerServiceImpl<V>
 
     protected Allocator instanciateByteBufferAllocator( final int allocatorNumber, final int size )
     {
-        final MergingByteBufferAllocatorImpl allocator = new MergingByteBufferAllocatorImpl( allocatorNumber, size );
+        final MergingByteBufferAllocator allocator = new MergingByteBufferAllocator( allocatorNumber, size );
 
         // Hack to ensure the pointers are always split to keep backward compatibility.
         allocator.setMinSizeThreshold( 0 );

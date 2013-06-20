@@ -20,9 +20,8 @@ package org.apache.directmemory.memory;
  */
 
 import org.apache.directmemory.measures.Ram;
-import org.apache.directmemory.memory.MemoryManager;
 import org.apache.directmemory.memory.allocator.Allocator;
-import org.apache.directmemory.memory.allocator.MergingByteBufferAllocatorImpl;
+import org.apache.directmemory.memory.allocator.MergingByteBufferAllocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,7 +81,7 @@ public class Starter
     
     public void rawInsert( int megabytes, int howMany )
     {
-        Allocator allocator = new MergingByteBufferAllocatorImpl( 1, megabytes * 1024 * 1024 );
+        Allocator allocator = new MergingByteBufferAllocator( 1, megabytes * 1024 * 1024 );
         assertNotNull( allocator );
         int size = allocator.getCapacity() / ( howMany );
         size -= size / 100 * 1;

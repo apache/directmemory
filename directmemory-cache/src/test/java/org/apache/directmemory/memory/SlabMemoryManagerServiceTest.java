@@ -24,7 +24,7 @@ import java.util.HashSet;
 
 import org.apache.directmemory.memory.allocator.Allocator;
 import org.apache.directmemory.memory.allocator.FixedSizeByteBufferAllocatorImpl;
-import org.apache.directmemory.memory.allocator.SlabByteBufferAllocatorImpl;
+import org.apache.directmemory.memory.allocator.SlabByteBufferAllocator;
 import org.junit.Test;
 
 public class SlabMemoryManagerServiceTest
@@ -46,8 +46,8 @@ public class SlabMemoryManagerServiceTest
                 slabs.add( new FixedSizeByteBufferAllocatorImpl( 1, size, SMALL_PAYLOAD_LENGTH, 1 ) );
                 slabs.add( new FixedSizeByteBufferAllocatorImpl( 2, size, SMALL_PAYLOAD_LENGTH * 2, 1 ) );
 
-                final SlabByteBufferAllocatorImpl allocator =
-                    new SlabByteBufferAllocatorImpl( allocatorNumber, slabs, false );
+                final SlabByteBufferAllocator allocator =
+                    new SlabByteBufferAllocator( allocatorNumber, slabs, false );
 
                 return allocator;
             }

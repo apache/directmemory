@@ -22,12 +22,11 @@ package org.apache.directmemory.memory;
 import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.directmemory.memory.allocator.Allocator;
-import org.apache.directmemory.memory.allocator.LazyUnsafeAllocatorImpl;
+import org.apache.directmemory.memory.allocator.LazyUnsafeAllocator;
 import org.apache.directmemory.memory.buffer.MemoryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +50,7 @@ public class UnsafeMemoryManagerServiceImpl<V>
     public void init( int numberOfBuffers, int size )
     {
         this.capacity = numberOfBuffers * size;
-        this.allocator = new LazyUnsafeAllocatorImpl( numberOfBuffers, capacity );
+        this.allocator = new LazyUnsafeAllocator( numberOfBuffers, capacity );
     }
 
     @Override
