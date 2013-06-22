@@ -66,6 +66,11 @@
         <artifactId>jackson-core-asl</artifactId>
         <version>1.9.4</version>
       </dependency>
+      <dependency>
+        <groupId>com.ning</groupId>
+        <artifactId>async-http-client</artifactId>
+        <version>1.7.17</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

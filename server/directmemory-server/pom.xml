@@ -32,7 +32,7 @@
   <description>${project.name}</description>
 
   <properties>
-    <tomcat7Version>7.0.28</tomcat7Version>
+    <tomcat7Version>7.0.41</tomcat7Version>
   </properties>
 
   <dependencies>
@@ -90,13 +90,13 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <version>3.1.1.RELEASE</version>
+      <version>3.2.3.RELEASE</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>3.1.1.RELEASE</version>
+      <version>3.2.3.RELEASE</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -133,7 +133,6 @@
     <dependency>
       <groupId>com.ning</groupId>
       <artifactId>async-http-client</artifactId>
-      <version>1.7.4</version>
       <scope>test</scope>
     </dependency>
 
@@ -146,7 +145,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <systemPropertyVariables>
-            <java.io.tmpdir>${project.build.outputDirectory}</java.io.tmpdir>
+            <java.io.tmpdir>${project.build.directory}</java.io.tmpdir>
             <directMemory.numberOfBuffers>10</directMemory.numberOfBuffers>
             <!-- must be enough confortable for test beans -->
             <directMemory.size>10000</directMemory.size>
