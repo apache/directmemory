@@ -33,6 +33,7 @@
   <description>EHCache CacheStore Implementation to integrate DirectMemory Cache as OffHeapStore.</description>
 
   <properties>
+    <!--
     <osgi.import>
       org.apache.directmemory*;version="${project.version}",
       org.slf4j*,
@@ -40,8 +41,10 @@
     </osgi.import>
     <osgi.export>
       org.apache.directmemory.ehcache;version="${project.version}";-noimport:=true,
-      net.sf.ehcache.store.offheap;version="2.5.0";-noimport:=true
+      net.sf.ehcache.store.offheap;version="2.6.0";-noimport:=true,
+      net.sf.ehcache;version="2.6.0";-noimport:=true
     </osgi.export>
+    -->
   </properties>
 
   <build>

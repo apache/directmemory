@@ -109,7 +109,7 @@ public class EhCacheTest extends DirectMemoryOsgiTestSupport {
   public static Option[] getDynamicMemoryEhCacheOptions() {
     List<MavenArtifactProvisionOption> mavenOptions = Arrays.asList(
             mavenBundle().groupId("org.apache.servicemix.bundles").artifactId("org.apache.servicemix.bundles.ehcache").version(
-                    "2.5.0_2"),
+                    System.getProperty( "ehcache.bundle.version", "2.6.6_1" )),
             mavenBundle().groupId("org.apache.directmemory").artifactId("directmemory-ehcache").version(
                     System.getProperty("direct.memory.version")));
 
