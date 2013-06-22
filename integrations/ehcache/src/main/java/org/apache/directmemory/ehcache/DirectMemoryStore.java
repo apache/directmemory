@@ -40,7 +40,9 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.BufferOverflowException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -566,11 +568,30 @@ public class DirectMemoryStore
     }
 
     @Override
-    public boolean removeIfTierNotPinned( Object key )
+    public boolean removeIfNotPinned( Object key )
     {
-        //no operation
         return false;
     }
+
+    @Override
+    public boolean isTierPinned()
+    {
+        return false;
+    }
+
+    @Override
+    public Set getPresentPinnedKeys()
+    {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public boolean isPersistent()
+    {
+        return false;
+    }
+
+
 
     @Override
     public void removeNoReturn( Object key )

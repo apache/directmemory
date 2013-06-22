@@ -60,12 +60,12 @@ under the License.
   </issueManagement>
   <ciManagement>
     <system>Jenkins</system>
-    <url>https://builds.apache.org/view/A-F/view/Directmemory/</url>
+    <url>https://builds.apache.org/job/directmemory-trunk/</url>
   </ciManagement>
   <distributionManagement>
     <site>
       <id>apache.website</id>
-      <url>${siteUrlDeployment}</url>
+      <url>scm:svn:https://svn.apache.org/repos/asf/directmemory/site-content/</url>
     </site>
   </distributionManagement>
 
@@ -79,8 +79,8 @@ under the License.
     <aspectj.bundle.version>1.6.8_2</aspectj.bundle.version>
     <aspectj.version>1.6.12</aspectj.version>
     <doclava.version>1.0.5</doclava.version>
-    <ehcache.version>2.5.0</ehcache.version>
-    <ehcache.bundle.version>2.5.0_2</ehcache.bundle.version>
+    <ehcache.version>2.6.6</ehcache.version>
+    <ehcache.bundle.version>2.6.6_1</ehcache.bundle.version>
     <guava.bundle.version>09_1</guava.bundle.version>
     <guava.version>r09</guava.version>
     <h2.version>1.3.158</h2.version>
