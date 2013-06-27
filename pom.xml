@@ -87,7 +87,10 @@ under the License.
     <karaf.version>2.2.8</karaf.version>
     <junit.version>4.11</junit.version>
     <junit-benchamrks.version>0.7.0</junit-benchamrks.version>
-    <logback.version>1.0.0</logback.version>
+
+    <slf4j.version>1.7.5</slf4j.version>
+    <log4j2.version>2.0-beta7</log4j2.version>
+
     <oro.bundle.version>2.0.8_5</oro.bundle.version>
     <osgi.version>4.2.0</osgi.version>
     <pax-exam.version>1.2.4</pax-exam.version>
@@ -95,7 +98,7 @@ under the License.
     <protostuff.version>1.0.5</protostuff.version>
     <solr.version>3.6.2</solr.version>
     <solr.bundle.version>3.6.2_2</solr.bundle.version>
-    <slf4j.version>1.6.4</slf4j.version>
+
     <msgpack.version>0.6.5</msgpack.version>
     <protobuf.version>2.4.1</protobuf.version>
     <kryo.version>2.20</kryo.version>
@@ -283,15 +286,16 @@ under the License.
       </dependency>
 
       <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-core</artifactId>
-        <version>${logback.version}</version>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-slf4j-impl</artifactId>
+        <version>${log4j2.version}</version>
         <scope>test</scope>
       </dependency>
+
       <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>${logback.version}</version>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>${log4j2.version}</version>
         <scope>test</scope>
       </dependency>
 
