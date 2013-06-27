@@ -163,8 +163,8 @@ public class DirectMemoryOsgiTestSupport
     {
         List<MavenArtifactProvisionOption> mavenOptions = Arrays.asList(
             mavenBundle().groupId( "org.apache.felix" ).artifactId( "org.apache.felix.configadmin" ).version( "1.2.8" ),
-            mavenBundle().groupId( "org.ops4j.pax.logging" ).artifactId( "pax-logging-api" ).version( "1.6.2" ),
-            mavenBundle().groupId( "org.ops4j.pax.logging" ).artifactId( "pax-logging-service" ).version( "1.6.2" ),
+            mavenBundle().groupId( "org.ops4j.pax.logging" ).artifactId( "pax-logging-api" ).version( System.getProperty( "pax.logging.version" ) ),
+            mavenBundle().groupId( "org.ops4j.pax.logging" ).artifactId( "pax-logging-service" ).version( System.getProperty( "pax.logging.version" ) ),
             mavenBundle().groupId( "org.apache.servicemix.bundles" ).artifactId(
                 "org.apache.servicemix.bundles.guava" ).version( "09_1" ),
             mavenBundle().groupId( "org.apache.servicemix.bundles" ).artifactId(
