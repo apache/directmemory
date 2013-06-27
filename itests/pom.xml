@@ -30,11 +30,7 @@ under the License.
   <name>Apache DirectMemory :: Integration Tests</name>
   <description>${project.name}</description>
 
-  <!--
-  olamy: currently this fail as ehcache fail to load the class net.sf.ehcache.EnterpriseFeaturesManager
-  their ClassLoaderUtil use Class.forName maybe one of the reason
   <modules>
     <module>osgi</module>
   </modules>
-  -->
 </project>
