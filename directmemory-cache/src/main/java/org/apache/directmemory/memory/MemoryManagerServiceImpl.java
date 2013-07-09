@@ -263,6 +263,7 @@ public class MemoryManagerServiceImpl<V>
             allocator.clear();
         }
         allocationPolicy.reset();
+        used.set(0L);
     }
 
     protected Pointer<V> instanciatePointer( final MemoryBuffer buffer, final int allocatorIndex, final long expiresIn,
