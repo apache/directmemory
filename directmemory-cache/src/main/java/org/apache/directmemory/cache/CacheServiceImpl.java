@@ -26,6 +26,7 @@ import org.apache.directmemory.serialization.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Closeable;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Timer;
@@ -290,6 +291,9 @@ public class CacheServiceImpl<K, V>
         throws IOException
     {
         memoryManager.close();
+        if(serializer instanceof Closeable){
+            ((Closeable) serializer).close();
+        }
         logger.info( "Cache closed" );
     }
 
