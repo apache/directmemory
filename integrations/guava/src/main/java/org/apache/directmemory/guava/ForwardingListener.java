@@ -1,3 +1,5 @@
+package org.apache.directmemory.guava;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,8 +19,6 @@
  * under the License.
  */
 
-package org.apache.directmemory.guava;
-
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 
@@ -26,7 +26,8 @@ import com.google.common.cache.RemovalNotification;
  * Listener which forwards the notifications to a delegate. It is used to bridge the
  * Guava Cache with DirectMemory CacheService
  */
-public class ForwardingListener<K, V> implements RemovalListener<K, V>
+public class ForwardingListener<K, V>
+    implements RemovalListener<K, V>
 {
     private RemovalListener<K, V> delegate;
 
@@ -34,21 +35,21 @@ public class ForwardingListener<K, V> implements RemovalListener<K, V>
     {
     }
 
-    public ForwardingListener(RemovalListener<K, V> delegate)
+    public ForwardingListener( RemovalListener<K, V> delegate )
     {
         this.delegate = delegate;
     }
 
     @Override
-    public void onRemoval(RemovalNotification<K, V> notification)
+    public void onRemoval( RemovalNotification<K, V> notification )
     {
-        if (delegate != null)
+        if ( delegate != null )
         {
-            delegate.onRemoval(notification);
+            delegate.onRemoval( notification );
         }
     }
 
-    public void setDelegate(RemovalListener<K, V> delegate)
+    public void setDelegate( RemovalListener<K, V> delegate )
     {
         this.delegate = delegate;
     }
@@ -58,8 +59,8 @@ public class ForwardingListener<K, V> implements RemovalListener<K, V>
         return new ForwardingListener<K, V>();
     }
 
-    public static <K, V> ForwardingListener<K, V> newInstance(RemovalListener<K, V> delegate)
+    public static <K, V> ForwardingListener<K, V> newInstance( RemovalListener<K, V> delegate )
     {
-        return new ForwardingListener<K, V>(delegate);
+        return new ForwardingListener<K, V>( delegate );
     }
 }
