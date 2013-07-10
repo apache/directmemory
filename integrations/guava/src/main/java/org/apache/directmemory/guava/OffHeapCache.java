@@ -42,8 +42,6 @@ import static com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import static com.google.common.cache.AbstractCache.StatsCounter;
 
 /**
- *
- *
  * @since 0.2
  */
 public class OffHeapCache<K, V>
@@ -146,18 +144,15 @@ public class OffHeapCache<K, V>
         }
     }
 
-    /**
-     * it invokes clear on MemoryManagerService. If same
-     * MemoryManagerService is shared between multiple cacheService
-     * then it would lead to clearing of all other caches
-     */
     @Override
     public void invalidateAll()
     {
         super.invalidateAll();
 
-        //TODO Problem with calling clear here is that
-        cacheService.clear();
+        for ( K key : cacheService.getMap().keySet() )
+        {
+            cacheService.free( key );
+        }
     }
 
     @Override
