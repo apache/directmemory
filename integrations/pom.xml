@@ -35,6 +35,7 @@
   <modules>
     <module>solr</module>
     <module>ehcache</module>
+    <module>guava</module>
     <!--
     This integration is not yet ready for a release
     <module>guice</module>
