@@ -25,6 +25,7 @@ import com.google.common.cache.RemovalNotification;
 /**
  * Listener which forwards the notifications to a delegate. It is used to bridge the
  * Guava Cache with DirectMemory CacheService
+ * @since 0.2
  */
 public class ForwardingListener<K, V>
     implements RemovalListener<K, V>
