@@ -13,4 +13,4 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-mvn test -Djub.customkey=$1 -Dtest=MicroBenchmarks -Djub.consumers=CONSOLE,XML,H2 -Djub.db.file=target/benchmarks/database -Djub.xml.file=target/logs/benchmarks.xml -Djub.charts.dir=target/data/benchmarks/graphs
+mvn test -Djub.customkey=$1 -Dtest=MicroBenchmark -Djub.consumers=CONSOLE,XML,H2 -Djub.db.file=target/benchmarks/database -Djub.xml.file=target/logs/benchmarks.xml -Djub.charts.dir=target/data/benchmarks/graphs
