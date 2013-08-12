@@ -33,7 +33,7 @@ DirectMemory Simple Usage
 
 +------------------------
   <dependency>
-    <groupId>org.apache.directmemory.server</groupId>
+    <groupId>org.apache.directmemory</groupId>
     <artifactId>directmemory-cache</artifactId>
     <version>${currentRelease}</version>
   </dependency>
@@ -67,7 +67,7 @@ DirectMemory Simple Usage
 
 +------------------------
   cacheService.clear();
-  cacheService.close();
+  cacheService.close(); // close() is available in 0.2-SNAPSHOT+ only
 +------------------------
 
 
