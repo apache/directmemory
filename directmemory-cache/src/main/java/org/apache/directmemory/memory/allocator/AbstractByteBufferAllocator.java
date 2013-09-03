@@ -64,7 +64,7 @@ public abstract class AbstractByteBufferAllocator
 
     protected static Integer getHash( final ByteBuffer buffer )
     {
-        return System.identityHashCode(buffer);
+        return System.identityHashCode( buffer );
     }
 
 }

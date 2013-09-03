@@ -48,7 +48,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * <p/>
  * The free {@link ByteBuffer} are held into a {@link NavigableMap} with keys defining the size's range : 0 -> first key (included), first key -> second key (included), ...
  * Instead of keeping a list of {@link ByteBuffer}s sorted by capacity, {@link ByteBuffer}s in the same size's range are held in the same collection.
- * The size's range are computed by {@link #generateFreeSizesRange(Integer)} and can be overridden.
+ * The size's range are computed by {@link #generateFreeSizesRange(long)} and can be overridden.
  *
  * @since 0.6
  */
@@ -97,7 +97,7 @@ public class MergingByteBufferAllocator
     }
 
     /**
-     * Initialization function. Create an initial free {@link Pointer} mapping the whole buffer.
+     * Initialization function. Create an initial free {@link LinkedByteBuffer} mapping the whole buffer.
      */
     protected void init()
     {
