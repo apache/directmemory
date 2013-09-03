@@ -89,7 +89,7 @@ under the License.
     <junit-benchamrks.version>0.7.0</junit-benchamrks.version>
 
     <slf4j.version>1.7.5</slf4j.version>
-    <log4j2.version>2.0-beta7</log4j2.version>
+    <log4j2.version>2.0-beta8</log4j2.version>
 
     <oro.bundle.version>2.0.8_5</oro.bundle.version>
     <osgi.version>4.2.0</osgi.version>
