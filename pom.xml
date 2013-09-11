@@ -23,7 +23,7 @@ under the License.
   <parent>
     <groupId>org.apache.directmemory</groupId>
     <artifactId>directmemory-parent</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>1</version>
     <relativePath></relativePath>
   </parent>
 
