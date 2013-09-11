@@ -21,7 +21,7 @@ under the License.
   <parent>
     <groupId>org.apache.directmemory</groupId>
     <artifactId>itests</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 

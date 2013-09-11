@@ -24,7 +24,7 @@ under the License.
   <parent>
     <groupId>org.apache.directmemory</groupId>
     <artifactId>directmemory-serializers</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.2</version>
   </parent>
 
   <artifactId>directmemory-protobuf</artifactId>
