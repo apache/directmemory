@@ -29,7 +29,7 @@ under the License.
 
   <groupId>org.apache.directmemory</groupId>
   <artifactId>directmemory</artifactId>
-  <version>0.2</version>
+  <version>0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Apache DirectMemory</name>
@@ -50,9 +50,9 @@ under the License.
   </modules>
 
   <scm>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/directmemory/tags/directmemory-0.2</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directmemory/tags/directmemory-0.2</developerConnection>
-    <url>https://svn.apache.org/viewvc/directmemory/tags/directmemory-0.2</url>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/directmemory/trunk/</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/directmemory/trunk/</developerConnection>
+    <url>https://svn.apache.org/viewvc/directmemory/trunk/</url>
   </scm>
   <issueManagement>
     <system>jira</system>
