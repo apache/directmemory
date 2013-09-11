@@ -1,10 +1,10 @@
- ------
- Release Apache DirectMemory
- ------
+ -----
+ Apache DirectMemory release process
+ -----
  Olivier Lamy
- ------
- 2012-07-09
- ------
+ -----
+ 2012-09-12
+ -----
 
 ~~ Licensed to the Apache Software Foundation (ASF) under one
 ~~ or more contributor license agreements.  See the NOTICE file
@@ -24,8 +24,77 @@
 ~~ under the License.
 
 ~~ NOTE: For help with the syntax of this file, see:
-~~ http://maven.apache.org/doxia/references/apt-format.html
+~~ http://maven.apache.org/guides/mini/guide-apt-format.html
 
-Release Apache DirectMemory
+Apache DirectMemory release process
 
-  TODO
+ [[1]] Post to the dev list a few days before you plan to do a release
+
+ [[2]] Your maven setting must contains the entry to be able to deploy.
+
+ ~/.m2/settings.xml
+
++-------------
+   <server>
+     <id>apache.releases.https</id>
+     <username></username>
+     <password></password>
+   </server>
++-------------
+
+ [[3]] Release
+    You should have a GPG agent running in the session you will run the maven release commands(preferred), and confirm it works by running "gpg -ab" (type some text and press Ctrl-D).
+    If you do not have a GPG agent running, make sure that you have the "apache-release" profile set in your settings.xml as shown below.
+
+   Run the release
+
++-------------
+mvn release:prepare release:perform -B
++-------------
+
+  GPG configuration in maven settings xml:
+
++-------------
+<profile>
+  <id>apache-release</id>
+  <properties>
+    <gpg.passphrase>[GPG_PASSWORD]</gpg.passphrase>
+  </properties>
+</profile>
++-------------
+
+ [[4]] go to https://repository.apache.org and close your staged repository. Note the repository url (format https://repository.apache.org/content/repositories/orgapachedirectmemory-028)
+
++-------------
+svn co https://dist.apache.org/repos/dist/dev/directmemory directmemory-dev-release
+cd directmemory-dev-release
+sh ./release-script-svn.sh version stagingRepoUrl
+then svn add <new directory created with new version as name>
+then svn ci 
++-------------
+
+ [[5]] Validating the release
+
++-------------
+  * Download sources, extract, build and run tests - mvn clean package
+  * Verify license headers - mvn -Prat -DskipTests
+  * Download binaries and .asc files
+  * Download release manager's public key - From the KEYS file, get the release manager's public key finger print and run  gpg --keyserver pgpkeys.mit.edu --recv-key <key>
+  * Validate authenticity of key - run  gpg --fingerprint <key>
+  * Check signatures of all the binaries using gpg <binary>
++-------------
+
+ [[6]] Call for a vote in the dev list and wait for 72 hrs. for the vote results. 3 binding votes are necessary for the release to be finalized. example
+  After the vote has passed, move the files from dist dev to dist release: svn mv https://dist.apache.org/repos/dist/dev/directmemory/version to https://dist.apache.org/repos/dist/release/directmemory/
+
+ [[7]] Prepare release note. Add a page in src/site/apt/releasenotes/ and change value of \<currentRelease> in parent pom.
+
+
+ [[8]] Send out an announcement of the release to:
+
+  * users@directmemory.apache.org
+
+  * dev@directmemory.apache.org
+
+ [[9]] Celebrate !
+
