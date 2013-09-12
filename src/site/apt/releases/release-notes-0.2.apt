@@ -58,6 +58,8 @@ Apache DirectMemory 0.2
 
     * [DIRECTMEMORY-125] - General code improvements
 
+    * [DIRECTMEMORY-131] - Using DirectMemory as level 2 cache for Guava Cache
+
 ** New Feature
 
     * [DIRECTMEMORY-60] - EHCache Integration
