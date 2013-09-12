@@ -30,7 +30,11 @@
       <item name="EHCache integration"        href="ehcache-integration.html"/>
       <item name="Download Release sources"   href="downloads.html"/>
       <item name="License"                    href="license.html"/>
-      <item name="0.1-incubating Release Notes"          href="releases/release-notes-0.1-incubating.html"/>
+      <item name="Last Release"               href="releases/release-notes-${currentRelease}.html"/>
+      <item name="Releases" href="">
+        <item name="0.2 Release Notes"            href="releases/release-notes-0.2.html"/>
+        <item name="0.1-incubating Release Notes" href="releases/release-notes-0.1-incubating.html"/>
+      </item>
       <item name="Apache Lightning"           href="http://directmemory.apache.org/lightning"/>
     </menu>
 

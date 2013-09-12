@@ -33,7 +33,7 @@
         <span style="font-weight: bold">Apache DirectMemory</span> is a off-heap cache for the Java Virtual Machine.
       </p>
       <p>
-        <span style="font-weight: bold">First release 2012-07-09. See <a href="releases/release-notes-0.1-incubating.html">release notes</a>.</span>
+        <span style="font-weight: bold">Last release ${currentRelease} - ${currentReleaseDate}. See <a href="releases/release-notes-${currentRelease}.html">release notes</a>.</span>
       </p>
     </div>
 
