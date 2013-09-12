@@ -117,6 +117,7 @@ under the License.
 
     <!-- properties for web site -->
     <currentRelease>0.1-incubating</currentRelease>
+    <currentReleaseDate>2012-07-09</currentReleaseDate>
 
   </properties>
 
