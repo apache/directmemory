@@ -1,0 +1,89 @@
+ ------
+ Apache DirectMemory Release Notes 0.2
+ ------
+ Olivier Lamy
+ ------
+ 2013-09-12
+ ------
+
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
+
+Apache DirectMemory 0.2
+
+  The Apache DirectMemory Team would like to announce the 0.2 release.
+
+  Apache DirectMemory is a multi layered cache implementation featuring off-heap memory management to enable efficient handling of a large number of java objects without affecting jvm garbage collection performance
+
+  It's a technology preview release. So some APIs can be change in the future.
+
+  We hope you enjoy using Apache DirectMemory! If you have any questions, please consult:
+
+  * the web site: {{{http://directmemory.apache.org//}http://directmemory.apache.org//}}
+
+  * the directmemory-user mailing list: {{{http://directmemory.apache.org/mail-lists.html}http://directmemory.apache.org/mail-lists.html}}
+
+  []
+
+  Release date: 2013-09-15.
+
+* Apache DirectMemory 0.2 release notes
+
+** Improvement
+
+    * [DIRECTMEMORY-28] - Create an alternative MemoryService using sun.misc.Unsafe
+
+    * [DIRECTMEMORY-69] - Expose InputStream and OutputStream Interfaces instead of internal Pointer.directBuffer
+
+    * [DIRECTMEMORY-104] - Precise correct DirectMemory usage and fix typo in documentation
+
+    * [DIRECTMEMORY-124] - Create an utility class Iterable<V> over Cache<K,V>
+
+    * [DIRECTMEMORY-125] - General code improvements
+
+** New Feature
+
+    * [DIRECTMEMORY-60] - EHCache Integration
+
+** Bug
+
+    * [DIRECTMEMORY-49] - MemoryManagerService.update does not reuse the same pointer
+
+    * [DIRECTMEMORY-57] - Pointer.free should be atomic / thread safe
+
+    * [DIRECTMEMORY-82] - CacheService should implement Closable / Review the livecycle of the CacheService/MemoryService/ByteBufferAllocator objects
+
+    * [DIRECTMEMORY-103] - Add Kryo serializer
+
+    * [DIRECTMEMORY-105] - Kryo Serializer adapter isn't threadsafe
+
+    * [DIRECTMEMORY-126] - upgrade to ehcache 2.6.6
+
+    * [DIRECTMEMORY-127] - ehcache integration OSGI tests no longer work
+
+    * [DIRECTMEMORY-128] - Mark aspectj package import as optional and other Import-Package fixes
+
+    * [DIRECTMEMORY-129] - Kryo serializer usage is not thread safe
+
+    * [DIRECTMEMORY-130] - MemoryManagerService does not reset the used memory count to zero in clear
+
+    * [DIRECTMEMORY-132] - incorrect case name in bench.sh
+
+    * [DIRECTMEMORY-133] - "DirectMemory Simple Usage" doc improvement
