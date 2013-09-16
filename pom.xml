@@ -116,8 +116,8 @@ under the License.
     <osgi.private />
 
     <!-- properties for web site -->
-    <currentRelease>0.1-incubating</currentRelease>
-    <currentReleaseDate>2012-07-09</currentReleaseDate>
+    <currentRelease>0.2</currentRelease>
+    <currentReleaseDate>2013-09-17</currentReleaseDate>
 
   </properties>
 
