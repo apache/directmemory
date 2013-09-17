@@ -67,7 +67,7 @@ DirectMemory Simple Usage
 
 +------------------------
   cacheService.clear();
-  cacheService.close(); // close() is available in 0.2-SNAPSHOT+ only
+  cacheService.close(); // close() is available in 0.2+ only
 +------------------------
 
 
