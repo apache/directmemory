@@ -45,7 +45,7 @@ under the License.
 
     <section name="Current Releases">
       <subsection name="${currentRelease}">
-        <p>Release date: ?</p>
+        <p>Release date: ${currentReleaseDate}</p>
         <p><a href="releases/release-notes-${currentRelease}.html">Release notes</a></p>
         <table>
           <thead>
@@ -57,7 +57,7 @@ under the License.
           <tbody>
             <tr>
               <td>
-                <a href="http://www.apache.org/dyn/closer.cgi/directmemory/${currentRelease}/apache-directmemory-${currentRelease}-source-release.zip">apache-directmemory-0.1-incubating-source-release.zip</a>
+                <a href="http://www.apache.org/dyn/closer.cgi/directmemory/${currentRelease}/apache-directmemory-${currentRelease}-source-release.zip">apache-directmemory-${currentRelease}-source-release.zip</a>
               </td>
               <td>
                 <a href="http://www.apache.org/dist/directmemory/${currentRelease}/apache-directmemory-${currentRelease}-source-release.zip.asc">asc</a>
