@@ -43,7 +43,7 @@ under the License.
       It is good practice to <a href="#Verifying_Releases">verify the integrity</a> of the distribution files.</p>
     </section>
 
-    <section name="Current Releases">
+    <section name="Last Release">
       <subsection name="${currentRelease}">
         <p>Release date: ${currentReleaseDate}</p>
         <p><a href="releases/release-notes-${currentRelease}.html">Release notes</a></p>
