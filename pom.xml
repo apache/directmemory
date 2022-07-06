@@ -96,7 +96,7 @@ under the License.
     <pax-exam.version>1.2.4</pax-exam.version>
     <pax-tiny-bundle.version>1.3.1</pax-tiny-bundle.version>
 
-    <solr.version>3.6.2</solr.version>
+    <solr.version>8.8.2</solr.version>
     <solr.bundle.version>3.6.2_2</solr.bundle.version>
 
     <protostuff.version>1.0.7</protostuff.version>
