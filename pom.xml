@@ -104,7 +104,7 @@ under the License.
     <protobuf.version>2.5.0</protobuf.version>
     <kryo.version>2.21</kryo.version>
 
-    <snakeyaml.version>1.10</snakeyaml.version>
+    <snakeyaml.version>1.31</snakeyaml.version>
     <lightning.version>0.0.1-SNAPSHOT</lightning.version>
 
     <!-- Bundle Headers -->
