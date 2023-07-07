@@ -83,7 +83,7 @@ under the License.
     <ehcache.bundle.version>2.6.6_1</ehcache.bundle.version>
     <guava.bundle.version>09_1</guava.bundle.version>
     <guava.version>r09</guava.version>
-    <h2.version>1.3.172</h2.version>
+    <h2.version>2.2.220</h2.version>
     <karaf.version>2.2.8</karaf.version>
     <junit.version>4.11</junit.version>
     <junit-benchamrks.version>0.7.0</junit-benchamrks.version>
